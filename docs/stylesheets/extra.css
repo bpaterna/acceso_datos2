@@ -7,7 +7,9 @@ h3{color: #00bdd6 !important;}
 img {border:#767676 solid 2px;}
 
 .md-nav label { color:#00bdd6 !important; font-size: .9rem !important;}
-.md-nav__button.md-logo svg {fill: #ffffff;}
+
+.md-nav__title .md-nav__button.md-logo svg {fill: #ffffff;}
+
 
 .mi_h2 {
   color: #00bdd6;
