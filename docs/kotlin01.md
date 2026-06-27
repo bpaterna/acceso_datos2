@@ -13,10 +13,7 @@
 
 ## 1. ¿Qué es Kotlin?
 
-En el módulo de Programación de 1º de DAM, has trabajado habitualmente con **Java**, un lenguaje orientado a objetos ampliamente utilizado en el desarrollo de aplicaciones empresariales. Durante ese primer contacto, asimilaste conceptos fundamentales como estructuras de control, clases, objetos y herencia.
-
-En este curso, dentro del módulo de **Acceso a Datos**, vas a continuar aplicando estos mismos conceptos utilizando **Kotlin**.
-
+Tras asimilar algunos conceptos básicos de programación (estructuras de control, objetos y herencia) utilizando **Java** en 1º de DAM, en este módulo de **Acceso a Datos** daremos el salto a **Kotlin**. Utilizaremos este lenguaje para desarrollar aplicaciones capaces de conectar con almacenamientos externos —como bases de datos o archivos—, logrando así consultar, guardar y administrar la información de manera segura y eficiente.
 
 Kotlin es un lenguaje de programación moderno, conciso y seguro diseñado por JetBrains (los creadores de IntelliJ IDEA). Sus características clave son:
 
@@ -137,7 +134,6 @@ Cuando debas entregar una tarea de programación o compartir un proyecto con el 
     * **En Windows:** Haz clic derecho sobre la carpeta del proyecto $\rightarrow$ **Enviar a $\rightarrow$ Carpeta comprimida (en zip)**.
     * **En Ubuntu:** Haz clic derecho sobre la carpeta $\rightarrow$ **Comprimir... $\rightarrow$ Seleccionar formato .zip**.
 4. Envía o sube a la plataforma del aula el archivo `.zip` resultante.
-
 
 
 
