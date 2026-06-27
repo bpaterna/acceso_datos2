@@ -13,7 +13,7 @@
 
 ## 1. ¿Qué es Kotlin?
 
-Tras asimilar algunos conceptos básicos de programación (estructuras de control, objetos y herencia) utilizando **Java** en 1º de DAM, en este módulo de **Acceso a Datos** daremos el salto a **Kotlin**. Utilizaremos este lenguaje para desarrollar aplicaciones capaces de conectar con almacenamientos externos —como bases de datos o archivos—, logrando así consultar, guardar y administrar la información de manera segura y eficiente.
+Tras asimilar algunos conceptos básicos de programación (estructuras de control, objetos y herencia) utilizando **Java** en 1º de DAM, en este módulo de **Acceso a Datos** daremos el salto a **Kotlin**. Utilizaremos este lenguaje para desarrollar aplicaciones capaces de conectar con almacenamientos externos (como bases de datos o archivos), logrando así consultar, guardar y administrar la información de manera segura y eficiente.
 
 Kotlin es un lenguaje de programación moderno, conciso y seguro diseñado por JetBrains (los creadores de IntelliJ IDEA). Sus características clave son:
 
@@ -33,7 +33,7 @@ Para el desarrollo de nuestras aplicaciones utilizaremos el Entorno de Desarroll
 Para instalar IntelliJ en el ordenador del aula, sigue estos pasos:
 
 1. **Descargar los archivos:** Accede a la web oficial [https://www.jetbrains.com/idea/download/other/](https://www.jetbrains.com/idea/download/other/) y busca la Version 2025.2 Community Edition para Linux, luego descarga el archivo `.tar.gz`.
-2. **Descomprimir y ubicar:** Extrae el archivo descargado (que habitualmente se guardará en la carpeta `Descargas`) y mueve la carpeta resultante a tu directorio de usuario (fuera de la carpeta temporal de descargas).
+2. **Descomprimir y ubicar:** Extrae el archivo descargado (que habitualmente se guarda en la carpeta `Descargas`) y mueve la carpeta resultante a tu directorio de usuario (fuera de la carpeta temporal de descargas).
 3. **Configurar permisos de ejecución:**
     * Navega hasta la carpeta `bin` dentro del directorio extraído.
     * Localiza el archivo ejecutable `idea.sh`.
@@ -56,17 +56,18 @@ Para realizar la instalación en tu equipo personal con Windows:
 ## 3. Gestión y Configuración de Proyectos
 
 <span class="mi_h3">3.1. Organización del espacio de trabajo</span>
+
 Antes de empezar a crear programas, es importante que mantengas tu espacio de trabajo organizado. Es recomendable que crees una carpeta raíz en tu unidad de almacenamiento (por ejemplo, una carpeta llamada `kot` dentro de tu unidad de trabajo) donde guardar de forma ordenada los proyectos del curso.
 
 > *Consejo de personalización:* Puedes cambiar la apariencia del entorno pulsando en el icono de la **rueda dentada (Ajustes)** en la esquina inferior izquierda de la pantalla de bienvenida. Para estas explicaciones utilizaremos el modo de color claro (*Light Mode*).
 
-<span class="mi_h3">3.2. Creación de un nuevo proyecto (`control_plantas`)</span>
+<span class="mi_h3">3.2. Creación de un nuevo proyecto</span>
 
-Para crear tu primer proyecto botánico en Kotlin:
+Para crear tu primer proyecto en Kotlin:
 
 1. Abre IntelliJ IDEA y haz clic en **New Project** en la ventana de inicio.
 2. Configura los parámetros en la ventana de configuración:
-    * **Name:** `control_plantas`
+    * **Name:** `control_plantas` (en nuestro caso)
     * **Location:** Selecciona tu directorio de trabajo (por ejemplo, `F:\kot` o la ruta de tu carpeta de usuario).
     * **Language:** Asegúrate de marcar **Kotlin** en la columna de la izquierda.
     * **Build system:** Selecciona el sistema nativo de **IntelliJ**.
@@ -82,8 +83,7 @@ Al crearse el proyecto, la interfaz mostrará una estructura de carpetas en el m
 * **`src` (Source):** Es la carpeta más importante. Aquí se almacena todo el código fuente de nuestra aplicación.
 * **`Main.kt`:** Archivo que contiene el punto de entrada de nuestro programa.
 
-#### Cómo crear un nuevo archivo de código:
-Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro:
+> *Cómo crear un nuevo archivo de código:* Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue estos pasos:
 1. Haz clic derecho sobre la carpeta **`src`**.
 2. Selecciona **New > Kotlin File/Class**.
 3. Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
@@ -107,8 +107,8 @@ fun main() {
 }
 ```
 
-#### Ejecución del programa:
-Para ejecutar el código escrito, haz clic en el icono verde de **Play** ($\vartriangleright$) situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
+
+> *Ejecución del programa:* Para ejecutar el código escrito, haz clic en el icono verde de **Play** ($\vartriangleright$) situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
 
 El resultado de la ejecución se mostrará inmediatamente en la consola, en la parte inferior de la pantalla:
 
