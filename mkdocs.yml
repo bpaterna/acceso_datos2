@@ -19,7 +19,8 @@ theme:
 nav:
   - Presentación: index.md
   - Kotlin:
-    - Introducción: kotlin01.md
+    - 1. Introducción: kotlin01.md
+    - 2. Variables: kotlin02.md
   - Docker: docker.md
 markdown_extensions:
   - attr_list
