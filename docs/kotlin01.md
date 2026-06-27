@@ -67,7 +67,7 @@ Para crear tu primer proyecto en Kotlin:
 
 1. Abre IntelliJ IDEA y haz clic en **New Project** en la ventana de inicio.
 2. Configura los parámetros en la ventana de configuración:
-    * **Name:** `control_plantas` (en nuestro caso)
+    * **Name:** Indica el nombre de tu ptoyecto (en el caso del ejemplo es `control_plantas`)
     * **Location:** Selecciona tu directorio de trabajo (por ejemplo, `F:\kot` o la ruta de tu carpeta de usuario).
     * **Language:** Asegúrate de marcar **Kotlin** en la columna de la izquierda.
     * **Build system:** Selecciona el sistema nativo de **IntelliJ**.
