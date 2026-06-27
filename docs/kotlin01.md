@@ -83,13 +83,18 @@ Al crearse el proyecto, la interfaz mostrará una estructura de carpetas en el m
 * **`src` (Source):** Es la carpeta más importante. Aquí se almacena todo el código fuente de nuestra aplicación.
 * **`Main.kt`:** Archivo que contiene el punto de entrada de nuestro programa.
 
-> *Crear un nuevo archivo de código:* Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue estos pasos: 1. Haz clic derecho sobre la carpeta **`src`**. 2. Selecciona **New > Kotlin File/Class**. 3. Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
 
-<span class="mi_h3">3.4. Primer programa: ¡Hola, Invernadero! (Ejecución de la aplicación)</span>
+Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue estos pasos: 
+
+* Haz clic derecho sobre la carpeta **`src`**. 
+* Selecciona **New > Kotlin File/Class**. 
+* Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
+
+<span class="mi_h3">3.4. Primer programa y su jecución</span>
 
 Para que un proyecto en Kotlin pueda ejecutarse, requiere como mínimo tener un punto de entrada definido por una función llamada `main`. Kotlin utiliza la palabra reservada `fun` para declarar funciones.
 
-Reemplaza el código autogenerado del archivo `Main.kt` con el siguiente programa inicial, adaptado para realizar el control y simulación de riego de una planta:
+Reemplaza el código autogenerado del archivo `Main.kt` con el siguiente programa inicial (que simula un sistema de riego de una planta):
 
 ```kotlin
 fun main() {
@@ -105,9 +110,9 @@ fun main() {
 ```
 
 
-> *Ejecución del programa:* Para ejecutar el código escrito, haz clic en el icono verde de **Play** ($\vartriangleright$) situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
+> *Ejecución del programa:* Para ejecutar el código escrito, haz clic en el icono verde de **Play** situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
 
-El resultado de la ejecución se mostrará inmediatamente en la consola, en la parte inferior de la pantalla:
+El resultado de la ejecución se mostrará inmediatamente en la consola y es el siguiente:
 
 ```text
 ¡Bienvenido al sistema de control botánico!
