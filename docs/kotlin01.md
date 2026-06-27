@@ -10,13 +10,14 @@
 
 
 
-## 1. Introducción
+## 1. ¿Qué es Kotlin?
 
 En el módulo de Programación de 1º de DAM, se trabaja habitualmente con **Java**, un lenguaje orientado a objetos ampliamente utilizado en el desarrollo de aplicaciones empresariales. Durante ese primer contacto, se asimilan conceptos fundamentales como estructuras de control, clases, objetos y herencia.
 
 En este curso, dentro del módulo de **Acceso a Datos**, continuaremos aplicando estos mismos conceptos utilizando **Kotlin**.
 
 Kotlin es un lenguaje de programación moderno, conciso y seguro diseñado por JetBrains (los creadores de IntelliJ IDEA). Sus características clave son:
+
 * **Ejecución en la JVM:** Funciona sobre la Máquina Virtual de Java (JVM).
 * **Interoperabilidad:** Es 100% interoperable con Java. Esto significa que podemos usar librerías de Java en código de Kotlin y viceversa de forma directa.
 * **Multiuso:** Se utiliza para desarrollo móvil (Android), aplicaciones de escritorio (Swing, JavaFX o Compose Desktop), backends web (Ktor o Spring) y desarrollo multiplataforma (Kotlin Multiplatform).
