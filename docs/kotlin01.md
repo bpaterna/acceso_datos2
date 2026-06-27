@@ -59,7 +59,7 @@ Para realizar la instalación en tu equipo personal con Windows:
 
 Antes de empezar a crear programas, es importante que mantengas tu espacio de trabajo organizado. Es recomendable que crees una carpeta raíz en tu unidad de almacenamiento (por ejemplo, una carpeta llamada `kot` dentro de tu unidad de trabajo) donde guardar de forma ordenada los proyectos del curso.
 
-> *Consejo de personalización:* Puedes cambiar la apariencia del entorno pulsando en el icono de la **rueda dentada (Ajustes)** en la esquina inferior izquierda de la pantalla de bienvenida. Para estas explicaciones utilizaremos el modo de color claro (*Light Mode*).
+> **Consejo de personalización:** Puedes cambiar la apariencia del entorno pulsando en el icono de la **rueda dentada (Ajustes)** en la esquina inferior izquierda de la pantalla de bienvenida. Para estas explicaciones utilizaremos el modo de color claro (*Light Mode*).
 
 <span class="mi_h3">3.2. Creación de un nuevo proyecto</span>
 
@@ -90,6 +90,7 @@ Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue est
 * Selecciona **New > Kotlin File/Class**. 
 * Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
 
+
 <span class="mi_h3">3.4. Primer programa y su jecución</span>
 
 Para que un proyecto en Kotlin pueda ejecutarse, requiere como mínimo tener un punto de entrada definido por una función llamada `main`. Kotlin utiliza la palabra reservada `fun` para declarar funciones.
@@ -110,7 +111,7 @@ fun main() {
 ```
 
 
-> *Ejecución del programa:* Para ejecutar el código escrito, haz clic en el icono verde de **Play** situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
+> **Ejecución del programa:** Para ejecutar el código escrito, haz clic en el icono verde de **Play** situado en el margen izquierdo de la función `main` (o en la barra de herramientas superior).
 
 El resultado de la ejecución se mostrará inmediatamente en la consola y es el siguiente:
 

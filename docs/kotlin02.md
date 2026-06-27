@@ -1,4 +1,4 @@
-# 2. Sintaxis Básica: Variables y Tipos de Datos
+# 2. Variables y Tipos de Datos
 
 
 <span class="mi_h3">Revisiones</span>
@@ -16,9 +16,7 @@ Una **variable** es un espacio en la memoria de tu ordenador destinado a guardar
 
 <span class="mi_h3">1.1. `val` – Inmutable (No se puede modificar)</span>
 
-Se comporta como una constante. Una vez que le asignas un valor por primera vez, **no puedes volver a cambiarlo** en todo el programa. Es la opción recomendada por defecto para escribir código más seguro y evitar errores accidentales.
-
-* **Metáfora botánica:** El nombre científico de una planta no cambia arbitrariamente.
+Se comporta como una constante. Una vez que le asignas un valor por primera vez, **no puedes volver a cambiarlo** en todo el programa. Es la opción recomendada por defecto para escribir código más seguro y evitar errores accidentales. Por ejemplo, en botánica, el nombre científico de una planta no suele cambiar nunca.
 
 ```kotlin
 fun main() {
@@ -34,9 +32,7 @@ fun main() {
 
 <span class="mi_h3">1.2. `var` – Mutable (Se puede modificar)</span>
 
-Es una variable normal. Puedes declarar su valor inicial y **modificarlo más adelante** tantas veces como necesites a lo largo de la ejecución de tu código.
-
-* **Metáfora botánica:** La altura de una flor cambia constantemente a medida que crece.
+Es una variable normal. Puedes declarar su valor inicial y **modificarlo más adelante** tantas veces como necesites a lo largo de la ejecución de tu código. Por ejemplo, en botánica, la altura de una flor es un dato que cambia constantemente a medida que crece la planta.
 
 ```kotlin
 fun main() {
@@ -50,13 +46,11 @@ fun main() {
 }
 ```
 
----
+
 
 ## 2. Tipos de datos en Kotlin
 
-En Kotlin **no es estrictamente obligatorio declarar el tipo de una variable**, ya que el compilador es capaz de deducirlo automáticamente según el valor que le asignes (a esto se le llama *inferencia de tipos*). No obstante, puedes especificarlo de forma explícita escribiendo `:` seguido del tipo de dato.
-
-A continuación tienes los tipos de datos más comunes que utilizarás para modelar tu invernadero:
+En Kotlin **no es estrictamente obligatorio declarar el tipo de una variable**, ya que el compilador es capaz de deducirlo automáticamente según el valor que le asignes (a esto se le llama *inferencia de tipos*). No obstante, puedes especificarlo de forma explícita escribiendo `:` seguido del tipo de dato. A continuación tienes los tipos de datos más comunes que necesitarás durante este curso:
 
 | Tipo | Descripción | Ejemplo de declaración |
 | :--- | :--- | :--- |
@@ -76,7 +70,7 @@ A continuación tienes los tipos de datos más comunes que utilizarás para mode
 > val primeraLetra = especie[0] // Obtiene el carácter 'O'
 > ```
 
----
+
 
 ## 3. Operadores aritméticos
 
@@ -90,7 +84,10 @@ Kotlin utiliza los operadores matemáticos estándar para realizar cálculos sob
 | **`/`** | División (entera o real) | `9 / 3` | `3` |
 | **`%`** | Módulo (resto de la división) | `10 % 3` | `1` |
 
-### Comportamiento de la división:
+
+
+**Comportamiento de la división**
+
 * **División entre enteros:** Si divides dos números enteros, Kotlin descartará los decimales y te devolverá otro número entero.
   ```kotlin
   val mlPorMaceta = 7 / 2 // El resultado será 3, no 3.5
@@ -100,13 +97,15 @@ Kotlin utiliza los operadores matemáticos estándar para realizar cálculos sob
   val mlPorMacetaExacto = 7.0 / 2 // El resultado será 3.5
   ```
 
----
+
 
 ## 4. Control de Nulos (*Null Safety*)
 
 Uno de los principales problemas en lenguajes como Java es el famoso error `NullPointerException` (cuando intentas acceder a algo que apunta a la nada, es decir, a un valor `null`). Kotlin está diseñado específicamente para evitar este problema obligándote a controlar los nulos de forma explícita desde el código.
 
+
 <span class="mi_h3">4.1. Variables no anulables (Por defecto)</span>
+
 En Kotlin, por defecto, **las variables no pueden contener valores nulos**. Si intentas asignar `null` a una variable estándar, tu programa no llegará a compilar.
 
 ```kotlin
@@ -115,6 +114,7 @@ var nombreFlor: String = "Rosa"
 ```
 
 <span class="mi_h3">4.2. Variables anulables (Símbolo `?`)</span>
+
 Si necesitas que una propiedad pueda estar vacía o no definida (por ejemplo, si una planta aún no ha florecido y su color de flor es desconocido), debes decírselo al compilador añadiendo el signo de interrogación `?` al final del tipo de dato.
 
 ```kotlin
@@ -122,14 +122,13 @@ var colorFloracion: String? = "Amarillo"
 colorFloracion = null // ¡Correcto! Ahora sí se permite almacenar null.
 ```
 
----
+
 
 <span class="mi_h3">4.3. Operadores para trabajar con valores nulos</span>
 
 Cuando trabajas con variables que pueden ser nulas, Kotlin te obliga a proteger tu código antes de interactuar con ellas. Dispones de tres operadores principales para gestionarlo de manera limpia:
 
-#### A) Llamada segura (`?.`)
-Ejecuta la acción o método **solo si la variable no es nula**. Si la variable es `null`, la operación se ignora y devuelve `null` sin colgar la aplicación.
+**Llamada segura (`?.`)** Ejecuta la acción o método **solo si la variable no es nula**. Si la variable es `null`, la operación se ignora y devuelve `null` sin colgar la aplicación.
 
 ```kotlin
 fun main() {
@@ -142,8 +141,7 @@ fun main() {
 }
 ```
 
-#### B) Operador Elvis (`?:`)
-Te permite definir un **valor de respaldo o por defecto** en caso de que la variable que estés evaluando resulte ser nula.
+**Operador Elvis (`?:`)** Te permite definir un **valor de respaldo o por defecto** en caso de que la variable que estés evaluando resulte ser nula.
 
 ```kotlin
 fun main() {
@@ -154,8 +152,7 @@ fun main() {
 }
 ```
 
-#### C) Afirmación no nula (`!!`)
-Fuerza al compilador a tratar la variable como si estuviera 100% seguro de que no es nula. **Ten mucho cuidado con este operador**: si la variable resulta ser nula en tiempo de ejecución, tu aplicación fallará inmediatamente lanzando una excepción.
+**Afirmación no nula (`!!`)** Fuerza al compilador a tratar la variable como si estuviera 100% seguro de que no es nula. **Ten mucho cuidado con este operador**: si la variable resulta ser nula en tiempo de ejecución, tu aplicación fallará inmediatamente lanzando una excepción.
 
 ```kotlin
 fun main() {
