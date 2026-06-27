@@ -83,10 +83,7 @@ Al crearse el proyecto, la interfaz mostrará una estructura de carpetas en el m
 * **`src` (Source):** Es la carpeta más importante. Aquí se almacena todo el código fuente de nuestra aplicación.
 * **`Main.kt`:** Archivo que contiene el punto de entrada de nuestro programa.
 
-> *Cómo crear un nuevo archivo de código:* Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue estos pasos:
-1. Haz clic derecho sobre la carpeta **`src`**.
-2. Selecciona **New > Kotlin File/Class**.
-3. Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
+> *Cómo crear un nuevo archivo de código:* Si necesitas crear una clase o un nuevo archivo de Kotlin en el futuro sigue estos pasos: 1. Haz clic derecho sobre la carpeta **`src`**. 2. Selecciona **New > Kotlin File/Class**. 3. Escribe el nombre deseado para el archivo y selecciona el tipo correspondiente (File, Class, Interface, etc.).
 
 <span class="mi_h3">3.4. Primer programa: ¡Hola, Invernadero! (Ejecución de la aplicación)</span>
 
