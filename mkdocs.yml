@@ -16,6 +16,7 @@ theme:
     - search.highlight
     - search.suggest
     - toc.integrate
+    - navigation.expand
 nav:
   - Presentación: index.md
   - Kotlin:
