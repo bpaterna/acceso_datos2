@@ -133,10 +133,9 @@ Cuando debas entregar una tarea de programación o compartir un proyecto con el 
 1. Cierra el IDE IntelliJ IDEA para asegurarte de que no haya procesos de escritura activos.
 2. Localiza la carpeta de tu proyecto (por ejemplo, la carpeta `control_plantas` que se encuentra dentro de tu espacio de trabajo `kot`).
 3. Comprime la carpeta del proyecto en un único archivo comprimido:
-    * **En Windows:** Haz clic derecho sobre la carpeta del proyecto $\rightarrow$ **Enviar a $\rightarrow$ Carpeta comprimida (en zip)**.
-    * **En Ubuntu:** Haz clic derecho sobre la carpeta $\rightarrow$ **Comprimir... $\rightarrow$ Seleccionar formato .zip**.
+    * **En Windows:** Haz clic derecho sobre la carpeta del proyecto y haz clic en  **Enviar a carpeta comprimida (en zip)**.
+    * **En Ubuntu:** Haz clic derecho sobre la carpeta y haz clic en **Comprimir... Seleccionar formato .zip**.
 4. Envía o sube a la plataforma del aula el archivo `.zip` resultante.
-
 
 
 ---
