@@ -18,6 +18,9 @@ theme:
     - toc.integrate
 nav:
   - Presentación: index.md
+  - Material adicional:
+    - Kotlin: kotlin.md
+    - Docker: docker.md
 markdown_extensions:
   - attr_list
   - admonition
