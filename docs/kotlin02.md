@@ -1,4 +1,4 @@
-# 2. Variables y Tipos de Datos
+# 2. Variables y tipos de datos
 
 
 <span class="mi_h3">Revisiones</span>

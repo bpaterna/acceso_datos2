@@ -20,9 +20,14 @@ theme:
 nav:
   - Presentación: index.md
   - Kotlin:
-    - 1. Introducción: kotlin01.md
-    - 2. Variables: kotlin02.md
-  - Docker: docker.md
+    - 1. Introducción y entorno de desarrollo: kotlin01.md
+    - 2. Variables y tipos de datos: kotlin02.md
+    - 3. Entrada y salida estándar: kotlin03.md
+    - 4. Estructuras de control de flujo: kotlin04.md
+    - 5. Funciones: kotlin05.md
+    - 6. Estructuras de datos: kotlin06.md
+  - Material adicional:
+    - Docker: docker.md
 markdown_extensions:
   - attr_list
   - admonition
