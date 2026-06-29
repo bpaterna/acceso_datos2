@@ -6,7 +6,7 @@
 
 | Revisión | Fecha      | Descripción                             |
 |----------|------------|-----------------------------------------|
-| 1.0      | 06-05-2026 | Adaptación de los materiales a markdown |
+| 1.0      | 29-06-2026 | Adaptación de los materiales a markdown |
 
 
 
