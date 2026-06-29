@@ -1,6 +1,6 @@
 # Docker
 
-![Imagen 1](img/docker-logo.png)
+![Imagen 1](img/docker-logo.png){ width="300" }
 
 <span class="mi_h3">Revisiones</span>
 
