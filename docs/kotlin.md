@@ -1,4 +1,4 @@
-# Docker
+# Kotlin
 
 ![Imagen 1](img/kotlin-logo.png)
 
@@ -9,8 +9,6 @@
 | 1.0      | 06-05-2026 | Adaptación de los materiales a markdown |
 
 
-
-## 1. Introducción
 
 Tras asimilar algunos conceptos básicos de programación (estructuras de control, objetos y herencia) utilizando **Java** en 1º de DAM, en este módulo de **Acceso a Datos** daremos el salto a **Kotlin**. Utilizaremos este lenguaje para desarrollar aplicaciones capaces de conectar con almacenamientos externos (como bases de datos o archivos), logrando así consultar, guardar y administrar la información de manera segura y eficiente.
 
