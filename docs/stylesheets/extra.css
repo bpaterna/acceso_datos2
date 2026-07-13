@@ -56,11 +56,13 @@ h3{color: #00bdd6 !important;}
   display: block;
 }
 
-.mi_sombreado {
-background: #f7a7a5;
-}
+.mi_autoria {font-size: .6rem;}
 
-/*para la impresión del pdf*/
+
+.mi_sombreado { background: #f7a7a5; }
+
+/*para la impresión del pdf
 .md-typeset .admonition-title::before {
   left: 0.5rem;
 }
+*/

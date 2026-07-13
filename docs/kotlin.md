@@ -15,10 +15,12 @@ Tras asimilar algunos conceptos básicos de programación (estructuras de contro
 Puedes encontrar muchos tutoriales en internet para aprender Kotlin, a continuación te dejo un enlace a unos apuntes con los conceptos que vamos a trabajar durante este curso: [https://bpaterna.github.io/kotlin](https://bpaterna.github.io/kotlin){: target="_blank" }
 
 
----
 
+
+---
 <span class="mi_h3">Autoría</span>
 
+<span class="mi_autoria">
 Obra realizada por Begoña Paterna Lluch. Publicada bajo licencia [Creative Commons Atribución/Reconocimiento-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-sa/4.0/)
-
+</span>
 ---

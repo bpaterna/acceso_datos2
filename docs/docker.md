@@ -516,7 +516,6 @@ Restaura la DB `florabotanica` usando `mongorestore` (usa las credenciales root 
 mongorestore --uri="mongodb://admin:hola01@127.0.0.1:27017" --archive=/tmp/florabotanica.archive --gzip --nsFrom="florabotanica.*" --nsTo="florabotanica.*"
 ```
 
-
 **5. Comprueba las bases de datos y los datos**
 Conéctate con `mongosh` (desde dentro del contenedor) y verifica:
 
@@ -524,25 +523,24 @@ Conéctate con `mongosh` (desde dentro del contenedor) y verifica:
 mongosh "mongodb://admin:hola01@127.0.0.1:27017/admin"
 ```
 
-
 ```javascript
 show dbs
 ```
-
 
 ```javascript
 use florabotanica
 ```
 
-
 ```javascript
 db.plantas.find().pretty()
 ```
 
----
 
+
+---
 <span class="mi_h3">Autoría</span>
 
+<span class="mi_autoria">
 Obra realizada por Begoña Paterna Lluch. Publicada bajo licencia [Creative Commons Atribución/Reconocimiento-CompartirIgual 4.0 Internacional](https://creativecommons.org/licenses/by-sa/4.0/)
-
+</span>
 ---
