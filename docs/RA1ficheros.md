@@ -93,18 +93,15 @@ fun main() {
 }
 ```
 
-Salida por consola:
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
 
-```text
-Ruta relativa: muestras\orquidea.jpg
-Ruta absoluta: F:\bio-proyecto\muestras\orquidea.jpg
-Ruta absoluta Windows: C:\Herbario\Especies\Helechos
-Ruta absoluta Linux: \home\botanico\jardin\flora_mediterranea
-```
-
-
-!!! success "Prueba y analiza el ejemplo 1"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    ```text
+    Ruta relativa: muestras\orquidea.jpg
+    Ruta absoluta: F:\bio-proyecto\muestras\orquidea.jpg
+    Ruta absoluta Windows: C:\Herbario\Especies\Helechos
+    Ruta absoluta Linux: \home\botanico\jardin\flora_mediterranea
+    ```
 
 
 
@@ -179,24 +176,23 @@ fun main() {
 }
 ```
 
-Salida por consola:
 
-```text
---- Iniciando la clasificación botánica en la carpeta: muestras_desordenadas ---
--> Creando nueva sección para archivos: .jpg
--> Clasificando rosa_silvestre.jpg en la carpeta [.jpg]
--> Clasificando pino_albar.jpg en la carpeta [.jpg]
--> Creando nueva sección para archivos: .txt
--> Clasificando propiedades_manzanilla.txt en la carpeta [.txt]
--> Clasificando guia_cuidados_helecho.txt en la carpeta [.txt]
--> Creando nueva sección para archivos: .pdf
--> Clasificando estudio_taxonomico_orquideas.pdf en la carpeta [.pdf]
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
 
---- ¡Clasificación del herbario completada con éxito! ---
-```
-
-!!! success "Prueba y analiza el ejemplo 2"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    ```text
+    --- Iniciando la clasificación botánica en la carpeta: muestras_desordenadas ---
+    -> Creando nueva sección para archivos: .jpg
+    -> Clasificando rosa_silvestre.jpg en la carpeta [.jpg]
+    -> Clasificando pino_albar.jpg en la carpeta [.jpg]
+    -> Creando nueva sección para archivos: .txt
+    -> Clasificando propiedades_manzanilla.txt en la carpeta [.txt]
+    -> Clasificando guia_cuidados_helecho.txt en la carpeta [.txt]
+    -> Creando nueva sección para archivos: .pdf
+    -> Clasificando estudio_taxonomico_orquideas.pdf en la carpeta [.pdf]
+    
+    --- ¡Clasificación del herbario completada con éxito! ---
+    ```
 
 
 <span class="mi_h3">Técnicas para recorrer un directorio</span>
@@ -274,13 +270,8 @@ fun main() {
 }
 ```
 
-Salida por consola:
-
-
-
-
-!!! success "Prueba y analiza el ejemplo 3"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
     --- Estructura final del Herbario Digital con Files.walk() ---
@@ -293,6 +284,715 @@ Salida por consola:
         [MUESTRA] guia_cuidados_helecho.txt
         [MUESTRA] propiedades_manzanilla.txt
     ```
+
+
+
+## 3. Ficheros de texto
+
+Los ficheros de texto son legibles directamente por humanos y son una buena opción para guardar información después de cerrar el programa. A continuación se muestran algunas clases y métodos para leer y escribir información en ellos:
+
+| Método | Descripción |
+| :--- | :--- |
+| `Files.readAllLines(path)` | Devuelve un `List<String>`. Se utiliza para leer todas las líneas de un fichero. |
+| `Files.exists(path)` | Verifica la existencia de un fichero o directorio. |
+| `split()`, `trim()`, `toIntOrNull()` | Métodos habituales de String para procesar y limpiar el texto leído. |
+| `Files.write(path, lines)` | Escribe una lista de líneas (`List<String>`) en un fichero. |
+| `StandardOpenOption.READ` | Abre un fichero en modo lectura. |
+| `StandardOpenOption.WRITE` | Abre un fichero en modo escritura. |
+| `StandardOpenOption.APPEND` | Agrega contenido al final del fichero sin borrar lo anterior. |
+| `StandardOpenOption.CREATE` | Si el fichero no existe, lo crea automáticamente. |
+| `StandardOpenOption.TRUNCATE_EXISTING` | Si el fichero ya existe, borra su contenido antes de escribir. |
+| `Files.newBufferedReader(Path)` <br> `Files.newBufferedWriter(Path)` | Métodos más eficientes para el manejo de ficheros grandes mediante búferes de memoria. |
+| `Files.readString(Path)` <br> `Files.writeString(Path, String)` | Permite realizar la lectura o escritura completa del contenido del fichero como un único bloque de texto (disponible desde Java 11+). |
+
+Dentro de los ficheros de texto existen **ficheros de texto plano** (sin ningún tipo de estructura interna) y **ficheros de texto estructurado** en los que la información sigue una organización predecible (como CSV, JSON o XML).
+
+
+
+<span class="mis_ejemplos">Ejemplo 4: Escritura y lectura de ficheros de texto plano `.txt`</span>
+
+```kotlin
+import java.nio.file.Files
+import java.nio.file.Paths
+import java.nio.charset.StandardCharsets
+
+fun main() {
+    // 1. Escritura rápida en un fichero de texto con writeString
+    val anotacionRapida = "Muestra de Helecho de Java recolectada en el invernadero principal."
+    Files.writeString(Paths.get("documentos/anotacion.txt"), anotacionRapida)
+
+    // 2. Escritura de múltiples líneas en un fichero de texto con Files.write
+    val rutaCuidados = Paths.get("documentos/cuidados_orquideas.txt")
+    val lineasGuia = listOf(
+        "1. Regar únicamente cuando las raíces se observen de color grisáceo.",
+        "2. Mantener en un espacio con luz indirecta.",
+        "¡Evitar por completo las corrientes de aire frío!"
+    )
+    Files.write(rutaCuidados, lineasGuia, StandardCharsets.UTF_8)
+    println("Fichero de cuidados de orquídeas escrito correctamente.")
+
+    // 3. Uso de Buffered Writer para escribir registros de actividad (Logs)
+    Files.newBufferedWriter(Paths.get("documentos/registro_actividad.txt")).use { writer ->
+        writer.write("[SISTEMA] Invernadero automatizado iniciado...\n")
+        writer.write("[SENSOR] Nivel de humedad óptimo detectado (75%).\n")
+    }
+
+    // --- Lectura de los ficheros de texto ---
+
+    // A. Lectura con readAllLines (devuelve una lista línea por línea)
+    val lineasLeidas = Files.readAllLines(rutaCuidados)
+    println("\n--- Contenido leído con readAllLines: ---")
+    for (linea in lineasLeidas) {
+        println(linea)
+    }
+
+    // B. Lectura rápida de todo el bloque con readString
+    val contenidoCompleto = Files.readString(rutaCuidados)
+    println("\n--- Contenido leído completo con readString: ---")
+    println(contenidoCompleto)
+
+    // C. Lectura secuencial eficiente con newBufferedReader
+    println("\n--- Contenido leído con newBufferedReader: ---")
+    Files.newBufferedReader(rutaCuidados).use { reader ->
+        reader.lineSequence().forEach { linea -> 
+            println(linea) 
+        }
+    }
+}
+```
+
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    Fichero de cuidados de orquídeas escrito correctamente.
+    
+    --- Contenido leído con readAllLines: ---
+    1. Regar únicamente cuando las raíces se observen de color grisáceo.
+    2. Mantener en un espacio con luz indirecta.
+    ¡Evitar por completo las corrientes de aire frío!
+    
+    --- Contenido leído completo con readString: ---
+    1. Regar únicamente cuando las raíces se observen de color grisáceo.
+    2. Mantener en un espacio con luz indirecta.
+    ¡Evitar por completo las corrientes de aire frío!
+    
+    --- Contenido leído con newBufferedReader: ---
+    1. Regar únicamente cuando las raíces se observen de color grisáceo.
+    2. Mantener en un espacio con luz indirecta.
+    ¡Evitar por completo las corrientes de aire frío!
+    ```
+
+
+
+## 4. Ficheros de intercambio de información
+
+Los ficheros de texto en los que la información está estructurada y organizada de una manera predecible permiten que distintos sistemas la lean y entiendan de forma automática. Estos tipos de ficheros se utilizan habitualmente en el desarrollo de software para intercambiar datos entre diferentes aplicaciones. Los formatos más comunes y estandarizados son **CSV, JSON y XML**.
+
+Para poder llevar a cabo este intercambio, es necesario extraer la información del fichero de origen. Este proceso no suele realizarse línea por línea manualmente, sino que el contenido del fichero se lee (parsea) y se traduce a objetos utilizando técnicas de **serialización y deserialización**:
+
+*   **Serialización:** Proceso de convertir un objeto en memoria (por ejemplo, una clase `Planta` o `Especie`) en una representación textual o binaria (como una cadena JSON o XML) que se puede almacenar en un fichero o enviar a través de una red.
+*   **Deserialización:** El proceso inverso; consiste en leer un fichero estructurado (JSON, XML, etc.) y reconstruir el objeto original en la memoria del programa para poder trabajar con él de forma estructurada.
+
+A continuación, se muestra una tabla con las herramientas, anotaciones y clases de uso común en el ecosistema Java/Kotlin para serializar y deserializar:
+
+| Herramienta / Anotación | Descripción |
+| :--- | :--- |
+| `java.io.Serializable` | Interfaz marcadora para indicar que una clase Java/Kotlin es serializable de forma nativa a binario. |
+| `ObjectOutputStream` | Serializa y escribe un objeto de Java en un flujo binario. |
+| `ObjectInputStream` | Lee un objeto serializado desde un flujo binario y lo reconstruye en memoria. |
+| `@Transient` | Anotación para excluir un atributo específico del proceso de serialización. |
+| `ReadObject` / `WriteObject` | Métodos que se pueden personalizar dentro de una clase para controlar la lectura y escritura binaria. |
+| `@Serializable` | Anotación de la librería moderna `kotlinx.serialization` para permitir conversiones nativas a JSON y otros formatos en Kotlin. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 5: Serializar y deserializar un objeto en binario tradicional (usando `@Transient`)</span>
+
+
+En este ejemplo representamos un herbario o registro de plantas. Queremos guardar los objetos en el disco utilizando la serialización binaria clásica de Java, pero excluyendo ciertos atributos dinámicos que no nos interesa persistir (como la humedad de la tierra medida en tiempo real).
+
+```kotlin
+import java.io.*
+
+// Clase Especie (completamente serializable)
+class Especie(val nombreComun: String, val familia: String) : Serializable
+
+// Clase SensorInvernadero con un atributo que NO se debe serializar
+class SensorInvernadero(
+    val idSensor: String,
+    @Transient val humedadTierraActual: Double // Este campo dinámico no se guardará en el archivo
+) : Serializable
+
+fun main() {
+    val rutaEspecie = "documentos/especie.obj"
+    val rutaSensor = "documentos/sensor.obj"
+
+    // Aseguramos que el directorio de datos existe
+    val directorio = File("documentos")
+    if (!directorio.exists()) {
+        directorio.mkdirs()
+    }
+
+    // --- Serializar Especie ---
+    val orquidea = Especie("Orquídea", "Orchidaceae")
+    try {
+        ObjectOutputStream(FileOutputStream(rutaEspecie)).use { oos ->
+            oos.writeObject(orquidea)
+        }
+        println("Especie serializada correctamente.")
+    } catch (e: IOException) {
+        println("Error al serializar la especie: ${e.message}")
+    }
+
+    // --- Deserializar Especie ---
+    try {
+        val especieLeida = ObjectInputStream(FileInputStream(rutaEspecie)).use { ois ->
+            ois.readObject() as Especie
+        }
+        println("Especie deserializada:")
+        println("Nombre: ${especieLeida.nombreComun}, Familia: ${especieLeida.familia}")
+    } catch (e: Exception) {
+        println("Error al deserializar la especie: ${e.message}")
+    }
+
+    // --- Serializar Sensor (con campo Transient) ---
+    val sensorRosa = SensorInvernadero("SENSOR-ROSA-01", 68.5)
+    try {
+        ObjectOutputStream(FileOutputStream(rutaSensor)).use { oos ->
+            oos.writeObject(sensorRosa)
+        }
+        println("Sensor serializado correctamente.")
+    } catch (e: IOException) {
+        println("Error al serializar el sensor: ${e.message}")
+    }
+
+    // --- Deserializar Sensor ---
+    try {
+        val sensorLeido = ObjectInputStream(FileInputStream(rutaSensor)).use { ois ->
+            ois.readObject() as SensorInvernadero
+        }
+        println("Sensor deserializado:")
+        // 'humedadTierraActual' se habrá inicializado a su valor por defecto (0.0) debido a @Transient
+        println("ID: ${sensorLeido.idSensor}, Humedad recuperada: ${sensorLeido.humedadTierraActual}%")
+    } catch (e: Exception) {
+        println("Error al deserializar el sensor: ${e.message}")
+    }
+}
+```
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    Especie serializada correctamente.
+    Especie deserializada:
+    Nombre: Orquídea, Familia: Orchidaceae
+    Sensor serializado correctamente.
+    Sensor deserializado:
+    ID: SENSOR-ROSA-01, Humedad recuperada: 0.0%
+    ```
+
+
+A continuación se describen los 3 formatos de intercambio de información basados en texto más comunes, con ejemplos de lectura y escritura integrando un proyecto gestionado con **Gradle**.
+
+
+
+<span class="mi_h3">4.1. CSV (Comma-Separated Values)</span>
+
+Los ficheros **CSV** son archivos de texto plano con valores separados por un delimitador predeterminado (una coma, punto y coma, tabulador, etc.). Son la herramienta ideal para exportar e importar datos tabulares desde software como Excel, Google Sheets o gestores de bases de datos relacionales.
+
+En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o mediante alternativas más modernas e idiomáticas como **Kotlin-CSV** (la cual utilizaremos).
+
+**Métodos principales de Kotlin-CSV:**
+
+| Método | Ejemplo de uso |
+| :--- | :--- |
+| `readAll(File)` | `val filas = csvReader().readAll(File("plantas.csv"))` |
+| `readAllWithHeader(File)` | `val datos = csvReader().readAllWithHeader(File("plantas.csv"))` |
+| `open { readAllAsSequence() }` | `csvReader().open("plantas.csv") { readAllAsSequence().forEach { println(it) } }` |
+| `writeAll(data, File)` | `csvWriter().writeAll(listOf(listOf("Aloe Vera", "0.6")), File("salida.csv"))` |
+| `writeRow(row, File)` | `csvWriter().writeRow(listOf("Lavanda", "1.0"), File("salida.csv"))` |
+| `writeAllWithHeader(data, File)` | `csvWriter().writeAllWithHeader(listOf(mapOf("nombre" to "Girasol", "altura" to "3.0")), File("salida.csv"))` |
+| Configuración de delimitador | `csvReader { delimiter = ';' }` |
+
+
+
+<span class="mis_ejemplos">Ejemplo 6: Lectura y escritura de ficheros CSV</span>
+
+Partimos de un fichero de datos inicial llamado `mis_plantas.csv` almacenado dentro de la carpeta `datos_ini/` con el siguiente formato delimitado por punto y coma (`;`):
+
+```text
+1;Aloe Vera;Aloe barbadensis miller;7;0.6
+2;Lavanda;Lavandula angustifolia;3;1.0
+3;Helecho de Boston;Nephrolepis exaltata;5;0.9
+4;Bambú de la suerte;Dracaena sanderiana;4;1.5
+5;Girasol;Helianthus annuus;2;3.0
+```
+
+Donde los campos representan la estructura de una entidad botánica:
+
+*   `id_planta` (Int)
+*   `nombre_comun` (String)
+*   `nombre_cientifico` (String)
+*   `riego` (Int - frecuencia en días)
+*   `altura` (Double - altura máxima en metros)
+
+**Configuración de dependencias en `build.gradle.kts`:**
+
+```kotlin
+plugins {
+    kotlin("jvm") version "1.9.0"
+}
+
+dependencies {
+    implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.1")
+}
+```
+
+**Código fuente en Kotlin:**
+
+```kotlin
+import java.nio.file.Files
+import java.nio.file.Path
+import java.io.File
+import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
+import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
+
+// Data class que modela la estructura de la planta
+data class Planta(
+    val idPlanta: Int, 
+    val nombreComun: String, 
+    val nombreCientifico: String, 
+    val riego: Int, 
+    val altura: Double
+)
+
+fun main() {
+    val entradaCSV = Path.of("datos_ini/mis_plantas.csv")
+    val salidaCSV = Path.of("datos_ini/mis_plantas2.csv")
+    
+    // Leer los datos estructurados del CSV
+    val datos: List<Planta> = leerDatosInicialesCSV(entradaCSV)
+    
+    // Mostrar por consola la información deserializada
+    for (dato in datos) {
+        println(" - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Riego: cada ${dato.riego} días, Altura: ${dato.altura}m")
+    }
+    
+    // Guardar una copia procesada en un nuevo fichero CSV
+    escribirDatosCSV(salidaCSV, datos)
+}
+
+fun leerDatosInicialesCSV(ruta: Path): List<Planta> {
+    var plantas: List<Planta> = emptyList()
+    
+    if (!Files.isReadable(ruta)) {
+        println("Error: No se puede leer el fichero en la ruta: $ruta")
+    } else {
+        val reader = csvReader {
+            delimiter = ';'
+        }
+        
+        // Leemos todas las filas del CSV (devuelve List<List<String>>)
+        val filas: List<List<String>> = reader.readAll(ruta.toFile())
+        
+        // Convertimos las filas de texto en objetos Planta válidos
+        plantas = filas.mapNotNull { columnas ->
+            if (columnas.size >= 5) {
+                try {
+                    val id = columnas[0].toInt()
+                    val nombreComun = columnas[1]
+                    val nombreCientifico = columnas[2]
+                    val riego = columnas[3].toInt()
+                    val altura = columnas[4].toDouble()
+                    Planta(id, nombreComun, nombreCientifico, riego, altura)
+                } catch (e: Exception) {
+                    println("Fila inválida ignorada: $columnas -> Error: ${e.message}")
+                    null
+                }
+            } else {
+                println("Fila con formato incompleto ignorada: $columnas")
+                null
+            }
+        }
+    }
+    return plantas
+}
+
+fun escribirDatosCSV(ruta: Path, plantas: List<Planta>) {
+    try {
+        val fichero: File = ruta.toFile()
+        csvWriter {
+            delimiter = ';'
+        }.writeAll(
+            plantas.map { planta ->
+                listOf(
+                    planta.idPlanta.toString(),
+                    planta.nombreComun,
+                    planta.nombreCientifico,
+                    planta.riego.toString(),
+                    planta.altura.toString()
+                )
+            },
+            fichero
+        )
+        println("\nInformación guardada con éxito en: $fichero")
+    } catch (e: Exception) {
+        println("Error al escribir el fichero CSV: ${e.message}")
+    }
+}
+```
+
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    FALTA
+    ```
+
+
+
+
+
+FALTA
+---
+
+> ### 🎯 Práctica 3: Creación de tu CSV
+> **Realiza lo siguiente:**
+> 1.  **Diseña tu data class:** Define una clase en Kotlin que modele los datos de tu temática elegida. Debe contar con un `ID (Int)`, un nombre u objeto descriptivo (`String`) y al menos otros 3 campos más (uno de ellos obligatoriamente tipo `Double`).
+> 2.  **Crea tu archivo:** Genera un archivo con extensión `.csv` con al menos 5 registros respetando la estructura que definiste, guardándolo dentro de la carpeta `datos_ini/`.
+> 3.  **Replica el código:** Ajusta el ejemplo 6 para leer, validar y reescribir tu propia colección.
+>
+> **Aspectos Técnicos Obligatorios:**
+> *   Configurar correctamente las dependencias en `build.gradle.kts`.
+> *   Implementar validaciones de lectura (fichero existente) y control de excepciones numéricas mediante bloques `try-catch`.
+
+---
+
+<span class="mi_h3">4.2. XML (eXtensible Markup Language)</span>
+
+Los ficheros **XML** son estructurados y extensibles. Se organizan utilizando un sistema de etiquetas jerárquicas anidadas similar al HTML. Permiten la validación estructural mediante esquemas (XSD) y son muy demandados en entornos empresariales consolidados (sistemas *legacy*).
+
+Para interactuar con XML en Kotlin, utilizaremos el ecosistema **Jackson XML** (`XmlMapper`), que automatiza el mapeo directo de clases a etiquetas.
+
+**Métodos clave de `XmlMapper`:**
+
+| Método | Descripción |
+| :--- | :--- |
+| `readValue(File, Class<T>)` | Parsea un archivo físico XML y lo transforma en un objeto o estructura en memoria. |
+| `writeValue(File, Object)` | Guarda la representación XML de un objeto de forma directa en un fichero del sistema. |
+| `writeValueAsString(Object)` | Convierte el objeto a formato de texto plano estructurado como XML (String). |
+| `registerModule(Module)` | Registra extensiones como `KotlinModule` para dar soporte nativo a tipos específicos de Kotlin. |
+| `enable(SerializationFeature.INDENT_OUTPUT)` | Activa el formateado legible (identación/tabulado) para las salidas escritas. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 7: Lectura y escritura de ficheros XML</span>
+
+Partimos de un fichero llamado `mis_plantas.xml` en la carpeta `datos_ini/` con el siguiente contenido:
+
+```xml
+<plantas>
+    <planta>
+        <id_planta>1</id_planta>
+        <nombre_comun>Aloe Vera</nombre_comun>
+        <nombre_cientifico>Aloe barbadensis miller</nombre_cientifico>
+        <frecuencia_riego>7</frecuencia_riego>
+        <altura_maxima>0.6</altura_maxima>
+    </planta>
+    <planta>
+        <id_planta>2</id_planta>
+        <nombre_comun>Lavanda</nombre_comun>
+        <nombre_cientifico>Lavandula angustifolia</nombre_cientifico>
+        <frecuencia_riego>3</frecuencia_riego>
+        <altura_maxima>1.0</altura_maxima>
+    </planta>
+</plantas>
+```
+
+**Dependencias necesarias en `build.gradle.kts`:**
+
+```kotlin
+dependencies {
+    implementation("com.fasterxml.jackson.dataformat:jackson-dataformat-xml:2.17.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.17.0")
+}
+```
+
+**Código en Kotlin:**
+
+```kotlin
+import java.nio.file.Path
+import java.io.File
+import com.fasterxml.jackson.dataformat.xml.XmlMapper
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty
+import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
+
+// Clase que modela los nodos individuales <planta>
+data class PlantaXML(
+    @JacksonXmlProperty(localName = "id_planta")
+    val idPlanta: Int,
+    @JacksonXmlProperty(localName = "nombre_comun")
+    val nombreComun: String,
+    @JacksonXmlProperty(localName = "nombre_cientifico")
+    val nombreCientifico: String,
+    @JacksonXmlProperty(localName = "frecuencia_riego")
+    val riego: Int,
+    @JacksonXmlProperty(localName = "altura_maxima")
+    val altura: Double
+)
+
+// Clase contenedora que representará la etiqueta raíz <plantas>
+@JacksonXmlRootElement(localName = "plantas")
+data class PlantasWrapper(
+    @JacksonXmlElementWrapper(useWrapping = false)
+    @JacksonXmlProperty(localName = "planta")
+    val listaPlantas: List<PlantaXML> = emptyList()
+)
+
+fun main() {
+    val entradaXML = Path.of("datos_ini/mis_plantas.xml")
+    val salidaXML = Path.of("datos_ini/mis_plantas2.xml")
+
+    val datos = leerDatosInicialesXML(entradaXML)
+    for (planta in datos) {
+        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Riego: cada ${planta.riego} días")
+    }
+
+    escribirDatosXML(salidaXML, datos)
+}
+
+fun leerDatosInicialesXML(ruta: Path): List<PlantaXML> {
+    val fichero = ruta.toFile()
+    val xmlMapper = XmlMapper().registerKotlinModule()
+    
+    // Leemos el XML directamente sobre la clase contenedora wrapper
+    val contenedor: PlantasWrapper = xmlMapper.readValue(fichero)
+    return contenedor.listaPlantas
+}
+
+fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
+    try {
+        val fichero = ruta.toFile()
+        val contenedor = PlantasWrapper(plantas)
+        val xmlMapper = XmlMapper().registerKotlinModule()
+
+        // Generamos el XML formateado con saltos de línea y tabuladores para que sea legible
+        val xmlString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contenedor)
+        fichero.writeText(xmlString)
+        
+        println("\nInformación guardada en XML: $fichero")
+    } catch (e: Exception) {
+        println("Error al guardar XML: ${e.message}")
+    }
+}
+```
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    FALTA
+    ```
+
+
+
+
+
+
+
+FALTA
+---
+
+> ### 🎯 Práctica 4: Creación de tu XML
+> **Realiza lo siguiente:**
+> 1.  Utiliza la clase de datos estructurada que definiste en la Práctica 3.
+> 2.  Crea un archivo con formato `.xml` con al menos 5 registros dentro de `datos_ini/`.
+> 3.  Replica el Ejemplo 7 adaptando las anotaciones `@JacksonXmlProperty` y la clase contenedora para que la lectura y escritura se ejecuten sin errores.
+
+---
+
+<span class="mi_h3">4.3. JSON (JavaScript Object Notation)</span>
+
+Los ficheros **JSON** son formatos de intercambio ligeros, ágiles y sencillos de leer por humanos. Se estructuran mediante colecciones de pares clave-valor y listas ordenadas. Son la base fundamental para el consumo de APIs REST, configuraciones del sistema y entornos de bases de datos no relacionales como MongoDB.
+
+En Kotlin, se procesan usando la biblioteca oficial **kotlinx.serialization**, que destaca por ser extremadamente rápida, segura en tiempos de compilación e independiente de la plataforma.
+
+**Métodos clave de `kotlinx.serialization`:**
+
+| Método / Ejemplo | Descripción |
+| :--- | :--- |
+| `Json.encodeToString(objeto)` | Traduce cualquier objeto de memoria a formato de cadena de texto JSON. |
+| `Json.decodeFromString<T>(jsonString)` | Deserializa una cadena de texto JSON y la convierte de vuelta en un objeto tipado. |
+| `Json { prettyPrint = true }` | Configuración del formateador para generar salidas JSON ordenadas e indentadas. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 8: Lectura y escritura de ficheros JSON</span>
+
+Partiremos de un archivo inicial llamado `mis_plantas.json` guardado en la carpeta `datos_ini/`:
+
+```json
+[
+  {
+    "id_planta": 1,
+    "nombre_comun": "Aloe Vera",
+    "nombre_cientifico": "Aloe barbadensis miller",
+    "frecuencia_riego": 7,
+    "altura_maxima": 0.6
+  },
+  {
+    "id_planta": 2,
+    "nombre_comun": "Lavanda",
+    "nombre_cientifico": "Lavandula angustifolia",
+    "frecuencia_riego": 3,
+    "altura_maxima": 1.0
+  }
+]
+```
+
+**Configuración de plugins y dependencias en `build.gradle.kts`:**
+
+```kotlin
+plugins {
+    kotlin("jvm") version "1.9.0"
+    kotlin("plugin.serialization") version "1.9.0" // Requerido para la autogeneración de serializadores
+}
+
+dependencies {
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.0")
+}
+```
+
+**Código en Kotlin:**
+
+```kotlin
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlinx.serialization.*
+import kotlinx.serialization.json.*
+
+// Anotamos la data class indicando que es serializable para el compilador de Kotlin
+@Serializable
+data class PlantaJSON(
+    @SerialName("id_planta") val idPlanta: Int,
+    @SerialName("nombre_comun") val nombreComun: String,
+    @SerialName("nombre_cientifico") val nombreCientifico: String,
+    @SerialName("frecuencia_riego") val riego: Int,
+    @SerialName("altura_maxima") val altura: Double
+)
+
+fun main() {
+    val entradaJSON = Path.of("datos_ini/mis_plantas.json")
+    val salidaJSON = Path.of("datos_ini/mis_plantas2.json")
+
+    val datos = leerDatosInicialesJSON(entradaJSON)
+    for (planta in datos) {
+        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Altura: ${planta.altura}m")
+    }
+
+    escribirDatosJSON(salidaJSON, datos)
+}
+
+fun leerDatosInicialesJSON(ruta: Path): List<PlantaJSON> {
+    // Leemos el contenido completo del JSON como String
+    val jsonString = Files.readString(ruta)
+    
+    // Convertimos de texto JSON a una lista de objetos Planta
+    return Json.decodeFromString<List<PlantaJSON>>(jsonString)
+}
+
+fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
+    try {
+        // Configuramos el formateador con la opción 'prettyPrint' activa
+        val jsonConfigurador = Json { prettyPrint = true }
+        val jsonString = jsonConfigurador.encodeToString(plantas)
+        
+        Files.writeString(ruta, jsonString)
+        println("\nInformación guardada en JSON: $ruta")
+    } catch (e: Exception) {
+        println("Error al guardar JSON: ${e.message}")
+    }
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    Ruta relativa: muestras\orquidea.jpg
+    ```
+
+
+
+
+
+
+FALTA
+---
+
+> ### 🎯 Práctica 5: Creación de tu JSON
+> **Realiza lo siguiente:**
+> 1.  Utiliza la clase de datos que implementaste previamente.
+> 2.  Crea un archivo con extensión `.json` de al menos 5 registros y almacénalo dentro de `datos_ini/`.
+> 3.  Adapta el código del Ejemplo 8 para que funcione correctamente con la serialización de tu nuevo fichero.
+
+---
+
+<span class="mi_h3">4.4. Conversiones entre ficheros</span>
+
+Cada uno de los formatos analizados cuenta con virtudes y flaquezas particulares en función del contexto (velocidad, legibilidad, flexibilidad). Convertir entre CSV, JSON y XML permite aprovechar las ventajas de cada uno en nuestro herbario digital.
+
+El flujo estandarizado para realizar conversiones no consiste en transformar un formato de texto en otro de forma directa (lo que aumentaría la complejidad y fragilidad del código), sino en utilizar las clases de Kotlin como un **paso intermedio universal**:
+
+```text
+Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. JSON)
+```
+
+
+
+FALTA
+
+---
+
+> ### 🎯 Práctica 6: Elige tu fichero de datos
+> **Completa los siguientes pasos utilizando tu estructura temática:**
+> 1.  **Selecciona tu origen:** Elige un formato de archivo de origen (`.csv`, `.json` o `.xml`) a partir de los datos que construiste en prácticas pasadas.
+> 2.  **Define el destino:** Convierte el fichero original en cualquiera de las otras dos estructuras alternativas.
+> 3.  **Crea un método lector:** Programa una función dedicada para leer el fichero generado por la conversión que devuelva la estructura de colecciones tipada: `leerDatosIniciales(): List<TuClaseDeDatos>`.
+> 4.  **Verificación:** Muestra los resultados limpios del fichero transformado por la consola.
+>
+> **Aspectos Técnicos Obligatorios:**
+> *   Utilización obligatoria de bloques estructurados de validación frente a fallas (controlar excepciones como `IOException` o `FileNotFoundException`).
+
+---
+
+
+FALTA
+
+
+## 📂 Entrega Parcial
+
+Comprime en un archivo `.zip` el código fuente de tu proyecto Kotlin configurado con Gradle y envíalo para la evaluación de las prácticas realizadas hasta el momento. Tu aplicación debe cumplir rigurosamente los siguientes aspectos básicos para poder ser calificada:
+
+*   Configuración limpia y funcional de plugins y librerías en `build.gradle.kts`.
+*   El código debe contar con una única función `main()` que sirva de punto de arranque, y un árbol de subfunciones con nombres claros e intuitivos.
+*   Uso de las clases de `java.nio.file` (`Path` y `Files`) para toda la administración de rutas e interacciones de ficheros de texto.
+*   Gestión controlada del flujo ante errores comunes en entradas y salidas (E/S).
+*   Correcta serialización y deserialización demostrada en formatos **CSV, XML y JSON**.
+
+
+
 
 
 ---
