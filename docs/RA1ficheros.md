@@ -39,6 +39,7 @@ Un **fichero o archivo** es una unidad de almacenamiento de datos en un sistema 
 El acceso a ficheros es una tarea fundamental en la programación, ya que permite leer y escribir datos persistentes. Según sus características y necesidades, existen dos formas principales de acceder a un fichero:
 
 **Acceso secuencial**
+
 * Los datos se procesan en orden, desde el principio hasta el final del fichero.
 * Es el más común y sencillo.
 * Se usa cuando se desea leer todo el contenido o recorrer registro por registro. Por ejemplo: lectura de un catálogo de plantas línea por línea, o de un fichero binario de taxonomía registro a registro.
@@ -46,6 +47,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 ![Imagen 1](img/ficheros1.jpg){ width="300" }
 
 **Acceso aleatorio**
+
 * Permite saltar a una posición concreta del fichero sin necesidad de leer lo anterior.
 * Es útil cuando los registros tienen un tamaño fijo y se necesita eficiencia (por ejemplo, ir directamente a los datos de la planta número 100 de un fichero indexado).
 * Requiere técnicas más avanzadas como el uso de `FileChannel`, `SeekableByteChannel` o `RandomAccessFile`.
@@ -99,6 +101,10 @@ Ruta absoluta: F:\bio-proyecto\muestras\orquidea.jpg
 Ruta absoluta Windows: C:\Herbario\Especies\Helechos
 Ruta absoluta Linux: \home\botanico\jardin\flora_mediterranea
 ```
+
+
+!!! success "Prueba y analiza el ejemplo 1"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
 
@@ -189,6 +195,8 @@ Salida por consola:
 --- ¡Clasificación del herbario completada con éxito! ---
 ```
 
+!!! success "Prueba y analiza el ejemplo 2"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
 <span class="mi_h3">Técnicas para recorrer un directorio</span>
@@ -268,20 +276,23 @@ fun main() {
 
 Salida por consola:
 
-```text
---- Estructura final del Herbario Digital con Files.walk() ---
-[CATEGORÍA] jpg
-	[MUESTRA] pino_albar.jpg
-	[MUESTRA] rosa_silvestre.jpg
-[CATEGORÍA] pdf
-	[MUESTRA] estudio_taxonomico_orquideas.pdf
-[CATEGORÍA] txt
-	[MUESTRA] guia_cuidados_helecho.txt
-	[MUESTRA] propiedades_manzanilla.txt
-```
 
 
 
+!!! success "Prueba y analiza el ejemplo 3"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
+
+    ```text
+    --- Estructura final del Herbario Digital con Files.walk() ---
+    [CATEGORÍA] jpg
+        [MUESTRA] pino_albar.jpg
+        [MUESTRA] rosa_silvestre.jpg
+    [CATEGORÍA] pdf
+        [MUESTRA] estudio_taxonomico_orquideas.pdf
+    [CATEGORÍA] txt
+        [MUESTRA] guia_cuidados_helecho.txt
+        [MUESTRA] propiedades_manzanilla.txt
+    ```
 
 
 ---

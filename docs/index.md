@@ -4,7 +4,7 @@
 
 Estos materiales pertenecen al módulo de **acceso a datos** del ciclo superior de **desarrollo de aplicaciones multiplataforma** y están diseñados para que aprendas haciendo. A lo largo de las distintas unidades, no solo veremos la teoría, sino que la aplicaremos directamente para construir, paso a paso, una aplicación completa de gestión de datos. 
 
-Todos los ejemplos que encontrarás en este curso giran entorno a la temática de las plantas. Te animo a que los pruebes para entender su funcionamiento antes de aplicar los contectpos a tu aplicación (que deberás desarrollar a lo largo de todo el curso).
+Todos los ejemplos que encontrarás en este curso giran entorno a la temática de las plantas. Te animo a que los pruebes para entender su funcionamiento antes de aplicar los conceptos a tu aplicación (que deberás desarrollar a lo largo de todo el curso).
 
 
 Siguiendo la unidad no solo habrás aprendido los conceptos, sino que tendrás una aplicación completa y funcional creada por ti.
