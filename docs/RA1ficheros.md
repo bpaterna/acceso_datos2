@@ -523,7 +523,7 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 
 <span class="mis_ejemplos">Ejemplo 6: Lectura y escritura de ficheros CSV</span>
 
-Partimos de un fichero de datos inicial llamado `mis_plantas.csv` almacenado dentro de la carpeta `datos_ini/` con el siguiente formato delimitado por punto y coma (`;`):
+Partimos de un fichero de datos inicial llamado `mis_plantas.csv` almacenado dentro de la carpeta `datos/` con el siguiente formato delimitado por punto y coma (`;`):
 
 ```text
 1;Aloe Vera;Aloe barbadensis miller;7;0.6
@@ -572,11 +572,11 @@ data class Planta(
 )
 
 fun main() {
-    val entradaCSV = Path.of("datos_ini/mis_plantas.csv")
-    val salidaCSV = Path.of("datos_ini/mis_plantas2.csv")
+    val entradaCSV = Path.of("datos/mis_plantas.csv")
+    val salidaCSV = Path.of("datos/mis_plantas2.csv")
     
     // Leer los datos estructurados del CSV
-    val datos: List<Planta> = leerDatosInicialesCSV(entradaCSV)
+    val datos: List<Planta> = leerDatosCSV(entradaCSV)
     
     // Mostrar por consola la información deserializada
     for (dato in datos) {
@@ -587,7 +587,7 @@ fun main() {
     escribirDatosCSV(salidaCSV, datos)
 }
 
-fun leerDatosInicialesCSV(ruta: Path): List<Planta> {
+fun leerDatosCSV(ruta: Path): List<Planta> {
     var plantas: List<Planta> = emptyList()
     
     if (!Files.isReadable(ruta)) {
@@ -623,7 +623,7 @@ fun leerDatosInicialesCSV(ruta: Path): List<Planta> {
     return plantas
 }
 
-fun escribirDatosCSV(ruta: Path, plantas: List<Planta>) {
+fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     try {
         val fichero: File = ruta.toFile()
         csvWriter {
@@ -657,23 +657,35 @@ fun escribirDatosCSV(ruta: Path, plantas: List<Planta>) {
     ```
 
 
+!!! warning "Práctica 3: crea la base de tu proyecto"
+    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos un menú interactivo por consola que servirá como esqueleto para las fases posteriores del proyecto.
+
+    **Realiza los siguientes pasos:**
+
+    1. **Crea tu proyecto:**
+       Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
+    2. **Diseña tu data class:**
+       Define una clase de datos (*data class*) en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente:
+        * Un identificador único o ID (`Int`).
+        * Un nombre descriptivo (`String`).
+        * Al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
+    3. **Crea tu fichero de datos inicial:**
+       Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos/` de tu proyecto.
+    4. **Crea un menú de consola interactivo:**
+       Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y pinte un menú en la terminal con las siguientes opciones:
+        * `1. Leer datos desde CSV`
+        * `0. Salir`
+        * *El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0).*
+    5. **Valida la entrada del usuario:**
+       Asegúrate de que la aplicación sea robusta. Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a pintar las opciones sin detener su ejecución.
+    6. **Implementa la lectura del CSV:**
+       Cuando el usuario seleccione la opción `1`, llama a una función dedicada (por ejemplo, `leerCSV()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    **Aspectos Técnicos Obligatorios:**
+        * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+        * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
-FALTA
----
-
-> ### 🎯 Práctica 3: Creación de tu CSV
-> **Realiza lo siguiente:**
-> 1.  **Diseña tu data class:** Define una clase en Kotlin que modele los datos de tu temática elegida. Debe contar con un `ID (Int)`, un nombre u objeto descriptivo (`String`) y al menos otros 3 campos más (uno de ellos obligatoriamente tipo `Double`).
-> 2.  **Crea tu archivo:** Genera un archivo con extensión `.csv` con al menos 5 registros respetando la estructura que definiste, guardándolo dentro de la carpeta `datos_ini/`.
-> 3.  **Replica el código:** Ajusta el ejemplo 6 para leer, validar y reescribir tu propia colección.
->
-> **Aspectos Técnicos Obligatorios:**
-> *   Configurar correctamente las dependencias en `build.gradle.kts`.
-> *   Implementar validaciones de lectura (fichero existente) y control de excepciones numéricas mediante bloques `try-catch`.
-
----
 
 <span class="mi_h3">4.2. XML (eXtensible Markup Language)</span>
 
@@ -695,7 +707,7 @@ Para interactuar con XML en Kotlin, utilizaremos el ecosistema **Jackson XML** (
 
 <span class="mis_ejemplos">Ejemplo 7: Lectura y escritura de ficheros XML</span>
 
-Partimos de un fichero llamado `mis_plantas.xml` en la carpeta `datos_ini/` con el siguiente contenido:
+Partimos de un fichero llamado `mis_plantas.xml` en la carpeta `datos/` con el siguiente contenido:
 
 ```xml
 <plantas>
@@ -760,10 +772,10 @@ data class PlantasWrapper(
 )
 
 fun main() {
-    val entradaXML = Path.of("datos_ini/mis_plantas.xml")
-    val salidaXML = Path.of("datos_ini/mis_plantas2.xml")
+    val entradaXML = Path.of("datos/mis_plantas.xml")
+    val salidaXML = Path.of("datos/mis_plantas2.xml")
 
-    val datos = leerDatosInicialesXML(entradaXML)
+    val datos = leerDatosXML(entradaXML)
     for (planta in datos) {
         println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Riego: cada ${planta.riego} días")
     }
@@ -771,7 +783,7 @@ fun main() {
     escribirDatosXML(salidaXML, datos)
 }
 
-fun leerDatosInicialesXML(ruta: Path): List<PlantaXML> {
+fun leerDatosXML(ruta: Path): List<PlantaXML> {
     val fichero = ruta.toFile()
     val xmlMapper = XmlMapper().registerKotlinModule()
     
@@ -808,19 +820,23 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
 
 
+!!! warning "Práctica 4: amplía tu proyecto"
+    En esta práctica añadiremos un fichero de datos en formato **CSV** y ampliaremos el menú con una opción para leer su contenido.
+
+    1. **Crea tu archivo XML**
+       Genera manualmente un archivo con extensión `.xml` con al menos 5 registros que cumplan con la estructura de tu *data class*. 
+    
+    2. **Amplia el menú con la opción 2 para leer el XML**
+
+    3. **Implementa la lectura del XML:**
+       Cuando el usuario seleccione la opción `2`, llama a una función dedicada (por ejemplo, `leerXML()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+
+    **Aspectos Técnicos Obligatorios:**
+      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
 
 
-FALTA
----
-
-> ### 🎯 Práctica 4: Creación de tu XML
-> **Realiza lo siguiente:**
-> 1.  Utiliza la clase de datos estructurada que definiste en la Práctica 3.
-> 2.  Crea un archivo con formato `.xml` con al menos 5 registros dentro de `datos_ini/`.
-> 3.  Replica el Ejemplo 7 adaptando las anotaciones `@JacksonXmlProperty` y la clase contenedora para que la lectura y escritura se ejecuten sin errores.
-
----
 
 <span class="mi_h3">4.3. JSON (JavaScript Object Notation)</span>
 
@@ -840,7 +856,7 @@ En Kotlin, se procesan usando la biblioteca oficial **kotlinx.serialization**, q
 
 <span class="mis_ejemplos">Ejemplo 8: Lectura y escritura de ficheros JSON</span>
 
-Partiremos de un archivo inicial llamado `mis_plantas.json` guardado en la carpeta `datos_ini/`:
+Partiremos de un archivo inicial llamado `mis_plantas.json` guardado en la carpeta `datos/`:
 
 ```json
 [
@@ -893,8 +909,8 @@ data class PlantaJSON(
 )
 
 fun main() {
-    val entradaJSON = Path.of("datos_ini/mis_plantas.json")
-    val salidaJSON = Path.of("datos_ini/mis_plantas2.json")
+    val entradaJSON = Path.of("datos/mis_plantas.json")
+    val salidaJSON = Path.of("datos/mis_plantas2.json")
 
     val datos = leerDatosInicialesJSON(entradaJSON)
     for (planta in datos) {
@@ -934,20 +950,26 @@ fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
     ```
 
 
+!!! warning "Práctica 5: amplía tu proyecto"
+    En esta práctica añadiremos un fichero de datos en formato **JSON** y ampliaremos el menú con una opción para leer su contenido.
+
+    1. **Crea tu archivo XJSON**
+       Genera manualmente un archivo con extensión `.json` con al menos 5 registros que cumplan con la estructura de tu *data class*. 
+    
+    2. **Amplia el menú**
+       Añade la opción 3 para leer el JSON**
+
+    3. **Implementa la lectura del JSON:**
+       Cuando el usuario seleccione la opción `3`, llama a una función dedicada (por ejemplo, `leerJSON()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+
+    **Aspectos Técnicos Obligatorios:**
+      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
 
 
 
-FALTA
----
 
-> ### 🎯 Práctica 5: Creación de tu JSON
-> **Realiza lo siguiente:**
-> 1.  Utiliza la clase de datos que implementaste previamente.
-> 2.  Crea un archivo con extensión `.json` de al menos 5 registros y almacénalo dentro de `datos_ini/`.
-> 3.  Adapta el código del Ejemplo 8 para que funcione correctamente con la serialización de tu nuevo fichero.
-
----
 
 <span class="mi_h3">4.4. Conversiones entre ficheros</span>
 
@@ -961,35 +983,34 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 
-FALTA
 
----
+!!! warning "Práctica 6: Amplía tu proyecto"
 
-> ### 🎯 Práctica 6: Elige tu fichero de datos
-> **Completa los siguientes pasos utilizando tu estructura temática:**
-> 1.  **Selecciona tu origen:** Elige un formato de archivo de origen (`.csv`, `.json` o `.xml`) a partir de los datos que construiste en prácticas pasadas.
-> 2.  **Define el destino:** Convierte el fichero original en cualquiera de las otras dos estructuras alternativas.
-> 3.  **Crea un método lector:** Programa una función dedicada para leer el fichero generado por la conversión que devuelva la estructura de colecciones tipada: `leerDatosIniciales(): List<TuClaseDeDatos>`.
-> 4.  **Verificación:** Muestra los resultados limpios del fichero transformado por la consola.
->
-> **Aspectos Técnicos Obligatorios:**
-> *   Utilización obligatoria de bloques estructurados de validación frente a fallas (controlar excepciones como `IOException` o `FileNotFoundException`).
+    1. **Amplia el menú con las siguientes opciones**
+       * Opción 4: convertir JSON a CSV
+       * Opción 5: convertir JSON a XML
+       * Opción 6: convertir XML a JSON 
+       * Opción 7: convertir XML a CSV
+       * Opción 8: convertir CSV a JSON
+       * Opción 9: convertir CSV a XML
 
----
+    2. **Implementa las opciones del punto anterior**
+       Cuando el usuario seleccione la opción del menú, llama a una función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino.
+
+    **Aspectos Técnicos Obligatorios:**
+      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
+      * Uso de las clases de `java.nio.file` (`Path` y `Files`) para toda la administración de rutas e interacciones de ficheros de texto.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
+      * **Verificación:** Muestra los resultados limpios del fichero transformado por la consola.
 
 
-FALTA
 
 
-## 📂 Entrega Parcial
+!!! danger "Entrega oarcial 1"
+    Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
 
-Comprime en un archivo `.zip` el código fuente de tu proyecto Kotlin configurado con Gradle y envíalo para la evaluación de las prácticas realizadas hasta el momento. Tu aplicación debe cumplir rigurosamente los siguientes aspectos básicos para poder ser calificada:
+    **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
 
-*   Configuración limpia y funcional de plugins y librerías en `build.gradle.kts`.
-*   El código debe contar con una única función `main()` que sirva de punto de arranque, y un árbol de subfunciones con nombres claros e intuitivos.
-*   Uso de las clases de `java.nio.file` (`Path` y `Files`) para toda la administración de rutas e interacciones de ficheros de texto.
-*   Gestión controlada del flujo ante errores comunes en entradas y salidas (E/S).
-*   Correcta serialización y deserialización demostrada en formatos **CSV, XML y JSON**.
 
 
 
