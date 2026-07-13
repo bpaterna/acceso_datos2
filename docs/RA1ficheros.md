@@ -125,7 +125,7 @@ Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) qu
 
 <span class="mis_ejemplos">Ejemplo 2</span>
 
-Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargarla desde el siguiente enlace: [muestras](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
+Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargar la del ejemplo desde el siguiente enlace: [muestras](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
 
 ```kotlin
 import java.nio.file.Files
@@ -241,7 +241,7 @@ Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferenc
 
 <span class="mis_ejemplos">Ejemplo 3:</span>
 
-Queremos crear un reporte visual de toda la estructura de nuestra carpeta de botánica tras haberla ordenado. Necesitamos listar cada una de las subcarpetas de clasificación (`jpg`, `txt`, `pdf`) y ver qué muestras hay dentro de cada una de ellas de forma jerárquica.
+Despues de clasificar nuestros archivos, queremos crear un listado para ver como ha quedado la estructura de nuestra carpeta `muestras`. Necesitamos listar cada una de las subcarpetas de clasificación (`jpg`, `txt`, `pdf`) y ver qué muestras hay dentro de cada una de ellas de forma jerárquica.
 
 ```kotlin
 import java.nio.file.Files
@@ -282,13 +282,19 @@ fun main() {
     ```text
     --- Estructura final del Herbario Digital con Files.walk() ---
     [CATEGORÍA] jpg
-        [MUESTRA] pino_albar.jpg
-        [MUESTRA] rosa_silvestre.jpg
+        [MUESTRA] 20191101_071830.jpg
+        [MUESTRA] 20191106_071048.jpg
+    [CATEGORÍA] mp3
+        [MUESTRA] dark-cinematic-atmosphere.mp3
+        [MUESTRA] pad-harmonious-and-soothing-voice-like-background.mp3
+    [CATEGORÍA] mp4
+        [MUESTRA] 293968_small.mp4
     [CATEGORÍA] pdf
-        [MUESTRA] estudio_taxonomico_orquideas.pdf
+        [MUESTRA] lorem-ipsum-1.pdf
+        [MUESTRA] lorem-ipsum-2.pdf
     [CATEGORÍA] txt
-        [MUESTRA] guia_cuidados_helecho.txt
-        [MUESTRA] propiedades_manzanilla.txt
+        [MUESTRA] arbusto.txt
+        [MUESTRA] flor.txt
     ```
 
 
