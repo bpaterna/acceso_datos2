@@ -127,6 +127,9 @@ Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) qu
 
 Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargar la del ejemplo desde el siguiente enlace: [muestras](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
 
+> **Ubicación de la carpeta `muestras`:** La carpeta debe estar ubicada en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+
+
 ```kotlin
 import java.nio.file.Files
 import java.nio.file.Path
@@ -669,7 +672,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     ```
 
 
-!!! warning "Práctica 3: crea la base de tu proyecto"
+!!! warning "Práctica 1: crea la base de tu proyecto"
     En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos un menú interactivo por consola que servirá como esqueleto para las fases posteriores del proyecto.
 
     **Realiza los siguientes pasos:**
@@ -682,7 +685,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         * Un nombre descriptivo (`String`).
         * Al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
     3. **Crea tu fichero de datos inicial:**
-       Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos/` de tu proyecto.
+       Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos` de tu proyecto. Recuerda que debes crear esta carpeta en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
     4. **Crea un menú de consola interactivo:**
        Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y pinte un menú en la terminal con las siguientes opciones:
         * `1. Leer datos desde CSV`
@@ -692,7 +695,9 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
        Asegúrate de que la aplicación sea robusta. Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a pintar las opciones sin detener su ejecución.
     6. **Implementa la lectura del CSV:**
        Cuando el usuario seleccione la opción `1`, llama a una función dedicada (por ejemplo, `leerCSV()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+
     **Aspectos Técnicos Obligatorios:**
+
         * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
         * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
@@ -832,7 +837,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
 
 
-!!! warning "Práctica 4: amplía tu proyecto"
+!!! warning "Práctica 2: amplía tu proyecto"
     En esta práctica añadiremos un fichero de datos en formato **CSV** y ampliaremos el menú con una opción para leer su contenido.
 
     1. **Crea tu archivo XML**
@@ -844,6 +849,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
        Cuando el usuario seleccione la opción `2`, llama a una función dedicada (por ejemplo, `leerXML()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
+
       * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
       * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
@@ -962,7 +968,7 @@ fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
     ```
 
 
-!!! warning "Práctica 5: amplía tu proyecto"
+!!! warning "Práctica 3: amplía tu proyecto"
     En esta práctica añadiremos un fichero de datos en formato **JSON** y ampliaremos el menú con una opción para leer su contenido.
 
     1. **Crea tu archivo XJSON**
@@ -975,6 +981,7 @@ fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
        Cuando el usuario seleccione la opción `3`, llama a una función dedicada (por ejemplo, `leerJSON()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
+
       * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
       * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
