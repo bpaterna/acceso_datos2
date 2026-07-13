@@ -98,7 +98,7 @@ fun main() {
 
     ```text
     Ruta relativa: muestras\orquidea.jpg
-    Ruta absoluta: F:\bio-proyecto\muestras\orquidea.jpg
+    Ruta absoluta: D:\kot\ficheros\muestras\orquidea.jpg
     Ruta absoluta Windows: C:\Herbario\Especies\Helechos
     Ruta absoluta Linux: \home\botanico\jardin\flora_mediterranea
     ```
@@ -125,7 +125,7 @@ Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) qu
 
 <span class="mis_ejemplos">Ejemplo 2</span>
 
-Imagina que tenemos una carpeta llamada `muestras_desordenadas` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden. Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
+Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargarla desde el siguiente enlace: [muestras](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
 
 ```kotlin
 import java.nio.file.Files
@@ -135,7 +135,7 @@ import kotlin.io.path.extension // Extensión de Kotlin para obtener la extensi�
 
 fun main() {
     // 1. Ruta de la carpeta de muestras botánicas a organizar
-    val carpeta = Path.of("muestras_desordenadas")
+    val carpeta = Path.of("muestras")
     
     println("--- Iniciando la clasificación botánica en la carpeta: " + carpeta + " ---")
     try {
@@ -181,15 +181,21 @@ fun main() {
     Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
-    --- Iniciando la clasificación botánica en la carpeta: muestras_desordenadas ---
-    -> Creando nueva sección para archivos: .jpg
-    -> Clasificando rosa_silvestre.jpg en la carpeta [.jpg]
-    -> Clasificando pino_albar.jpg en la carpeta [.jpg]
+    --- Iniciando la clasificación botánica en la carpeta: muestras ---
     -> Creando nueva sección para archivos: .txt
-    -> Clasificando propiedades_manzanilla.txt en la carpeta [.txt]
-    -> Clasificando guia_cuidados_helecho.txt en la carpeta [.txt]
+    -> Clasificando flor.txt en la carpeta [.txt]
+    -> Clasificando arbusto.txt en la carpeta [.txt]
+    -> Creando nueva sección para archivos: .jpg
+    -> Clasificando 20191106_071048.jpg en la carpeta [.jpg]
+    -> Clasificando 20191101_071830.jpg en la carpeta [.jpg]
+    -> Creando nueva sección para archivos: .mp3
+    -> Clasificando pad-harmonious-and-soothing-voice-like-background.mp3 en la carpeta [.mp3]
+    -> Clasificando dark-cinematic-atmosphere.mp3 en la carpeta [.mp3]
+    -> Creando nueva sección para archivos: .mp4
+    -> Clasificando 293968_small.mp4 en la carpeta [.mp4]
     -> Creando nueva sección para archivos: .pdf
-    -> Clasificando estudio_taxonomico_orquideas.pdf en la carpeta [.pdf]
+    -> Clasificando lorem-ipsum-1.pdf en la carpeta [.pdf]
+    -> Clasificando lorem-ipsum-2.pdf en la carpeta [.pdf]
     
     --- ¡Clasificación del herbario completada con éxito! ---
     ```
@@ -242,7 +248,7 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 fun main() {
-    val carpetaPrincipal = Path.of("muestras_desordenadas")
+    val carpetaPrincipal = Path.of("muestras")
     
     println("--- Estructura final del Herbario Digital con Files.walk() ---")
     try {
@@ -1006,7 +1012,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 
-!!! danger "Entrega oarcial 1"
+!!! danger "Entrega parcial"
     Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
 
     **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
