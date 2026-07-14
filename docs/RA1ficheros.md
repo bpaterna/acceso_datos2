@@ -1027,35 +1027,46 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 
-
-!!! warning "Práctica 6: Amplía tu proyecto"
+!!! warning "Práctica 4: Amplía tu proyecto"
 
     1. **Amplia el menú con las siguientes opciones**
-       * Opción 4: convertir JSON a CSV
-       * Opción 5: convertir JSON a XML
-       * Opción 6: convertir XML a JSON 
-       * Opción 7: convertir XML a CSV
-       * Opción 8: convertir CSV a JSON
-       * Opción 9: convertir CSV a XML
 
-    2. **Implementa las opciones del punto anterior**
-       Cuando el usuario seleccione la opción del menú, llama a una función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino.
+        ```text
+        --------------------------------------        
+        -------- MENÚ DE LA PLICACIÓN --------
+        --------------------------------------
+        1. Leer datos desde CSV
+        2. Leer datos desde XML
+        3. Leer datos desde JSON
+        4. Convertir JSON a CSV
+        5. Convertir JSON a XML
+        6. Convertir XML a JSON 
+        7. Convertir XML a CSV
+        8. Convertir CSV a JSON
+        9. Convertir CSV a XML
+        0. Salir
+        ```
+
+    2. **Implementa las nuevas opciones de menú: ** Cuando el usuario seleccione la opción del menú, llama a la función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino (guarda el fichero de conversión con un nombre distintos a los utilizados anteriormente).
 
     **Aspectos Técnicos Obligatorios:**
-      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
-      * Uso de las clases de `java.nio.file` (`Path` y `Files`) para toda la administración de rutas e interacciones de ficheros de texto.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
-      * **Verificación:** Muestra los resultados limpios del fichero transformado por la consola.
+
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
 
 !!! danger "Entrega parcial"
-    Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
+    Entrega en Aules un único archivo comprimido en formato `.zip` que contenga la carpeta `src` y la carpeta `datos` de tu proyecto.
 
-    **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+    **IMPORTANTE**: 
+      * El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
 
+      * No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
+      * Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
 
 
