@@ -1027,7 +1027,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 
-!!! warning "Práctica 4: Amplía tu proyecto"
+!!! warning "Práctica 4: amplía tu proyecto"
 
     1. **Amplia el menú con las siguientes opciones:**
 
@@ -1061,7 +1061,8 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 !!! danger "Entrega parcial"
     Entrega en Aules un único archivo comprimido en formato `.zip` que contenga la carpeta `src` y la carpeta `datos` de tu proyecto.
 
-    **IMPORTANTE**: 
+    **IMPORTANTE:**
+
       * El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
 
       * No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
