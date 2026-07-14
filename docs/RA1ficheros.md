@@ -44,7 +44,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 * Es el más común y sencillo.
 * Se usa cuando se desea leer todo el contenido o recorrer registro por registro. Por ejemplo: lectura de un catálogo de plantas línea por línea, o de un fichero binario de taxonomía registro a registro.
 
-![Imagen 1](img/ficheros1.jpg){ width="300" }
+![Imagen 1](img/ficheros1.jpg)
 
 **Acceso aleatorio**
 
@@ -53,7 +53,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 * Requiere técnicas más avanzadas como el uso de `FileChannel`, `SeekableByteChannel` o `RandomAccessFile`.
 
 
-![Imagen 2](img/ficheros2.jpg){ width="300" }
+![Imagen 2](img/ficheros2.jpg)
 
 
 ## 2. Gestión de ficheros y directorios
@@ -475,7 +475,7 @@ Partimos de un fichero llamado `plantas.csv` almacenado dentro de la carpeta `da
 5;Girasol;Helianthus annuus;2;3.0
 ```
 
-Como puedes observar el carácter delimitador que separa los campos del CSV es un punto y coma (`;`) y los campos representan la estructura de una planta:
+Como puedes observar el carácter delimitador que separa los campos del CSV es un punto y coma (`;`) y los campos que representan la estructura de una planta son los siguientes:
 
 *   `id_planta` (Int)
 *   `nombre_comun` (String)
@@ -487,13 +487,9 @@ Como puedes observar el carácter delimitador que separa los campos del CSV es u
 > Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv}) y ubicarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
 
 
-Para que nuestra aplicación utilice las funciones de la librería **Kotlin-CSV** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
+Para que nuestra aplicación pueda utilizar las funciones de la librería **Kotlin-CSV** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
 
 ```kotlin
-plugins {
-    kotlin("jvm") version "1.9.0"
-}
-
 dependencies {
     implementation("com.github.doyaaaaaken:kotlin-csv-jvm:1.9.1")
 }
@@ -618,17 +614,24 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     **Realiza los siguientes pasos:**
 
     1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
-    2. **Diseña tu data class:** Define una clase de datos (*data class*) en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
-    3. **Crea tu fichero de datos inicial:** Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos` de tu proyecto. Recuerda que debes crear esta carpeta en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
-    4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y pinte un menú en la terminal con las siguientes opciones:
-        * `1. Leer datos desde CSV`
-        * `0. Salir`
-    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función dedicada (por ejemplo, `leerCSV()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
+    3. **Crea tu fichero de datos inicial:** Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+    4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y muestre un menú en la consola con las siguientes opciones:
+
+        ```text
+        --------------------------------------        
+        -------- MENÚ DE LA PLICACIÓN --------
+        --------------------------------------
+        1. Leer datos desde CSV
+        0. Salir
+        ```
+
+    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función llamada, por ejemplo, `leerCSV()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
 
       * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). 
-      * **Valida la entrada del usuario:** Asegúrate de que la aplicación sea robusta. Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a pintar las opciones sin detener su ejecución.
+      * **Valida la entrada del usuario:** Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
       * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
       * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
