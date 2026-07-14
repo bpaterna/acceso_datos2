@@ -1059,7 +1059,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 !!! danger "Entrega parcial"
-    Entrega en Aules un único archivo comprimido en formato `.zip` que contenga la carpeta `src` y la carpeta `datos` de tu proyecto.
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
 
     **IMPORTANTE:**
 
