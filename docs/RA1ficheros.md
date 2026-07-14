@@ -73,7 +73,7 @@ Representa una **ruta** en el sistema de ficheros (ej. `/home/botanico/rosa.png`
 
 <span class="mis_ejemplos">Ejemplo 1</span>
 
-El siguiente código demuestra cómo crear y mostrar distintos tipos de rutas (no el acceso a los ficheros o directorios):
+El siguiente código demuestra cómo crear y mostrar distintos tipos de rutas (no intenta acceder a los ficheros o directorios, por tanto pueden existir o no):
 
 ```kotlin
 import java.nio.file.Path
@@ -131,9 +131,9 @@ Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) qu
 
 <span class="mis_ejemplos">Ejemplo 2</span>
 
-Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargar la carpeta del ejemplo comprimida desde el siguiente enlace: [muestras.zip](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
+Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden. Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
 
-> **Ubicación de la carpeta `muestras`:** La carpeta debe estar ubicada en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+> Puedes descargar la carpeta del ejemplo comprimida desde el siguiente enlace: [muestras.zip](recursos/muestras.zip){:muestras.zip}). La carpeta debe estar ubicada en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
 
 
 ```kotlin
@@ -255,7 +255,7 @@ Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferenc
 
 <span class="mis_ejemplos">Ejemplo 3:</span>
 
-Despues de clasificar nuestros archivos, queremos crear un listado para ver como ha quedado la estructura de nuestra carpeta `muestras`. Necesitamos listar cada una de las subcarpetas de clasificación (`jpg`, `txt`, `pdf`) y ver qué muestras hay dentro de cada una de ellas de forma jerárquica.
+Despues de clasificar nuestros archivos, queremos crear un listado para ver como ha quedado la estructura de nuestra carpeta `muestras`. Necesitamos listar cada una de las subcarpetas de clasificación y ver qué muestras hay dentro de cada una de ellas de forma jerárquica.
 
 ```kotlin
 import java.nio.file.Path
@@ -335,11 +335,13 @@ Los ficheros de texto son legibles directamente por humanos y son una buena opci
 | `Files.newBufferedReader(Path)` <br> `Files.newBufferedWriter(Path)` | Métodos más eficientes para el manejo de ficheros grandes mediante búferes de memoria. |
 | `Files.readString(Path)` <br> `Files.writeString(Path, String)` | Permite realizar la lectura o escritura completa del contenido del fichero como un único bloque de texto (disponible desde Java 11+). |
 
-Dentro de los ficheros de texto existen **ficheros de texto plano** (sin ningún tipo de estructura interna) y **ficheros de texto estructurado** en los que la información sigue una organización predecible (como CSV, JSON o XML).
+Dentro de los ficheros de texto existen **ficheros de texto plano** (sin ningún tipo de estructura interna) como los TXT y **ficheros de texto estructurado** (en los que la información sigue una organización) como pueden ser CSV, JSON o XML.
 
 
 
-<span class="mis_ejemplos">Ejemplo 4: Escritura y lectura de ficheros de texto plano `.txt`</span>
+<span class="mis_ejemplos">Ejemplo 4: Escritura y lectura de ficheros de texto plano</span>
+
+El siguiente ejemplo muestra como leer y escribir información en un ficheros de texto plano `.txt`.
 
 ```kotlin
 import java.nio.file.Files
@@ -449,19 +451,6 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 
 **Métodos principales de Kotlin-CSV:**
 
-| Método | Ejemplo de uso |
-| :--- | :--- |
-| `readAll(File)` | `val filas = csvReader().readAll(File("plantas.csv"))` |
-| `readAllWithHeader(File)` | `val datos = csvReader().readAllWithHeader(File("plantas.csv"))` |
-| `open { readAllAsSequence() }` | `csvReader().open("plantas.csv") { readAllAsSequence().forEach { println(it) } }` |
-| `writeAll(data, File)` | `csvWriter().writeAll(listOf(listOf("Aloe Vera", "0.6")), File("salida.csv"))` |
-| `writeRow(row, File)` | `csvWriter().writeRow(listOf("Lavanda", "1.0"), File("salida.csv"))` |
-| `writeAllWithHeader(data, File)` | `csvWriter().writeAllWithHeader(listOf(mapOf("nombre" to "Girasol", "altura" to "3.0")), File("salida.csv"))` |
-| Configuración de delimitador | `csvReader { delimiter = ';' }` |
-
-
-
-
 | Método | Descripción | Ejemplo de uso |
 | :--- | :--- | :--- |
 | `readAll(File)` | Lee todo el fichero CSV y devuelve una lista de listas de cadenas (`List<List<String>>`), donde cada sublista representa una fila. | `val filas = csvReader().readAll(File("plantas.csv"))` |
@@ -476,7 +465,7 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 
 <span class="mis_ejemplos">Ejemplo 6: Lectura y escritura de ficheros CSV</span>
 
-Partimos de un fichero de datos inicial llamado `mis_plantas.csv` almacenado dentro de la carpeta `datos/` con el siguiente formato delimitado por punto y coma (`;`):
+Partimos de un fichero llamado `plantas.csv` almacenado dentro de la carpeta `datos` de nuestro proyecto con la siguiente información:
 
 ```text
 1;Aloe Vera;Aloe barbadensis miller;7;0.6
@@ -486,7 +475,7 @@ Partimos de un fichero de datos inicial llamado `mis_plantas.csv` almacenado den
 5;Girasol;Helianthus annuus;2;3.0
 ```
 
-Donde los campos representan la estructura de una entidad botánica:
+Como puedes observar el carácter delimitador que separa los campos del CSV es un punto y coma (`;`) y los campos representan la estructura de una planta:
 
 *   `id_planta` (Int)
 *   `nombre_comun` (String)
@@ -494,7 +483,11 @@ Donde los campos representan la estructura de una entidad botánica:
 *   `riego` (Int - frecuencia en días)
 *   `altura` (Double - altura máxima en metros)
 
-**Configuración de dependencias en `build.gradle.kts`:**
+
+> Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv}) y ubicarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+
+
+Para que nuestra aplicación utilice las funciones de la librería **Kotlin-CSV** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
 
 ```kotlin
 plugins {
@@ -506,7 +499,7 @@ dependencies {
 }
 ```
 
-**Código fuente en Kotlin:**
+Y el código fuente del archivo `Main.kt`es el siguiente:
 
 ```kotlin
 import java.nio.file.Files
@@ -517,42 +510,42 @@ import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 
 // Data class que modela la estructura de la planta
 data class Planta(
-    val idPlanta: Int, 
-    val nombreComun: String, 
-    val nombreCientifico: String, 
-    val riego: Int, 
+    val idPlanta: Int,
+    val nombreComun: String,
+    val nombreCientifico: String,
+    val riego: Int,
     val altura: Double
 )
 
 fun main() {
-    val entradaCSV = Path.of("datos/mis_plantas.csv")
-    val salidaCSV = Path.of("datos/mis_plantas2.csv")
-    
-    // Leer los datos estructurados del CSV
+    val entradaCSV = Path.of("datos/plantas.csv")
+    val salidaCSV = Path.of("datos/plantas2.csv")
+
+    // Leer los datos estructurados del CSV y guardarlos en una lista de objetos Planta
     val datos: List<Planta> = leerDatosCSV(entradaCSV)
-    
+
     // Mostrar por consola la información deserializada
     for (dato in datos) {
         println(" - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Riego: cada ${dato.riego} días, Altura: ${dato.altura}m")
     }
-    
+
     // Guardar una copia procesada en un nuevo fichero CSV
-    escribirDatosCSV(salidaCSV, datos)
+    escribirCSV(salidaCSV, datos)
 }
 
 fun leerDatosCSV(ruta: Path): List<Planta> {
     var plantas: List<Planta> = emptyList()
-    
+
     if (!Files.isReadable(ruta)) {
         println("Error: No se puede leer el fichero en la ruta: $ruta")
     } else {
         val reader = csvReader {
             delimiter = ';'
         }
-        
+
         // Leemos todas las filas del CSV (devuelve List<List<String>>)
         val filas: List<List<String>> = reader.readAll(ruta.toFile())
-        
+
         // Convertimos las filas de texto en objetos Planta válidos
         plantas = filas.mapNotNull { columnas ->
             if (columnas.size >= 5) {
@@ -573,6 +566,7 @@ fun leerDatosCSV(ruta: Path): List<Planta> {
             }
         }
     }
+    println("\nInformación leída con éxito de: $ruta")
     return plantas
 }
 
@@ -598,6 +592,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         println("Error al escribir el fichero CSV: ${e.message}")
     }
 }
+
 ```
 
 
@@ -606,38 +601,36 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
-    FALTA
+    --- Información leída con éxito de: datos\plantas.csv
+    --- Información de la lista de objetos Planta
+    - ID: 1, Nombre común: Aloe Vera, Cientéfico: Aloe barbadensis miller, Riego: cada 7 días, Altura: 0.6m
+    - ID: 2, Nombre común: Lavanda, Cientéfico: Lavandula angustifolia, Riego: cada 3 días, Altura: 1.0m
+    - ID: 3, Nombre común: Helecho de Boston, Cientéfico: Nephrolepis exaltata, Riego: cada 5 días, Altura: 0.9m
+    - ID: 4, Nombre común: Bambú de la suerte, Cientéfico: Dracaena sanderiana, Riego: cada 4 días, Altura: 1.5m
+    - ID: 5, Nombre común: Girasol, Cientéfico: Helianthus annuus, Riego: cada 2 días, Altura: 3.0m
+    --- Información guardada con éxito en: datos\plantas2.csv
     ```
 
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
-    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos un menú interactivo por consola que servirá como esqueleto para las fases posteriores del proyecto.
+    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos un menú para que el usuario interactúe con la aplicación por consola. A medida que avancemos iremos añadiendo funciones a este proyecto.
 
     **Realiza los siguientes pasos:**
 
-    1. **Crea tu proyecto:**
-       Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
-    2. **Diseña tu data class:**
-       Define una clase de datos (*data class*) en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente:
-        * Un identificador único o ID (`Int`).
-        * Un nombre descriptivo (`String`).
-        * Al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
-    3. **Crea tu fichero de datos inicial:**
-       Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos` de tu proyecto. Recuerda que debes crear esta carpeta en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
-    4. **Crea un menú de consola interactivo:**
-       Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y pinte un menú en la terminal con las siguientes opciones:
+    1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
+    2. **Diseña tu data class:** Define una clase de datos (*data class*) en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
+    3. **Crea tu fichero de datos inicial:** Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de la carpeta `datos` de tu proyecto. Recuerda que debes crear esta carpeta en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+    4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y pinte un menú en la terminal con las siguientes opciones:
         * `1. Leer datos desde CSV`
         * `0. Salir`
-        * *El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0).*
-    5. **Valida la entrada del usuario:**
-       Asegúrate de que la aplicación sea robusta. Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a pintar las opciones sin detener su ejecución.
-    6. **Implementa la lectura del CSV:**
-       Cuando el usuario seleccione la opción `1`, llama a una función dedicada (por ejemplo, `leerCSV()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función dedicada (por ejemplo, `leerCSV()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
 
-        * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-        * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). 
+      * **Valida la entrada del usuario:** Asegúrate de que la aplicación sea robusta. Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a pintar las opciones sin detener su ejecución.
+      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
@@ -787,7 +780,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
        Cuando el usuario seleccione la opción `2`, llama a una función dedicada (por ejemplo, `leerXML()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
-
+        
       * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
       * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
