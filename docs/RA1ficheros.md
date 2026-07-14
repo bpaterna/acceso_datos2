@@ -451,19 +451,19 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 
 **Métodos principales de Kotlin-CSV:**
 
-| Método | Descripción | Ejemplo de uso |
-| :--- | :--- | :--- |
-| `readAll(File)` | Lee todo el fichero CSV y devuelve una lista de listas de cadenas (`List<List<String>>`), donde cada sublista representa una fila. | `val filas = csvReader().readAll(File("plantas.csv"))` |
-| `readAllWithHeader(File)` | Lee el fichero CSV utilizando la primera línea como cabecera. Devuelve una lista de mapas (`List<Map<String, String>>`), ideal para acceder a los valores por el nombre de su columna. | `val datos = csvReader().readAllWithHeader(File("plantas.csv"))` |
-| `open { readAllAsSequence() }` | Abre el archivo y procesa las filas como una secuencia (`Sequence`). Es el método más eficiente y recomendado para ficheros CSV de gran tamaño, ya que no carga todo el contenido en memoria de golpe. | `csvReader().open("plantas.csv") { readAllAsSequence().forEach { println(it) } }` |
-| `writeAll(data, File)` | Escribe una colección completa de filas (lista de listas de cadenas) en el fichero CSV de una sola vez. | `csvWriter().writeAll(listOf(listOf("Aloe Vera", "0.6")), File("salida.csv"))` |
-| `writeRow(row, File)` | Escribe una única fila (lista de cadenas) al final del fichero CSV indicado. | `csvWriter().writeRow(listOf("Lavanda", "1.0"), File("salida.csv"))` |
-| `writeAllWithHeader(data, File)` | Escribe los datos en el fichero CSV generando automáticamente una fila de cabecera en base a las claves del mapa proporcionado. | `csvWriter().writeAllWithHeader(listOf(mapOf("nombre" to "Girasol", "altura" to "3.0")), File("salida.csv"))` |
-| Configuración de delimitador | Permite personalizar el carácter delimitador que separa los campos del CSV (por defecto es la coma `,`, pero se puede cambiar a punto y coma `;`, tabulador, etc.). | `csvReader { delimiter = ';' }` |
+| Método | Descripción                                                                                                                                                                                            | Ejemplo de uso |
+| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :--- |
+| `readAll(File)` | Lee todo el fichero CSV y devuelve una lista de listas de cadenas (`List<List<String>>`), donde cada sublista representa una fila.                                                                     |
+| `readAllWithHeader(File)` | Lee el fichero CSV utilizando la primera línea como cabecera. Devuelve una lista de mapas (`List<Map<String, String>>`), ideal para acceder a los valores por el nombre de su columna.                 |
+| `open { readAllAsSequence() }` | Abre el archivo y procesa las filas como una secuencia (`Sequence`). Es el método más eficiente y recomendado para ficheros CSV de gran tamaño, ya que no carga todo el contenido en memoria de golpe. |
+| `writeAll(data, File)` | Escribe una colección completa de filas (lista de listas de cadenas) en el fichero CSV de una sola vez.                                                                                                |
+| `writeRow(row, File)` | Escribe una única fila (lista de cadenas) al final del fichero CSV indicado.                                                                                                                           |
+| `writeAllWithHeader(data, File)` | Escribe los datos en el fichero CSV generando automáticamente una fila de cabecera en base a las claves del mapa proporcionado.                                                                        |
+| `delimiter` | Permite personalizar el carácter delimitador que separa los campos del CSV (por defecto es la coma `,`, pero se puede cambiar. Ejemplo: `csvReader { delimiter = ';' }`                                |
 
 
 
-<span class="mis_ejemplos">Ejemplo 6: Lectura y escritura de ficheros CSV</span>
+<span class="mis_ejemplos">Ejemplo 5: Lectura y escritura de ficheros CSV</span>
 
 Partimos de un fichero llamado `plantas.csv` almacenado dentro de la carpeta `datos` de nuestro proyecto con la siguiente información:
 
@@ -484,10 +484,10 @@ Como puedes observar el carácter delimitador que separa los campos del CSV es u
 *   `altura` (Double - altura máxima en metros)
 
 
-> Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv}) y ubicarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+> Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
 
 
-Para que nuestra aplicación pueda utilizar las funciones de la librería **Kotlin-CSV** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
+Para que nuestra aplicación pueda utilizar las funciones de la librería **Kotlin-CSV** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Esta es la línea que hay que añadir:
 
 ```kotlin
 dependencies {
@@ -630,8 +630,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). 
-      * **Valida la entrada del usuario:** Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
       * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
       * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
