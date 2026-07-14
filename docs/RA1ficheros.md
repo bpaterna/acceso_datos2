@@ -1029,7 +1029,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 !!! warning "Práctica 4: Amplía tu proyecto"
 
-    1. **Amplia el menú con las siguientes opciones**
+    1. **Amplia el menú con las siguientes opciones:**
 
         ```text
         --------------------------------------        
@@ -1047,7 +1047,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
         0. Salir
         ```
 
-    2. **Implementa las nuevas opciones de menú: ** Cuando el usuario seleccione la opción del menú, llama a la función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino (guarda el fichero de conversión con un nombre distintos a los utilizados anteriormente).
+    2. **Implementa las nuevas opciones de menú:** Cuando el usuario seleccione la opción del menú, llama a la función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino (guarda el fichero de conversión con un nombre distintos a los utilizados anteriormente).
 
     **Aspectos Técnicos Obligatorios:**
 
