@@ -73,22 +73,28 @@ Representa una **ruta** en el sistema de ficheros (ej. `/home/botanico/rosa.png`
 
 <span class="mis_ejemplos">Ejemplo 1</span>
 
+El siguiente código demuestra cómo crear y mostrar distintos tipos de rutas (no el acceso a los ficheros o directorios):
+
 ```kotlin
 import java.nio.file.Path
 
 fun main() {
+    rutas()
+}
+
+fun rutas() {
     // Path relativo al directorio del proyecto (carpeta de muestras)
     val rutaRelativa: Path = Path.of("muestras", "orquidea.jpg")
-    
+
     // Path absoluto en Windows
     val rutaAbsolutaWin: Path = Path.of("C:", "Herbario", "Especies", "Helechos")
-    
+
     // Path absoluto en Linux/macOS
     val rutaAbsolutaNix: Path = Path.of("/home/botanico/jardin/flora_mediterranea")
-    
+
     println("Ruta relativa: " + rutaRelativa) // Muestra la ruta relativa
     println("Ruta absoluta: " + rutaRelativa.toAbsolutePath()) // Ruta completa
-    println("Ruta absoluta Windows: " + rutaAbsolutaWin) 
+    println("Ruta absoluta Windows: " + rutaAbsolutaWin)
     println("Ruta absoluta Linux: " + rutaAbsolutaNix)
 }
 ```
@@ -125,21 +131,26 @@ Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) qu
 
 <span class="mis_ejemplos">Ejemplo 2</span>
 
-Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargar la del ejemplo desde el siguiente enlace: [muestras](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
+Partimos de una carpeta llamada `muestras` donde guardamos fotos, descripciones de texto y registros de audio de la naturaleza sin ningún orden (puedes descargar la carpeta del ejemplo comprimida desde el siguiente enlace: [muestras.zip](recursos/muestras.zip){:muestras.zip}). Este programa organizará automáticamente los archivos en subcarpetas según su formato (extensión) para que el herbario quede perfectamente estructurado.
 
 > **Ubicación de la carpeta `muestras`:** La carpeta debe estar ubicada en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
 
 
 ```kotlin
-import java.nio.file.Files
+
 import java.nio.file.Path
+import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 import kotlin.io.path.extension // Extensión de Kotlin para obtener la extensión
 
 fun main() {
+    organizar()
+}
+
+fun organizar(){
     // 1. Ruta de la carpeta de muestras botánicas a organizar
     val carpeta = Path.of("muestras")
-    
+
     println("--- Iniciando la clasificación botánica en la carpeta: " + carpeta + " ---")
     try {
         // 2. Recorrer la carpeta desordenada y utilizar .use para asegurar el cierre de recursos
@@ -147,23 +158,23 @@ fun main() {
             streamDePaths.forEach { pathFichero ->
                 // 3. Solo nos interesan los ficheros de muestras, ignoramos subcarpetas
                 if (Files.isRegularFile(pathFichero)) {
-                    
+
                     // 4. Obtener la extensión del fichero (ej: "jpg", "txt", "mp3")
                     val extension = pathFichero.extension.lowercase()
                     if (extension.isBlank()) {
                         println("-> Ignorando archivo sin tipo: " + pathFichero.fileName)
                         return@forEach // Salta a la siguiente muestra
                     }
-                    
+
                     // 5. Crear la ruta de destino dentro de la carpeta correspondiente
                     val carpetaDestino = carpeta.resolve(extension)
-                    
+
                     // 6. Crear el directorio de destino de la categoría si no existe
                     if (Files.notExists(carpetaDestino)) {
                         println("-> Creando nueva sección para archivos: ." + extension)
                         Files.createDirectories(carpetaDestino)
                     }
-                    
+
                     // 7. Mover la muestra botánica a su nueva ubicación clasificada
                     val pathDestino = carpetaDestino.resolve(pathFichero.fileName)
                     Files.move(pathFichero, pathDestino, StandardCopyOption.REPLACE_EXISTING)
@@ -247,12 +258,16 @@ Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferenc
 Despues de clasificar nuestros archivos, queremos crear un listado para ver como ha quedado la estructura de nuestra carpeta `muestras`. Necesitamos listar cada una de las subcarpetas de clasificación (`jpg`, `txt`, `pdf`) y ver qué muestras hay dentro de cada una de ellas de forma jerárquica.
 
 ```kotlin
-import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Files
 
 fun main() {
+    listado()
+}
+
+fun listado(){
     val carpetaPrincipal = Path.of("muestras")
-    
+
     println("--- Estructura final del Herbario Digital con Files.walk() ---")
     try {
         Files.walk(carpetaPrincipal).use { stream ->
@@ -262,10 +277,10 @@ fun main() {
                 // Restamos el número de componentes de la ruta base para que la raíz no tenga sangrado
                 val profundidad = path.nameCount - carpetaPrincipal.nameCount
                 val indentacion = "\t".repeat(profundidad)
-                
+
                 // Determinamos si es una sección (categoría/directorio) o un registro (fichero)
                 val prefijo = if (Files.isDirectory(path)) "[CATEGORÍA]" else "[MUESTRA]"
-                
+
                 // No imprimimos la propia carpeta raíz, solo su contenido clasificado
                 if (profundidad > 0) {
                     println("$indentacion$prefijo ${path.fileName}")
@@ -284,20 +299,20 @@ fun main() {
 
     ```text
     --- Estructura final del Herbario Digital con Files.walk() ---
-    [CATEGORÍA] jpg
-        [MUESTRA] 20191101_071830.jpg
-        [MUESTRA] 20191106_071048.jpg
-    [CATEGORÍA] mp3
-        [MUESTRA] dark-cinematic-atmosphere.mp3
-        [MUESTRA] pad-harmonious-and-soothing-voice-like-background.mp3
-    [CATEGORÍA] mp4
-        [MUESTRA] 293968_small.mp4
-    [CATEGORÍA] pdf
-        [MUESTRA] lorem-ipsum-1.pdf
-        [MUESTRA] lorem-ipsum-2.pdf
-    [CATEGORÍA] txt
-        [MUESTRA] arbusto.txt
-        [MUESTRA] flor.txt
+        [CATEGORÍA] jpg
+            [MUESTRA] 20191101_071830.jpg
+            [MUESTRA] 20191106_071048.jpg
+        [CATEGORÍA] mp3
+            [MUESTRA] dark-cinematic-atmosphere.mp3
+            [MUESTRA] pad-harmonious-and-soothing-voice-like-background.mp3
+        [CATEGORÍA] mp4
+            [MUESTRA] 293968_small.mp4
+        [CATEGORÍA] pdf
+            [MUESTRA] lorem-ipsum-1.pdf
+            [MUESTRA] lorem-ipsum-2.pdf
+        [CATEGORÍA] txt
+            [MUESTRA] arbusto.txt
+            [MUESTRA] flor.txt
     ```
 
 
@@ -328,49 +343,59 @@ Dentro de los ficheros de texto existen **ficheros de texto plano** (sin ningún
 
 ```kotlin
 import java.nio.file.Files
-import java.nio.file.Paths
 import java.nio.charset.StandardCharsets
 
 fun main() {
-    // 1. Escritura rápida en un fichero de texto con writeString
-    val anotacionRapida = "Muestra de Helecho de Java recolectada en el invernadero principal."
-    Files.writeString(Paths.get("documentos/anotacion.txt"), anotacionRapida)
+    textoPlano()
+}
 
-    // 2. Escritura de múltiples líneas en un fichero de texto con Files.write
-    val rutaCuidados = Paths.get("documentos/cuidados_orquideas.txt")
-    val lineasGuia = listOf(
-        "1. Regar únicamente cuando las raíces se observen de color grisáceo.",
+
+fun textoPlano(){
+
+    // Ruta del fichero con el que vamos a trabajar
+    val ruta = Path.of("muestras2/anotacion.txt")
+
+    Files.createDirectories(ruta.parent) // Crea la carpeta "muestras" si no existe
+
+    // Escritura de una línea writeString (si el archivo no existe lo crea y si existe lo vacía
+    val anotacion = "Muestra de Helecho de Java recolectada en el invernadero principal."
+    Files.writeString(ruta, anotacion, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
+
+    // Lectura rápida de todo el bloque con readString
+    val contenidoCompleto = Files.readString(ruta)
+    println("--- 1. Contenido del fichero leído con readString: ---")
+    println(contenidoCompleto)
+
+
+
+    // Escritura de múltiples líneas en un fichero de texto con Files.write
+    val lineas = listOf(
+        "\n1. Regar cuando las raíces se observen de color grisáceo.",
         "2. Mantener en un espacio con luz indirecta.",
-        "¡Evitar por completo las corrientes de aire frío!"
+        "3. Evitar corrientes de aire."
     )
-    Files.write(rutaCuidados, lineasGuia, StandardCharsets.UTF_8)
-    println("Fichero de cuidados de orquídeas escrito correctamente.")
+    Files.write(ruta, lineas, StandardCharsets.UTF_8, StandardOpenOption.APPEND)
 
-    // 3. Uso de Buffered Writer para escribir registros de actividad (Logs)
-    Files.newBufferedWriter(Paths.get("documentos/registro_actividad.txt")).use { writer ->
-        writer.write("[SISTEMA] Invernadero automatizado iniciado...\n")
-        writer.write("[SENSOR] Nivel de humedad óptimo detectado (75%).\n")
-    }
-
-    // --- Lectura de los ficheros de texto ---
-
-    // A. Lectura con readAllLines (devuelve una lista línea por línea)
-    val lineasLeidas = Files.readAllLines(rutaCuidados)
-    println("\n--- Contenido leído con readAllLines: ---")
+    // Lectura con readAllLines (devuelve una lista línea por línea)
+    val lineasLeidas = Files.readAllLines(ruta)
+    println("\n--- 2. Contenido leído con readAllLines: ---")
     for (linea in lineasLeidas) {
         println(linea)
     }
 
-    // B. Lectura rápida de todo el bloque con readString
-    val contenidoCompleto = Files.readString(rutaCuidados)
-    println("\n--- Contenido leído completo con readString: ---")
-    println(contenidoCompleto)
+    
 
-    // C. Lectura secuencial eficiente con newBufferedReader
-    println("\n--- Contenido leído con newBufferedReader: ---")
-    Files.newBufferedReader(rutaCuidados).use { reader ->
-        reader.lineSequence().forEach { linea -> 
-            println(linea) 
+    // Escribir registros de actividad (Logs) con Buffered Writer
+    Files.newBufferedWriter(ruta, StandardOpenOption.APPEND).use { writer ->
+        writer.write("[SISTEMA] Invernadero automatizado iniciado...\n")
+        writer.write("[SENSOR] Nivel de humedad óptimo detectado (75%).\n")
+    }
+
+    // Lectura secuencial eficiente con newBufferedReader
+    println("\n--- 3. Contenido leído con newBufferedReader: ---")
+    Files.newBufferedReader(ruta).use { reader ->
+        reader.lineSequence().forEach { linea ->
+            println(linea)
         }
     }
 }
@@ -408,108 +433,8 @@ Los ficheros de texto en los que la información está estructurada y organizada
 
 Para poder llevar a cabo este intercambio, es necesario extraer la información del fichero de origen. Este proceso no suele realizarse línea por línea manualmente, sino que el contenido del fichero se lee (parsea) y se traduce a objetos utilizando técnicas de **serialización y deserialización**:
 
-*   **Serialización:** Proceso de convertir un objeto en memoria (por ejemplo, una clase `Planta` o `Especie`) en una representación textual o binaria (como una cadena JSON o XML) que se puede almacenar en un fichero o enviar a través de una red.
+*   **Serialización:** Proceso de convertir un objeto en memoria (por ejemplo, una clase `Planta` o `Especie`) en una representación textual (como una cadena JSON o XML) que se puede almacenar en un fichero o enviar a través de una red.
 *   **Deserialización:** El proceso inverso; consiste en leer un fichero estructurado (JSON, XML, etc.) y reconstruir el objeto original en la memoria del programa para poder trabajar con él de forma estructurada.
-
-A continuación, se muestra una tabla con las herramientas, anotaciones y clases de uso común en el ecosistema Java/Kotlin para serializar y deserializar:
-
-| Herramienta / Anotación | Descripción |
-| :--- | :--- |
-| `java.io.Serializable` | Interfaz marcadora para indicar que una clase Java/Kotlin es serializable de forma nativa a binario. |
-| `ObjectOutputStream` | Serializa y escribe un objeto de Java en un flujo binario. |
-| `ObjectInputStream` | Lee un objeto serializado desde un flujo binario y lo reconstruye en memoria. |
-| `@Transient` | Anotación para excluir un atributo específico del proceso de serialización. |
-| `ReadObject` / `WriteObject` | Métodos que se pueden personalizar dentro de una clase para controlar la lectura y escritura binaria. |
-| `@Serializable` | Anotación de la librería moderna `kotlinx.serialization` para permitir conversiones nativas a JSON y otros formatos en Kotlin. |
-
-
-
-<span class="mis_ejemplos">Ejemplo 5: Serializar y deserializar un objeto en binario tradicional (usando `@Transient`)</span>
-
-
-En este ejemplo representamos un herbario o registro de plantas. Queremos guardar los objetos en el disco utilizando la serialización binaria clásica de Java, pero excluyendo ciertos atributos dinámicos que no nos interesa persistir (como la humedad de la tierra medida en tiempo real).
-
-```kotlin
-import java.io.*
-
-// Clase Especie (completamente serializable)
-class Especie(val nombreComun: String, val familia: String) : Serializable
-
-// Clase SensorInvernadero con un atributo que NO se debe serializar
-class SensorInvernadero(
-    val idSensor: String,
-    @Transient val humedadTierraActual: Double // Este campo dinámico no se guardará en el archivo
-) : Serializable
-
-fun main() {
-    val rutaEspecie = "documentos/especie.obj"
-    val rutaSensor = "documentos/sensor.obj"
-
-    // Aseguramos que el directorio de datos existe
-    val directorio = File("documentos")
-    if (!directorio.exists()) {
-        directorio.mkdirs()
-    }
-
-    // --- Serializar Especie ---
-    val orquidea = Especie("Orquídea", "Orchidaceae")
-    try {
-        ObjectOutputStream(FileOutputStream(rutaEspecie)).use { oos ->
-            oos.writeObject(orquidea)
-        }
-        println("Especie serializada correctamente.")
-    } catch (e: IOException) {
-        println("Error al serializar la especie: ${e.message}")
-    }
-
-    // --- Deserializar Especie ---
-    try {
-        val especieLeida = ObjectInputStream(FileInputStream(rutaEspecie)).use { ois ->
-            ois.readObject() as Especie
-        }
-        println("Especie deserializada:")
-        println("Nombre: ${especieLeida.nombreComun}, Familia: ${especieLeida.familia}")
-    } catch (e: Exception) {
-        println("Error al deserializar la especie: ${e.message}")
-    }
-
-    // --- Serializar Sensor (con campo Transient) ---
-    val sensorRosa = SensorInvernadero("SENSOR-ROSA-01", 68.5)
-    try {
-        ObjectOutputStream(FileOutputStream(rutaSensor)).use { oos ->
-            oos.writeObject(sensorRosa)
-        }
-        println("Sensor serializado correctamente.")
-    } catch (e: IOException) {
-        println("Error al serializar el sensor: ${e.message}")
-    }
-
-    // --- Deserializar Sensor ---
-    try {
-        val sensorLeido = ObjectInputStream(FileInputStream(rutaSensor)).use { ois ->
-            ois.readObject() as SensorInvernadero
-        }
-        println("Sensor deserializado:")
-        // 'humedadTierraActual' se habrá inicializado a su valor por defecto (0.0) debido a @Transient
-        println("ID: ${sensorLeido.idSensor}, Humedad recuperada: ${sensorLeido.humedadTierraActual}%")
-    } catch (e: Exception) {
-        println("Error al deserializar el sensor: ${e.message}")
-    }
-}
-```
-
-
-!!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que la salida por consola es:
-
-    ```text
-    Especie serializada correctamente.
-    Especie deserializada:
-    Nombre: Orquídea, Familia: Orchidaceae
-    Sensor serializado correctamente.
-    Sensor deserializado:
-    ID: SENSOR-ROSA-01, Humedad recuperada: 0.0%
-    ```
 
 
 A continuación se describen los 3 formatos de intercambio de información basados en texto más comunes, con ejemplos de lectura y escritura integrando un proyecto gestionado con **Gradle**.
@@ -533,6 +458,19 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 | `writeRow(row, File)` | `csvWriter().writeRow(listOf("Lavanda", "1.0"), File("salida.csv"))` |
 | `writeAllWithHeader(data, File)` | `csvWriter().writeAllWithHeader(listOf(mapOf("nombre" to "Girasol", "altura" to "3.0")), File("salida.csv"))` |
 | Configuración de delimitador | `csvReader { delimiter = ';' }` |
+
+
+
+
+| Método | Descripción | Ejemplo de uso |
+| :--- | :--- | :--- |
+| `readAll(File)` | Lee todo el fichero CSV y devuelve una lista de listas de cadenas (`List<List<String>>`), donde cada sublista representa una fila. | `val filas = csvReader().readAll(File("plantas.csv"))` |
+| `readAllWithHeader(File)` | Lee el fichero CSV utilizando la primera línea como cabecera. Devuelve una lista de mapas (`List<Map<String, String>>`), ideal para acceder a los valores por el nombre de su columna. | `val datos = csvReader().readAllWithHeader(File("plantas.csv"))` |
+| `open { readAllAsSequence() }` | Abre el archivo y procesa las filas como una secuencia (`Sequence`). Es el método más eficiente y recomendado para ficheros CSV de gran tamaño, ya que no carga todo el contenido en memoria de golpe. | `csvReader().open("plantas.csv") { readAllAsSequence().forEach { println(it) } }` |
+| `writeAll(data, File)` | Escribe una colección completa de filas (lista de listas de cadenas) en el fichero CSV de una sola vez. | `csvWriter().writeAll(listOf(listOf("Aloe Vera", "0.6")), File("salida.csv"))` |
+| `writeRow(row, File)` | Escribe una única fila (lista de cadenas) al final del fichero CSV indicado. | `csvWriter().writeRow(listOf("Lavanda", "1.0"), File("salida.csv"))` |
+| `writeAllWithHeader(data, File)` | Escribe los datos en el fichero CSV generando automáticamente una fila de cabecera en base a las claves del mapa proporcionado. | `csvWriter().writeAllWithHeader(listOf(mapOf("nombre" to "Girasol", "altura" to "3.0")), File("salida.csv"))` |
+| Configuración de delimitador | Permite personalizar el carácter delimitador que separa los campos del CSV (por defecto es la coma `,`, pero se puede cambiar a punto y coma `;`, tabulador, etc.). | `csvReader { delimiter = ';' }` |
 
 
 
