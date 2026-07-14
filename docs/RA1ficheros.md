@@ -497,7 +497,7 @@ dependencies {
 
 > Recuerda hace clic en el botón de sincronizar dependencias para que **Gradle** se las descargue o no podrás utilizar sus funciones.
 
-El siguiente código lee la información del fichero `plantas.csv`, la muestra por panalla y la escribe en otro fichero llamado `plantas2.csv` dentro de la misma carpeta.
+El siguiente código lee la información del fichero `plantas.csv`, la muestra por pantalla y la escribe en otro fichero llamado `plantas2.csv` dentro de la misma carpeta.
 
 ```kotlin
 import java.nio.file.Path
@@ -706,7 +706,7 @@ dependencies {
 > Recuerda hace clic en el botón de sincronizar dependencias para que **Gradle** se las descargue o no podrás utilizar sus funciones.
 
 
-El siguiente código lee la información del fichero `plantas.xml`, la muestra por panalla y la escribe en otro fichero llamado `plantas2.xml` dentro de la misma carpeta.
+El siguiente código lee la información del fichero `plantas.xml`, la muestra por pantalla y la escribe en otro fichero llamado `plantas2.xml` dentro de la misma carpeta.
 
 ```kotlin
 import java.nio.file.Path
@@ -857,9 +857,9 @@ En Kotlin, se procesan usando la biblioteca oficial **kotlinx.serialization**, q
 
 
 
-<span class="mis_ejemplos">Ejemplo 8: Lectura y escritura de ficheros JSON</span>
+<span class="mis_ejemplos">Ejemplo 7: Lectura y escritura de ficheros JSON</span>
 
-Partiremos de un archivo inicial llamado `mis_plantas.json` guardado en la carpeta `datos/`:
+Partimos de un fichero llamado `plantas.json` almacenado dentro de la carpeta `datos` de nuestro proyecto con la siguiente información:
 
 ```json
 [
@@ -880,11 +880,14 @@ Partiremos de un archivo inicial llamado `mis_plantas.json` guardado en la carpe
 ]
 ```
 
-**Configuración de plugins y dependencias en `build.gradle.kts`:**
+> Puedes descargar el fichero desde este enlace: [plantas.json](recursos/plantas.json){:plantas.json} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+
+
+Para que nuestra aplicación pueda utilizar las funciones de la librería **kotlinx.serialization** hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
+
 
 ```kotlin
 plugins {
-    kotlin("jvm") version "1.9.0"
     kotlin("plugin.serialization") version "1.9.0" // Requerido para la autogeneración de serializadores
 }
 
@@ -893,11 +896,16 @@ dependencies {
 }
 ```
 
-**Código en Kotlin:**
+> Recuerda hace clic en el botón de sincronizar dependencias para que **Gradle** se las descargue o no podrás utilizar sus funciones.
+
+
+El siguiente código lee la información del fichero `plantas.json`, la muestra por pantalla y la escribe en otro fichero llamado `plantas2.json` dentro de la misma carpeta.
+
 
 ```kotlin
 import java.nio.file.Files
 import java.nio.file.Path
+
 import kotlinx.serialization.*
 import kotlinx.serialization.json.*
 
@@ -912,33 +920,49 @@ data class PlantaJSON(
 )
 
 fun main() {
-    val entradaJSON = Path.of("datos/mis_plantas.json")
-    val salidaJSON = Path.of("datos/mis_plantas2.json")
+    gestionJSON()
+}
 
-    val datos = leerDatosInicialesJSON(entradaJSON)
+fun gestionJSON(){
+    val entradaJSON = Path.of("datos/plantas.json")
+    val salidaJSON = Path.of("datos/plantas2.json")
+
+    val datos = leerJSON(entradaJSON)
+    println("--- Información de la lista de objetos PlantaJSON")
     for (planta in datos) {
         println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Altura: ${planta.altura}m")
     }
 
-    escribirDatosJSON(salidaJSON, datos)
+    escribirJSON(salidaJSON, datos)
 }
 
-fun leerDatosInicialesJSON(ruta: Path): List<PlantaJSON> {
-    // Leemos el contenido completo del JSON como String
-    val jsonString = Files.readString(ruta)
-    
-    // Convertimos de texto JSON a una lista de objetos Planta
-    return Json.decodeFromString<List<PlantaJSON>>(jsonString)
+
+fun leerJSON(ruta: Path): List<PlantaJSON> {
+
+    var plantas: List<PlantaJSON> = emptyList()
+
+    if (!Files.isReadable(ruta)) {
+        println("Error: No se puede leer el fichero en la ruta: $ruta")
+    } else {
+
+        // Leemos el contenido completo del JSON como String
+        val jsonString = Files.readString(ruta)
+
+        // Convertimos de texto JSON a una lista de objetos Planta
+        plantas = Json.decodeFromString<List<PlantaJSON>>(jsonString)
+        println("--- Información leída con éxito de: $ruta")
+    }
+    return plantas
 }
 
-fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
+fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
     try {
         // Configuramos el formateador con la opción 'prettyPrint' activa
         val jsonConfigurador = Json { prettyPrint = true }
         val jsonString = jsonConfigurador.encodeToString(plantas)
-        
+
         Files.writeString(ruta, jsonString)
-        println("\nInformación guardada en JSON: $ruta")
+        println("--- Información guardada en: $ruta")
     } catch (e: Exception) {
         println("Error al guardar JSON: ${e.message}")
     }
@@ -949,27 +973,43 @@ fun escribirDatosJSON(ruta: Path, plantas: List<PlantaJSON>) {
     Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
-    Ruta relativa: muestras\orquidea.jpg
+    --- Información leída con éxito de: datos\plantas.json
+    --- Información de la lista de objetos PlantaJSON
+     - ID: 1, Común: Aloe Vera, Altura: 0.6m
+     - ID: 2, Común: Lavanda, Altura: 1.0m
+     - ID: 3, Común: Helecho de Boston, Altura: 0.9m
+     - ID: 4, Común: Bambú de la suerte, Altura: 1.5m
+     - ID: 5, Común: Girasol, Altura: 3.0m
+    --- Información guardada en: datos\plantas2.json
     ```
+
 
 
 !!! warning "Práctica 3: amplía tu proyecto"
     En esta práctica añadiremos un fichero de datos en formato **JSON** y ampliaremos el menú con una opción para leer su contenido.
 
-    1. **Crea tu archivo XJSON**
-       Genera manualmente un archivo con extensión `.json` con al menos 5 registros que cumplan con la estructura de tu *data class*. 
-    
-    2. **Amplia el menú**
-       Añade la opción 3 para leer el JSON**
+    **Realiza los siguientes pasos:**
 
-    3. **Implementa la lectura del JSON:**
-       Cuando el usuario seleccione la opción `3`, llama a una función dedicada (por ejemplo, `leerJSON()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    1. **Crea tu archivo JSON:** Genera manualmente un archivo con extensión `.json` con al menos 5 registros que cumplan con la estructura de tu *data class*.
+    2. **Amplia el menú:** Añade una opción para leer el JSON.
+
+        ```text
+        --------------------------------------        
+        -------- MENÚ DE LA PLICACIÓN --------
+        --------------------------------------
+        1. Leer datos desde CSV
+        2. Leer datos desde XML
+        3. Leer datos desde JSON
+        0. Salir
+        ```
+
+    3. **Implementa la lectura del JSON:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo, `leerJSON()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
-
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
