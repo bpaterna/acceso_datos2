@@ -495,12 +495,15 @@ dependencies {
 }
 ```
 
-Y el código fuente del archivo `Main.kt`es el siguiente:
+> Recuerda hace clic en el botón de sincronizar dependencias para que **Gradle** se las descargue o no podrás utilizar sus funciones.
+
+El siguiente código lee la información del fichero `plantas.csv`, la muestra por panalla y la escribe en otro fichero llamado `plantas2.csv` dentro de la misma carpeta.
 
 ```kotlin
-import java.nio.file.Files
 import java.nio.file.Path
 import java.io.File
+import java.nio.file.Files
+
 import com.github.doyaaaaaken.kotlincsv.dsl.csvReader
 import com.github.doyaaaaaken.kotlincsv.dsl.csvWriter
 
@@ -514,6 +517,11 @@ data class Planta(
 )
 
 fun main() {
+    gestionCSV()
+}
+
+fun gestionCSV(){
+
     val entradaCSV = Path.of("datos/plantas.csv")
     val salidaCSV = Path.of("datos/plantas2.csv")
 
@@ -521,12 +529,14 @@ fun main() {
     val datos: List<Planta> = leerDatosCSV(entradaCSV)
 
     // Mostrar por consola la información deserializada
+    println("--- Información de la lista de objetos Planta")
     for (dato in datos) {
-        println(" - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Riego: cada ${dato.riego} días, Altura: ${dato.altura}m")
+        println("  - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Riego: cada ${dato.riego} días, Altura: ${dato.altura}m")
     }
 
     // Guardar una copia procesada en un nuevo fichero CSV
     escribirCSV(salidaCSV, datos)
+
 }
 
 fun leerDatosCSV(ruta: Path): List<Planta> {
@@ -562,7 +572,7 @@ fun leerDatosCSV(ruta: Path): List<Planta> {
             }
         }
     }
-    println("\nInformación leída con éxito de: $ruta")
+    println("--- Información leída con éxito de: $ruta")
     return plantas
 }
 
@@ -583,12 +593,11 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
             },
             fichero
         )
-        println("\nInformación guardada con éxito en: $fichero")
+        println("--- Información guardada con éxito en: $fichero")
     } catch (e: Exception) {
         println("Error al escribir el fichero CSV: ${e.message}")
     }
 }
-
 ```
 
 
@@ -626,7 +635,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         0. Salir
         ```
 
-    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función llamada, por ejemplo, `leerCSV()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo, `leerCSV()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
 
@@ -655,9 +664,10 @@ Para interactuar con XML en Kotlin, utilizaremos el ecosistema **Jackson XML** (
 
 
 
-<span class="mis_ejemplos">Ejemplo 7: Lectura y escritura de ficheros XML</span>
+<span class="mis_ejemplos">Ejemplo 6: Lectura y escritura de ficheros XML</span>
 
-Partimos de un fichero llamado `mis_plantas.xml` en la carpeta `datos/` con el siguiente contenido:
+
+Partimos de un fichero llamado `plantas.xml` almacenado dentro de la carpeta `datos` de nuestro proyecto con la siguiente información:
 
 ```xml
 <plantas>
@@ -678,7 +688,13 @@ Partimos de un fichero llamado `mis_plantas.xml` en la carpeta `datos/` con el s
 </plantas>
 ```
 
-**Dependencias necesarias en `build.gradle.kts`:**
+
+> Puedes descargar el fichero desde este enlace: [plantas.xml](recursos/plantas.xml){:plantas.xml} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+
+
+Para que nuestra aplicación pueda utilizar las funciones de la librería **Jackson XML** (`XmlMapper`) hemos de configurar la dependencia correspondiente en el archivo `build.gradle.kts`. Estas son las líneas que hay que añadir:
+
+
 
 ```kotlin
 dependencies {
@@ -687,11 +703,16 @@ dependencies {
 }
 ```
 
-**Código en Kotlin:**
+> Recuerda hace clic en el botón de sincronizar dependencias para que **Gradle** se las descargue o no podrás utilizar sus funciones.
+
+
+El siguiente código lee la información del fichero `plantas.xml`, la muestra por panalla y la escribe en otro fichero llamado `plantas2.xml` dentro de la misma carpeta.
 
 ```kotlin
 import java.nio.file.Path
 import java.io.File
+import java.nio.file.Files
+
 import com.fasterxml.jackson.dataformat.xml.XmlMapper
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper
@@ -722,10 +743,18 @@ data class PlantasWrapper(
 )
 
 fun main() {
-    val entradaXML = Path.of("datos/mis_plantas.xml")
-    val salidaXML = Path.of("datos/mis_plantas2.xml")
+    gestionXML()
+}
+
+
+fun gestionXML(){
+
+    val entradaXML = Path.of("datos/plantas.xml")
+    val salidaXML = Path.of("datos/plantas2.xml")
 
     val datos = leerDatosXML(entradaXML)
+
+    println("--- Información de la lista de objetos PlantaXML")
     for (planta in datos) {
         println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Riego: cada ${planta.riego} días")
     }
@@ -733,12 +762,20 @@ fun main() {
     escribirDatosXML(salidaXML, datos)
 }
 
+
 fun leerDatosXML(ruta: Path): List<PlantaXML> {
-    val fichero = ruta.toFile()
-    val xmlMapper = XmlMapper().registerKotlinModule()
-    
-    // Leemos el XML directamente sobre la clase contenedora wrapper
-    val contenedor: PlantasWrapper = xmlMapper.readValue(fichero)
+    var contenedor = PlantasWrapper(emptyList())
+
+    if (!Files.isReadable(ruta)) {
+        println("Error: No se puede leer el fichero en la ruta: $ruta")
+    } else {
+        val fichero = ruta.toFile()
+        val xmlMapper = XmlMapper().registerKotlinModule()
+
+        // Leemos el XML directamente sobre la clase contenedora wrapper
+        contenedor = xmlMapper.readValue(fichero)
+        println("--- Información leída con éxito de: $ruta")
+    }
     return contenedor.listaPlantas
 }
 
@@ -751,8 +788,8 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
         // Generamos el XML formateado con saltos de línea y tabuladores para que sea legible
         val xmlString = xmlMapper.writerWithDefaultPrettyPrinter().writeValueAsString(contenedor)
         fichero.writeText(xmlString)
-        
-        println("\nInformación guardada en XML: $fichero")
+
+        println("--- Información guardada en XML: $fichero")
     } catch (e: Exception) {
         println("Error al guardar XML: ${e.message}")
     }
@@ -764,7 +801,14 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
     Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
-    FALTA
+    --- Información leída con éxito de: datos\plantas.xml
+    --- Información de la lista de objetos PlantaXML
+     - ID: 1, Común: Aloe Vera, Riego: cada 7 días
+     - ID: 2, Común: Lavanda, Riego: cada 3 días
+     - ID: 3, Común: Helecho de Boston, Riego: cada 5 días
+     - ID: 4, Común: Bambú de la suerte, Riego: cada 4 días
+     - ID: 5, Común: Girasol, Riego: cada 2 días
+    --- Información guardada en XML: datos\plantas2.xml    
     ```
 
 
@@ -773,20 +817,28 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 !!! warning "Práctica 2: amplía tu proyecto"
     En esta práctica añadiremos un fichero de datos en formato **CSV** y ampliaremos el menú con una opción para leer su contenido.
 
-    1. **Crea tu archivo XML**
-       Genera manualmente un archivo con extensión `.xml` con al menos 5 registros que cumplan con la estructura de tu *data class*. 
-    
-    2. **Amplia el menú con la opción 2 para leer el XML**
+    **Realiza los siguientes pasos:**
 
-    3. **Implementa la lectura del XML:**
-       Cuando el usuario seleccione la opción `2`, llama a una función dedicada (por ejemplo, `leerXML()`) que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    1. **Crea tu archivo XML:** Genera manualmente un archivo con extensión `.xml` con al menos 5 registros que cumplan con la estructura de tu *data class*.
+    2. **Amplia el menú:** Añade una opción para leer el XML.
+
+        ```text
+        --------------------------------------        
+        -------- MENÚ DE LA PLICACIÓN --------
+        --------------------------------------
+        1. Leer datos desde CSV
+        2. Leer datos desde XML
+        0. Salir
+        ```
+
+    3. **Implementa la lectura del XML:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo, `leerXML()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
     **Aspectos Técnicos Obligatorios:**
-        
-      * **Configuración del proyecto:** Añade las dependencias necesarias en tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. 
 
-
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+    
 
 
 <span class="mi_h3">4.3. JSON (JavaScript Object Notation)</span>
