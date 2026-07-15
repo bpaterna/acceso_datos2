@@ -30,7 +30,7 @@ Un **fichero o archivo** es una unidad de almacenamiento de datos en un sistema 
 
 <span class="mi_h3">API para manejo de ficheros</span>
 
-`java.nio` (New IO) es una API disponible desde la versión 7 de Java que permite mejorar el rendimiento, así como simplificar el manejo de muchas operaciones. Funciona a través de interfaces y clases para que la máquina virtual Java tenga acceso a ficheros, atributos de ficheros y sistemas de ficheros. En los siguientes apartados veremos cómo trabajar con ella.
+`java.nio` (New IO) es una API que permite mejorar el rendimiento, así como simplificar el manejo de muchas operaciones. Funciona a través de interfaces y clases para que la máquina virtual Java tenga acceso a ficheros, atributos de ficheros y sistemas de ficheros. En los siguientes apartados veremos cómo trabajar con ella.
 
 
 
@@ -64,11 +64,11 @@ La gestión de ficheros y directorios se realiza a través de `Path` y `Files`.
 
 Representa una **ruta** en el sistema de ficheros (ej. `/home/botanico/rosa.png` o `C:\herbario\docs\clasificacion.txt`). Un objeto `Path` es una dirección y no significa que el fichero o directorio exista realmente en el disco.
 
-| Método | Descripción |
-| :--- | :--- |
-| `Path.of(String)` | Crea un objeto `Path` a partir de un String de ruta (Java 11+). Por debajo llama a `Paths.get()`, que es el método original de la clase `Paths` (Java 7+). |
-| `toString()` | Devuelve la ruta como un String (se llama por defecto desde `println`). |
-| `toAbsolutePath()` | Devuelve la ruta absoluta del `Path`. |
+| Método | Descripción                                                                                                        |
+| :--- |:-------------------------------------------------------------------------------------------------------------------|
+| `Path.of(String)` | Crea un objeto `Path` a partir de un String de ruta, auqnue puede admitir más parámetros `Path.of(first, more...)`.                         |
+| `toString()` | Devuelve la ruta como un String (se llama por defecto desde `println`).                                            |
+| `toAbsolutePath()` | Devuelve la ruta absoluta del `Path`.                                                                              |
 | `fileName()` | Devuelve el nombre del fichero o directorio final de la ruta (por ejemplo, el nombre de la planta o el documento). |
 
 <span class="mis_ejemplos">Ejemplo 1</span>
@@ -106,7 +106,7 @@ fun rutas() {
     Ruta relativa: muestras\orquidea.jpg
     Ruta absoluta: D:\kot\ficheros\muestras\orquidea.jpg
     Ruta absoluta Windows: C:\Herbario\Especies\Helechos
-    Ruta absoluta Linux: \home\botanico\jardin\flora_mediterranea
+    Ruta absoluta Linux: /home/botanico/jardin/flora_mediterranea
     ```
 
 
@@ -115,17 +115,17 @@ fun rutas() {
 
 Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) que podemos realizar sobre las rutas (`Path`). Algunos de sus principales métodos son:
 
-| Método | Descripción |
-| :--- | :--- |
-| `exists()`, `isDirectory()`, `isRegularFile()`, `isReadable()` | Verificar la existencia y accesibilidad de un elemento botánico o carpeta. |
-| `list()`, `walk()` | Listar el contenido de un directorio. |
-| `readAttributes()` | Obtener atributos (tamaño del archivo de imagen, fecha de registro de la muestra, etc.). |
-| `createDirectory()` | Crear un directorio. Solo crea el directorio final y espera que todo el "camino" hasta él ya exista. |
-| `createDirectories()` | Crea un directorio y también los directorios padre si no existen (ej. crear `/plantas/terrestres/helechos/`). Es la forma más segura. |
-| `createFile()` | Crear un nuevo fichero. |
-| `delete()` | Borrar un fichero o directorio (lanza una excepción si el borrado falla). Lanza `NoSuchFileException` si el fichero o directorio no existe. Es más seguro usar `deleteIfExists()`. |
-| `move(origen, destino)` | Mover o renombrar un fichero o directorio (por ejemplo, reclasificar una especie). |
-| `copy(origen, destino)` | Copiar un fichero o directorio. Si el destino ya existe, se puede sobrescribir utilizando `copy(Path, Path, REPLACE_EXISTING)`. Si se copia un directorio, no se copiará su contenido (el nuevo directorio estará vacío). |
+| Método | Descripción                                                                                                                                                                                                                                                            |
+| :--- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `exists()`, `isDirectory()`, `isRegularFile()`, `isReadable()` | Verificar la existencia y accesibilidad de un elemento botánico o carpeta.                                                                                                                                                                                             |
+| `list()`, `walk()` | Listar el contenido de un directorio.                                                                                                                                                                                                                                  |
+| `readAttributes()` | Obtener atributos (tamaño del archivo de imagen, fecha de registro de la muestra, etc.).                                                                                                                                                                               |
+| `createDirectory()` | Crear un directorio. Solo crea el directorio final y espera que todo el "camino" hasta él ya exista.                                                                                                                                                                   |
+| `createDirectories()` | Crea un directorio y también los directorios padre si no existen (ej. crear `/plantas/terrestres/helechos/`). Es la forma más segura.                                                                                                                                  |
+| `createFile()` | Crear un nuevo fichero.                                                                                                                                                                                                                                                |
+| `delete()` | Borrar un fichero o directorio (lanza una excepción si el borrado falla). Lanza `NoSuchFileException` si el fichero o directorio no existe. También lanza `DirectoryNotEmptyException` si intentas borrar un directorio no vacío. Es más seguro usar `deleteIfExists()`. |
+| `move(origen, destino)` | Mover o renombrar un fichero o directorio (por ejemplo, reclasificar una especie).                                                                                                                                                                                     |
+| `copy(origen, destino)` | Copiar un fichero o directorio. Si el destino ya existe, se puede sobrescribir utilizando `copy(Path, Path, REPLACE_EXISTING)`. Si se copia un directorio, no se copiará su contenido (el nuevo directorio estará vacío).                                              |
 
 
 
@@ -249,7 +249,7 @@ Como hemos visto en el clasificador anterior, recorrer directorios para "mirar" 
 - **Inconvenientes:**
     * **¡PELIGRO!** Requiere cerrar el recurso manualmente (`.close()`). Si se olvida, provoca fugas de recursos (*resource leaks*).
     * Es menos expresivo que los Streams, ya que no se pueden encadenar operadores funcionales fácilmente.
-    * Considerado obsoleto en código Kotlin idiomático, que prefiere `Files.list().use { ... }`.
+    * Es preferible utilizar `Files.list().use { ... }`.
 
 
 <span class="mis_ejemplos">Ejemplo 3:</span>
@@ -1469,6 +1469,11 @@ En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un fichero 
 | `nombre_comun` | `String` | 20 bytes (longitud fija) | 4 – 23 |
 | `altura_maxima`| `Double`| 8 bytes | 24 – 31 |
 
+
+> `nombre_comun` es una cadena almacenada en un campo de longitud fija de 20 bytes. En este ejemplo se supone codificación ASCII.
+
+
+
 ```kotlin
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
@@ -1576,6 +1581,7 @@ fun leerPlantas(): List<PlantaBinaria> {
     FileChannel.open(archivoPath, StandardOpenOption.READ).use { canal ->
         val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
 
+        // Cada lectura llena exactamente un registro de 32 bytes
         while (canal.read(buffer) > 0) {
             buffer.flip()
 
@@ -1726,6 +1732,8 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
 Para eliminar un registro de un fichero binario estructurado secuencial, la técnica estándar consiste en leer el fichero de inicio a fin escribiendo en un fichero temporal `.tmp` únicamente aquellos registros que **no coincidan** con el ID a eliminar. Al terminar, borramos el original y sustituimos el fichero original por el temporal.
 
+Esta técnica se utiliza porque eliminar físicamente un registro del centro de un fichero binario obligaría a desplazar todos los bytes posteriores y eso sería muy costoso.
+
 
 Para poder sustituir el fichero original por el temporal añadimos un import a nuestro código:
 
@@ -1750,6 +1758,7 @@ fun eliminarPlanta(idPlanta: Int) {
             ).use { canalEscritura ->
                 val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
 
+                // Cada lectura llena exactamente un registro de 32 bytes
                 while (canalLectura.read(buffer) > 0) {
                     buffer.flip()
                     val id = buffer.getInt()
@@ -1886,7 +1895,7 @@ Un buen fichero `LEEME.md` debería contener, como mínimo, las siguientes secci
 -   **Instrucciones de Ejecución:** Pasos claros y sencillos para que otra persona pueda ejecutar nuestro programa.
 -   **Decisiones de Diseño:** Un pequeño apartado para explicar brevemente por qué tomamos ciertas decisiones de implementación.
 
-La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero que permite dar formato a un texto plano usando caracteres simples. Podemos crearlo con cualquier editor de texto (IntelliJ, VSCode, Bloc de notas...) y guardarlo con la extensión `.md`.
+La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero diseñado para escribir documentos de texto plano con formato usando caracteres simples. Podemos crearlo con cualquier editor de texto (IntelliJ, VSCode, Bloc de notas...) y guardarlo con la extensión `.md`.
 
 **Sintaxis básica de Markdown para empezar:**
 
@@ -1947,7 +1956,7 @@ data class Planta(
 - **Requisitos previos**: Asegúrate de tener instalado un JDK (versión 17 o superior).
 - **Compilación**: Abre el proyecto en tu IDE (ej. IntelliJ IDEA) y deja que Gradle sincronice las dependencias del archivo `build.gradle.kts`.
 - **Ejecución**: Lanza la función main contenida en el archivo de entrada `Main.kt`.
-- **Ficheros necesarios**: El programa buscará un fichero estructurado llamado *mis_plantas.json* (o *mis_plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
+- **Ficheros necesarios**: El programa buscará un fichero estructurado llamado *plantas.json* (o *plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
 
 ---
 
