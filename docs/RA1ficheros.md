@@ -1077,10 +1077,21 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 ## 5. Ficheros binarios y formas de acceso
 
-Los ficheros binarios no son legibles directamente por humanos (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`/`.bin`). La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`/`.bin`) no son legibles directamente por humanos. La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+
+A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y tipos binarios:
+
+| Extensión | Contenido típico | Comentario didáctico |
+| :--- | :--- | :--- |
+| **`.txt`** | Texto plano | Legible en cualquier editor de texto. Muy fácil de modificar manualmente por el usuario. |
+| **`.csv`** | Valores separados por comas o punto y coma | Formato tabular ligero. Ideal para hojas de cálculo o importaciones iniciales. |
+| **`.dat`** | Binario o texto genérico | "Archivo de datos" clásico de sistemas legacy. No aclara directamente por su nombre si contiene texto o bytes crudos. |
+| **`.bin`** | Binario puro | Contiene información organizada directamente en bytes. No se puede abrir directamente en texto sin ver caracteres extraños, pero es el formato óptimo para almacenamiento estructurado de alta eficiencia. |
+
+
+> **IMPORTANTE:** un fichero .bin o un fichero .dat binario no es un fichero de texto plano. No se puede abrir con el Bloc de Notas, TextEdit, o un editor de código en modo texto normal ya que se ven caracteres extraños, símbolos y espacios.
 
 En los siguientes apartados veremos cómo manejar ficheros de imágenes y de datos. Para estos últimos, aprenderemos a acceder a su información de dos maneras: de forma secuencial (leyendo en orden desde el principio hasta el final del fichero) o de forma aleatoria (saltando directamente a la posición o registro específico que nos interesa).
-
 
 <span class="mi_h3">5.1. Ficheros binarios de imágenes</span>
 
@@ -1092,8 +1103,7 @@ Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos eleme
 *   **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el archivo físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
 
 
-
-### Métodos clave para el manejo de imágenes
+**Métodos clave para el manejo de imágenes**
 
 | Elemento / Método | Tipo | Descripción | Ejemplo de uso |
 | :--- | :--- | :--- | :--- |
@@ -1103,7 +1113,6 @@ Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos eleme
 | **`setRGB(x, y, rgb)`** | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y). | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
 | **`getRGB(x, y)`** | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y). | `val colorInt = lienzo.getRGB(10, 5)` |
 | **`Color(rgb)`** | *Conversión* | Clase que permite decodificar el valor entero del píxel para poder extraer de forma sencilla sus componentes de color rojo, verde y azul. | `val color = Color(lienzo.getRGB(x, y))` <br> `val rojo = color.red` |
-
 
 
 
@@ -1329,7 +1338,7 @@ Las clases **`DataOutputStream`** y **`DataInputStream`** de `java.io` son las h
 
 
 
-<span class="mis_ejemplos">Ejemplo 11: Escritura y lectura estructurada (Tipos Primitivos)</span>
+<span class="mis_ejemplos">Ejemplo 11: Escritura y lectura estructurada con tipos primitivos</span>
 
 El siguiente ejemplo simula el registro de la temperatura mínima, ph del suelo y código de lote en binario estructurado.
 
@@ -1394,40 +1403,431 @@ fun registro() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
----
-
 <span class="mi_h3">5.3. Acceso aleatorio a ficheros binarios</span>
 
 A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea en cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes.
 
-Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes** (por ejemplo, cada planta registrada ocupará exactamente 32 bytes).
+Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes**. Por ejemplo, si cada registro de nuestra colección botánica ocupa exactamente 32 bytes, para acceder al registro número 100 no tenemos que leer los 99 anteriores; podemos saltar directamente a la posición de inicio del registro número 100 calculando:
 
-Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos obligatoriamente con dos herramientas en equipo:
-
-1.  **`FileChannel`**: Funciona como un "canal o autopista de datos" bidireccional hacia el archivo en el disco. Nos permite modificar la posición del puntero del archivo mediante `canal.position(long)`.
-2.  **`ByteBuffer`**: Es un contenedor en la memoria RAM que empaqueta y prepara exactamente los bytes que queremos transferir o recibir a través del canal (`FileChannel`).
-
-> **Ejemplo Práctico:** Buscar una planta por su ID y actualizar su altura máxima directamente en su posición de disco sin tocar los registros de los lados. *(Ejemplos 13, 14 y 15 de tus apuntes)*.
+$$\text{Posición} = 32 \text{ bytes} \times (100 - 1) = 3168 \text{ bytes desde el inicio}$$
 
 
+Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos con tres herramientas en equipo:
+
+1.  **`FileChannel`**: Funciona como un "canal o autopista de datos" bidireccional hacia el archivo en el disco. Es el que nos permite modificar la posición del puntero del archivo en tiempo de ejecución mediante `canal.position(long)`.
+2.  **`ByteBuffer`**: Es un contenedor en la memoria RAM que empaqueta y prepara exactamente los bytes que queremos transferir (escribir) o recibir (leer) a través del canal (`FileChannel`).
+3.  **`StandardOpenOption`**: Es un enumerado que funciona como el "semáforo de permisos" del canal. Le indica a `FileChannel` cómo debe abrirse el archivo (por ejemplo, si se abre solo para lectura `READ`, para escritura `WRITE`, si debe crear el archivo si no existe `CREATE` o si debe añadir los datos al final `APPEND`). Sin estas opciones de configuración, el canal no sabrá qué operaciones tiene permitido realizar sobre el disco.
+
+
+A continuación se describen algunos de los métodos que utilizaremos:
+
+**Métodos de `FileChannel`**
+
+| Método | Descripción |
+| :--- | :--- |
+| `position()` | Devuelve la posición actual del puntero en el fichero (medida en bytes). |
+| `position(long)` | Establece una posición exacta en bytes para la próxima lectura o escritura. |
+| `truncate(long)` | Recorta o amplía el tamaño del fichero a los bytes indicados. |
+| `size()` | Devuelve el tamaño total actual del fichero en bytes. |
+| `read(ByteBuffer)` | Lee una secuencia de bytes del canal y los guarda en el buffer proporcionado. |
+| `write(ByteBuffer)` | Escribe una secuencia de bytes desde el buffer indicado hacia el canal. |
+
+**Métodos de `ByteBuffer`**
+
+| Método | Descripción |
+| :--- | :--- |
+| `allocate(capacidad)` | Crea un nuevo buffer con una capacidad fija de bytes en memoria. |
+| `wrap(byteArray)` | Crea un buffer que envuelve un array de bytes ya existente (comparten la misma memoria). |
+| `put(byte)` | Escribe un byte en la posición actual del buffer. |
+| `putInt(int)` | Escribe un valor entero (4 bytes). |
+| `putDouble(double)` | Escribe un valor double (8 bytes). |
+| `putFloat(float)` | Escribe un valor float (4 bytes). |
+| `putChar(char)` | Escribe un carácter (2 bytes). |
+| `putLong(long)` | Escribe un valor long (8 bytes). |
+| `get()` | Lee un byte desde la posición actual del cursor. |
+| `getInt()` | Lee un valor entero (4 bytes). |
+| `getDouble()` | Lee un valor double (8 bytes). |
+| `get(byteArray)` | Extrae bytes del buffer y los vuelca en un array de bytes de destino. |
+
+
+**Métodos de control del buffer (`ByteBuffer`)**
+
+| Método | Descripción |
+| :--- | :--- |
+| `position()` | Devuelve la posición actual del cursor de lectura/escritura dentro del buffer. |
+| `position(int)` | Establece la posición del cursor dentro del buffer. |
+| `limit()` | Devuelve el límite actual del buffer (hasta dónde se puede leer/escribir). |
+| `clear()` | Limpia el buffer: resetea la posición a 0 y pone el límite al máximo (no borra los datos físicos de la memoria). |
+| `flip()` | Prepara el buffer para ser leído después de haber escrito en él (establece el límite en la posición actual y devuelve el cursor a 0). |
+| `rewind()` | Devuelve la posición a 0 para poder releer el buffer desde el inicio. |
+| `hasRemaining()` | Devuelve `true` si aún quedan elementos por procesar entre la posición actual y el límite. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 12: Lectura y escritura en ficheros binarios de tamaño fijo</span>
+
+En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un archivo binario estructurado para nuestro herbario. Cada registro representará una planta con tres campos y ocupará exactamente **32 bytes** en total:
+
+| Campo | Tipo | Tamaño fijo | Rango de bytes en el registro |
+| :--- | :--- | :--- | :--- |
+| `id_planta` | `Int` | 4 bytes | 0 – 3 |
+| `nombre_comun` | `String` | 20 bytes (longitud fija) | 4 – 23 |
+| `altura_maxima`| `Double`| 8 bytes | 24 – 31 |
+
+```kotlin
+package b.paterna
+
+import java.nio.ByteBuffer
+import java.nio.channels.FileChannel
+import java.nio.charset.Charset
+import java.nio.file.Files
+import java.nio.file.Path
+import java.nio.file.StandardOpenOption
+
+data class PlantaBinaria(
+    val idPlanta: Int,
+    val nombreComun: String,
+    val alturaMaxima: Double
+)
+
+// Definimos los tamaños del registro binario
+const val TAMANO_ID = Int.SIZE_BYTES // 4 bytes
+const val TAMANO_NOMBRE = 20         // 20 bytes para la cadena de texto
+const val TAMANO_ALTURA = Double.SIZE_BYTES // 8 bytes
+const val TAMANO_REGISTRO = TAMANO_ID + TAMANO_NOMBRE + TAMANO_ALTURA // 32 bytes en total
+
+val archivoPath = Path.of("datos/plantas.bin")
+
+
+fun main() {
+    crearHerbario()
+    mostrarInfo()
+
+    modificarAlturaPlanta(2, 5.5)
+    mostrarInfo()
+}
+
+
+fun crearHerbario(){
+
+    Files.createDirectories(archivoPath.parent)
+
+    val listaSemillas = listOf(
+        PlantaBinaria(1, "Rosa", 1.5),
+        PlantaBinaria(2, "Girasol", 3.0),
+        PlantaBinaria(3, "Margarita", 0.6)
+    )
+
+    vaciarCrearFichero()
+
+    for (planta in listaSemillas) {
+        anadirPlanta(planta.idPlanta, planta.nombreComun, planta.alturaMaxima)
+    }
+}
+
+
+// Crea el archivo o lo vacía si ya existía
+fun vaciarCrearFichero() {
+    try {
+        FileChannel.open(
+            archivoPath,
+            StandardOpenOption.WRITE,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.TRUNCATE_EXISTING
+        ).close()
+        println("--- El fichero '${archivoPath.fileName}' se ha creado y está vacío.")
+    } catch (e: Exception) {
+        println("Error al vaciar o crear el fichero: ${e.message}")
+    }
+}
+
+// Añade un registro de planta al final del fichero
+fun anadirPlanta( idPlanta: Int, nombre: String, altura: Double) {
+    val nuevaPlanta = PlantaBinaria(idPlanta, nombre, altura)
+
+    try {
+        FileChannel.open(
+            archivoPath,
+            StandardOpenOption.WRITE,
+            StandardOpenOption.CREATE,
+            StandardOpenOption.APPEND
+        ).use { canal ->
+            val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
+
+            // 1. Escribimos el ID (4 bytes)
+            buffer.putInt(nuevaPlanta.idPlanta)
+
+            // 2. Escribimos el Nombre (20 bytes). Rellenamos con espacios si es más corto.
+            val nombreBytes = nuevaPlanta.nombreComun
+                .padEnd(TAMANO_NOMBRE, ' ')
+                .toByteArray(Charset.defaultCharset())
+            buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
+
+            // 3. Escribimos la altura (8 bytes)
+            buffer.putDouble(nuevaPlanta.alturaMaxima)
+
+            // Preparamos el buffer para volcar la información al canal
+            buffer.flip()
+            while (buffer.hasRemaining()) {
+                canal.write(buffer)
+            }
+            println("- Planta '${nuevaPlanta.nombreComun.trim()}' añadida correctamente.")
+        }
+    } catch (e: Exception) {
+        println("Error al añadir la planta: ${e.message}")
+    }
+}
+
+// Lee todos los registros de manera secuencial de inicio a fin
+fun leerPlantas(): List<PlantaBinaria> {
+    val plantas = mutableListOf<PlantaBinaria>()
+
+    if (!Files.isReadable(archivoPath)) return emptyList()
+
+    FileChannel.open(archivoPath, StandardOpenOption.READ).use { canal ->
+        val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
+
+        while (canal.read(buffer) > 0) {
+            buffer.flip()
+
+            // 1. Leemos el ID
+            val id = buffer.getInt()
+
+            // 2. Leemos los bytes del nombre y los decodificamos limpiando los espacios sobrantes
+            val nombreBytes = ByteArray(TAMANO_NOMBRE)
+            buffer.get(nombreBytes)
+            val nombre = String(nombreBytes, Charset.defaultCharset()).trim()
+
+            // 3. Leemos la altura
+            val altura = buffer.getDouble()
+
+            plantas.add(PlantaBinaria(id, nombre, altura))
+            buffer.clear()
+        }
+    }
+    return plantas
+}
+
+fun mostrarInfo(){
+    // Mostramos la información
+    println("\n--- Plantas leídas secuencialmente del archivo .bin: ---")
+    val leidas = leerPlantas()
+    for (p in leidas) {
+        println(" - ID: ${p.idPlanta}, Nombre común: ${p.nombreComun}, Altura: ${p.alturaMaxima}m")
+    }
+
+```
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    --- El fichero 'plantas.bin' se ha creado y está vacío.
+    - Planta 'Rosa' añadida correctamente.
+    - Planta 'Girasol' añadida correctamente.
+    - Planta 'Margarita' añadida correctamente.
+
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 3.0m
+    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    ```
+
+**Representación Hexadecimal en Disco**
+
+Si abrimos el archivo resultante `plantas.bin` utilizando un visor hexadecimal (como [HexEd.it](https://hexed.it/)), observaremos los registros consecutivos de 32 bytes representados de la siguiente forma:
+
+```text
+Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
+-------------------------------------------------------------------------
+00000000  00 00 00 01 52 6F 73 61 20 20 20 20 20 20 20 20   ....Rosa        
+00000010  20 20 20 20 20 20 3F F8 00 00 00 00 00 00 00 00   ......?.........
+00000020  00 00 00 02 47 69 72 61 73 6F 6C 20 20 20 20 20   ....Girasol     
+00000030  20 20 20 20 20 20 40 08 00 00 00 00 00 00 00 00   ......@.........
+```
+
+*   **ID (1):** Representado en los primeros 4 bytes `00 00 00 01`.
+*   **Nombre ("Rosa"):** Bytes en ASCII `52 6F 73 61`, seguidos de espacios `20` hasta completar los 20 bytes fijos.
+*   **Altura (1.5):** Representado en formato de doble precisión IEEE 754 ocupando los bytes `3F F8 00 00 00 00 00 00`.
+
+
+
+<span class="mis_ejemplos">Ejemplo 13: Modificar el campo de un registro mediante Acceso Aleatorio</span>
+
+Ahora aprovecharemos la capacidad de `FileChannel` para posicionarnos directamente sobre una propiedad de un registro concreto utilizando el ID, para actualizarla sin alterar ni leer de forma secuencial el resto del fichero.
+
+```kotlin
+fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
+    try {
+        // Abrimos el canal con permisos de Lectura y Escritura
+        FileChannel.open(archivoPath, StandardOpenOption.READ, StandardOpenOption.WRITE).use { canal ->
+            val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
+            var encontrado = false
+
+            while (canal.read(buffer) > 0 && !encontrado) {
+                // Al finalizar la lectura de un registro completo, guardamos el puntero actual
+                val posicionActual = canal.position()
+                buffer.flip()
+
+                val id = buffer.getInt()
+                if (id == idPlanta) {
+                    encontrado = true
+
+                    // Calculamos la posición del campo altura en bytes dentro del archivo:
+                    // (Inicio de este registro) + Desplazamiento ID + Desplazamiento Nombre
+                    val posicionAltura = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
+
+                    // Nos situamos en el canal exactamente sobre el campo altura
+                    canal.position(posicionAltura)
+
+                    val bufferAltura = ByteBuffer.allocate(TAMANO_ALTURA)
+                    bufferAltura.putDouble(nuevaAltura)
+                    bufferAltura.flip()
+
+                    while (bufferAltura.hasRemaining()) {
+                        canal.write(bufferAltura)
+                    }
+                }
+                buffer.clear()
+            }
+
+            if (encontrado) {
+                println("\n--- Altura de la planta con ID $idPlanta modificada correctamente a ${nuevaAltura}m.")
+            } else {
+                println("No se encontró ninguna planta con el ID: $idPlanta")
+            }
+        }
+    } catch (e: Exception) {
+        println("Error al modificar el registro: ${e.message}")
+    }
+}
+```
+
+
+Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
+
+```kotlin
+    modificarAlturaPlanta(2, 5.5)
+    mostrarInfo()
+```
+
+!!! success "Prueba y analiza el ejemplo"
+Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    --- El fichero 'plantas.bin' se ha creado y está vacío.
+    - Planta 'Rosa' añadida correctamente.
+    - Planta 'Girasol' añadida correctamente.
+    - Planta 'Margarita' añadida correctamente.
+
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 3.0m
+    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+
+    --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
+
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 5.5m
+    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    ```
+
+
+<span class="mis_ejemplos">Ejemplo 14: Eliminación de un registro binario</span>
+
+Para eliminar un registro de un fichero binario estructurado secuencial, la técnica estándar consiste en leer el fichero de inicio a fin escribiendo en un archivo temporal `.tmp` únicamente aquellos registros que **no coincidan** con el ID a eliminar. Al terminar, borramos el original y sustituimos el fichero original por el temporal.
+
+
+Para poder sustituimos el fichero original por el temporal añadimos un import a nuestro código:
+
+```kotlin
+import java.nio.file.StandardCopyOption
+```
+
+El código de la función de eliminación es el siguiente:
+
+```kotlin
+fun eliminarPlanta(idPlanta: Int) {
+    val pathTemporal = Path.of(archivoPath.toString() + ".tmp")
+    var plantaEncontrada = false
+
+    try {
+        FileChannel.open(archivoPath, StandardOpenOption.READ).use { canalLectura ->
+            FileChannel.open(
+                pathTemporal,
+                StandardOpenOption.WRITE,
+                StandardOpenOption.CREATE,
+                StandardOpenOption.TRUNCATE_EXISTING
+            ).use { canalEscritura ->
+                val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
+
+                while (canalLectura.read(buffer) > 0) {
+                    buffer.flip()
+                    val id = buffer.getInt()
+
+                    if (id == idPlanta) {
+                        plantaEncontrada = true
+                        // Si coincide con el ID a eliminar, lo ignoramos (no se escribe en el temporal)
+                    } else {
+                        // Rebobinamos el puntero del buffer para escribir el registro completo original
+                        buffer.rewind()
+                        canalEscritura.write(buffer)
+                    }
+                    buffer.clear()
+                }
+            }
+        }
+
+        if (plantaEncontrada) {
+            // Reemplazamos el fichero original por el limpio temporal
+            Files.move(pathTemporal, archivoPath, StandardCopyOption.REPLACE_EXISTING)
+            println("\n**** Planta con ID $idPlanta eliminada con éxito.")
+        } else {
+            Files.deleteIfExists(pathTemporal)
+            println("No se encontró la planta con ID: $idPlanta")
+        }
+    } catch (e: Exception) {
+        println("Error durante la eliminación: ${e.message}")
+    }
+}
+```
+
+Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
+
+```kotlin
+    eliminarPlanta(3)
+    mostrarInfo()
+```
+
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que la salida por consola es:
+
+    ```text
+    --- El fichero 'plantas.bin' se ha creado y está vacío.
+    - Planta 'Rosa' añadida correctamente.
+    - Planta 'Girasol' añadida correctamente.
+    - Planta 'Margarita' añadida correctamente.
+
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 3.0m
+    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+
+    --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
+
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 5.5m
+    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+
+    **** Planta con ID 3 eliminada con éxito.
+    --- Plantas leídas secuencialmente del archivo .bin: ---
+    - ID: 1, Nombre común: Rosa, Altura: 1.5m
+    - ID: 2, Nombre común: Girasol, Altura: 5.5m
+    ```
 
 
 
