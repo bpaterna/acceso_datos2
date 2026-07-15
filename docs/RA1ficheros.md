@@ -1072,6 +1072,357 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 
+
+
+
+## 5. Ficheros binarios y formas de acceso
+
+Los ficheros binarios no son legibles directamente por humanos (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`/`.bin`). La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+
+A la hora de trabajar con ellos, podemos hacerlo de forma **secuencial** (leyendo desde el principio hasta el final del fichero) o de forma **aleatoria** (saltando directamente a la posición física que nos interesa en el disco).
+
+
+<span class="mi_h3">5.1. Ficheros Binarios de Imágenes</span>
+
+Las imágenes son ficheros binarios con estructuras de metadatos complejas estandarizadas (`.jpg`, `.png`, `.bmp`). A diferencia de los ficheros de datos que hemos creado, las imágenes representan píxeles organizados en un plano bidimensional.
+
+En Java y Kotlin, interactuamos con ellas mediante:
+*   `BufferedImage`: Representación en la memoria RAM de la cuadrícula de píxeles (con colores RGB).
+*   `ImageIO`: Clase encargada de leer (`ImageIO.read()`) o guardar (`ImageIO.write()`) el búfer en el almacenamiento secundario.
+
+
+| Método | Descripción                                                              |
+| :--- |:-------------------------------------------------------------------------|
+| `ImageIO.read(File)` | Carga una imagen de disco a un objeto `BufferedImage` en memoria.        |
+| `ImageIO.write(BufferedImage, formatName, File)` | Guarda un objeto `BufferedImage` en el disco en el formato especificado. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 8: Generación de una imagen píxel a píxel</span>
+
+```kotlin
+import java.nio.file.Files
+import java.io.File
+
+import java.awt.Color
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
+
+fun main() {
+    crearImagen()
+}
+
+fun crearImagen(){
+    val ancho = 200
+    val alto = 100
+    val imagen = BufferedImage(ancho, alto, BufferedImage.TYPE_INT_RGB)
+
+    // Rellenamos la imagen pixel a pixel simulando un gradiente fotosintético
+    for (x in 0 until ancho) {
+        for (y in 0 until alto) {
+            val rojo = 0                      // Sin canales rojos
+            val verde = (x * 255) / ancho     // Gradiente verde horizontal
+            val azul = (y * 255) / alto       // Gradiente azul vertical
+
+            val colorPixel = Color(rojo, verde, azul)
+            imagen.setRGB(x, y, colorPixel.rgb)
+        }
+    }
+
+    // Guardamos el mapa térmico resultante en disco
+    val archivo = File("datos/sensor_clorofila.png")
+    Files.createDirectories(archivo.toPath().parent)
+    ImageIO.write(imagen, "png", archivo)
+    println("Imagen simulada guardada en: ${archivo.absolutePath}")
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que se ha creado la imagen correctamente.
+
+
+
+<span class="mis_ejemplos">Ejemplo 9: Conversión de una imagen a escala de grises</span>
+
+En el procesamiento de imágenes para botánica y visión por computador, la conversión a escala de grises es el paso inicial para aislar formas (como la silueta de una hoja). Usaremos la **fórmula de luminosidad estándar** para adaptar los píxeles.
+
+```kotlin
+import java.nio.file.Files
+import java.io.File
+
+import java.awt.Color
+import java.awt.image.BufferedImage
+import javax.imageio.ImageIO
+
+import java.nio.file.Path
+import java.nio.file.StandardCopyOption
+
+
+fun main() {
+    grises()
+}
+
+fun grises() {
+    val originalPath = Path.of("datos/sensor_clorofila.png")
+    val copiaPath = Path.of("datos/sensor.jpg")
+    val grisPath = Path.of("datos/sensor_gris.png")
+
+    // 1. Comprobamos la disponibilidad de la muestra original
+    if (!Files.isReadable(originalPath)) {
+        println("No se encuentra la muestra original en: $originalPath")
+    } else {
+        // 2. Duplicamos la muestra con java.nio para preservar el archivo intacto
+        Files.createDirectories(copiaPath.parent)
+        Files.copy(originalPath, copiaPath, StandardCopyOption.REPLACE_EXISTING)
+        println("Muestra de respaldo creada en: $copiaPath")
+
+        // 3. Cargamos la imagen en un búfer de memoria
+        val imagen: BufferedImage = ImageIO.read(copiaPath.toFile())
+
+        // 4. Transformación de color pixel a pixel
+        for (x in 0 until imagen.width) {
+            for (y in 0 until imagen.height) {
+                // Capturamos el color del pixel actual
+                val colorPixel = Color(imagen.getRGB(x, y))
+
+                // Calculamos la escala de grises ponderando por sensibilidad del ojo humano
+                val gris = (colorPixel.red * 0.299 + colorPixel.green * 0.587 + colorPixel.blue * 0.114).toInt()
+
+                // Establecemos los mismos valores de brillo para los canales RGB
+                val colorGris = Color(gris, gris, gris)
+                imagen.setRGB(x, y, colorGris.rgb)
+            }
+        }
+
+        // 5. Exportamos el resultado
+        ImageIO.write(imagen, "png", grisPath.toFile())
+        println("Procesamiento terminado. Muestra en gris guardada en: $grisPath")
+    }
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que se han creado las imagenes correctamente.
+
+
+
+<span class="mi_h3">5.2. Acceso Secuencial a Ficheros Binarios</span>
+
+En el acceso secuencial la información se procesa en orden estricto, byte a byte o registro a registro, desde el inicio del archivo hasta llegar al final.
+
+**Datos no estructurados (Bytes crudos)**
+
+Se utiliza cuando queremos guardar o leer bytes "tal cual", sin que sigan un formato o estándar definido. El programa que los lee debe saber de antemano qué significan. A contiunación se describen algunos métodos útiles:
+
+| Método | Descripción |
+| :--- | :--- |
+| `Files.readAllBytes(Path)`  | Lee todos los bytes del fichero de golpe en un `ByteArray`. |
+| `Files.write(Path, ByteArray)` | Escribe un bloque de bytes de una sola vez. |
+
+
+<span class="mis_ejemplos">Ejemplo 10: Escritura y lectura de bytes crudos</span>
+
+El siguiente ejemplo simula el guardado de una firma digital de seguridad de un lote de semillas en un archivo llamado `lote.bin` dentro de la carpeta datos
+
+```kotlin
+import java.nio.file.Path
+import java.nio.file.Files
+
+fun main() {
+    lote()
+}
+
+fun lote() {
+    val ruta = Path.of("datos/lote.bin")
+
+    try {
+        // Asegura que el directorio destino existe
+        val directorio = ruta.parent
+        if (directorio != null && !Files.exists(directorio)) {
+            Files.createDirectories(directorio)
+            println("Directorio creado: ${directorio.toAbsolutePath()}")
+        }
+
+        // Verifica si se tienen permisos de escritura en el directorio
+        if (!Files.isWritable(directorio)) {
+            println("No se tienen permisos de escritura en el directorio: $directorio")
+        } else {
+            // Datos en bytes a escribir (por ejemplo, códigos de control del lote)
+            val datosDeControl = byteArrayOf(10, 20, 30, 40, 50)
+            Files.write(ruta, datosDeControl)
+            println("Fichero binario creado: ${ruta.toAbsolutePath()}")
+
+            // Verifica si se puede leer el archivo creado
+            if (!Files.isReadable(ruta)) {
+                println("No se tienen permisos de lectura para el fichero: $ruta")
+            } else {
+                // Lectura del fichero binario
+                val bytesLeidos = Files.readAllBytes(ruta)
+                println("Contenido de seguridad leído (byte a byte):")
+                for (b in bytesLeidos) {
+                    print("$b ")
+                }
+                println()
+            }
+        }
+    } catch (e: Exception) {
+        println("Ocurrió un error: ${e.message}")
+    } catch (e: SecurityException) {
+        println("No se tienen permisos suficientes: ${e.message}")
+    } 
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
+
+    ```text
+    Fichero binario creado: datos\lote.bin
+    Contenido de seguridad leído (byte a byte):
+    10 20 30 40 50
+    ```
+
+
+**Datos estructurados (Flujos de datos primitivos)**
+
+Se utiliza cuando guardamos registros que contienen una estructura combinada de tipos primitivos (enteros, booleanos, decimales o texto) de manera consecutiva. El orden y los tamaños en bytes están estrictamente definidos, lo que permite a cualquier programa compatible leer el formato correctamente.
+
+Las clases **`DataOutputStream`** y **`DataInputStream`** de `java.io` son las herramientas básicas para leer y escribir estos tipos de datos primitivos en ficheros binarios de forma estructurada. A contiunación se describen algunos de sus métodos:
+
+
+**Métodos de `DataOutputStream`**
+
+| Método | Descripción | Tamaño en memoria |
+| :--- | :--- | :--- |
+| `writeInt(int)` | Escribe un entero con signo. | 4 bytes |
+| `writeDouble(double)` | Escribe un número en coma flotante de precisión doble. | 8 bytes |
+| `writeFloat(float)` | Escribe un número en coma flotante de precisión simple. | 4 bytes |
+| `writeLong(long)` | Escribe un entero largo. | 8 bytes |
+| `writeBoolean(boolean)` | Escribe un valor de verdadero o falso. | 1 byte |
+| `writeChar(char)` | Escribe un carácter Unicode. | 2 bytes |
+| `writeUTF(String)` | Escribe una cadena de texto precededida por su longitud en 2 bytes. | Cadena codificada en UTF-8 |
+| `writeByte(int)` | Escribe un solo byte. | 1 byte |
+| `writeShort(int)` | Escribe un entero corto. | 2 bytes |
+
+**Métodos de `DataInputStream`**
+
+| Método | Descripción |
+| :--- | :--- |
+| `readInt()` | Lee un entero con signo. |
+| `readDouble()` | Lee un número de precisión doble (`Double`). |
+| `readFloat()` | Lee un número de precisión simple (`Float`). |
+| `readLong()` | Lee un entero largo (`Long`). |
+| `readBoolean()` | Lee un valor booleano. |
+| `readChar()` | Lee un carácter Unicode. |
+| `readUTF()` | Lee una cadena de texto en formato UTF-8 modificado. |
+| `readByte()` | Lee un byte. |
+| `readShort()` | Lee un entero corto. |
+
+
+
+<span class="mis_ejemplos">Ejemplo 11: Escritura y lectura estructurada (Tipos Primitivos)</span>
+
+El siguiente ejemplo simula el registro de la temperatura mínima, ph del suelo y código de lote en binario estructurado
+
+```kotlin
+import java.io.DataInputStream
+import java.io.DataOutputStream
+import java.io.FileInputStream
+import java.io.FileOutputStream
+import java.nio.file.Files
+import java.nio.file.Path
+
+fun main() {
+    registro()
+}
+
+fun registro() {
+    val ruta = Path.of("datos/registro.dat")
+    Files.createDirectories(ruta.parent)
+
+    // --- Escritura binaria estructurada ---
+    val fos = FileOutputStream(ruta.toFile())
+    val out = DataOutputStream(fos)
+
+    out.writeInt(42)               // ID de la parcela (4 bytes)
+    out.writeDouble(6.8)           // Nivel de pH del suelo (8 bytes)
+    out.writeUTF("ZONA-NORTE")     // Código identificador (Cadena UTF-8)
+
+    out.close()
+    fos.close()
+    println("--- Fichero binario estructurado guardado correctamente.")
+
+    // --- Lectura binaria estructurada ---
+    val fis = FileInputStream(ruta.toFile())
+    val input = DataInputStream(fis)
+
+    // Leemos estrictamente en el mismo orden de escritura para no corromper la lectura
+    val idParcela = input.readInt()
+    val phSuelo = input.readDouble()
+    val zonaLabel = input.readUTF()
+
+    input.close()
+    fis.close()
+
+    println("Datos leídos del suelo:")
+    println(" - ID Parcela: $idParcela")
+    println(" - pH del Suelo: $phSuelo")
+    println(" - Ubicación: $zonaLabel")
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
+
+    ```text
+    --- Fichero binario estructurado guardado correctamente.
+    Datos leídos del suelo:
+    - ID Parcela: 42
+    - pH del Suelo: 6.8
+    - Ubicación: ZONA-NORTE
+    ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---
+
+<span class="mi_h3">5.3. Acceso Aleatorio a Ficheros Binarios (Nivel Avanzado)</span>
+
+A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea en cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes.
+
+Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes** (por ejemplo, cada planta registrada ocupará exactamente 32 bytes).
+
+Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos obligatoriamente con dos herramientas en equipo:
+
+1.  **`FileChannel`**: Funciona como un "canal o autopista de datos" bidireccional hacia el archivo en el disco. Nos permite modificar la posición del puntero del archivo mediante `canal.position(long)`.
+2.  **`ByteBuffer`**: Es un contenedor en la memoria RAM que empaqueta y prepara exactamente los bytes que queremos transferir o recibir a través del canal (`FileChannel`).
+
+> **Ejemplo Práctico:** Buscar una planta por su ID y actualizar su altura máxima directamente en su posición de disco sin tocar los registros de los lados. *(Ejemplos 13, 14 y 15 de tus apuntes)*.
+
+
+
+
+
+
 ---
 <span class="mi_h3">Autoría</span>
 
