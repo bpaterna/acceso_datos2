@@ -1838,11 +1838,11 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
     3. **Implementa las funiones necesarias:** 
 
-      - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
-      - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
-      - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
-      - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
-      - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
+            - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
+            - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
+            - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
+            - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
+            - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
 
 
     **Aspectos Técnicos Obligatorios:**
