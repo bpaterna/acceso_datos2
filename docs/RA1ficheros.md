@@ -162,7 +162,7 @@ fun organizar(){
                     // 4. Obtener la extensión del fichero (ej: "jpg", "txt", "mp3")
                     val extension = pathFichero.extension.lowercase()
                     if (extension.isBlank()) {
-                        println("-> Ignorando archivo sin tipo: " + pathFichero.fileName)
+                        println("-> Ignorando fichero sin tipo: " + pathFichero.fileName)
                         return@forEach // Salta a la siguiente muestra
                     }
 
@@ -171,7 +171,7 @@ fun organizar(){
 
                     // 6. Crear el directorio de destino de la categoría si no existe
                     if (Files.notExists(carpetaDestino)) {
-                        println("-> Creando nueva sección para archivos: ." + extension)
+                        println("-> Creando nueva sección para ficheros: ." + extension)
                         Files.createDirectories(carpetaDestino)
                     }
 
@@ -196,18 +196,18 @@ fun organizar(){
 
     ```text
     --- Iniciando la clasificación botánica en la carpeta: muestras ---
-    -> Creando nueva sección para archivos: .txt
+    -> Creando nueva sección para ficheros: .txt
     -> Clasificando flor.txt en la carpeta [.txt]
     -> Clasificando arbusto.txt en la carpeta [.txt]
-    -> Creando nueva sección para archivos: .jpg
+    -> Creando nueva sección para ficheros: .jpg
     -> Clasificando 20191106_071048.jpg en la carpeta [.jpg]
     -> Clasificando 20191101_071830.jpg en la carpeta [.jpg]
-    -> Creando nueva sección para archivos: .mp3
+    -> Creando nueva sección para ficheros: .mp3
     -> Clasificando pad-harmonious-and-soothing-voice-like-background.mp3 en la carpeta [.mp3]
     -> Clasificando dark-cinematic-atmosphere.mp3 en la carpeta [.mp3]
-    -> Creando nueva sección para archivos: .mp4
+    -> Creando nueva sección para ficheros: .mp4
     -> Clasificando 293968_small.mp4 en la carpeta [.mp4]
-    -> Creando nueva sección para archivos: .pdf
+    -> Creando nueva sección para ficheros: .pdf
     -> Clasificando lorem-ipsum-1.pdf en la carpeta [.pdf]
     -> Clasificando lorem-ipsum-2.pdf en la carpeta [.pdf]
     
@@ -358,7 +358,7 @@ fun textoPlano(){
 
     Files.createDirectories(ruta.parent) // Crea la carpeta "muestras" si no existe
 
-    // Escritura de una línea writeString (si el archivo no existe lo crea y si existe lo vacía
+    // Escritura de una línea writeString (si no existe lo crea y si existe lo vacía)
     val anotacion = "Cuidados de orquídeas realizados."
     Files.writeString(ruta, anotacion, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
 
@@ -623,12 +623,12 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
     2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
-    3. **Crea tu fichero de datos inicial:** Genera manualmente un archivo con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
+    3. **Crea tu fichero de datos inicial:** Genera manualmente un fichero con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
     4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y muestre un menú en la consola con las siguientes opciones:
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA APLICACIÓN --------
+        ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
         1. Leer datos desde CSV
         0. Salir
@@ -653,13 +653,13 @@ Para interactuar con XML en Kotlin, utilizaremos el ecosistema **Jackson XML** (
 
 **Métodos clave de `XmlMapper`:**
 
-| Método | Descripción |
-| :--- | :--- |
-| `readValue(File, Class<T>)` | Parsea un archivo físico XML y lo transforma en un objeto o estructura en memoria. |
-| `writeValue(File, Object)` | Guarda la representación XML de un objeto de forma directa en un fichero del sistema. |
-| `writeValueAsString(Object)` | Convierte el objeto a formato de texto plano estructurado como XML (String). |
+| Método | Descripción                                                                                     |
+| :--- |:------------------------------------------------------------------------------------------------|
+| `readValue(File, Class<T>)` | Parsea un fichero físico XML y lo transforma en un objeto o estructura en memoria.              |
+| `writeValue(File, Object)` | Guarda la representación XML de un objeto de forma directa en un fichero del sistema.           |
+| `writeValueAsString(Object)` | Convierte el objeto a formato de texto plano estructurado como XML (String).                    |
 | `registerModule(Module)` | Registra extensiones como `KotlinModule` para dar soporte nativo a tipos específicos de Kotlin. |
-| `enable(SerializationFeature.INDENT_OUTPUT)` | Activa el formateado legible (identación/tabulado) para las salidas escritas. |
+| `enable(SerializationFeature.INDENT_OUTPUT)` | Activa el formateado legible (identación/tabulado) para las salidas escritas.                   |
 
 
 
@@ -818,12 +818,12 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
     **Realiza los siguientes pasos:**
 
-    1. **Crea tu archivo XML:** Genera manualmente un archivo con extensión `.xml` con al menos 5 registros que cumplan con la estructura de tu *data class*.
+    1. **Crea tu fichero XML:** Genera manualmente un fichero con extensión `.xml` con al menos 5 registros que cumplan con la estructura de tu *data class*.
     2. **Amplia el menú:** Añade una opción para leer el XML.
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA APLICACIÓN --------
+        ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -989,12 +989,12 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
 
     **Realiza los siguientes pasos:**
 
-    1. **Crea tu archivo JSON:** Genera manualmente un archivo con extensión `.json` con al menos 5 registros que cumplan con la estructura de tu *data class*.
+    1. **Crea tu fichero JSON:** Genera manualmente un fichero con extensión `.json` con al menos 5 registros que cumplan con la estructura de tu *data class*.
     2. **Amplia el menú:** Añade una opción para leer el JSON.
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA APLICACIÓN --------
+        ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -1028,11 +1028,11 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 !!! warning "Práctica 4: amplía tu proyecto"
 
-    1. **Amplia el menú con las siguientes opciones:**
+    1. **Amplia el menú con las opciones de la 4 a la 9 para que quede de la siguietne manera:**
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA APLICACIÓN --------
+        ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -1075,15 +1075,15 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 ## 5. Ficheros binarios y formas de acceso
 
-Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, `.dat` o `.bin`) no son legibles directamente por humanos. La información se guarda en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+Los ficheros binarios (como `.exe`, `.jpg`, `.mp3`, `.dat` o `.bin`) no son legibles directamente por humanos. La información se guarda en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
 
 A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y algunos tipos binarios:
 
-| Extensión | Contenido típico | Comentario didáctico |
-| :--- | :--- | :--- |
-| **`.txt`** | Texto plano | Legible en cualquier editor de texto. Muy fácil de modificar manualmente por el usuario. |
-| **`.csv`** | Valores separados por comas o punto y coma | Formato tabular ligero. Ideal para hojas de cálculo o importaciones iniciales. |
-| **`.dat`** | Binario o texto genérico | "Archivo de datos" clásico de sistemas legacy. No aclara directamente por su nombre si contiene texto o bytes crudos. |
+| Extensión | Contenido típico | Comentario didáctico                                                                                                                                                                                       |
+| :--- | :--- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **`.txt`** | Texto plano | Legible en cualquier editor de texto. Muy fácil de modificar manualmente por el usuario.                                                                                                                   |
+| **`.csv`** | Valores separados por comas o punto y coma | Formato tabular ligero. Ideal para hojas de cálculo o importaciones iniciales.                                                                                                                             |
+| **`.dat`** | Binario o texto genérico | "Fichero de datos" clásico de sistemas legacy. No aclara directamente por su nombre si contiene texto o bytes crudos.                                                                                      |
 | **`.bin`** | Binario puro | Contiene información organizada directamente en bytes. No se puede abrir directamente en texto sin ver caracteres extraños, pero es el formato óptimo para almacenamiento estructurado de alta eficiencia. |
 
 
@@ -1098,18 +1098,18 @@ Las imágenes son ficheros binarios con estructuras de metadatos complejas estan
 Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos elementos en equipo:
 
 - **`BufferedImage`:** Es una clase que representa la imagen **en la memoria RAM**. Funciona como una "cuadrícula o lienzo" donde cada celda es un píxel con su propio color (en formato RGB o escala de grises). Modificamos o leemos los píxeles directamente sobre este lienzo.
-- **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el archivo físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
+- **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el fichero físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
 
 
 **Métodos clave para el manejo de imágenes**
 
-| Elemento / Método | Tipo | Descripción | Ejemplo de uso |
-| :--- | :--- | :--- | :--- |
-| **`ImageIO.read(File)`** [36] | *Lectura* | Carga una imagen desde el disco duro y la transforma en un objeto `BufferedImage` en memoria RAM [36]. | `val img = ImageIO.read(File("hoja.jpg"))` |
-| **`ImageIO.write(BufferedImage, format, File)`** [36] | *Escritura* | Guarda el lienzo de píxeles de la memoria en un archivo físico del disco con el formato indicado [36]. | `ImageIO.write(img, "png", File("resultado.png"))` |
-| **`BufferedImage(ancho, alto, tipo)`** | *Creación* | Crea un lienzo en blanco en memoria con las dimensiones especificadas y un tipo de color concreto (ej. `TYPE_INT_RGB`). | `val lienzo = BufferedImage(200, 100, BufferedImage.TYPE_INT_RGB)` |
-| **`setRGB(x, y, rgb)`** | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y). | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
-| **`getRGB(x, y)`** | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y). | `val colorInt = lienzo.getRGB(10, 5)` |
+| Elemento / Método | Tipo | Descripción                                                                                                                               | Ejemplo de uso |
+| :--- | :--- |:------------------------------------------------------------------------------------------------------------------------------------------| :--- |
+| **`ImageIO.read(File)`** [36] | *Lectura* | Carga una imagen desde el disco duro y la transforma en un objeto `BufferedImage` en memoria RAM [36].                                    | `val img = ImageIO.read(File("hoja.jpg"))` |
+| **`ImageIO.write(BufferedImage, format, File)`** [36] | *Escritura* | Guarda el lienzo de píxeles de la memoria en un fichero físico del disco con el formato indicado [36].                                    | `ImageIO.write(img, "png", File("resultado.png"))` |
+| **`BufferedImage(ancho, alto, tipo)`** | *Creación* | Crea un lienzo en blanco en memoria con las dimensiones especificadas y un tipo de color concreto (ej. `TYPE_INT_RGB`).                   | `val lienzo = BufferedImage(200, 100, BufferedImage.TYPE_INT_RGB)` |
+| **`setRGB(x, y, rgb)`** | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y).                                    | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
+| **`getRGB(x, y)`** | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y).                                            | `val colorInt = lienzo.getRGB(10, 5)` |
 | **`Color(rgb)`** | *Conversión* | Clase que permite decodificar el valor entero del píxel para poder extraer de forma sencilla sus componentes de color rojo, verde y azul. | `val color = Color(lienzo.getRGB(x, y))` <br> `val rojo = color.red` |
 
 
@@ -1187,7 +1187,7 @@ fun grises() {
     if (!Files.isReadable(originalPath)) {
         println("No se encuentra la muestra original en: $originalPath")
     } else {
-        // 2. Duplicamos la muestra con java.nio para preservar el archivo intacto
+        // 2. Duplicamos la muestra con java.nio para preservar el original intacto
         Files.createDirectories(copiaPath.parent)
         Files.copy(originalPath, copiaPath, StandardCopyOption.REPLACE_EXISTING)
         println("Muestra de respaldo creada en: $copiaPath")
@@ -1224,7 +1224,7 @@ fun grises() {
 
 <span class="mi_h3">5.2. Acceso secuencial a ficheros binarios</span>
 
-En el acceso secuencial la información se procesa en orden estricto, byte a byte o registro a registro, desde el inicio del archivo hasta llegar al final.
+En el acceso secuencial la información se procesa en orden estricto, byte a byte o registro a registro, desde el inicio del fichero hasta llegar al final.
 
 **Datos no estructurados**
 
@@ -1238,7 +1238,7 @@ Se utiliza cuando queremos guardar o leer bytes "tal cual", sin que sigan un for
 
 <span class="mis_ejemplos">Ejemplo 10: Escritura y lectura de bytes crudos</span>
 
-El siguiente ejemplo simula el guardado de una firma digital de seguridad de un lote de semillas en un archivo llamado `lote.bin` dentro de la carpeta datos
+El siguiente ejemplo simula el guardado de una firma digital de seguridad de un lote de semillas en un fichero llamado `lote.bin` dentro de la carpeta datos
 
 ```kotlin
 import java.nio.file.Path
@@ -1268,7 +1268,7 @@ fun lote() {
             Files.write(ruta, datosDeControl)
             println("Fichero binario creado: ${ruta.toAbsolutePath()}")
 
-            // Verifica si se puede leer el archivo creado
+            // Verifica si se puede leer el fichero creado
             if (!Files.isReadable(ruta)) {
                 println("No se tienen permisos de lectura para el fichero: $ruta")
             } else {
@@ -1290,7 +1290,7 @@ fun lote() {
 ```
 
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
+    Prueba el código de ejemplo verifica que el fichero se ha creado y que la salida por consola es:
 
     ```text
     Fichero binario creado: datos\lote.bin
@@ -1388,7 +1388,7 @@ fun registro() {
 ```
 
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
+    Prueba el código de ejemplo verifica que el fichero se ha creado y que la salida por consola es:
 
     ```text
     --- Fichero binario estructurado guardado correctamente.
@@ -1401,7 +1401,7 @@ fun registro() {
 
 <span class="mi_h3">5.3. Acceso aleatorio a ficheros binarios</span>
 
-A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea a cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes. Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes**.
+A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea a cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes. Para poder utilizar esta técnica, nuestros registros en el fichero binario deben tener un **tamaño fijo en bytes**.
 
 > Por ejemplo, si cada registro de nuestra colección botánica ocupa exactamente 32 bytes, para acceder al registro número 100 no tenemos que leer los 99 anteriores; podemos saltar directamente a la **posición de inicio** del registro número 100 calculándola: **Posición = 32 bytes × (100−1) = 3168 bytes**
 
@@ -1409,9 +1409,9 @@ A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarno
 
 Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos con tres herramientas en equipo:
 
-1.  **`FileChannel`**: Funciona como un "canal o autopista de datos" bidireccional hacia el archivo en el disco. Es el que nos permite modificar la posición del puntero del archivo en tiempo de ejecución mediante `canal.position(long)`.
+1.  **`FileChannel`**: Funciona como un "canal o autopista de datos" bidireccional hacia el fichero en el disco. Es el que nos permite modificar la posición del puntero del fichero en tiempo de ejecución mediante `canal.position(long)`.
 2.  **`ByteBuffer`**: Es un contenedor en la memoria RAM que empaqueta y prepara exactamente los bytes que queremos transferir (escribir) o recibir (leer) a través del canal (`FileChannel`).
-3.  **`StandardOpenOption`**: Es un enumerado que funciona como el "semáforo de permisos" del canal. Le indica a `FileChannel` cómo debe abrirse el archivo (por ejemplo, si se abre solo para lectura `READ`, para escritura `WRITE`, si debe crear el archivo si no existe `CREATE` o si debe añadir los datos al final `APPEND`). Sin estas opciones de configuración, el canal no sabrá qué operaciones tiene permitido realizar sobre el disco.
+3.  **`StandardOpenOption`**: Es un enumerado que funciona como el "semáforo de permisos" del canal. Le indica a `FileChannel` cómo debe abrirse el fichero (por ejemplo, si se abre solo para lectura `READ`, para escritura `WRITE`, si debe crear el fichero si no existe `CREATE` o si debe añadir los datos al final `APPEND`). Sin estas opciones de configuración, el canal no sabrá qué operaciones tiene permitido realizar sobre el disco.
 
 
 A continuación se describen algunos de los métodos que utilizaremos:
@@ -1461,7 +1461,7 @@ A continuación se describen algunos de los métodos que utilizaremos:
 
 <span class="mis_ejemplos">Ejemplo 12: Lectura y escritura en ficheros binarios de tamaño fijo</span>
 
-En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un archivo binario estructurado para nuestro herbario. Cada registro representará una planta con tres campos y ocupará exactamente **32 bytes** en total:
+En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un fichero binario estructurado para nuestro herbario. Cada registro representará una planta con tres campos y ocupará exactamente **32 bytes** en total:
 
 | Campo | Tipo | Tamaño fijo | Rango de bytes en el registro |
 | :--- | :--- | :--- | :--- |
@@ -1599,7 +1599,7 @@ fun leerPlantas(): List<PlantaBinaria> {
 
 fun mostrarInfo() {
     // Mostramos la información
-    println("\n--- Plantas leídas secuencialmente del archivo .bin: ---")
+    println("\n--- Plantas leídas secuencialmente del fichero .bin: ---")
     val leidas = leerPlantas()
     for (p in leidas) {
         println(" - ID: ${p.idPlanta}, Nombre común: ${p.nombreComun}, Altura: ${p.alturaMaxima}m")
@@ -1616,7 +1616,7 @@ fun mostrarInfo() {
     - Planta 'Girasol' añadida correctamente.
     - Planta 'Margarita' añadida correctamente.
 
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 3.0m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
@@ -1624,7 +1624,7 @@ fun mostrarInfo() {
 
 **Representación Hexadecimal en Disco**
 
-Si abrimos el archivo resultante `plantas.bin` utilizando un visor hexadecimal (como [HexEd.it](https://hexed.it/)), observaremos los registros consecutivos de 32 bytes representados de la siguiente forma:
+Si abrimos el fichero resultante `plantas.bin` utilizando un visor hexadecimal (como [HexEd.it](https://hexed.it/)), observaremos los registros consecutivos de 32 bytes representados de la siguiente forma:
 
 ```text
 Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
@@ -1662,7 +1662,7 @@ fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
                 if (id == idPlanta) {
                     encontrado = true
 
-                    // Calculamos la posición del campo altura en bytes dentro del archivo:
+                    // Calculamos la posición del campo altura en bytes dentro del fichero:
                     // (Inicio de este registro) + Desplazamiento ID + Desplazamiento Nombre
                     val posicionAltura = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
 
@@ -1708,14 +1708,14 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - Planta 'Girasol' añadida correctamente.
     - Planta 'Margarita' añadida correctamente.
 
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 3.0m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
 
     --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
 
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
@@ -1724,7 +1724,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
 <span class="mis_ejemplos">Ejemplo 14: Eliminación de un registro binario</span>
 
-Para eliminar un registro de un fichero binario estructurado secuencial, la técnica estándar consiste en leer el fichero de inicio a fin escribiendo en un archivo temporal `.tmp` únicamente aquellos registros que **no coincidan** con el ID a eliminar. Al terminar, borramos el original y sustituimos el fichero original por el temporal.
+Para eliminar un registro de un fichero binario estructurado secuencial, la técnica estándar consiste en leer el fichero de inicio a fin escribiendo en un fichero temporal `.tmp` únicamente aquellos registros que **no coincidan** con el ID a eliminar. Al terminar, borramos el original y sustituimos el fichero original por el temporal.
 
 
 Para poder sustituir el fichero original por el temporal añadimos un import a nuestro código:
@@ -1798,20 +1798,20 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - Planta 'Girasol' añadida correctamente.
     - Planta 'Margarita' añadida correctamente.
 
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 3.0m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
 
     --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
 
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
 
     **** Planta con ID 3 eliminada con éxito.
-    --- Plantas leídas secuencialmente del archivo .bin: ---
+    --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     ```
@@ -1822,21 +1822,43 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     **Realiza los siguientes pasos:**
 
     1. **Diseña tu registro de datos:** Define las longitudes en bytes de los datos de tu registro (Int = 4 bytes, Double = 8 bytes, String = longitud fija rellenada con espacios, etc) para que coincida con la `data class` que has utilizado en las prácticas anteriores.
-    2. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y muestre un menú en la consola con las siguientes opciones:
+
+
+    2. **Añade al menú de tu aplicación una opción más (10. Gestión fichero BIN):**
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA APLICACIÓN --------
+        ----------- MENÚ PRINCIPAL -----------
+        --------------------------------------
+        1. Leer datos desde CSV
+        2. Leer datos desde XML
+        3. Leer datos desde JSON
+        4. Convertir JSON a CSV
+        5. Convertir JSON a XML
+        6. Convertir XML a JSON 
+        7. Convertir XML a CSV
+        8. Convertir CSV a JSON
+        9. Convertir CSV a XML
+        10. Gestión fichero BIN 
+        0. Salir
+        ```
+
+
+    3. **Crea un submenú para gestionar la información del fichero binario:** Al entrar en la nueva opción del menú principal debe aparecer otro menú con las siguientes opciones:
+
+        ```text
+        --------------------------------------        
+        ---------- MENÚ fichero BIN ----------
         --------------------------------------
         1. Importar datos desde fichero de texto plano.
-        2. Visualizar información del archivo binario.
+        2. Visualizar información del fichero binario.
         3. Añadir un registro nuevo
         4. Modificar un registro existente (por ID)
         5. Eliminar un registro existente (por ID)
         0. Salir
         ```
 
-    3. **Implementa las funiones necesarias:**
+    4. **Implementa las funiones necesarias:**
           - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
           - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
           - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
@@ -1927,7 +1949,7 @@ data class Planta(
 - **Requisitos previos**: Asegúrate de tener instalado un JDK (versión 17 o superior).
 - **Compilación**: Abre el proyecto en tu IDE (ej. IntelliJ IDEA) y deja que Gradle sincronice las dependencias del archivo `build.gradle.kts`.
 - **Ejecución**: Lanza la función main contenida en el archivo de entrada `Main.kt`.
-- **Ficheros necesarios**: El programa buscará un archivo estructurado llamado *mis_plantas.json* (o *mis_plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
+- **Ficheros necesarios**: El programa buscará un fichero estructurado llamado *mis_plantas.json* (o *mis_plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
 
 ---
 
@@ -1935,7 +1957,7 @@ data class Planta(
 
 - **Elección de formato de origen**: Se optó por utilizar JSON para los datos iniciales porque es un formato estructurado estándar, altamente legible y que permite verificar fácilmente si los datos de entrada son correctos antes de convertirlos a bytes.
 - **Tamaño del registro en binario**: Se definieron 20 bytes fijos para el campo del nombre de la planta. Se considera espacio suficiente para almacenar nombres comunes habituales ("Helecho de Boston", "Rosa Silvestre") sin desperdiciar almacenamiento en el disco duro.
-- **Formato del archivo**: Se decidió usar un archivo `.bin` en lugar de `.txt` para el almacenamiento de herbario final para optimizar el espacio de almacenamiento y garantizar que las lecturas y escrituras por acceso aleatorio con `FileChannel` fuesen precisas gracias a la longitud de registro fija de 32 bytes.
+- **Formato del fichero**: Se decidió usar un fichero `.bin` en lugar de `.txt` para el almacenamiento de herbario final para optimizar el espacio de almacenamiento y garantizar que las lecturas y escrituras por acceso aleatorio con `FileChannel` fuesen precisas gracias a la longitud de registro fija de 32 bytes.
 ````
 
 
