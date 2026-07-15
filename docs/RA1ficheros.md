@@ -1818,6 +1818,150 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     ```
 
+!!! warning "Práctica 5: crea tu gestión de ficheros binarios"
+    En esta práctica crearás una aplicación de gestión CRUD para manejar la información de tu aplicación.
+
+    **Realiza los siguientes pasos:**
+
+    1. **Diseña tu registro de datos:** Define las longitudes en bytes de los datos de tu registro (Int = 4 bytes, Double = 8 bytes, String = longitud fija rellenada con espacios, etc) para que coincida con la `data class` que has utilizado en las prácticas anteriores.
+    2. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y muestre un menú en la consola con las siguientes opciones:
+
+        ```text
+        --------------------------------------        
+        -------- MENÚ DE LA PLICACIÓN --------
+        --------------------------------------
+        1. Importar datos desde fichero de texto plano.
+        2. Visualizar información del archivo binario.
+        3. Añadir un registro nueno
+        4. Modificar un registro existente (por ID)
+        5. Eliminar un registro existente (por ID)
+        0. Salir
+        ```
+
+    3. **Implementa las funiones necesarias:** 
+      * Cuando el usuario seleccione la opción `1` se llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
+      * Cuando el usuario seleccione la opción `2` se llamará a la función lee la información del fichero `.bin`y los muestra por consola.
+      * Cuando el usuario seleccione la opción `3` se llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
+      * Cuando el usuario seleccione la opción `4` se llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, pide uno de los datos para modificarlo en el fichero `.bin`.
+      * Cuando el usuario seleccione la opción `5` se llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
+
+
+    **Aspectos Técnicos Obligatorios:**
+
+      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      * **Configuración del proyecto:** Añade las dependencias necesarias a tu archivo `build.gradle.kts`.
+      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+
+
+
+
+## 6. Documentación
+
+En un proyecto de software, el código fuente por sí solo no cuenta toda la historia; es fundamental crear documentación adicional. La forma estándar de hacerlo es a través de un fichero `LEEME.md` (o `README.md`) ubicado en la raíz del proyecto, es decir, al mismo nivel que `build.gradle.kts`, `settings.gradle.kts` y la carpeta `src`.
+
+El fichero `LEEME.md` es lo primero que verá cualquier persona (incluido nuestro "yo" del futuro) que quiera entender nuestro código. Es buena práctica explicar qué hace el proyecto, cómo se utiliza y por qué se tomaron algunas decisiones de diseño (por ejemplo, *¿por qué elegimos un registro de 32 bytes?* o *¿por qué el nombre del fichero es plantas.bin?*).
+
+Un buen fichero `LEEME.md` debería contener, como mínimo, las siguientes secciones:
+
+*   **Nombre del proyecto y breve descripción.**
+*   **Estructura de Datos:** En esta sección se explica el diseño de los datos y su representación en memoria.
+*   **Instrucciones de Ejecución:** Pasos claros y sencillos para que otra persona pueda ejecutar nuestro programa.
+*   **Decisiones de Diseño:** Un pequeño apartado para explicar brevemente por qué tomamos ciertas decisiones de implementación.
+
+La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero que permite dar formato a un texto plano usando caracteres simples. Podemos crearlo con cualquier editor de texto (IntelliJ, VSCode, Bloc de notas...) y guardarlo con la extensión `.md`. Plataformas como GitHub, GitLab y otros sistemas de documentación convierten de forma automática estos ficheros en páginas web atractivas.
+
+**Sintaxis básica de Markdown para empezar:**
+
+```text
+# Título de Nivel 1 (Proyecto)
+## Título de Nivel 2 (Sección)
+### Título de Nivel 3 (Subsección)
+
+**Texto en negrita**
+*Texto en cursiva*
+
+* Elemento de una lista
+1. Elemento de una lista numerada
+```
+
+Para bloques de código, rodearlos con tres comillas invertidas (\`\`\`) y especificar el lenguaje:
+
+```kotlin
+fun main() {
+    println("Hola, Markdown!")
+}
+```
+
+
+<span class="mis_ejemplos">Ejemplo 15: Estructura de un fichero `LEEME.md` para el proyecto</span>
+
+A continuación se muestra cómo debería quedar redactado el documento de documentación del proyecto final para el herbario:
+
+````markdown
+# Gestor de Herbario Digital
+
+Este es un programa de consola desarrollado en Kotlin para gestionar un catálogo y registro taxonómico de plantas. Los datos se importan desde fuentes estructuradas y se almacenan de manera local y eficiente en un fichero binario de acceso aleatorio llamado *plantas.bin*.
+
+## 1. Estructura de datos
+
+### **Data Class:**
+```kotlin
+data class Planta(
+    val idPlanta: Int,
+    val nombreComun: String,
+    val alturaMaxima: Double
+)
+```
+
+**Estructura del registro binario:**
+
+* **id_planta**: Int - 4 bytes (desplazamiento 0 a 3)
+* **nombre_comun**: String - 20 bytes (longitud fija rellenada con espacios, desplazamiento 4 a 23)
+* **altura_maxima**: Double - 8 bytes (desplazamiento 24 a 31)
+* **Tamaño Total del Registro**: 4 + 20 + 8 = 32 bytes
+
+---
+
+## 2. Instrucciones de ejecución
+
+- **Requisitos previos**: Asegúrate de tener instalado un JDK (versión 17 o superior).
+- **Compilación**: Abre el proyecto en tu IDE (ej. IntelliJ IDEA) y deja que Gradle sincronice las dependencias del archivo `build.gradle.kts`.
+- **Ejecución**: Lanza la función main contenida en el archivo de entrada `Main.kt`.
+- **Ficheros necesarios**: El programa buscará un archivo estructurado llamado *mis_plantas.json* (o *mis_plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
+
+---
+
+## 3. Decisiones de diseño
+
+* **Elección de formato de origen**: Se optó por utilizar JSON para los datos iniciales porque es un formato estructurado estándar, altamente legible y que permite verificar fácilmente si los datos de entrada son correctos antes de convertirlos a bytes.
+* **Tamaño del registro en binario**: Se definieron 20 bytes fijos para el campo del nombre de la planta. Se considera espacio suficiente para almacenar nombres comunes habituales ("Helecho de Boston", "Rosa Silvestre") sin desperdiciar almacenamiento en el disco duro.
+* **Formato del archivo**: Se decidió usar un archivo `.bin` en lugar de `.txt` para el almacenamiento de herbario final para optimizar el espacio de almacenamiento y garantizar que las lecturas y escrituras por acceso aleatorio con `FileChannel` fuesen precisas gracias a la longitud de registro fija de 32 bytes.
+````
+
+
+!!! warning "Práctica 6: finaliza tu aplicación"
+    En esta práctica añadirás el fichero LEEME.md a tu proyecto en el que explicarás tu temática, la estructura de datos que diseñaste (la data class y el registro binario incluyendo su tamaño total) y las instrucciones para ejecutar tu programa.
+
+    Aprovecha para realizar las últimas pruebas y asegurarte que la aplicación que entregas no tiene fallos.
+
+   ¡Enhorabuena, has completado tu proyecto!
+
+
+
+
+
+!!! danger "Entrega final"
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga las carpetas `src` y `datos` y el archivo `LEEME.md` de tu proyecto además de los archivos.
+
+    **IMPORTANTE:**
+
+      * El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+
+      * No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
+
+      * Se realizarán preguntas sobre el proyecto para verificar su autoría.  
+
+
 
 
 
