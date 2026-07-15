@@ -13,20 +13,20 @@ Un **fichero o archivo** es una unidad de almacenamiento de datos en un sistema 
 
 <span class="mi_h3">Características de un fichero</span>
 
-* **Nombre:** Cada fichero tiene un nombre único dentro de su directorio.
-* **Extensión:** Indica su tipo (`.txt` para texto, `.jpg` para imágenes, etc.).
-* **Ubicación:** Directorios (carpetas) dentro del sistema de ficheros.
-* **Contenido:** Texto, imágenes, vídeos, código fuente, bases de datos, etc.
-* **Permisos de acceso:** Se pueden configurar para permitir o restringir la lectura, escritura o ejecución a determinados usuarios o programas.
+- **Nombre:** Cada fichero tiene un nombre único dentro de su directorio.
+- **Extensión:** Indica su tipo (`.txt` para texto, `.jpg` para imágenes, etc.).
+- **Ubicación:** Directorios (carpetas) dentro del sistema de ficheros.
+- **Contenido:** Texto, imágenes, vídeos, código fuente, bases de datos, etc.
+- **Permisos de acceso:** Se pueden configurar para permitir o restringir la lectura, escritura o ejecución a determinados usuarios o programas.
 
 <span class="mi_h3">Tipos de ficheros</span>
 
-* **De texto:** Formato legible por humanos (`.txt`, `.csv`, `.json`, `.xml`). Por ejemplo: un catálogo de especies en formato CSV o JSON.
-* **Binarios:** Formato no legible directamente (`.exe`, `.jpg`, `.mp3`, `.dat`). Por ejemplo: fotografías de hojas y flores en alta resolución.
-* **De código fuente:** Contienen instrucciones escritas en lenguajes de programación (`.java`, `.kt`, `.py`).
-* **De configuración:** Almacenan parámetros de configuración de programas (`.ini`, `.conf`, `.properties`, `.json`).
-* **De bases de datos:** Se utilizan para almacenar grandes volúmenes de datos estructurados (`.db`, `.sql`).
-* **Historial:** De eventos o errores en un sistema (`.log`).
+- **De texto:** Formato legible por humanos (`.txt`, `.csv`, `.json`, `.xml`). Por ejemplo: un catálogo de especies en formato CSV o JSON.
+- **Binarios:** Formato no legible directamente (`.exe`, `.jpg`, `.mp3`, `.dat`). Por ejemplo: fotografías de hojas y flores en alta resolución.
+- **De código fuente:** Contienen instrucciones escritas en lenguajes de programación (`.java`, `.kt`, `.py`).
+- **De configuración:** Almacenan parámetros de configuración de programas (`.ini`, `.conf`, `.properties`, `.json`).
+- **De bases de datos:** Se utilizan para almacenar grandes volúmenes de datos estructurados (`.db`, `.sql`).
+- **Historial:** De eventos o errores en un sistema (`.log`).
 
 <span class="mi_h3">API para manejo de ficheros</span>
 
@@ -40,17 +40,17 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 
 **Acceso secuencial**
 
-* Los datos se procesan en orden, desde el principio hasta el final del fichero.
-* Es el más común y sencillo.
-* Se usa cuando se desea leer todo el contenido o recorrer registro por registro. Por ejemplo: lectura de un catálogo de plantas línea por línea, o de un fichero binario de taxonomía registro a registro.
+- Los datos se procesan en orden, desde el principio hasta el final del fichero.
+- Es el más común y sencillo.
+- Se usa cuando se desea leer todo el contenido o recorrer registro por registro. Por ejemplo: lectura de un catálogo de plantas línea por línea, o de un fichero binario de taxonomía registro a registro.
 
 ![Imagen 1](img/ficheros1.jpg)
 
 **Acceso aleatorio**
 
-* Permite saltar a una posición concreta del fichero sin necesidad de leer lo anterior.
-* Es útil cuando los registros tienen un tamaño fijo y se necesita eficiencia (por ejemplo, ir directamente a los datos de la planta número 100 de un fichero indexado).
-* Requiere técnicas más avanzadas como el uso de `FileChannel`, `SeekableByteChannel` o `RandomAccessFile`.
+- Permite saltar a una posición concreta del fichero sin necesidad de leer lo anterior.
+- Es útil cuando los registros tienen un tamaño fijo y se necesita eficiencia (por ejemplo, ir directamente a los datos de la planta número 100 de un fichero indexado).
+- Requiere técnicas más avanzadas como el uso de `FileChannel`, `SeekableByteChannel` o `RandomAccessFile`.
 
 
 ![Imagen 2](img/ficheros2.jpg)
@@ -223,31 +223,33 @@ Como hemos visto en el clasificador anterior, recorrer directorios para "mirar" 
 
 Lista únicamente el contenido del directorio especificado **sin acceder a las subcarpetas**. Es ideal para operaciones superficiales (como nuestra clasificación anterior, donde solo queríamos trabajar a primer nivel).
 
-* **Ventajas:**
+- **Ventajas:**
     * Rápido y eficiente al no ser recursivo.
     * Control preciso, operando solo en el primer nivel del directorio.
     * Devuelve un `Stream` de Java que permite usar operadores funcionales (`filter`, `map`, etc.) de forma segura con `.use`.
-* **Inconvenientes:**
+- **Inconvenientes:**
     * No explora subdirectorios.
     * Para recorrer un árbol completo, se necesita implementar la recursividad manualmente.
 
 **2. `Files.walk(path)`**
 Recorre un directorio y todo su contenido **recursivamente**. Entra en cada subcarpeta y en sus subcarpetas de manera sucesiva. Es extremadamente útil para búsquedas globales en el herbario (ej. buscar fotos de flores en cualquier rincón del proyecto, borrar reportes temporales o contar ficheros de registros).
 
-* **Ventajas:**
+- **Ventajas:**
     * Recorre árboles de directorios completos (recursivo) de forma muy sencilla.
     * Extremadamente potente para búsquedas profundas o para aplicar operaciones en cascada.
     * Devuelve un `Stream`, permitiendo un filtrado muy expresivo.
-* **Inconvenientes:**
+  
+- **Inconvenientes:**
     * Puede ser lento y consumir más memoria en estructuras gigantescas con miles de subcarpetas y ficheros.
     * Es una herramienta excesiva ("overkill") si solo necesitas leer el nivel superior.
 
 **3. `Files.newDirectoryStream(path)`**
 Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferencia es que no devuelve un `Stream` de Java 8, sino un `DirectoryStream`, una versión más antigua optimizada para bucles tradicionales `for`.
 
-* **Ventajas:**
+- **Ventajas:**
     * Utiliza un bucle for-each tradicional, que puede resultar más familiar a nivel sintáctico.
-* **Inconvenientes:**
+  
+- **Inconvenientes:**
     * **¡PELIGRO!** Requiere cerrar el recurso manualmente (`.close()`). Si se olvida, provoca fugas de recursos (*resource leaks*).
     * Es menos expresivo que los Streams, ya que no se pueden encadenar operadores funcionales fácilmente.
     * Considerado obsoleto en código Kotlin idiomático, que prefiere `Files.list().use { ... }`.
@@ -435,8 +437,8 @@ Los ficheros de texto en los que la información está estructurada y organizada
 
 Para poder llevar a cabo este intercambio, es necesario extraer la información del fichero de origen. Este proceso no suele realizarse línea por línea manualmente, sino que el contenido del fichero se lee (parsea) y se traduce a objetos utilizando técnicas de **serialización y deserialización**:
 
-*   **Serialización:** Proceso de convertir un objeto en memoria (por ejemplo, una clase `Planta` o `Especie`) en una representación textual (como una cadena JSON o XML) que se puede almacenar en un fichero o enviar a través de una red.
-*   **Deserialización:** El proceso inverso; consiste en leer un fichero estructurado (JSON, XML, etc.) y reconstruir el objeto original en la memoria del programa para poder trabajar con él de forma estructurada.
+- **Serialización:** Proceso de convertir un objeto en memoria (por ejemplo, una clase `Planta` o `Especie`) en una representación textual (como una cadena JSON o XML) que se puede almacenar en un fichero o enviar a través de una red.
+- **Deserialización:** El proceso inverso; consiste en leer un fichero estructurado (JSON, XML, etc.) y reconstruir el objeto original en la memoria del programa para poder trabajar con él de forma estructurada.
 
 
 A continuación se describen los 3 formatos de intercambio de información basados en texto más comunes, con ejemplos de lectura y escritura integrando un proyecto gestionado con **Gradle**.
@@ -477,11 +479,11 @@ Partimos de un fichero llamado `plantas.csv` almacenado dentro de la carpeta `da
 
 Como puedes observar el carácter delimitador que separa los campos del CSV es un punto y coma (`;`) y los campos que representan la estructura de una planta son los siguientes:
 
-*   `id_planta` (Int)
-*   `nombre_comun` (String)
-*   `nombre_cientifico` (String)
-*   `riego` (Int - frecuencia en días)
-*   `altura` (Double - altura máxima en metros)
+-   `id_planta` (Int)
+-   `nombre_comun` (String)
+-   `nombre_cientifico` (String)
+-   `riego` (Int - frecuencia en días)
+-   `altura` (Double - altura máxima en metros)
 
 
 > Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
@@ -639,9 +641,9 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
@@ -835,9 +837,9 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
     
 
 
@@ -1007,9 +1009,9 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
@@ -1051,9 +1053,9 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      * **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
+      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
@@ -1063,12 +1065,11 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
     **IMPORTANTE:**
 
-      * El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+      - El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
 
-      * No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
+      - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
-      * Se realizarán preguntas sobre el proyecto para verificar su autoría.  
-
+      - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
 
 
@@ -1099,8 +1100,8 @@ Las imágenes son ficheros binarios con estructuras de metadatos complejas estan
 
 Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos elementos en equipo:
 
-*   **`BufferedImage`:** Es una clase que representa la imagen **en la memoria RAM**. Funciona como una "cuadrícula o lienzo" donde cada celda es un píxel con su propio color (en formato RGB o escala de grises). Modificamos o leemos los píxeles directamente sobre este lienzo.
-*   **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el archivo físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
+- **`BufferedImage`:** Es una clase que representa la imagen **en la memoria RAM**. Funciona como una "cuadrícula o lienzo" donde cada celda es un píxel con su propio color (en formato RGB o escala de grises). Modificamos o leemos los píxeles directamente sobre este lienzo.
+- **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el archivo físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
 
 
 **Métodos clave para el manejo de imágenes**
@@ -1637,9 +1638,9 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 00000030  20 20 20 20 20 20 40 08 00 00 00 00 00 00 00 00   ......@.........
 ```
 
-*   **ID (1):** Representado en los primeros 4 bytes `00 00 00 01`.
-*   **Nombre ("Rosa"):** Bytes en ASCII `52 6F 73 61`, seguidos de espacios `20` hasta completar los 20 bytes fijos.
-*   **Altura (1.5):** Representado en formato de doble precisión IEEE 754 ocupando los bytes `3F F8 00 00 00 00 00 00`.
+- **ID (1):** Representado en los primeros 4 bytes `00 00 00 01`.
+- **Nombre ("Rosa"):** Bytes en ASCII `52 6F 73 61`, seguidos de espacios `20` hasta completar los 20 bytes fijos.
+- **Altura (1.5):** Representado en formato de doble precisión IEEE 754 ocupando los bytes `3F F8 00 00 00 00 00 00`.
 
 
 
@@ -1819,7 +1820,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     ```
 
 !!! warning "Práctica 5: crea tu gestión de ficheros binarios"
-    En esta práctica crearás una aplicación de gestión CRUD para manejar la información de tu aplicación.
+    En esta práctica crearás una aplicación de gestión CRUD para manejar la información de tu proyecto.
 
     **Realiza los siguientes pasos:**
 
@@ -1839,18 +1840,19 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
         ```
 
     3. **Implementa las funiones necesarias:** 
-      * Cuando el usuario seleccione la opción `1` se llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
-      * Cuando el usuario seleccione la opción `2` se llamará a la función lee la información del fichero `.bin`y los muestra por consola.
-      * Cuando el usuario seleccione la opción `3` se llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
-      * Cuando el usuario seleccione la opción `4` se llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, pide uno de los datos para modificarlo en el fichero `.bin`.
-      * Cuando el usuario seleccione la opción `5` se llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
+
+      - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
+      - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
+      - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
+      - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
+      - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
 
 
     **Aspectos Técnicos Obligatorios:**
 
-      * **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      * **Configuración del proyecto:** Añade las dependencias necesarias a tu archivo `build.gradle.kts`.
-      * **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+      - **Configuración del proyecto:** Añade las dependencias necesarias a tu archivo `build.gradle.kts`.
+      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
 
 
 
@@ -1863,12 +1865,12 @@ El fichero `LEEME.md` es lo primero que verá cualquier persona (incluido nuestr
 
 Un buen fichero `LEEME.md` debería contener, como mínimo, las siguientes secciones:
 
-*   **Nombre del proyecto y breve descripción.**
-*   **Estructura de Datos:** En esta sección se explica el diseño de los datos y su representación en memoria.
-*   **Instrucciones de Ejecución:** Pasos claros y sencillos para que otra persona pueda ejecutar nuestro programa.
-*   **Decisiones de Diseño:** Un pequeño apartado para explicar brevemente por qué tomamos ciertas decisiones de implementación.
+-   **Nombre del proyecto y breve descripción.**
+-   **Estructura de Datos:** En esta sección se explica el diseño de los datos y su representación en memoria.
+-   **Instrucciones de Ejecución:** Pasos claros y sencillos para que otra persona pueda ejecutar nuestro programa.
+-   **Decisiones de Diseño:** Un pequeño apartado para explicar brevemente por qué tomamos ciertas decisiones de implementación.
 
-La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero que permite dar formato a un texto plano usando caracteres simples. Podemos crearlo con cualquier editor de texto (IntelliJ, VSCode, Bloc de notas...) y guardarlo con la extensión `.md`. Plataformas como GitHub, GitLab y otros sistemas de documentación convierten de forma automática estos ficheros en páginas web atractivas.
+La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero que permite dar formato a un texto plano usando caracteres simples. Podemos crearlo con cualquier editor de texto (IntelliJ, VSCode, Bloc de notas...) y guardarlo con la extensión `.md`.
 
 **Sintaxis básica de Markdown para empezar:**
 
@@ -1880,17 +1882,19 @@ La extensión `.md` significa **Markdown**, que es un lenguaje de marcado ligero
 **Texto en negrita**
 *Texto en cursiva*
 
-* Elemento de una lista
+- Elemento de una lista
 1. Elemento de una lista numerada
 ```
 
 Para bloques de código, rodearlos con tres comillas invertidas (\`\`\`) y especificar el lenguaje:
 
-```kotlin
+\`\`\`kotlin
+
 fun main() {
     println("Hola, Markdown!")
 }
-```
+
+\`\`\`
 
 
 <span class="mis_ejemplos">Ejemplo 15: Estructura de un fichero `LEEME.md` para el proyecto</span>
@@ -1898,9 +1902,9 @@ fun main() {
 A continuación se muestra cómo debería quedar redactado el documento de documentación del proyecto final para el herbario:
 
 ````markdown
-# Gestor de Herbario Digital
+# Gestor de herbario
 
-Este es un programa de consola desarrollado en Kotlin para gestionar un catálogo y registro taxonómico de plantas. Los datos se importan desde fuentes estructuradas y se almacenan de manera local y eficiente en un fichero binario de acceso aleatorio llamado *plantas.bin*.
+Este es un programa de consola desarrollado en Kotlin para gestionar un catálogo de plantas. Los datos se importan desde fuentes estructuradas y se almacenan de manera local en un fichero binario de acceso aleatorio llamado *plantas.bin*.
 
 ## 1. Estructura de datos
 
@@ -1915,10 +1919,10 @@ data class Planta(
 
 **Estructura del registro binario:**
 
-* **id_planta**: Int - 4 bytes (desplazamiento 0 a 3)
-* **nombre_comun**: String - 20 bytes (longitud fija rellenada con espacios, desplazamiento 4 a 23)
-* **altura_maxima**: Double - 8 bytes (desplazamiento 24 a 31)
-* **Tamaño Total del Registro**: 4 + 20 + 8 = 32 bytes
+- **id_planta**: Int - 4 bytes (desplazamiento 0 a 3)
+- **nombre_comun**: String - 20 bytes (longitud fija rellenada con espacios, desplazamiento 4 a 23)
+- **altura_maxima**: Double - 8 bytes (desplazamiento 24 a 31)
+- **Tamaño Total del Registro**: 4 + 20 + 8 = 32 bytes
 
 ---
 
@@ -1933,9 +1937,9 @@ data class Planta(
 
 ## 3. Decisiones de diseño
 
-* **Elección de formato de origen**: Se optó por utilizar JSON para los datos iniciales porque es un formato estructurado estándar, altamente legible y que permite verificar fácilmente si los datos de entrada son correctos antes de convertirlos a bytes.
-* **Tamaño del registro en binario**: Se definieron 20 bytes fijos para el campo del nombre de la planta. Se considera espacio suficiente para almacenar nombres comunes habituales ("Helecho de Boston", "Rosa Silvestre") sin desperdiciar almacenamiento en el disco duro.
-* **Formato del archivo**: Se decidió usar un archivo `.bin` en lugar de `.txt` para el almacenamiento de herbario final para optimizar el espacio de almacenamiento y garantizar que las lecturas y escrituras por acceso aleatorio con `FileChannel` fuesen precisas gracias a la longitud de registro fija de 32 bytes.
+- **Elección de formato de origen**: Se optó por utilizar JSON para los datos iniciales porque es un formato estructurado estándar, altamente legible y que permite verificar fácilmente si los datos de entrada son correctos antes de convertirlos a bytes.
+- **Tamaño del registro en binario**: Se definieron 20 bytes fijos para el campo del nombre de la planta. Se considera espacio suficiente para almacenar nombres comunes habituales ("Helecho de Boston", "Rosa Silvestre") sin desperdiciar almacenamiento en el disco duro.
+- **Formato del archivo**: Se decidió usar un archivo `.bin` en lugar de `.txt` para el almacenamiento de herbario final para optimizar el espacio de almacenamiento y garantizar que las lecturas y escrituras por acceso aleatorio con `FileChannel` fuesen precisas gracias a la longitud de registro fija de 32 bytes.
 ````
 
 
@@ -1949,17 +1953,16 @@ data class Planta(
 
 
 
-
 !!! danger "Entrega final"
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga las carpetas `src` y `datos` y el archivo `LEEME.md` de tu proyecto además de los archivos.
 
     **IMPORTANTE:**
 
-      * El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+      - El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
 
-      * No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
+      - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
-      * Se realizarán preguntas sobre el proyecto para verificar su autoría.  
+      - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
 
 
