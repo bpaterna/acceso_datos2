@@ -19,8 +19,8 @@ theme:
 nav:
   - Presentación: index.md
   - Contenidos:
-    - 1. RA1: RA1ficheros.md
-    - 2. RA2: RA2bd_rel.md
+    - RA1: RA1ficheros.md
+    - RA2: RA2bd_rel.md
   - Material adicional:
     - Kotlin: kotlin.md
     - Docker: docker.md
