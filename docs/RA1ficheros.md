@@ -1077,9 +1077,9 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 ## 5. Ficheros binarios y formas de acceso
 
-Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`/`.bin`) no son legibles directamente por humanos. La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`, `.bin`) no son legibles directamente por humanos. La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
 
-A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y tipos binarios:
+A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y algunos tipos binarios:
 
 | Extensión | Contenido típico | Comentario didáctico |
 | :--- | :--- | :--- |
@@ -1089,7 +1089,7 @@ A continuación tenemos una tabla comparativa con algnos tipos de ficheros visto
 | **`.bin`** | Binario puro | Contiene información organizada directamente en bytes. No se puede abrir directamente en texto sin ver caracteres extraños, pero es el formato óptimo para almacenamiento estructurado de alta eficiencia. |
 
 
-> **IMPORTANTE:** un fichero .bin o un fichero .dat binario no es un fichero de texto plano. No se puede abrir con el Bloc de Notas, TextEdit, o un editor de código en modo texto normal ya que se ven caracteres extraños, símbolos y espacios.
+> **IMPORTANTE:** los ficheros binarios no son fichero de texto plano y por tanto no pueden abrirse con editores de código en modo texto normal como Bloc de Notas o TextEdit ya que se verán caracteres extraños, símbolos y espacios.
 
 En los siguientes apartados veremos cómo manejar ficheros de imágenes y de datos. Para estos últimos, aprenderemos a acceder a su información de dos maneras: de forma secuencial (leyendo en orden desde el principio hasta el final del fichero) o de forma aleatoria (saltando directamente a la posición o registro específico que nos interesa).
 
@@ -1401,15 +1401,12 @@ fun registro() {
     ```
 
 
-
-
 <span class="mi_h3">5.3. Acceso aleatorio a ficheros binarios</span>
 
-A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea en cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes.
+A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea a cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes. Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes**.
 
-Para poder utilizar esta técnica, nuestros registros en el archivo binario deben tener un **tamaño fijo en bytes**. Por ejemplo, si cada registro de nuestra colección botánica ocupa exactamente 32 bytes, para acceder al registro número 100 no tenemos que leer los 99 anteriores; podemos saltar directamente a la posición de inicio del registro número 100 calculando:
+> Por ejemplo, si cada registro de nuestra colección botánica ocupa exactamente 32 bytes, para acceder al registro número 100 no tenemos que leer los 99 anteriores; podemos saltar directamente a la **posición de inicio** del registro número 100 calculándola: **Posición = 32 bytes × (100−1) = 3168 bytes**
 
-$$\text{Posición} = 32 \text{ bytes} \times (100 - 1) = 3168 \text{ bytes desde el inicio}$$
 
 
 Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos con tres herramientas en equipo:
@@ -1475,8 +1472,6 @@ En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un archivo 
 | `altura_maxima`| `Double`| 8 bytes | 24 – 31 |
 
 ```kotlin
-package b.paterna
-
 import java.nio.ByteBuffer
 import java.nio.channels.FileChannel
 import java.nio.charset.Charset
@@ -1502,14 +1497,10 @@ val archivoPath = Path.of("datos/plantas.bin")
 fun main() {
     crearHerbario()
     mostrarInfo()
-
-    modificarAlturaPlanta(2, 5.5)
-    mostrarInfo()
 }
 
 
 fun crearHerbario(){
-
     Files.createDirectories(archivoPath.parent)
 
     val listaSemillas = listOf(
@@ -1608,16 +1599,15 @@ fun leerPlantas(): List<PlantaBinaria> {
     return plantas
 }
 
-fun mostrarInfo(){
+fun mostrarInfo() {
     // Mostramos la información
     println("\n--- Plantas leídas secuencialmente del archivo .bin: ---")
     val leidas = leerPlantas()
     for (p in leidas) {
         println(" - ID: ${p.idPlanta}, Nombre común: ${p.nombreComun}, Altura: ${p.alturaMaxima}m")
     }
-
+}
 ```
-
 
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que la salida por consola es:
@@ -1703,7 +1693,6 @@ fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
     }
 }
 ```
-
 
 Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
 
@@ -1794,7 +1783,7 @@ fun eliminarPlanta(idPlanta: Int) {
 }
 ```
 
-Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
+Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de eliminar la planta:
 
 ```kotlin
     eliminarPlanta(3)
