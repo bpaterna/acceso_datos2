@@ -1702,7 +1702,7 @@ Añadimos a la función main las líneas para llamar a la nueva función y volve
 ```
 
 !!! success "Prueba y analiza el ejemplo"
-Prueba el código de ejemplo y verifica que la salida por consola es:
+    Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
     --- El fichero 'plantas.bin' se ha creado y está vacío.
