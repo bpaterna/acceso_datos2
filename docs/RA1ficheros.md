@@ -1641,7 +1641,7 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 
 
 
-<span class="mis_ejemplos">Ejemplo 13: Modificar el campo de un registro mediante Acceso Aleatorio</span>
+<span class="mis_ejemplos">Ejemplo 13: Modificar el campo de un registro mediante acceso aleatorio</span>
 
 Ahora aprovecharemos la capacidad de `FileChannel` para posicionarnos directamente sobre una propiedad de un registro concreto utilizando el ID, para actualizarla sin alterar ni leer de forma secuencial el resto del fichero.
 
@@ -1821,10 +1821,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
     **Realiza los siguientes pasos:**
 
-    1. **Diseña tu registro de datos:** Define las longitudes en bytes de los datos de tu registro (Int = 4 bytes, Double = 8 bytes, String = longitud fija rellenada con espacios, etc) para que coincida con la `data class` que has utilizado en las prácticas anteriores.
-
-
-    2. **Añade al menú de tu aplicación una opción más llamada `10. Gestión fichero BIN`:**
+    1. **Añade al menú de tu aplicación una opción más llamada `10. Gestión fichero BIN`:**
 
         ```text
         --------------------------------------        
@@ -1844,7 +1841,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
         ```
 
 
-    3. **Crea un submenú para gestionar la información del fichero binario:** Al entrar en la nueva opción del menú principal debe aparecer otro menú con las opciones siguientes:
+    2. **Crea un submenú para gestionar la información del fichero binario:** Al entrar en la nueva opción del menú principal debe aparecer otro menú con las opciones siguientes:
 
         ```text
         --------------------------------------        
@@ -1857,6 +1854,8 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
         5. Eliminar un registro existente (por ID)
         0. Salir
         ```
+
+    3. **Diseña tu registro de datos:** Define las longitudes en bytes de los datos de tu registro (Int = 4 bytes, Double = 8 bytes, String = longitud fija rellenada con espacios, etc) para que coincida con la `data class` que has utilizado en las prácticas anteriores.
 
     4. **Implementa las funiones necesarias:**
           - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
@@ -1871,7 +1870,6 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
       - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
       - **Configuración del proyecto:** Añade las dependencias necesarias a tu archivo `build.gradle.kts`.
       - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
-
 
 
 
