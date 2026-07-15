@@ -1077,7 +1077,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 ## 5. Ficheros binarios y formas de acceso
 
-Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`, `.bin`) no son legibles directamente por humanos. La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
+Los ficheros binarios (como archivos `.exe`, `.jpg`, `.mp3`, `.dat` o `.bin`) no son legibles directamente por humanos. La información se guarda en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
 
 A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y algunos tipos binarios:
 
@@ -1694,7 +1694,7 @@ fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
 }
 ```
 
-Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
+Añadimos a la función `main` las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
 
 ```kotlin
     modificarAlturaPlanta(2, 5.5)
@@ -1729,7 +1729,7 @@ Añadimos a la función main las líneas para llamar a la nueva función y volve
 Para eliminar un registro de un fichero binario estructurado secuencial, la técnica estándar consiste en leer el fichero de inicio a fin escribiendo en un archivo temporal `.tmp` únicamente aquellos registros que **no coincidan** con el ID a eliminar. Al terminar, borramos el original y sustituimos el fichero original por el temporal.
 
 
-Para poder sustituimos el fichero original por el temporal añadimos un import a nuestro código:
+Para poder sustituir el fichero original por el temporal añadimos un import a nuestro código:
 
 ```kotlin
 import java.nio.file.StandardCopyOption
@@ -1783,7 +1783,7 @@ fun eliminarPlanta(idPlanta: Int) {
 }
 ```
 
-Añadimos a la función main las líneas para llamar a la nueva función y volver a mostrar la información después de eliminar la planta:
+Añadimos a la función `main` las líneas para llamar a la nueva función y volver a mostrar la información después de eliminar la planta:
 
 ```kotlin
     eliminarPlanta(3)
