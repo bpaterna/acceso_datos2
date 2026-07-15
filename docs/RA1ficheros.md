@@ -354,12 +354,12 @@ fun main() {
 fun textoPlano(){
 
     // Ruta del fichero con el que vamos a trabajar
-    val ruta = Path.of("muestras2/anotacion.txt")
+    val ruta = Path.of("muestras/anotacion.txt")
 
     Files.createDirectories(ruta.parent) // Crea la carpeta "muestras" si no existe
 
     // Escritura de una línea writeString (si el archivo no existe lo crea y si existe lo vacía
-    val anotacion = "Muestra de Helecho de Java recolectada en el invernadero principal."
+    val anotacion = "Cuidados de orquídeas realizados."
     Files.writeString(ruta, anotacion, StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING)
 
     // Lectura rápida de todo el bloque con readString
@@ -408,23 +408,23 @@ fun textoPlano(){
     Prueba el código de ejemplo y verifica que la salida por consola es:
 
     ```text
-    Fichero de cuidados de orquídeas escrito correctamente.
-    
-    --- Contenido leído con readAllLines: ---
-    1. Regar únicamente cuando las raíces se observen de color grisáceo.
+    --- 1. Contenido del fichero leído con readString: ---
+    Cuidados de orquídeas realizados.
+
+    --- 2. Contenido leído con readAllLines: ---
+    Cuidados de orquídeas realizados.
+    1. Regar cuando las raíces se observen de color grisáceo.
     2. Mantener en un espacio con luz indirecta.
-    ¡Evitar por completo las corrientes de aire frío!
-    
-    --- Contenido leído completo con readString: ---
-    1. Regar únicamente cuando las raíces se observen de color grisáceo.
+    3. Evitar corrientes de aire.
+
+    --- 3. Contenido leído con newBufferedReader: ---
+    Cuidados de orquídeas realizados.
+    1. Regar cuando las raíces se observen de color grisáceo.
     2. Mantener en un espacio con luz indirecta.
-    ¡Evitar por completo las corrientes de aire frío!
-    
-    --- Contenido leído con newBufferedReader: ---
-    1. Regar únicamente cuando las raíces se observen de color grisáceo.
-    2. Mantener en un espacio con luz indirecta.
-    ¡Evitar por completo las corrientes de aire frío!
-    ```
+    3. Evitar corrientes de aire.
+      [SISTEMA] Invernadero automatizado iniciado...
+      [SENSOR] Nivel de humedad óptimo detectado (75%).
+       ```
 
 
 
@@ -628,7 +628,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA PLICACIÓN --------
+        -------- MENÚ DE LA APLICACIÓN --------
         --------------------------------------
         1. Leer datos desde CSV
         0. Salir
@@ -823,7 +823,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA PLICACIÓN --------
+        -------- MENÚ DE LA APLICACIÓN --------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -994,7 +994,7 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA PLICACIÓN --------
+        -------- MENÚ DE LA APLICACIÓN --------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -1032,7 +1032,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA PLICACIÓN --------
+        -------- MENÚ DE LA APLICACIÓN --------
         --------------------------------------
         1. Leer datos desde CSV
         2. Leer datos desde XML
@@ -1826,23 +1826,22 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
         ```text
         --------------------------------------        
-        -------- MENÚ DE LA PLICACIÓN --------
+        -------- MENÚ DE LA APLICACIÓN --------
         --------------------------------------
         1. Importar datos desde fichero de texto plano.
         2. Visualizar información del archivo binario.
-        3. Añadir un registro nueno
+        3. Añadir un registro nuevo
         4. Modificar un registro existente (por ID)
         5. Eliminar un registro existente (por ID)
         0. Salir
         ```
 
-    3. **Implementa las funiones necesarias:** 
-
-            - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
-            - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
-            - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
-            - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
-            - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
+    3. **Implementa las funiones necesarias:**
+          - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
+          - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
+          - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
+          - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
+          - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
 
 
     **Aspectos Técnicos Obligatorios:**
