@@ -219,20 +219,18 @@ fun organizar(){
 
 Como hemos visto en el clasificador anterior, recorrer directorios para "mirar" o gestionar su contenido es clave. Aquí analizamos los diferentes métodos para hacerlo:
 
-**1. `Files.list(path)`**
-
-Lista únicamente el contenido del directorio especificado **sin acceder a las subcarpetas**. Es ideal para operaciones superficiales (como nuestra clasificación anterior, donde solo queríamos trabajar a primer nivel).
+**1. `Files.list(path)`:** Lista únicamente el contenido del directorio especificado **sin acceder a las subcarpetas**. Es ideal para operaciones superficiales (como nuestra clasificación anterior, donde solo queríamos trabajar a primer nivel).
 
 - **Ventajas:**
     * Rápido y eficiente al no ser recursivo.
     * Control preciso, operando solo en el primer nivel del directorio.
     * Devuelve un `Stream` de Java que permite usar operadores funcionales (`filter`, `map`, etc.) de forma segura con `.use`.
+
 - **Inconvenientes:**
     * No explora subdirectorios.
     * Para recorrer un árbol completo, se necesita implementar la recursividad manualmente.
 
-**2. `Files.walk(path)`**
-Recorre un directorio y todo su contenido **recursivamente**. Entra en cada subcarpeta y en sus subcarpetas de manera sucesiva. Es extremadamente útil para búsquedas globales en el herbario (ej. buscar fotos de flores en cualquier rincón del proyecto, borrar reportes temporales o contar ficheros de registros).
+**2. `Files.walk(path)`:** Recorre un directorio y todo su contenido **recursivamente**. Entra en cada subcarpeta y en sus subcarpetas de manera sucesiva. Es extremadamente útil para búsquedas globales en el herbario (ej. buscar fotos de flores en cualquier rincón del proyecto, borrar reportes temporales o contar ficheros de registros).
 
 - **Ventajas:**
     * Recorre árboles de directorios completos (recursivo) de forma muy sencilla.
@@ -243,8 +241,7 @@ Recorre un directorio y todo su contenido **recursivamente**. Entra en cada subc
     * Puede ser lento y consumir más memoria en estructuras gigantescas con miles de subcarpetas y ficheros.
     * Es una herramienta excesiva ("overkill") si solo necesitas leer el nivel superior.
 
-**3. `Files.newDirectoryStream(path)`**
-Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferencia es que no devuelve un `Stream` de Java 8, sino un `DirectoryStream`, una versión más antigua optimizada para bucles tradicionales `for`.
+**3. `Files.newDirectoryStream(path)`:** Es similar a `Files.list()`, pues lista solo el contenido inmediato. La diferencia es que no devuelve un `Stream` de Java 8, sino un `DirectoryStream`, una versión más antigua optimizada para bucles tradicionales `for`.
 
 - **Ventajas:**
     * Utiliza un bucle for-each tradicional, que puede resultar más familiar a nivel sintáctico.
