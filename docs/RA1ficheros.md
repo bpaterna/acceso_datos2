@@ -1079,22 +1079,31 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 Los ficheros binarios no son legibles directamente por humanos (como archivos `.exe`, `.jpg`, `.mp3`, o archivos de datos de sistema `.dat`/`.bin`). La información se guarda directamente en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
 
-A la hora de trabajar con ellos, podemos hacerlo de forma **secuencial** (leyendo desde el principio hasta el final del fichero) o de forma **aleatoria** (saltando directamente a la posición física que nos interesa en el disco).
+En los siguientes apartados veremos cómo manejar ficheros de imágenes y de datos. Para estos últimos, aprenderemos a acceder a su información de dos maneras: de forma secuencial (leyendo en orden desde el principio hasta el final del fichero) o de forma aleatoria (saltando directamente a la posición o registro específico que nos interesa).
 
 
-<span class="mi_h3">5.1. Ficheros Binarios de Imágenes</span>
+<span class="mi_h3">5.1. Ficheros binarios de imágenes</span>
 
-Las imágenes son ficheros binarios con estructuras de metadatos complejas estandarizadas (`.jpg`, `.png`, `.bmp`). A diferencia de los ficheros de datos que hemos creado, las imágenes representan píxeles organizados en un plano bidimensional.
+Las imágenes son ficheros binarios con estructuras de metadatos complejas estandarizadas (`.jpg`, `.png`, `.bmp`) que representan píxeles organizados en un plano bidimensional.
 
-En Java y Kotlin, interactuamos con ellas mediante:
-*   `BufferedImage`: Representación en la memoria RAM de la cuadrícula de píxeles (con colores RGB).
-*   `ImageIO`: Clase encargada de leer (`ImageIO.read()`) o guardar (`ImageIO.write()`) el búfer en el almacenamiento secundario.
+Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos elementos en equipo:
+
+*   **`BufferedImage`:** Es una clase que representa la imagen **en la memoria RAM**. Funciona como una "cuadrícula o lienzo" donde cada celda es un píxel con su propio color (en formato RGB o escala de grises). Modificamos o leemos los píxeles directamente sobre este lienzo.
+*   **`ImageIO`:** Es la clase de utilidad encargada de realizar las operaciones de **entrada/salida (E/S)**. Se encarga de traducir el archivo físico del disco (compreso en JPG o PNG) a un objeto `BufferedImage` en memoria (lectura), o viceversa (escritura).
 
 
-| Método | Descripción                                                              |
-| :--- |:-------------------------------------------------------------------------|
-| `ImageIO.read(File)` | Carga una imagen de disco a un objeto `BufferedImage` en memoria.        |
-| `ImageIO.write(BufferedImage, formatName, File)` | Guarda un objeto `BufferedImage` en el disco en el formato especificado. |
+
+### Métodos clave para el manejo de imágenes
+
+| Elemento / Método | Tipo | Descripción | Ejemplo de uso |
+| :--- | :--- | :--- | :--- |
+| **`ImageIO.read(File)`** [36] | *Lectura* | Carga una imagen desde el disco duro y la transforma en un objeto `BufferedImage` en memoria RAM [36]. | `val img = ImageIO.read(File("hoja.jpg"))` |
+| **`ImageIO.write(BufferedImage, format, File)`** [36] | *Escritura* | Guarda el lienzo de píxeles de la memoria en un archivo físico del disco con el formato indicado [36]. | `ImageIO.write(img, "png", File("resultado.png"))` |
+| **`BufferedImage(ancho, alto, tipo)`** | *Creación* | Crea un lienzo en blanco en memoria con las dimensiones especificadas y un tipo de color concreto (ej. `TYPE_INT_RGB`). | `val lienzo = BufferedImage(200, 100, BufferedImage.TYPE_INT_RGB)` |
+| **`setRGB(x, y, rgb)`** | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y). | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
+| **`getRGB(x, y)`** | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y). | `val colorInt = lienzo.getRGB(10, 5)` |
+| **`Color(rgb)`** | *Conversión* | Clase que permite decodificar el valor entero del píxel para poder extraer de forma sencilla sus componentes de color rojo, verde y azul. | `val color = Color(lienzo.getRGB(x, y))` <br> `val rojo = color.red` |
+
 
 
 
@@ -1144,7 +1153,7 @@ fun crearImagen(){
 
 <span class="mis_ejemplos">Ejemplo 9: Conversión de una imagen a escala de grises</span>
 
-En el procesamiento de imágenes para botánica y visión por computador, la conversión a escala de grises es el paso inicial para aislar formas (como la silueta de una hoja). Usaremos la **fórmula de luminosidad estándar** para adaptar los píxeles.
+El siguiente ejemplo convierte a escala de grises la imagen generada en el ejemplo anterior.
 
 ```kotlin
 import java.nio.file.Files
@@ -1206,11 +1215,11 @@ fun grises() {
 
 
 
-<span class="mi_h3">5.2. Acceso Secuencial a Ficheros Binarios</span>
+<span class="mi_h3">5.2. Acceso secuencial a ficheros binarios</span>
 
 En el acceso secuencial la información se procesa en orden estricto, byte a byte o registro a registro, desde el inicio del archivo hasta llegar al final.
 
-**Datos no estructurados (Bytes crudos)**
+**Datos no estructurados**
 
 Se utiliza cuando queremos guardar o leer bytes "tal cual", sin que sigan un formato o estándar definido. El programa que los lee debe saber de antemano qué significan. A contiunación se describen algunos métodos útiles:
 
@@ -1283,11 +1292,11 @@ fun lote() {
     ```
 
 
-**Datos estructurados (Flujos de datos primitivos)**
+**Datos estructurados (tipos primitivos)**
 
 Se utiliza cuando guardamos registros que contienen una estructura combinada de tipos primitivos (enteros, booleanos, decimales o texto) de manera consecutiva. El orden y los tamaños en bytes están estrictamente definidos, lo que permite a cualquier programa compatible leer el formato correctamente.
 
-Las clases **`DataOutputStream`** y **`DataInputStream`** de `java.io` son las herramientas básicas para leer y escribir estos tipos de datos primitivos en ficheros binarios de forma estructurada. A contiunación se describen algunos de sus métodos:
+Las clases **`DataOutputStream`** y **`DataInputStream`** de `java.io` son las herramientas básicas para leer y escribir estos tipos de datos primitivos en ficheros binarios de forma estructurada. A continuación se describen algunos de sus métodos:
 
 
 **Métodos de `DataOutputStream`**
@@ -1322,7 +1331,7 @@ Las clases **`DataOutputStream`** y **`DataInputStream`** de `java.io` son las h
 
 <span class="mis_ejemplos">Ejemplo 11: Escritura y lectura estructurada (Tipos Primitivos)</span>
 
-El siguiente ejemplo simula el registro de la temperatura mínima, ph del suelo y código de lote en binario estructurado
+El siguiente ejemplo simula el registro de la temperatura mínima, ph del suelo y código de lote en binario estructurado.
 
 ```kotlin
 import java.io.DataInputStream
@@ -1372,7 +1381,7 @@ fun registro() {
 ```
 
 !!! success "Prueba y analiza el ejemplo"
-Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
+    Prueba el código de ejemplo verifica que el archivo se ha creado y que la salida por consola es:
 
     ```text
     --- Fichero binario estructurado guardado correctamente.
@@ -1405,7 +1414,7 @@ Prueba el código de ejemplo verifica que el archivo se ha creado y que la salid
 
 ---
 
-<span class="mi_h3">5.3. Acceso Aleatorio a Ficheros Binarios (Nivel Avanzado)</span>
+<span class="mi_h3">5.3. Acceso aleatorio a ficheros binarios</span>
 
 A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarnos (*saltar*) de forma instantánea en cualquier posición física del fichero para leer o modificar un fragmento de datos específico, sin necesidad de procesar todo lo que hay antes.
 
