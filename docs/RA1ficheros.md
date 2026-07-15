@@ -424,7 +424,7 @@ fun textoPlano(){
     3. Evitar corrientes de aire.
       [SISTEMA] Invernadero automatizado iniciado...
       [SENSOR] Nivel de humedad óptimo detectado (75%).
-       ```
+    ```
 
 
 
@@ -1816,15 +1816,15 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     ```
 
-!!! warning "Práctica 5: crea tu gestión de ficheros binarios"
-    En esta práctica crearás una aplicación de gestión CRUD para manejar la información de tu proyecto.
+!!! warning "Práctica 5: amplía tu proyecto para gestionar un fichero binario"
+    En esta práctica ampliarás tu proyecto con un CRUD para gestionar la información de tu aplicación en un fichero binario de acceso aleatorio.
 
     **Realiza los siguientes pasos:**
 
     1. **Diseña tu registro de datos:** Define las longitudes en bytes de los datos de tu registro (Int = 4 bytes, Double = 8 bytes, String = longitud fija rellenada con espacios, etc) para que coincida con la `data class` que has utilizado en las prácticas anteriores.
 
 
-    2. **Añade al menú de tu aplicación una opción más (10. Gestión fichero BIN):**
+    2. **Añade al menú de tu aplicación una opción más llamada `10. Gestión fichero BIN`:**
 
         ```text
         --------------------------------------        
@@ -1844,7 +1844,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
         ```
 
 
-    3. **Crea un submenú para gestionar la información del fichero binario:** Al entrar en la nueva opción del menú principal debe aparecer otro menú con las siguientes opciones:
+    3. **Crea un submenú para gestionar la información del fichero binario:** Al entrar en la nueva opción del menú principal debe aparecer otro menú con las opciones siguientes:
 
         ```text
         --------------------------------------        
@@ -1860,10 +1860,10 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
     4. **Implementa las funiones necesarias:**
           - Opción `1`: llamará a la función que crea un fichero `.bin` vacío y le importa los datos desde un CSV, XML o JSON (elige el que prefieras).
-          - Opción `2`: llamará a la función lee la información del fichero `.bin`y la muestra por consola.
-          - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin`.
+          - Opción `2`: llamará a la función que lee la información del fichero `.bin`y la muestra por consola.
+          - Opción `3`: llamará a la función que pide los datos por consola y añade un nuevo registro con esos datos al final del fichero `.bin` (ha de pedir todos los datos por orden).
           - Opción `4`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, pide alguno de sus datos para modificarlo en el fichero `.bin`.
-          - Opción `5`: llamará a la función que pide un ID, verifica si el registro eiste y, si lo encuentra, lo elimina del fichero `.bin`.
+          - Opción `5`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, lo elimina del fichero `.bin`.
 
 
     **Aspectos Técnicos Obligatorios:**
@@ -1962,13 +1962,11 @@ data class Planta(
 
 
 !!! warning "Práctica 6: finaliza tu aplicación"
-    En esta práctica añadirás el fichero LEEME.md a tu proyecto en el que explicarás tu temática, la estructura de datos que diseñaste (la data class y el registro binario incluyendo su tamaño total) y las instrucciones para ejecutar tu programa.
+    En esta práctica añadirás el fichero LEEME.md a tu proyecto en el que explicarás tu temática, la estructura de datos que diseñaste (la data class y el registro binario incluyendo su tamaño total) y las instrucciones para ejecutar tu programa. Puedes utilizar como plantilla el ejemplo anterior.
 
     Aprovecha para realizar las últimas pruebas y asegurarte que la aplicación que entregas no tiene fallos.
 
-   ¡Enhorabuena, has completado tu proyecto!
-
-
+   
 
 
 !!! danger "Entrega final"
