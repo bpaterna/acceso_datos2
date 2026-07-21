@@ -1,14 +1,12 @@
 #Presentación
 
-<span class="mi_h3">Descripción</span>
-
 Estos materiales pertenecen al módulo de **acceso a datos** del ciclo superior de **desarrollo de aplicaciones multiplataforma** y están diseñados para que aprendas haciendo. A lo largo de las distintas unidades, no solo veremos la teoría, sino que la aplicaremos directamente para construir, paso a paso, una aplicación completa de gestión de datos.
 
 
 Intercaladas con la teoría y con los ejemplos encontrarás tres tipos de cajas. A continuación se explica que es cada una de ellas:
 
 !!! success "Ejecutar y analizar" 
-    Estas cajas son para analizar y comprender en detalle el ejemplo de código proporcionado. Tu tarea es ejecutar ese código, observar la salida y asegurarte de entender cómo y por qué funciona antes de aplicar los conceptos a tu aplicación..
+    Estas cajas son para analizar y comprender en detalle el ejemplo de código proporcionado. Tu tarea es ejecutar ese código, observar la salida y asegurarte de entender cómo y por qué funciona antes de aplicar los conceptos a tu aplicación.
 
 !!! warning "Práctica: Aplicar y construir" 
     Estas cajas son prácticas que debes realizar tú. Es el momento de ponerte a programar y aplicar lo que acabas de aprender. Son los objetivos que debes completar para avanzar.
