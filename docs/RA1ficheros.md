@@ -644,7 +644,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     **Aspectos técnicos obligatorios:**
 
     - Se añaden las librerías necesarias en las dependencias del archivo `build.gradle.kts`.
-    - El menú se repite hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+    - El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
     - Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
     - Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
     - Se controlan fallos de formato (ej. datos corruptos al parsear números) para asegurar que el programa no cae de forma inesperada si un fichero contiene errores.
@@ -1983,16 +1983,11 @@ data class Planta(
 
 
 !!! info "Calificación"
-    EL PROGRAMA ENTREGADO DEBERÁ EJECUTARSE (si da error de ejecución, no se corregirá). Para calificar se tendrán en cuenta los siguientes apartados:
+    EL PROGRAMA ENTREGADO DEBERÁ EJECUTARSE (si da error de ejecución, no se corregirá). Para calificar se tendrá en cuenta si se han realizado correctamente los siguientes aspectos:
 
-    
-    |Descripción | Realizado      | No realizado|
-    |---------|------------|-------------|
-    |**[0.5 pt]** El menú debe repetirse hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución. |  | |
-
-    |**[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos. |  | |
-
-    |**[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente. |  | |
+    - **[0.5 pt]** El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.    
+    - **[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
+    - **[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
 
 
 
