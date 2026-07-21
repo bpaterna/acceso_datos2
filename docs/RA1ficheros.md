@@ -1968,26 +1968,36 @@ data class Planta(
 
 
 !!! danger "Entrega final"
-    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga las carpetas `src` y `datos` y el archivo `LEEME.md` de tu proyecto además de los archivos.
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga:
+      - La carpeta `src`
+      - La carpeta `datos`
+      - El archivo `LEEME.md`
+
 
     **IMPORTANTE:**
 
       - El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
-
       - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
-
       - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
 
+    **CALIFICACIÓN:**
 
-
-
-!!! info "Calificación"
     EL PROGRAMA ENTREGADO DEBERÁ EJECUTARSE (si da error de ejecución, no se corregirá). Para calificar se tendrá en cuenta si se han realizado correctamente los siguientes aspectos:
 
-    - **[0.5 pt]** El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.    
-    - **[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
-    - **[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
+      - **[0.5 pt]** El contenido del archivo .zip es adecuado y el proyecto no continene código sin usar ni de pruebas.
+      - **[0.5 pt]** El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.    
+      - **[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo en formato `CSV` usando la librería `Kotlin-CSV`.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo `XML` mapeándolo con `XmlMapper`.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo `JSON` usando `kotlinx.serialization`.
+
+
+      - **[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
+
+
+
+
 
 
 
