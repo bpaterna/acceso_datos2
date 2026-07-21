@@ -1985,8 +1985,16 @@ data class Planta(
 !!! info "Calificación"
     EL PROGRAMA ENTREGADO DEBERÁ EJECUTARSE (si da error de ejecución, no se corregirá). Para calificar se tendrán en cuenta los siguientes apartados:
 
+    
+    |Descripción | Realizado      | No realizado|
+    |---------|------------|-------------|
+    |**[0.5 pt]** El menú debe repetirse hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución. |  | |
 
-    *   [ ] **[0.5 pt]** Todo el código se encuentra en un único fichero .kt bien organizado, tendrá una única función main y todas las funciones necesarias para cumplir los requisitos del enunciado. Todas las funciones son legibles, tienen nombres adecuados y se utilizan (no hay funciones sin llamar)
+    |**[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos. |  | |
+
+    |**[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente. |  | |
+
+
 
 
 
