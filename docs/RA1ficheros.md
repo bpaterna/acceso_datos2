@@ -643,11 +643,11 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     **Aspectos Técnicos Obligatorios:**
 
-      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
-
-
+    - Se añaden las librerías necesarias en las dependencias del archivo `build.gradle.kts`.
+    - El menú debe repetirse hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+    - Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
+    - Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
+    - Se controlan fallos de formato (ej. datos corruptos al parsear números) para asegurar que el programa no cae de forma inesperada si un fichero contiene errores.
 
 
 <span class="mi_h3">4.2. XML (eXtensible Markup Language)</span>
@@ -837,11 +837,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
     3. **Implementa la lectura del XML:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo, `leerXML()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
-    **Aspectos Técnicos Obligatorios:**
-
-      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+    **Aspectos Técnicos Obligatorios:** revisa que se sigan cumpliendo los de la páctica anterior.
     
 
 
@@ -1009,11 +1005,7 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
 
     3. **Implementa la lectura del JSON:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo, `leerJSON()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
 
-    **Aspectos Técnicos Obligatorios:**
-
-      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+    **Aspectos Técnicos Obligatorios:** revisa que se sigan cumpliendo los de la páctica anterior.
 
 
 
@@ -1053,11 +1045,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
     2. **Implementa las nuevas opciones de menú:** Cuando el usuario seleccione la opción del menú, llama a la función correspondente que compruebe la existencia del fichero, lo lea, deserialice las líneas a objetos de tu *data class* y lo convierta en el formato de destino (guarda el fichero de conversión con un nombre distintos a los utilizados anteriormente).
 
-    **Aspectos Técnicos Obligatorios:**
-
-      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      - **Configuración del proyecto:** Añade la librería **Kotlin-CSV** en las dependencias de tu archivo `build.gradle.kts`.
-      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+    **Aspectos Técnicos Obligatorios:** revisa que se sigan cumpliendo los de la páctica anterior.
 
 
 
@@ -1879,11 +1867,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
           - Opción `5`: llamará a la función que pide un ID, verifica si el registro existe y, si lo encuentra, lo elimina del fichero `.bin`.
 
 
-    **Aspectos Técnicos Obligatorios:**
-
-      - **Funcionamiento del menú:** El menú debe repetirse continuamente hasta que el usuario decida salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-      - **Configuración del proyecto:** Añade las dependencias necesarias a tu archivo `build.gradle.kts`.
-      - **Robustez y manejo de errores:** Debes verificar la accesibilidad y existencia del fichero mediante `Files.isReadable()` antes de iniciar la lectura. El mapeo de datos debe incluir control de excepciones numéricas por si alguna fila del CSV contiene datos corruptos.
+    **Aspectos Técnicos Obligatorios:** revisa que se sigan cumpliendo los de la páctica anterior.
 
 
 
@@ -1978,6 +1962,8 @@ data class Planta(
 
     Aprovecha para realizar las últimas pruebas y asegurarte que la aplicación que entregas no tiene fallos.
 
+    **Aspectos Técnicos Obligatorios:** revisa que se sigan cumpliendo los de la páctica anterior.
+
    
 
 
@@ -1991,6 +1977,10 @@ data class Planta(
       - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
       - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
+
+
+
+Calificación de la práctica
 
 
 
