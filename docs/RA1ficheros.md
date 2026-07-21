@@ -1980,9 +1980,13 @@ data class Planta(
 
 
 
-Calificación de la práctica
 
 
+!!! info "Calificación"
+    EL PROGRAMA ENTREGADO DEBERÁ EJECUTARSE (si da error de ejecución, no se corregirá). Para calificar se tendrán en cuenta los siguientes apartados:
+
+
+    *   [ ] **[0.5 pt]** Todo el código se encuentra en un único fichero .kt bien organizado, tendrá una única función main y todas las funciones necesarias para cumplir los requisitos del enunciado. Todas las funciones son legibles, tienen nombres adecuados y se utilizan (no hay funciones sin llamar)
 
 
 
