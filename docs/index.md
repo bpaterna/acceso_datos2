@@ -17,7 +17,6 @@ Intercaladas con la teoría y con los ejemplos encontrarás tres tipos de cajas.
 
 
 
-
 ---
 <span class="mi_h3">Autoría</span>
 

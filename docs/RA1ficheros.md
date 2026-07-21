@@ -1961,7 +1961,7 @@ data class Planta(
 - **Requisitos previos**: Asegúrate de tener instalado un JDK (versión 17 o superior).
 - **Compilación**: Abre el proyecto en tu IDE (ej. IntelliJ IDEA) y deja que Gradle sincronice las dependencias del archivo `build.gradle.kts`.
 - **Ejecución**: Lanza la función main contenida en el archivo de entrada `Main.kt`.
-- **Ficheros necesarios**: El programa buscará un fichero estructurado llamado *plantas.json* (o *plantas.csv*) dentro del directorio `datos/datos_ini/` en la raíz del proyecto para realizar la importación inicial de especies.
+- **Ficheros necesarios**: El programa buscará un fichero estructurado llamado *plantas.json* (o *plantas.csv*) dentro del directorio `datos/` en la raíz del proyecto para realizar la importación inicial de especies.
 
 ---
 
