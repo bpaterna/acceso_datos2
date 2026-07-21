@@ -1969,6 +1969,7 @@ data class Planta(
 
 !!! danger "Entrega final"
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga:
+
       - La carpeta `src`
       - La carpeta `datos`
       - El archivo `LEEME.md`
@@ -1987,21 +1988,21 @@ data class Planta(
 
       - **[0.5 pt]** El contenido del archivo .zip es adecuado y el proyecto no continene código sin usar ni de pruebas.
       - **[0.5 pt]** El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.    
-      - **[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
-      - **[0.5 pt]** Lee, procesa y deserializa correctamente un archivo en formato `CSV` usando la librería `Kotlin-CSV`.
-      - **[0.5 pt]** Lee, procesa y deserializa correctamente un archivo `XML` mapeándolo con `XmlMapper`.
-      - **[0.5 pt]** Lee, procesa y deserializa correctamente un archivo `JSON` usando `kotlinx.serialization`.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de JSON a CSV.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de JSON a XML.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de XML a JSON.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de XML a CSV.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de CSV a JSON.
-      - **[0.5 pt]** Implementa la exportación y conversión cruzada de datos de CSV a XML.
-      - **[0.5 pt]** Genera un archivo binario `.bin` con registros estructurados de tamaño fijo a partir de la información de un fichero de texto plano.
-      - **[0.5 pt]** Lee la información de un archivo binario `.bin` con registros estructurados de tamaño fijo y la mustras por consola.
-      - **[0.5 pt]** Añade un registro a un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo la información por consola).
-      - **[0.5 pt]** Modifica información de un registro (identificado por su ID) en un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo el ID y la información por consola).
-      - **[0.5 pt]** Elimina un registro (identificado por su ID) de un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo el ID por consola).
+      - **[0.5 pt]** Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos o escribirlos.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo en formato `CSV` usando la librería `Kotlin-CSV`.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo `XML` mapeándolo con `XmlMapper`.
+      - **[0.5 pt]** Se lee, procesa y deserializa correctamente un archivo `JSON` usando `kotlinx.serialization`.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de JSON a CSV.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de JSON a XML.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de XML a JSON.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de XML a CSV.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de CSV a JSON.
+      - **[0.5 pt]** Se implementa la exportación y conversión cruzada de datos de CSV a XML.
+      - **[0.5 pt]** Se genera un archivo binario `.bin` con registros estructurados de tamaño fijo a partir de la información de un fichero de texto plano.
+      - **[0.5 pt]** Se lee la información de un archivo binario `.bin` con registros estructurados de tamaño fijo y la mustras por consola.
+      - **[0.5 pt]** Se añade un registro a un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo la información por consola).
+      - **[0.5 pt]** Se modifica información de un registro (identificado por su ID) en un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo el ID y la información por consola).
+      - **[0.5 pt]** Se elimina un registro (identificado por su ID) de un archivo binario `.bin` con registros estructurados de tamaño fijo (pidiendo el ID por consola).
       - **[0.5 pt]** Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
       - **[1 pt]** El archivo `LEEME.md` está redactado correctamente en Markdown y cumple con los requisitos del enunciado.
 
