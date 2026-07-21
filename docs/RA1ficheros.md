@@ -1,5 +1,10 @@
 # RA1. Acceso a ficheros
 
+!!! info
+    RA1. Desarrolla aplicaciones que gestionan información almacenada en ficheros identificando el campo de aplicación de los mismos y utilizando clases específicas.
+
+
+
 <span class="mi_h3">Revisiones</span>
 
 |Revisión | Fecha      | Descripción|
