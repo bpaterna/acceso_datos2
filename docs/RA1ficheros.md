@@ -116,6 +116,19 @@ fun rutas() {
 
 
 
+!!! example "Autoevaluación 1"
+    ¿Qué ventaja tiene escribir: `Path.of("datos", "plantas.json")`
+    
+    frente a: `Path.of("datos/plantas.json")`
+    
+    **Opciones**
+    A) Ninguna. Ambas son exactamente iguales.
+    B) La primera permite que la API construya la ruta utilizando el separador adecuado del sistema operativo.
+    C) La primera crea automáticamente el directorio si no existe.
+    D) La segunda solo funciona en Linux.
+
+
+
 **Files**
 
 Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) que podemos realizar sobre las rutas (`Path`). Algunos de sus principales métodos son:
@@ -1985,7 +1998,8 @@ data class Planta(
 
 
 ??? example "Soluciones"
-    1-A
+    **1-B** Al proporcionar los distintos segmentos por separado, la API construye la ruta utilizando el separador correspondiente al sistema operativo.
+
 
     
 ---
