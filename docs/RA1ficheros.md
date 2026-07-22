@@ -127,7 +127,6 @@ fun rutas() {
     
         D) Sustituye completamente a la clase Files.
 
-
     **PREGUNTA 2. ¿Qué devuelve la siguiente instrucción? `val ruta = Path.of("datos", "plantas.json")`**
 
         A) Un objeto Path.        
@@ -137,12 +136,6 @@ fun rutas() {
         C) Un String.
 
         D) El fichero plantas.json.
-
-
-
-
-
-
 
 
 
@@ -1323,6 +1316,25 @@ fun lote() {
     ```
 
 
+
+!!! example "Autoevaluación"
+    **PREGUNTA 3. ¿Qué hace realmente la siguiente instrucción? `Files.exists(ruta)`**
+
+    A) Crea el fichero si no existe.
+
+    B) Comprueba si el fichero puede leerse.
+
+    C) Abre el fichero.
+
+    D) Comprueba si existe un elemento en esa ruta.
+
+
+
+
+
+
+
+
 **Datos estructurados (tipos primitivos)**
 
 Se utiliza cuando guardamos registros que contienen una estructura combinada de tipos primitivos (enteros, booleanos, decimales o texto) de manera consecutiva. El orden y los tamaños en bytes están estrictamente definidos, lo que permite a cualquier programa compatible leer el formato correctamente.
@@ -2042,6 +2054,20 @@ data class Planta(
     ---
 
     **PREGUNTA 3**
+
+    A) ❌ No crea nada.
+
+    B) ❌ Esa comprobación corresponde a `Files.isReadable()`.
+
+    C) ❌ No abre el fichero.
+
+    D) ✅ `Files.exists()` únicamente comprueba si existe un archivo o directorio asociado a esa ruta.
+
+    ---
+
+    **PREGUNTA 4**
+
+
 
     
 ---
