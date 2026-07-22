@@ -117,17 +117,18 @@ fun rutas() {
 
 
 !!! example "Autoevaluación 1"
-    ¿Qué ventaja tiene escribir: `Path.of("datos", "plantas.json")` frente a: `Path.of("datos/plantas.json")`?
-    
-    **Opciones**
+    ¿Cuál es la principal ventaja de utilizar Path frente a trabajar directamente con cadenas (String) para representar rutas de archivos?
 
-    A) Ninguna. Ambas son exactamente iguales.
+    Opciones
 
-    B) La primera permite que la API construya la ruta utilizando el separador adecuado del sistema operativo.
+    A) Permite almacenar archivos de mayor tamaño.
 
-    C) La primera crea automáticamente el directorio si no existe.
+    B) Representa rutas de forma independiente del sistema operativo.
 
-    D) La segunda solo funciona en Linux.
+    C) Hace que los archivos ocupen menos espacio.
+
+    D) Sustituye completamente a la clase Files.
+
 
 
 
@@ -374,7 +375,7 @@ fun main() {
 fun textoPlano(){
 
     // Ruta del fichero con el que vamos a trabajar
-    val ruta = Path.of("muestras/anotacion.txt")
+    val ruta = Path.of("muestras","anotacion.txt")
 
     Files.createDirectories(ruta.parent) // Crea la carpeta "muestras" si no existe
 
@@ -541,8 +542,8 @@ fun main() {
 
 fun gestionCSV(){
 
-    val entradaCSV = Path.of("datos/plantas.csv")
-    val salidaCSV = Path.of("datos/plantas2.csv")
+    val entradaCSV = Path.of("datos", "plantas.csv")
+    val salidaCSV = Path.of("datos", "plantas2.csv")
 
     // Leer los datos estructurados del CSV y guardarlos en una lista de objetos Planta
     val datos: List<Planta> = leerDatosCSV(entradaCSV)
@@ -768,8 +769,8 @@ fun main() {
 
 fun gestionXML(){
 
-    val entradaXML = Path.of("datos/plantas.xml")
-    val salidaXML = Path.of("datos/plantas2.xml")
+    val entradaXML = Path.of("datos","plantas.xml")
+    val salidaXML = Path.of("datos","plantas2.xml")
 
     val datos = leerDatosXML(entradaXML)
 
@@ -939,8 +940,8 @@ fun main() {
 }
 
 fun gestionJSON(){
-    val entradaJSON = Path.of("datos/plantas.json")
-    val salidaJSON = Path.of("datos/plantas2.json")
+    val entradaJSON = Path.of("datos","plantas.json")
+    val salidaJSON = Path.of("datos","plantas2.json")
 
     val datos = leerJSON(entradaJSON)
     println("--- Información de la lista de objetos PlantaJSON")
@@ -1187,9 +1188,9 @@ fun main() {
 }
 
 fun grises() {
-    val originalPath = Path.of("datos/sensor_clorofila.png")
-    val copiaPath = Path.of("datos/sensor.jpg")
-    val grisPath = Path.of("datos/sensor_gris.png")
+    val originalPath = Path.of("datos","sensor_clorofila.png")
+    val copiaPath = Path.of("datos","sensor.jpg")
+    val grisPath = Path.of("datos","sensor_gris.png")
 
     // 1. Comprobamos la disponibilidad de la muestra original
     if (!Files.isReadable(originalPath)) {
@@ -1257,7 +1258,7 @@ fun main() {
 }
 
 fun lote() {
-    val ruta = Path.of("datos/lote.bin")
+    val ruta = Path.of("datos","lote.bin")
 
     try {
         // Asegura que el directorio destino existe
@@ -1361,7 +1362,7 @@ fun main() {
 }
 
 fun registro() {
-    val ruta = Path.of("datos/registro.dat")
+    val ruta = Path.of("datos","registro.dat")
     Files.createDirectories(ruta.parent)
 
     // --- Escritura binaria estructurada ---
@@ -1502,7 +1503,7 @@ const val TAMANO_NOMBRE = 20         // 20 bytes para la cadena de texto
 const val TAMANO_ALTURA = Double.SIZE_BYTES // 8 bytes
 const val TAMANO_REGISTRO = TAMANO_ID + TAMANO_NOMBRE + TAMANO_ALTURA // 32 bytes en total
 
-val archivoPath = Path.of("datos/plantas.bin")
+val archivoPath = Path.of("datos","plantas.bin")
 
 
 fun main() {
@@ -2000,12 +2001,21 @@ data class Planta(
 
 
 ??? example "Soluciones"
+
     **PREGUNTA 1** 
 
-    A) ❌ Ambas pueden funcionar, pero la primera es más portable. Por tanto no son exactamente lo mismo.
-    B) ✅ Al proporcionar los distintos segmentos por separado, la API construye la ruta utilizando el separador correspondiente al sistema operativo.
-    C) ❌ Path.of() nunca crea directorios.
-    D) ❌ También puede funcionar en Windows.
+    A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
+
+    B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
+
+    C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
+
+    D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
+
+
+    ---
+
+    **PREGUNTA 2**
 
 
 
