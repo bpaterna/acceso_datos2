@@ -1329,6 +1329,20 @@ fun lote() {
     D) Comprueba si existe un elemento en esa ruta.
 
 
+    **PREGUNTA 4. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
+    
+    A) Ninguna.
+
+    B) El primero comprueba la existencia y el segundo verifica si puede leerse.
+
+    C) El segundo crea el fichero si existe.
+
+    D) Ambos comprueban exactamente lo mismo.
+
+
+
+
+
 
 
 
@@ -2067,7 +2081,13 @@ data class Planta(
 
     **PREGUNTA 4**
 
+    A) ❌ Comprueban aspectos distintos.
 
+    B) ✅ Un archivo puede existir y, sin embargo, no poder leerse debido a los permisos del sistema operativo.
+
+    C) ❌ Ninguno crea archivos.
+
+    D) ❌ Son métodos diferentes porque responden preguntas distintas.
 
     
 ---
