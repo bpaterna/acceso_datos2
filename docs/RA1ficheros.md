@@ -244,6 +244,20 @@ fun organizar(){
     ```
 
 
+
+!!! example "Autoevaluación"
+    **PREGUNTA 3. ¿Qué ventaja ofrece `Files.createDirectories()` respecto a `Files.createDirectory()`?**
+    
+    A) Puede crear todos los directorios necesarios de la ruta.
+
+    B) Es más rápido.
+
+    C) También crea automáticamente el fichero.
+
+    D) Solo funciona en Linux.
+
+
+
 <span class="mi_h3">Técnicas para recorrer un directorio</span>
 
 Como hemos visto en el clasificador anterior, recorrer directorios para "mirar" o gestionar su contenido es clave. Aquí analizamos los diferentes métodos para hacerlo:
@@ -1318,7 +1332,7 @@ fun lote() {
 
 
 !!! example "Autoevaluación"
-    **PREGUNTA 3. ¿Qué hace realmente la siguiente instrucción? `Files.exists(ruta)`**
+    **PREGUNTA 4. ¿Qué hace realmente la siguiente instrucción? `Files.exists(ruta)`**
 
     A) Crea el fichero si no existe.
 
@@ -1329,7 +1343,7 @@ fun lote() {
     D) Comprueba si existe un elemento en esa ruta.
 
 
-    **PREGUNTA 4. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
+    **PREGUNTA 5. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
     
     A) Ninguna.
 
@@ -1340,6 +1354,15 @@ fun lote() {
     D) Ambos comprueban exactamente lo mismo.
 
 
+    **PREGUNTA 6. Si la instrucción `Files.isReadable(ruta)` devuelve `false` ¿Qué puede afirmarse con seguridad?**
+
+    A) El fichero está vacío.
+
+    B) El fichero tiene un formato incorrecto.
+
+    C) No es posible leer el fichero desde el programa.
+
+    D) El fichero no existe.
 
 
 
@@ -2069,6 +2092,18 @@ data class Planta(
 
     **PREGUNTA 3**
 
+    A) ✅ `createDirectories()` puede crear varios niveles de directorios de una sola vez.
+
+    B) ❌ La velocidad no es su finalidad.
+
+    C) ❌ Nunca crea el fichero.
+
+    D) ❌ Funciona en cualquier sistema soportado por Java.
+
+    ---
+
+    **PREGUNTA 4**
+
     A) ❌ No crea nada.
 
     B) ❌ Esa comprobación corresponde a `Files.isReadable()`.
@@ -2079,7 +2114,7 @@ data class Planta(
 
     ---
 
-    **PREGUNTA 4**
+    **PREGUNTA 5**
 
     A) ❌ Comprueban aspectos distintos.
 
@@ -2089,7 +2124,21 @@ data class Planta(
 
     D) ❌ Son métodos diferentes porque responden preguntas distintas.
 
-    
+    ---
+
+    **PREGUNTA 6**
+
+    A) ❌ Un archivo vacío sigue siendo legible.
+
+    B) ❌ El formato no influye en este método.
+
+    C) ✅ El método indica que el programa no puede leer el archivo. La causa puede ser que no exista o que no tenga permisos suficientes.
+
+    D) ❌ Puede existir pero carecer de permisos.
+
+
+
+
 ---
 <span class="mi_h3">Autoría</span>
 
