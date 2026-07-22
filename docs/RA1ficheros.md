@@ -117,17 +117,34 @@ fun rutas() {
 
 
 !!! example "Autoevaluación 1"
-    ¿Cuál es la principal ventaja de utilizar Path frente a trabajar directamente con cadenas (String) para representar rutas de archivos?
+    **¿Cuál es la principal ventaja de utilizar Path frente a trabajar directamente con cadenas (String) para representar rutas de archivos?**
 
-    Opciones
+        A) Permite almacenar archivos de mayor tamaño.
+    
+        B) Representa rutas de forma independiente del sistema operativo.
+    
+        C) Hace que los archivos ocupen menos espacio.
+    
+        D) Sustituye completamente a la clase Files.
 
-    A) Permite almacenar archivos de mayor tamaño.
 
-    B) Representa rutas de forma independiente del sistema operativo.
 
-    C) Hace que los archivos ocupen menos espacio.
+!!! example "Autoevaluación 2"
+    **¿Qué devuelve la siguiente instrucción? `val ruta = Path.of("datos", "plantas.json")`**
 
-    D) Sustituye completamente a la clase Files.
+        A) Un objeto Path.        
+        
+        B) Un objeto File.
+        
+        C) Un String.
+
+        D) El fichero plantas.json.
+
+
+
+
+
+
 
 
 
@@ -2012,12 +2029,21 @@ data class Planta(
 
     D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
 
-
     ---
 
     **PREGUNTA 2**
 
+    A) ✅ `Path.of()` construye y devuelve un objeto `Path`. No crea ningún fichero ni devuelve su contenido.
 
+    B) ❌ `Path` y `File` son clases distintas.
+
+    C) ❌ Aunque recibe cadenas como parámetros, devuelve un `Path`.
+
+    D) ❌ El fichero puede incluso no existir.
+
+    ---
+
+    **PREGUNTA 3**
 
     
 ---
