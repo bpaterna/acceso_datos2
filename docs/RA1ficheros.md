@@ -117,14 +117,16 @@ fun rutas() {
 
 
 !!! example "Autoevaluación 1"
-    ¿Qué ventaja tiene escribir: `Path.of("datos", "plantas.json")`
-    
-    frente a: `Path.of("datos/plantas.json")`
+    ¿Qué ventaja tiene escribir: `Path.of("datos", "plantas.json")` frente a: `Path.of("datos/plantas.json")`?
     
     **Opciones**
+
     A) Ninguna. Ambas son exactamente iguales.
+
     B) La primera permite que la API construya la ruta utilizando el separador adecuado del sistema operativo.
+
     C) La primera crea automáticamente el directorio si no existe.
+
     D) La segunda solo funciona en Linux.
 
 
@@ -1998,7 +2000,13 @@ data class Planta(
 
 
 ??? example "Soluciones"
-    **1-B** Al proporcionar los distintos segmentos por separado, la API construye la ruta utilizando el separador correspondiente al sistema operativo.
+    **PREGUNTA 1** 
+
+    A) ❌ Ambas pueden funcionar, pero la primera es más portable. Por tanto no son exactamente lo mismo.
+    B) ✅ Al proporcionar los distintos segmentos por separado, la API construye la ruta utilizando el separador correspondiente al sistema operativo.
+    C) ❌ Path.of() nunca crea directorios.
+    D) ❌ También puede funcionar en Windows.
+
 
 
     
