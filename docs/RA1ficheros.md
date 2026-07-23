@@ -117,76 +117,75 @@ fun rutas() {
 
 !!! example "Autoevaluación"
 
-**Pregunta 1: ¿Cuál será la salida por consola al ejecutar este código?**
-
-```kotlin
-import java.nio.file.Path
-
-fun main() {
-    val rutaBase = Path.of("/home/botanico/herbario")
-    val rutaFicha = rutaBase.resolve("especies/helechos/comun.txt")
+    **Pregunta 1: ¿Cuál será la salida por consola al ejecutar este código?**
     
-    println(rutaFicha.fileName)
-}
-```
-
-**A)** `/home/botanico/herbario/especies/helechos/comun.txt`
-
-**B)** `comun.txt`
-
-**C)** `helechos`
-
-**D)** `especies/helechos/comun.txt`
-
-
-??? example "Solución"
-
-    **A)** ❌ Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
+    ```kotlin
+    import java.nio.file.Path
     
-    **B)** ✅ El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
+    fun main() {
+        val rutaBase = Path.of("/home/botanico/herbario")
+        val rutaFicha = rutaBase.resolve("especies/helechos/comun.txt")
+        
+        println(rutaFicha.fileName)
+    }
+    ```
     
-    **C)** ❌ `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
+    **A)** `/home/botanico/herbario/especies/helechos/comun.txt`
     
-    **D)** ❌ Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
-
-
-
-
-**Pregunta 2: ¿Qué se mostrará por pantalla al ejecutar el programa en un ordenador con Windows?**
-
-```kotlin
-import java.nio.file.Path
-
-fun main() {
-    val ruta1 = Path.of("C:", "herbario", "fotos", "orquidea.jpg")
-    val ruta2 = Path.of("datos_ini", "plantas.csv")
+    **B)** `comun.txt`
     
-    println("${ruta1.isAbsolute} - ${ruta2.isAbsolute}")
-}
-```
-
-**A)** `false - false`
-
-**B)** `true - true`
-
-**C)** `true - false`
-
-**D)** `false - true`
+    **C)** `helechos`
+    
+    **D)** `especies/helechos/comun.txt`
 
 
+    ??? example "Solución"
+    
+        **A)** ❌ Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
+        
+        **B)** ✅ El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
+        
+        **C)** ❌ `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
+        
+        **D)** ❌ Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
 
-??? example "Solución"
 
 
-**A)** ❌ Es errónea porque asume que `ruta1` es relativa, ignorando que tiene la raíz del disco `C:` especificada de forma explícita.
 
-**B)** ❌ Es errónea porque asume que `ruta2` es absoluta, pero al no contar con una letra de unidad o una barra diagonal inicial en sistemas Unix, el sistema operativo necesita el directorio de trabajo actual para poder resolverla.
+    **Pregunta 2: ¿Qué se mostrará por pantalla al ejecutar el programa en un ordenador con Windows?**
+    
+    ```kotlin
+    import java.nio.file.Path
+    
+    fun main() {
+        val ruta1 = Path.of("C:", "herbario", "fotos", "orquidea.jpg")
+        val ruta2 = Path.of("datos_ini", "plantas.csv")
+        
+        println("${ruta1.isAbsolute} - ${ruta2.isAbsolute}")
+    }
+    ```
+    
+    **A)** `false - false`
+    
+    **B)** `true - true`
+    
+    **C)** `true - false`
+    
+    **D)** `false - true`
 
-**C)** ✅ El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
-    -   `ruta1` empieza con la raíz de la unidad en Windows (`C:\herbario\...`), por lo que es una **ruta absoluta** (`true`).
-    -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos_ini\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
 
-**D)** ❌ Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
+
+    ??? example "Solución"
+    
+        **A)** ❌ Es errónea porque asume que `ruta1` es relativa, ignorando que tiene la raíz del disco `C:` especificada de forma explícita.
+        
+        **B)** ❌ Es errónea porque asume que `ruta2` es absoluta, pero al no contar con una letra de unidad o una barra diagonal inicial en sistemas Unix, el sistema operativo necesita el directorio de trabajo actual para poder resolverla.
+        
+        **C)** ✅ El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
+            -   `ruta1` empieza con la raíz de la unidad en Windows (`C:\herbario\...`), por lo que es una **ruta absoluta** (`true`).
+            -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos_ini\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
+        
+        **D)** ❌ Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
 
 
 
