@@ -130,24 +130,24 @@ fun rutas() {
     }
     ```
     
-    **A)** `/home/botanico/herbario/especies/helechos/comun.txt`
-    
-    **B)** `comun.txt`
-    
-    **C)** `helechos`
-    
-    **D)** `especies/helechos/comun.txt`
+        A) `/home/botanico/herbario/especies/helechos/comun.txt`
+        
+        B) `comun.txt`
+        
+        C) `helechos`
+        
+        D) `especies/helechos/comun.txt`
 
 
-    ??? example "Solución"
+    ??? quote "Solución"
     
-        **A)** ❌ Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
+        ❌ A) Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
         
-        **B)** ✅ El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
+        ✅ B) El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
         
-        **C)** ❌ `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
+        ❌ C) `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
         
-        **D)** ❌ Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
+        ❌ D) Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
 
 
 
@@ -165,27 +165,27 @@ fun rutas() {
     }
     ```
     
-    **A)** `false - false`
-    
-    **B)** `true - true`
-    
-    **C)** `true - false`
-    
-    **D)** `false - true`
-
-
-
-    ??? example "Solución"
-    
-        **A)** ❌ Es errónea porque asume que `ruta1` es relativa, ignorando que tiene la raíz del disco `C:` especificada de forma explícita.
+        A) `false - false`
         
-        **B)** ❌ Es errónea porque asume que `ruta2` es absoluta, pero al no contar con una letra de unidad o una barra diagonal inicial en sistemas Unix, el sistema operativo necesita el directorio de trabajo actual para poder resolverla.
+        B) `true - true`
         
-        **C)** ✅ El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
+        C) `true - false`
+        
+        D) `false - true`
+
+
+
+    ??? quote "Solución"
+    
+        ❌ A) Es errónea porque asume que `ruta1` es relativa, ignorando que tiene la raíz del disco `C:` especificada de forma explícita.
+        
+        ❌ B) Es errónea porque asume que `ruta2` es absoluta, pero al no contar con una letra de unidad o una barra diagonal inicial en sistemas Unix, el sistema operativo necesita el directorio de trabajo actual para poder resolverla.
+        
+        ✅ C) El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
             -   `ruta1` empieza con la raíz de la unidad en Windows (`C:\herbario\...`), por lo que es una **ruta absoluta** (`true`).
             -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos_ini\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
         
-        **D)** ❌ Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
+        ❌ D) Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
 
 
 
