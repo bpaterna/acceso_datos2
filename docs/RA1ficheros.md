@@ -117,37 +117,35 @@ fun rutas() {
 
 !!! example "Autoevaluación"
 
-    **Pregunta 1: ¿Cuál será la salida por consola al ejecutar este código?**
-    
+    **Pregunta 1: ¿Cuál será el comportamiento del siguiente código al ejecutarse si en nuestro disco duro no existe físicamente ninguna carpeta llamada "datos" ni ningún archivo llamado "flor.txt"?**
+
     ```kotlin
     import java.nio.file.Path
     
     fun main() {
-        val rutaBase = Path.of("/home/botanico/herbario")
-        val rutaFicha = rutaBase.resolve("especies/helechos/comun.txt")
+        val ruta = Path.of("datos", "flor.txt")
         
-        println(rutaFicha.fileName)
+        println("Ruta: $ruta")
     }
     ```
-    
-        A) `/home/botanico/herbario/especies/helechos/comun.txt`
-        
-        B) `comun.txt`
-        
-        C) `helechos`
-        
-        D) `especies/helechos/comun.txt`
 
+    A) El programa lanzará una excepción en tiempo de ejecución (`NoSuchFileException`) al intentar crear un objeto `Path` de un archivo que no existe en el disco duro.
+    
+    B) El código se ejecutará correctamente y mostrará por pantalla: `Ruta: datos_ini\flor.txt` (en Windows) o `Ruta: datos_ini/flor.txt` (en Linux/macOS).
+    
+    C) Se producirá un error de compilación porque el método `Path.of()` requiere obligatoriamente que se le pase un único String completo con las barras de separación.
+    
+    D) El programa se ejecutará pero imprimirá un valor vacío (`Ruta: `), ya que el sistema de archivos no puede resolver la dirección.
 
     ??? quote "Solución"
     
-        ❌ A) Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
+        ❌ A) Un objeto `Path` representa únicamente una dirección lógica o ruta en el sistema de ficheros. Crear un objeto `Path` no interactúa con el disco duro ni verifica si el archivo real existe, por lo que no lanzará ninguna excepción en esta línea.
         
-        ✅ B) El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
+        ✅ B) El método `Path.of` junta los fragmentos de texto pasados como argumentos utilizando el separador de carpetas por defecto del sistema operativo del usuario. El código se ejecuta con éxito e imprime la ruta unificada de forma relativa, exista o no el archivo en el disco.
         
-        ❌ C) `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
+        ❌ C) El método de utilidad `Path.of` está sobrecargado y acepta múltiples argumentos de texto (un *vararg* de tipo String) para construir la ruta de forma segura e independiente de la plataforma, por lo que la sintaxis es totalmente válida.
         
-        ❌ D) Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
+        ❌ D) El objeto `Path` almacena la cadena de texto de la dirección estructurada en memoria. Al concatenarlo en el `println`, se llama automáticamente a su método `.toString()`, que devuelve la ruta formateada con los separadores correspondientes.
 
 
 
@@ -165,13 +163,13 @@ fun rutas() {
     }
     ```
     
-        A) `false - false`
-        
-        B) `true - true`
-        
-        C) `true - false`
-        
-        D) `false - true`
+    A) `false - false`
+    
+    B) `true - true`
+    
+    C) `true - false`
+    
+    D) `false - true`
 
 
 
@@ -323,13 +321,13 @@ fun organizar(){
     }
     ```
     
-        A) Se producirá un error de compilación porque `Files.list` solo puede listar ficheros, no carpetas.
-        
-        B) El código se ejecutará sin problemas pero no mostrará nada por consola, ya que la subcarpeta `especies` está vacía de ficheros.
-        
-        C) Se imprimirá por consola: `Directorio encontrado: especies`.
-        
-        D) Se producirá una excepción en tiempo de ejecución porque `Files.list` entra de forma automática de manera recursiva en la carpeta `especies` y al estar vacía falla.
+    A) Se producirá un error de compilación porque `Files.list` solo puede listar ficheros, no carpetas.
+    
+    B) El código se ejecutará sin problemas pero no mostrará nada por consola, ya que la subcarpeta `especies` está vacía de ficheros.
+    
+    C) Se imprimirá por consola: `Directorio encontrado: especies`.
+    
+    D) Se producirá una excepción en tiempo de ejecución porque `Files.list` entra de forma automática de manera recursiva en la carpeta `especies` y al estar vacía falla.
 
     ??? quote "Solución"
     
@@ -364,13 +362,13 @@ fun organizar(){
     }
     ```
     
-        A) El programa compila y se ejecuta bien, ya que `Files.move` crea de manera automática todos los directorios que falten en la ruta de destino antes de trasladar el archivo.
-        
-        B) Se lanzará una excepción de tipo `NoSuchFileException` (o similar de Entrada/Salida) en la línea del `Files.move`, impidiendo que el archivo sea trasladado.
-        
-        C) El archivo `rosa_nueva.png` se renombrará en el disco duro perdiendo su extensión, pasando a llamarse simplemente `png`.
-        
-        D) Se producirá un error de compilación porque las rutas de tipo `Path` siempre deben crearse con nombres absolutos antes de poder usar `Files.move`.
+    A) El programa compila y se ejecuta bien, ya que `Files.move` crea de manera automática todos los directorios que falten en la ruta de destino antes de trasladar el archivo.
+    
+    B) Se lanzará una excepción de tipo `NoSuchFileException` (o similar de Entrada/Salida) en la línea del `Files.move`, impidiendo que el archivo sea trasladado.
+    
+    C) El archivo `rosa_nueva.png` se renombrará en el disco duro perdiendo su extensión, pasando a llamarse simplemente `png`.
+    
+    D) Se producirá un error de compilación porque las rutas de tipo `Path` siempre deben crearse con nombres absolutos antes de poder usar `Files.move`.
     
 
     ??? quote "Solución"
