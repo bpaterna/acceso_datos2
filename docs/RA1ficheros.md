@@ -2260,7 +2260,7 @@ fun anadirPlanta( idPlanta: Int, nombre: String, altura: Double) {
             // 2. Escribimos el Nombre (20 bytes). Rellenamos con espacios si es más corto.
             val nombreBytes = nuevaPlanta.nombreComun
                 .padEnd(TAMANO_NOMBRE, ' ')
-                .toByteArray(Charset.ISO_8859_1())
+                .toByteArray(Charsets.ISO_8859_1)
             buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
 
             // 3. Escribimos la altura (8 bytes)
@@ -2297,7 +2297,7 @@ fun leerPlantas(): List<PlantaBinaria> {
             // 2. Leemos los bytes del nombre y los decodificamos limpiando los espacios sobrantes
             val nombreBytes = ByteArray(TAMANO_NOMBRE)
             buffer.get(nombreBytes)
-            val nombre = String(nombreBytes, Charset.ISO_8859_1()).trim()
+            val nombre = String(nombreBytes, Charsets.ISO_8859_1).trim()
 
             // 3. Leemos la altura
             val altura = buffer.getDouble()
