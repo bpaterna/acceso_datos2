@@ -487,7 +487,7 @@ fun listado(){
 
 !!! example "Autoevaluación"
 
-    **Pregunta 5: ¿Por qué en este código se realiza la resta `path.nameCount - carpetaPrincipal.nameCount` a la hora de calcular la indentación del informe?**
+    **Pregunta 5: ¿Por qué en el código del ejemplo anterior se realiza la resta `path.nameCount - carpetaPrincipal.nameCount` a la hora de calcular la indentación del informe?**
 
     A) Para evitar que la carpeta raíz "muestras" aparezca con sangrado (tabulación) en la consola y que los elementos que están directamente dentro de ella tengan una sola tabulación de profundidad.
     
@@ -501,14 +501,14 @@ fun listado(){
     
         ✅ A) `path.nameCount` devuelve el número total de elementos que componen la ruta completa (por ejemplo, `muestras/jpg/rosa.jpg` tiene 3 componentes). Al restarle el tamaño de la ruta base (`carpetaPrincipal.nameCount`, que vale 1), conseguimos que la raíz tenga un nivel de sangrado de 0 y que el subnivel inmediato empiece en 1.
         
-        ❌ B) El método `nameCount` solo cuenta el número de nombres o directorios que forman parte del camino de la ruta en formato de texto; no tiene relación con el tamaño físico del archivo en bytes del disco duro.
+        ❌ B) El método `nameCount` solo cuenta el número de nombres o directorios que forman parte del camino de la ruta en formato de texto, no tiene relación con el tamaño físico del archivo en bytes del disco duro.
         
         ❌ C) La profundidad del recorrido de `Files.walk()` se configura de forma opcional mediante un parámetro numérico en el propio método. Realizar una resta aritmética en el flujo del `forEach` no altera los elementos que el stream ya ha recuperado del disco.
         
         ❌ D) El compilador de Kotlin solo requiere que el argumento que se le pase al método `.repeat()` sea un número entero (`Int`), independientemente de si este valor es una constante o el resultado de una resta.
 
 
-    **Pregunta 6: ¿Qué sucedería en la visualización de la consola si eliminamos la condición `if (profundidad > 0)` antes del `println`?**
+    **Pregunta 6: En el código del ejemplo anterior, ¿qué sucedería en la visualización de la consola si eliminamos la condición `if (profundidad > 0)` antes del `println`?**
 
     A) El programa lanzará un error de ejecución (`IndexOutOfBoundsException`) debido a que la profundidad en la raíz dará un valor negativo.
     
@@ -639,6 +639,78 @@ fun textoPlano(){
       [SISTEMA] Invernadero automatizado iniciado...
       [SENSOR] Nivel de humedad óptimo detectado (75%).
     ```
+
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 7: Se quiere registrar el riego de una planta al final del archivo diario sin borrar las anotaciones anteriores, y se escribe el siguiente código. ¿Cuál será el comportamiento del programa?**
+
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
+    import java.nio.file.StandardOpenOption
+    
+    fun main() {
+        val ruta = Path.of("documentos/registro_diario.txt")
+        val nuevaAnotacion = "14:00 - Orquídea regada."
+    
+        Files.writeString(ruta, nuevaAnotacion, StandardOpenOption.WRITE)
+    }
+    ```
+
+    A) La nueva anotación se añadirá limpiamente al final del fichero de texto, respetando todo lo que ya estuviera escrito anteriormente.
+    
+    B) El código generará un error de compilación porque el método `writeString` requiere obligatoriamente que la ruta se defina con la clase clásica `java.io.File`.
+    
+    C) Se lanzará una excepción en tiempo de ejecución porque la opción `WRITE` exige que el archivo esté completamente vacío antes de poder escribir en él.
+    
+    D) Si el archivo ya existía y contenía texto, la nueva anotación se escribirá al principio del fichero, sobrescribiendo (pisando) únicamente los caracteres iniciales que ocupen su misma longitud.
+
+    ??? quote "Solución"
+    
+        ❌ A) Para añadir texto al final de un fichero existente sin destruir el contenido previo se debe utilizar obligatoriamente la opción `StandardOpenOption.APPEND`.
+        
+        ❌ B) El método `Files.writeString` pertenece a la API moderna de NIO (`java.nio.file.Files`) y está diseñado específicamente para trabajar con objetos de tipo `Path`.
+        
+        ❌ C) La opción `WRITE` simplemente abre el archivo con permisos de escritura. No lanza ninguna excepción por el hecho de que el archivo contenga datos previos, a menos que existan problemas de permisos del sistema operativo.
+        
+        ✅ D) Al abrir el archivo únicamente con `StandardOpenOption.WRITE` (sin combinarlo con `APPEND` ni con `TRUNCATE_EXISTING`), el canal de escritura posiciona su puntero en el byte 0. Al escribir la nueva frase, esta sobrescribirá directamente los primeros caracteres del texto existente, dejando intacto el resto del archivo a partir de esa posición.
+
+
+
+    **Pregunta 8: ¿Qué ocurrirá al ejecutar el siguiente fragmento de código si el archivo de texto `cuidados_orquideas.txt` existe, pero está completamente vacío?**
+
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
+    
+    fun main() {
+        val ruta = Path.of("documentos/cuidados_orquideas.txt")
+        
+        val lineas = Files.readAllLines(ruta)
+        println("Líneas leídas: ${lineas.size}")
+    }
+    ```
+
+    A) El programa se ejecutará sin errores y mostrará por consola: `Líneas leídas: 0`.
+    
+    B) El método `Files.readAllLines` lanzará una excepción en tiempo de ejecución (`NoSuchFileException`) al detectar que el archivo no tiene líneas de texto que leer.
+    
+    C) El programa se quedará en un bucle infinito intentando buscar la primera línea de texto del archivo.
+    
+    D) Se producirá un error de compilación porque `Files.readAllLines` no puede devolver una lista vacía.
+
+
+    ??? quote "Solución"
+    
+        ✅ A) El método `Files.readAllLines` lee correctamente archivos de texto vacíos sin lanzar excepciones. Al no encontrar líneas físicas, devuelve una lista mutable de cadenas (`List<String>`) con un tamaño (`.size`) igual a 0, ejecutando el programa con éxito.
+        
+        ❌ B) El error `NoSuchFileException` solo se lanza si el archivo físico no existe en la ruta especificada. Si el archivo existe pero está vacío, el sistema lo trata como una lectura válida de cero caracteres.
+        
+        ❌ C) La API de NIO controla internamente el final del archivo (EOF) al leer los flujos de caracteres, por lo que el método termina la lectura de inmediato y devuelve la colección sin generar ningún bloqueo de ejecución.
+        
+        ❌ D) El tipo de retorno de `Files.readAllLines` es `MutableList<String>` [10]. En programación, las listas pueden crearse y gestionarse con un tamaño de cero elementos perfectamente, lo cual es totalmente compatible con la sintaxis del lenguaje.
 
 
 
@@ -828,6 +900,71 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     - ID: 5, Nombre común: Girasol, Cientéfico: Helianthus annuus, Riego: cada 2 días, Altura: 3.0m
     --- Información guardada con éxito en: datos\plantas2.csv
     ```
+
+
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 9: Se quiere leer un archivo CSV en el que los valores están separados por comas tradicionales (como `1,Rosa,1.5`) en lugar de puntos y comas. ¿Qué sucederá si ejecuta la función `leerDatosCSV` del Ejemplo 5 sin modificar su configuración?**
+
+    ```kotlin
+    // Configuración por defecto dentro de leerDatosCSV en el Ejemplo 5:
+    val reader = csvReader {
+        delimiter = ';'
+    }
+    ```
+
+    A) La librería detectará de forma automática que el archivo usa comas y reajustará el separador sin lanzar errores.
+    
+    B) Se producirá un error de compilación en la línea del `csvReader` debido a que el delimitador por defecto en Kotlin-CSV siempre debe ser un punto y coma.
+    
+    C) Cada línea del CSV se leerá como si tuviera un único campo de texto (toda la fila junta), por lo que la comprobación `columnas.size >= 5` dará `false` y el programa ignorará todas las filas del archivo.
+    
+    D) El lector lanzará una excepción de tipo `IOException` en la línea `reader.readAll` al no encontrar el punto y coma final de cada línea.
+
+
+    ??? quote "Solución"
+    
+        ❌ A) La librería `Kotlin-CSV` es estricta con el delimitador configurado. Si se define `;` de forma explícita, no intentará buscar otros separadores alternativos de manera automática.
+        
+        ❌ B) El método de configuración de `csvReader` compila perfectamente con cualquier carácter delimitador válido (como `;`, `,` o `\t`).
+        
+        ✅ C) Al usar un delimitador de punto y coma `;` para procesar una línea que usa comas (ej. `1,Rosa,1.5`), el lector interpretará que no hay separadores en toda la línea. Esto devolverá una lista de un único elemento (`columnas.size` será igual a 1). Al no cumplir la validación de tamaño mínimo de columnas (`columnas.size >= 5`), el flujo saltará al bloque `else` imprimiendo el aviso de formato incorrecto e ignorando el registro.
+        
+        ❌ D) El método `readAll` no lanza excepciones por el hecho de no encontrar el carácter delimitador en una línea. Simplemente trata toda la línea como una única columna de texto plano de forma segura.
+
+
+
+    **Pregunta 10: ¿Cuál es la principal ventaja que aporta el uso del método `mapNotNull` frente a un `map` tradicional a la hora de transformar las filas leídas del CSV a objetos de tipo `Planta`?**
+
+    ```kotlin
+    // Código del Ejemplo 5:
+    plantas = filas.mapNotNull { columnas ->
+        // ... si ocurre un fallo o faltan columnas, devolvemos null
+    }
+    ```
+
+    A) Permite filtrar y descartar automáticamente los registros que den error o sean inválidos, devolviendo una lista limpia que solo contiene objetos `Planta` válidos (sin elementos nulos en su interior).
+    
+    B) Es un método obligatorio porque la librería `Kotlin-CSV` requiere que las listas de salida se declaren siempre con elementos nulos para poder guardarse en disco.
+    
+    C) Aumenta la velocidad de lectura del disco duro al saltarse los bytes vacíos del archivo `.csv`.
+    
+    D) Permite que el programa cree de manera automática los objetos de tipo `Planta` con valores por defecto cuando una columna está vacía en el archivo de texto.
+
+
+    ??? quote "Solución"
+    
+        ✅ A) El método `mapNotNull` de Kotlin aplica la transformación indicada a cada elemento de la colección y, de forma automática, descarta del resultado final cualquier valor que sea `null`. Esto nos permite realizar el control de errores con `try-catch` y devolver `null` para las filas corruptas, garantizando que la lista final `plantas` contenga únicamente instancias válidas y operativas.
+        
+        ❌ B) El método `mapNotNull` devuelve una lista de tipo `List<Planta>` limpia (no contiene nulos, por lo que el tipo de datos resultante es no-nulo). La persistencia en disco no requiere elementos vacíos o nulos en absoluto.
+        
+        ❌ C) El procesamiento con `mapNotNull` se realiza en la memoria RAM sobre los datos que ya han sido completamente leídos y cargados previamente por `reader.readAll()`, por lo que no afecta al rendimiento de E/S del disco duro.
+        
+        ❌ D) El método no rellena campos vacíos por defecto a menos que lo programemos de forma explícita en el bloque de transformación. Su única función es filtrar los retornos nulos resultantes del mapeo.
+
+
 
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
