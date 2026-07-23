@@ -127,6 +127,18 @@ fun rutas() {
     
         D) Sustituye completamente a la clase Files.
 
+    ??? example "Solución"
+    
+        A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
+    
+        B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
+    
+        C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
+    
+        D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
+
+
+
     **PREGUNTA 2. ¿Qué devuelve la siguiente instrucción? `val ruta = Path.of("datos", "plantas.json")`**
 
         A) Un objeto Path.        
@@ -137,23 +149,7 @@ fun rutas() {
 
         D) El fichero plantas.json.
 
-
-
-    ??? example "Soluciones"
-
-        **PREGUNTA 1** 
-    
-        A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
-    
-        B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
-    
-        C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
-    
-        D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
-    
-        ---
-    
-        **PREGUNTA 2**
+    ??? example "Solución"
     
         A) ✅ `Path.of()` construye y devuelve un objeto `Path`. No crea ningún fichero ni devuelve su contenido.
     
