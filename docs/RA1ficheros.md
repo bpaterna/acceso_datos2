@@ -115,49 +115,83 @@ fun rutas() {
     ```
 
 
-
 !!! example "Autoevaluación"
-    **PREGUNTA 1. ¿Cuál es la principal ventaja de utilizar Path frente a trabajar directamente con cadenas (String) para representar rutas de archivos?**
 
-        A) Permite almacenar archivos de mayor tamaño.
-    
-        B) Representa rutas de forma independiente del sistema operativo.
-    
-        C) Hace que los archivos ocupen menos espacio.
-    
-        D) Sustituye completamente a la clase Files.
+**Pregunta 1: ¿Cuál será la salida por consola al ejecutar este código?**
 
-    ??? example "Solución"
+```kotlin
+import java.nio.file.Path
+
+fun main() {
+    val rutaBase = Path.of("/home/botanico/herbario")
+    val rutaFicha = rutaBase.resolve("especies/helechos/comun.txt")
     
-        A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
+    println(rutaFicha.fileName)
+}
+```
+
+**A)** `/home/botanico/herbario/especies/helechos/comun.txt`
+
+**B)** `comun.txt`
+
+**C)** `helechos`
+
+**D)** `especies/helechos/comun.txt`
+
+
+??? example "Solución"
+
+    **A)** ❌ Esta opción representa la ruta completa absoluta resuelta, lo cual se obtendría llamando a `rutaFicha.toString()` o simplemente imprimiendo `rutaFicha`, pero no con `.fileName`.
     
-        B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
+    **B)** ✅ El método `.fileName` devuelve únicamente el elemento más lejano de la ruta (el último componente) [4]. En este caso, tras resolver las rutas, el elemento final es el archivo de texto `comun.txt` [4].
     
-        C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
+    **C)** ❌ `helechos` es el directorio padre del archivo, no el archivo en sí. Para obtener este valor se debería acceder al elemento padre de la ruta.
     
-        D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
+    **D)** ❌ Esta es la ruta relativa que se pasó al método `.resolve()`, pero `.fileName` no devuelve la porción resuelta, sino únicamente el último nombre del trayecto.
 
 
 
-    **PREGUNTA 2. ¿Qué devuelve la siguiente instrucción? `val ruta = Path.of("datos", "plantas.json")`**
 
-        A) Un objeto Path.        
-        
-        B) Un objeto File.
-        
-        C) Un String.
+**Pregunta 2: ¿Qué se mostrará por pantalla al ejecutar el programa en un ordenador con Windows?**
 
-        D) El fichero plantas.json.
+```kotlin
+import java.nio.file.Path
 
-    ??? example "Solución"
+fun main() {
+    val ruta1 = Path.of("C:", "herbario", "fotos", "orquidea.jpg")
+    val ruta2 = Path.of("datos_ini", "plantas.csv")
     
-        A) ✅ `Path.of()` construye y devuelve un objeto `Path`. No crea ningún fichero ni devuelve su contenido.
-    
-        B) ❌ `Path` y `File` son clases distintas.
-    
-        C) ❌ Aunque recibe cadenas como parámetros, devuelve un `Path`.
-    
-        D) ❌ El fichero puede incluso no existir.
+    println("${ruta1.isAbsolute} - ${ruta2.isAbsolute}")
+}
+```
+
+**A)** `false - false`
+
+**B)** `true - true`
+
+**C)** `true - false`
+
+**D)** `false - true`
+
+
+
+??? example "Solución"
+
+
+**A)** ❌ Es errónea porque asume que `ruta1` es relativa, ignorando que tiene la raíz del disco `C:` especificada de forma explícita.
+
+**B)** ❌ Es errónea porque asume que `ruta2` es absoluta, pero al no contar con una letra de unidad o una barra diagonal inicial en sistemas Unix, el sistema operativo necesita el directorio de trabajo actual para poder resolverla.
+
+**C)** ✅ El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
+    -   `ruta1` empieza con la raíz de la unidad en Windows (`C:\herbario\...`), por lo que es una **ruta absoluta** (`true`).
+    -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos_ini\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
+
+**D)** ❌ Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
+
+
+
+
+
 
 
 
@@ -277,6 +311,24 @@ fun organizar(){
         C) También crea automáticamente el fichero.
     
         D) Solo funciona en Linux.
+
+
+
+    ??? example "Solución"
+
+        A) ✅ `createDirectories()` puede crear varios niveles de directorios de una sola vez.
+    
+        B) ❌ La velocidad no es su finalidad.
+    
+        C) ❌ Nunca crea el fichero.
+    
+        D) ❌ Funciona en cualquier sistema soportado por Java.
+
+
+
+
+
+
 
 
 
@@ -1364,6 +1416,17 @@ fun lote() {
     
         D) Comprueba si existe un elemento en esa ruta.
 
+    ??? example "Solución"
+    
+        A) ❌ No crea nada.
+    
+        B) ❌ Esa comprobación corresponde a `Files.isReadable()`.
+    
+        C) ❌ No abre el fichero.
+    
+        D) ✅ `Files.exists()` únicamente comprueba si existe un archivo o directorio asociado a esa ruta.
+
+
 
     **PREGUNTA 5. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
     
@@ -1374,6 +1437,17 @@ fun lote() {
         C) El segundo crea el fichero si existe.
     
         D) Ambos comprueban exactamente lo mismo.
+
+    ??? example "Solución"
+    
+        A) ❌ Comprueban aspectos distintos.
+    
+        B) ✅ Un archivo puede existir y, sin embargo, no poder leerse debido a los permisos del sistema operativo.
+    
+        C) ❌ Ninguno crea archivos.
+    
+        D) ❌ Son métodos diferentes porque responden preguntas distintas.
+
 
 
     **PREGUNTA 6. Si la instrucción `Files.isReadable(ruta)` devuelve `false` ¿Qué puede afirmarse con seguridad?**
@@ -1386,10 +1460,15 @@ fun lote() {
     
         D) El fichero no existe.
 
-
-
-
-
+    ??? example "Solución"
+    
+        A) ❌ Un archivo vacío sigue siendo legible.
+    
+        B) ❌ El formato no influye en este método.
+    
+        C) ✅ El método indica que el programa no puede leer el archivo. La causa puede ser que no exista o que no tenga permisos suficientes.
+    
+        D) ❌ Puede existir pero carecer de permisos.
 
 
 
@@ -2084,59 +2163,6 @@ data class Planta(
       - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
 
-
-
-??? example "Soluciones"
-
-
-
-    ---
-
-    **PREGUNTA 3**
-
-    A) ✅ `createDirectories()` puede crear varios niveles de directorios de una sola vez.
-
-    B) ❌ La velocidad no es su finalidad.
-
-    C) ❌ Nunca crea el fichero.
-
-    D) ❌ Funciona en cualquier sistema soportado por Java.
-
-    ---
-
-    **PREGUNTA 4**
-
-    A) ❌ No crea nada.
-
-    B) ❌ Esa comprobación corresponde a `Files.isReadable()`.
-
-    C) ❌ No abre el fichero.
-
-    D) ✅ `Files.exists()` únicamente comprueba si existe un archivo o directorio asociado a esa ruta.
-
-    ---
-
-    **PREGUNTA 5**
-
-    A) ❌ Comprueban aspectos distintos.
-
-    B) ✅ Un archivo puede existir y, sin embargo, no poder leerse debido a los permisos del sistema operativo.
-
-    C) ❌ Ninguno crea archivos.
-
-    D) ❌ Son métodos diferentes porque responden preguntas distintas.
-
-    ---
-
-    **PREGUNTA 6**
-
-    A) ❌ Un archivo vacío sigue siendo legible.
-
-    B) ❌ El formato no influye en este método.
-
-    C) ✅ El método indica que el programa no puede leer el archivo. La causa puede ser que no exista o que no tenga permisos suficientes.
-
-    D) ❌ Puede existir pero carecer de permisos.
 
 
 
