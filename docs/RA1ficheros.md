@@ -139,6 +139,32 @@ fun rutas() {
 
 
 
+    ??? example "Soluciones"
+
+        **PREGUNTA 1** 
+    
+        A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
+    
+        B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
+    
+        C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
+    
+        D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
+    
+        ---
+    
+        **PREGUNTA 2**
+    
+        A) ✅ `Path.of()` construye y devuelve un objeto `Path`. No crea ningún fichero ni devuelve su contenido.
+    
+        B) ❌ `Path` y `File` son clases distintas.
+    
+        C) ❌ Aunque recibe cadenas como parámetros, devuelve un `Path`.
+    
+        D) ❌ El fichero puede incluso no existir.
+
+
+
 
 **Files**
 
@@ -248,13 +274,13 @@ fun organizar(){
 !!! example "Autoevaluación"
     **PREGUNTA 3. ¿Qué ventaja ofrece `Files.createDirectories()` respecto a `Files.createDirectory()`?**
     
-    A) Puede crear todos los directorios necesarios de la ruta.
-
-    B) Es más rápido.
-
-    C) También crea automáticamente el fichero.
-
-    D) Solo funciona en Linux.
+        A) Puede crear todos los directorios necesarios de la ruta.
+    
+        B) Es más rápido.
+    
+        C) También crea automáticamente el fichero.
+    
+        D) Solo funciona en Linux.
 
 
 
@@ -1334,35 +1360,35 @@ fun lote() {
 !!! example "Autoevaluación"
     **PREGUNTA 4. ¿Qué hace realmente la siguiente instrucción? `Files.exists(ruta)`**
 
-    A) Crea el fichero si no existe.
-
-    B) Comprueba si el fichero puede leerse.
-
-    C) Abre el fichero.
-
-    D) Comprueba si existe un elemento en esa ruta.
+        A) Crea el fichero si no existe.
+    
+        B) Comprueba si el fichero puede leerse.
+    
+        C) Abre el fichero.
+    
+        D) Comprueba si existe un elemento en esa ruta.
 
 
     **PREGUNTA 5. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
     
-    A) Ninguna.
-
-    B) El primero comprueba la existencia y el segundo verifica si puede leerse.
-
-    C) El segundo crea el fichero si existe.
-
-    D) Ambos comprueban exactamente lo mismo.
+        A) Ninguna.
+    
+        B) El primero comprueba la existencia y el segundo verifica si puede leerse.
+    
+        C) El segundo crea el fichero si existe.
+    
+        D) Ambos comprueban exactamente lo mismo.
 
 
     **PREGUNTA 6. Si la instrucción `Files.isReadable(ruta)` devuelve `false` ¿Qué puede afirmarse con seguridad?**
 
-    A) El fichero está vacío.
-
-    B) El fichero tiene un formato incorrecto.
-
-    C) No es posible leer el fichero desde el programa.
-
-    D) El fichero no existe.
+        A) El fichero está vacío.
+    
+        B) El fichero tiene un formato incorrecto.
+    
+        C) No es posible leer el fichero desde el programa.
+    
+        D) El fichero no existe.
 
 
 
@@ -2066,27 +2092,7 @@ data class Planta(
 
 ??? example "Soluciones"
 
-    **PREGUNTA 1** 
 
-    A) ❌ El tamaño máximo de un archivo depende del sistema de archivos, no de la clase `Path`.
-
-    B) ✅ `Path` representa una ruta del sistema de archivos de forma independiente del sistema operativo. La propia API se encarga de utilizar el separador adecuado (/ o \) y proporciona numerosos métodos para manipular rutas sin construirlas manualmente.
-
-    C) ❌ `Path` solo representa una ruta, no influye en el tamaño del archivo.
-
-    D) ❌ `Path` representa rutas y `Files` realiza operaciones sobre ellas. Son clases complementarias.
-
-    ---
-
-    **PREGUNTA 2**
-
-    A) ✅ `Path.of()` construye y devuelve un objeto `Path`. No crea ningún fichero ni devuelve su contenido.
-
-    B) ❌ `Path` y `File` son clases distintas.
-
-    C) ❌ Aunque recibe cadenas como parámetros, devuelve un `Path`.
-
-    D) ❌ El fichero puede incluso no existir.
 
     ---
 
