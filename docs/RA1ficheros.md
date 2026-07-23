@@ -1577,6 +1577,9 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 !!! danger "Entrega parcial"
+
+    Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica a mitad de camino y asegurar que vas por la dirección correcta antes de afrontar la entrega final.
+
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
 
     **IMPORTANTE:**
@@ -2875,6 +2878,7 @@ data class Planta(
 
 
 !!! danger "Entrega final"
+
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga:
 
       - La carpeta `src`
@@ -2886,8 +2890,29 @@ data class Planta(
 
       - El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
       - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
-      - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
 
+
+    **CALIFICACIÓN**
+    
+    - La calificación de la entrega se realizará mediante una prueba escrita individual con preguntas conceptuales y técnicas sobre tu propio código.
+    - La no entrega de la aplicación supondrá no poder realizar las preguntas de evaluación y la calificación será automáticamente un 0. 
+
+
+
+
+
+    Distribución de la calificación
+    
+    | Bloque de evaluación                     | Criterios específicos                                                                                                                                                                                                                                                          | Peso                            |
+    | :--------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :-----------------------------: |
+    | **Requisitos técnicos y funcionamiento** | \- El proyecto se entrega en el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación cumple con lo solicitado en el enunciado, compila y es funcional.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | **25%**<br>*(Hasta 2,5 puntos)* |
+    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas sobre el funcionamiento del propio código.<br>\- Justificación técnica de las decisiones de diseño tomadas (uso de buffers, codificación, matemática del acceso aleatorio, etc.).<br>\- Capacidad para explicar el flujo del programa. | **75%**<br>*(Hasta 7,5 puntos)* |
+    | **Total**                                | **Evaluación global del proyecto**                                                                                                                                                                                                                                             | **100%**<br>*(Hasta 10 puntos)* |
+    
+    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito
+    indispensable para poder realizar la prueba escrita. Si no se realiza la entrega
+    del proyecto o si este no cumple con los mínimos de compilación y funcionamiento
+    solicitados, la calificación global del proyecto será automáticamente un 0.
 
 
 
