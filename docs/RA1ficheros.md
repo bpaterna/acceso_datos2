@@ -131,7 +131,7 @@ fun rutas() {
 
     A) El programa lanzará una excepción en tiempo de ejecución (`NoSuchFileException`) al intentar crear un objeto `Path` de un archivo que no existe en el disco duro.
     
-    B) El código se ejecutará correctamente y mostrará por pantalla: `Ruta: datos_ini\flor.txt` (en Windows) o `Ruta: datos_ini/flor.txt` (en Linux/macOS).
+    B) El código se ejecutará correctamente y mostrará por pantalla: `Ruta: datos\flor.txt` (en Windows) o `Ruta: datos/flor.txt` (en Linux/macOS).
     
     C) Se producirá un error de compilación porque el método `Path.of()` requiere obligatoriamente que se le pase un único String completo con las barras de separación.
     
@@ -157,7 +157,7 @@ fun rutas() {
     
     fun main() {
         val ruta1 = Path.of("C:", "herbario", "fotos", "orquidea.jpg")
-        val ruta2 = Path.of("datos_ini", "plantas.csv")
+        val ruta2 = Path.of("datos", "plantas.csv")
         
         println("${ruta1.isAbsolute} - ${ruta2.isAbsolute}")
     }
@@ -181,11 +181,9 @@ fun rutas() {
         
         ✅ C) El método `isAbsolute` determina si una ruta es absoluta (es decir, si contiene toda la información necesaria para localizar el archivo sin depender del directorio de trabajo actual).
             -   `ruta1` empieza con la raíz de la unidad en Windows (`C:\herbario\...`), por lo que es una **ruta absoluta** (`true`).
-            -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos_ini\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
+            -   `ruta2` no especifica ninguna raíz y empieza directamente con una carpeta (`datos\...`), por lo que es una **ruta relativa** respecto a la raíz del proyecto (`false`).
         
         ❌ D) Es la opción invertida; confunde el comportamiento de las rutas absolutas y relativas.
-
-
 
 
 
@@ -482,6 +480,53 @@ fun listado(){
             [MUESTRA] arbusto.txt
             [MUESTRA] flor.txt
     ```
+
+
+
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 5: ¿Por qué en este código se realiza la resta `path.nameCount - carpetaPrincipal.nameCount` a la hora de calcular la indentación del informe?**
+
+    A) Para evitar que la carpeta raíz "muestras" aparezca con sangrado (tabulación) en la consola y que los elementos que están directamente dentro de ella tengan una sola tabulación de profundidad.
+    
+    B) Para que el programa conozca el tamaño físico en bytes del archivo antes de calcular el espaciado.
+    
+    C) Para que el método `Files.walk()` sepa el límite máximo de carpetas en las que debe entrar (recursividad).
+    
+    D) Es un paso obligatorio en Kotlin; si no se realiza esa resta matemática, el compilador genera un error de tipo al llamar al método `.repeat()`.
+
+    ??? quote "Solución"
+    
+        ✅ A) `path.nameCount` devuelve el número total de elementos que componen la ruta completa (por ejemplo, `muestras/jpg/rosa.jpg` tiene 3 componentes). Al restarle el tamaño de la ruta base (`carpetaPrincipal.nameCount`, que vale 1), conseguimos que la raíz tenga un nivel de sangrado de 0 y que el subnivel inmediato empiece en 1.
+        
+        ❌ B) El método `nameCount` solo cuenta el número de nombres o directorios que forman parte del camino de la ruta en formato de texto; no tiene relación con el tamaño físico del archivo en bytes del disco duro.
+        
+        ❌ C) La profundidad del recorrido de `Files.walk()` se configura de forma opcional mediante un parámetro numérico en el propio método. Realizar una resta aritmética en el flujo del `forEach` no altera los elementos que el stream ya ha recuperado del disco.
+        
+        ❌ D) El compilador de Kotlin solo requiere que el argumento que se le pase al método `.repeat()` sea un número entero (`Int`), independientemente de si este valor es una constante o el resultado de una resta.
+
+
+    **Pregunta 6: ¿Qué sucedería en la visualización de la consola si eliminamos la condición `if (profundidad > 0)` antes del `println`?**
+
+    A) El programa lanzará un error de ejecución (`IndexOutOfBoundsException`) debido a que la profundidad en la raíz dará un valor negativo.
+    
+    B) Se imprimirá también la carpeta raíz en el informe de consola, mostrándose al inicio de la estructura como `[CATEGORÍA] muestras`.
+    
+    C) El listado se mostrará de forma desordenada porque el stream no sabrá por qué elemento comenzar a ordenar.
+    
+    D) No cambiará nada en absoluto en la salida por pantalla, ya que la carpeta base "muestras" no forma parte de los elementos que recorre `Files.walk()`.
+
+    ??? quote "Solución"
+    
+        ❌ A) El cálculo para la carpeta raíz da exactamente `0` de profundidad (1 - 1 = 0), por lo que es un número entero válido y no generará ningún error de índice fuera de rango.
+        
+        ✅ B) La carpeta base del recorrido (`muestras`) es el primer elemento que entrega `Files.walk()`. Al no tener la restricción de `profundidad > 0`, se procesará normalmente, aplicando una indentación de 0 tabulaciones e imprimiendo su nombre de directorio al inicio.
+        
+        ❌ C) El orden del listado está garantizado por la llamada previa a `.sorted()`, por lo que quitar o poner una condición de impresión en el paso final no altera el orden de los elementos del stream.
+        
+        ❌ D) `Files.walk()` incluye de forma predeterminada el directorio de origen desde el que inicia el rastreo, por lo que la carpeta raíz sí se encuentra en el stream y de ahí la necesidad de filtrarla si no se quiere mostrar.
 
 
 
@@ -1260,14 +1305,14 @@ Para interactuar con ellas en Java y Kotlin, utilizamos principalmente dos eleme
 
 **Métodos clave para el manejo de imágenes**
 
-| Elemento / Método | Tipo | Descripción                                                                                                                               | Ejemplo de uso |
-| :--- | :--- |:------------------------------------------------------------------------------------------------------------------------------------------| :--- |
-| **`ImageIO.read(File)`** [36] | *Lectura* | Carga una imagen desde el disco duro y la transforma en un objeto `BufferedImage` en memoria RAM [36].                                    | `val img = ImageIO.read(File("hoja.jpg"))` |
-| **`ImageIO.write(BufferedImage, format, File)`** [36] | *Escritura* | Guarda el lienzo de píxeles de la memoria en un fichero físico del disco con el formato indicado [36].                                    | `ImageIO.write(img, "png", File("resultado.png"))` |
-| **`BufferedImage(ancho, alto, tipo)`** | *Creación* | Crea un lienzo en blanco en memoria con las dimensiones especificadas y un tipo de color concreto (ej. `TYPE_INT_RGB`).                   | `val lienzo = BufferedImage(200, 100, BufferedImage.TYPE_INT_RGB)` |
-| **`setRGB(x, y, rgb)`** | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y).                                    | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
-| **`getRGB(x, y)`** | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y).                                            | `val colorInt = lienzo.getRGB(10, 5)` |
-| **`Color(rgb)`** | *Conversión* | Clase que permite decodificar el valor entero del píxel para poder extraer de forma sencilla sus componentes de color rojo, verde y azul. | `val color = Color(lienzo.getRGB(x, y))` <br> `val rojo = color.red` |
+| Elemento / Método                                 | Tipo | Descripción                                                                                                                               | Ejemplo de uso |
+|:--------------------------------------------------| :--- |:------------------------------------------------------------------------------------------------------------------------------------------| :--- |
+| **`ImageIO.read(File)`**                          | *Lectura* | Carga una imagen desde el disco duro y la transforma en un objeto `BufferedImage` en memoria RAM.                                         | `val img = ImageIO.read(File("hoja.jpg"))` |
+| **`ImageIO.write(BufferedImage, format, File)`**  | *Escritura* | Guarda el lienzo de píxeles de la memoria en un fichero físico del disco con el formato indicado.                                         | `ImageIO.write(img, "png", File("resultado.png"))` |
+| **`BufferedImage(ancho, alto, tipo)`**            | *Creación* | Crea un lienzo en blanco en memoria con las dimensiones especificadas y un tipo de color concreto (ej. `TYPE_INT_RGB`).                   | `val lienzo = BufferedImage(200, 100, BufferedImage.TYPE_INT_RGB)` |
+| **`setRGB(x, y, rgb)`**                           | *Modificación* | Modifica el color de un píxel concreto de la cuadrícula utilizando sus coordenadas cartesianas (X, Y).                                    | `lienzo.setRGB(10, 5, Color.GREEN.rgb)` |
+| **`getRGB(x, y)`**                                | *Consulta* | Obtiene el valor numérico del color del píxel situado en las coordenadas especificadas (X, Y).                                            | `val colorInt = lienzo.getRGB(10, 5)` |
+| **`Color(rgb)`**                                  | *Conversión* | Clase que permite decodificar el valor entero del píxel para poder extraer de forma sencilla sus componentes de color rojo, verde y azul. | `val color = Color(lienzo.getRGB(x, y))` <br> `val rojo = color.red` |
 
 
 
