@@ -65,7 +65,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 
 La gestión de ficheros y directorios se realiza a través de `Path` y `Files`.
 
-**Path**
+<span class="mi_h3">Path</span>
 
 Representa una **ruta** en el sistema de ficheros (ej. `/home/botanico/rosa.png` o `C:\herbario\docs\clasificacion.txt`). Un objeto `Path` es una dirección y no significa que el fichero o directorio exista realmente en el disco.
 
@@ -190,8 +190,7 @@ fun rutas() {
 
 
 
-
-**Files**
+<span class="mi_h3">Files</span>
 
 Es una clase de utilidad con las acciones (borrar, copiar, mover, leer, etc.) que podemos realizar sobre las rutas (`Path`). Algunos de sus principales métodos son:
 
@@ -1896,11 +1895,11 @@ fun lote() {
         ✅ C) El método `Files.readAllLines` intenta decodificar el contenido del archivo utilizando el juego de caracteres estándar (UTF-8 por defecto). Si encuentra bytes arbitrarios que no representan caracteres válidos en dicha codificación (algo muy común en archivos de bytes crudos), el decodificador interno fallará lanzando una excepción de tipo `MalformedInputException`. Por este motivo, los datos puramente binarios deben leerse siempre utilizando `Files.readAllBytes`.
         
         ❌ D) El sistema operativo o el entorno de ejecución de Java jamás eliminarán un archivo de forma automática debido a un error de lectura por incompatibilidad de formatos; el archivo permanecerá intacto en el disco duro.
-    
 
 
 
-**Datos estructurados (tipos primitivos)**
+
+<span class="mi_h3">Datos estructurados (tipos primitivos)</span>
 
 Se utiliza cuando guardamos registros que contienen una estructura combinada de tipos primitivos (enteros, booleanos, decimales o texto) de manera consecutiva. El orden y los tamaños en bytes están estrictamente definidos, lo que permite a cualquier programa compatible leer el formato correctamente.
 
