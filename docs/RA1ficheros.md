@@ -301,32 +301,87 @@ fun organizar(){
 
 
 !!! example "Autoevaluación"
-    **PREGUNTA 3. ¿Qué ventaja ofrece `Files.createDirectories()` respecto a `Files.createDirectory()`?**
+
+    **Pregunta 3: ¿Qué ocurrirá al ejecutar este código si dentro de la carpeta `muestras` existe una carpeta llamada `especies` pero no contiene ningún fichero regular en su raíz?**
     
-        A) Puede crear todos los directorios necesarios de la ruta.
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
     
-        B) Es más rápido.
+    fun main() {
+        val carpeta = Path.of("muestras")
+        
+        Files.list(carpeta).use { streamDePaths ->
+            streamDePaths.forEach { pathElemento ->
+                if (Files.isRegularFile(pathElemento)) {
+                    println("Fichero encontrado: ${pathElemento.fileName}")
+                } else if (Files.isDirectory(pathElemento)) {
+                    println("Directorio encontrado: ${pathElemento.fileName}")
+                }
+            }
+        }
+    }
+    ```
     
-        C) También crea automáticamente el fichero.
+        A) Se producirá un error de compilación porque `Files.list` solo puede listar ficheros, no carpetas.
+        
+        B) El código se ejecutará sin problemas pero no mostrará nada por consola, ya que la subcarpeta `especies` está vacía de ficheros.
+        
+        C) Se imprimirá por consola: `Directorio encontrado: especies`.
+        
+        D) Se producirá una excepción en tiempo de ejecución porque `Files.list` entra de forma automática de manera recursiva en la carpeta `especies` y al estar vacía falla.
+
+    ??? quote "Solución"
     
-        D) Solo funciona en Linux.
+        ❌ A) `Files.list` lee y devuelve cualquier elemento presente en el nivel inmediato del directorio (tanto ficheros como carpetas), por lo que es totalmente válido y compila sin problemas.
+        
+        ❌ B) Aunque la carpeta `especies` no contenga ficheros en su interior, ella misma es un directorio que se encuentra en el primer nivel de `muestras`. Por tanto, el flujo sí la detectará al evaluar el segundo bloque condicional.
+        
+        ✅ C) Como `especies` es un directorio directo dentro de `muestras`, `Files.list` lo detectará en su primera pasada. Al no cumplir la condición de `isRegularFile` pero sí la de `isDirectory`, imprimirá por consola su nombre precedido por la etiqueta del prefijo.
+        
+        ❌ D) `Files.list` no es recursivo (esa es la función de `Files.walk`). Solo lista el contenido directo del nivel superior especificado, por lo que nunca intentará inspeccionar el interior de la carpeta `especies` de forma automática ni lanzará errores por ello.
 
 
 
-    ??? example "Solución"
-
-        A) ✅ `createDirectories()` puede crear varios niveles de directorios de una sola vez.
+    **Pregunta 4: ¿Qué problema ocurrirá si la subcarpeta `png` no existía previamente en el disco duro?**
     
-        B) ❌ La velocidad no es su finalidad.
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
+    import java.nio.file.StandardCopyOption
     
-        C) ❌ Nunca crea el fichero.
+    fun main() {
+        val origen = Path.of("muestras", "rosa_nueva.png")
+        val carpetaDestino = Path.of("muestras", "png")
+        val destinoFinal = carpetaDestino.resolve(origen.fileName)
     
-        D) ❌ Funciona en cualquier sistema soportado por Java.
+        // Intento de mover el archivo directamente antes de validar la carpeta
+        Files.move(origen, destinoFinal, StandardCopyOption.REPLACE_EXISTING)
+    
+        if (Files.notExists(carpetaDestino)) {
+            Files.createDirectories(carpetaDestino)
+        }
+    }
+    ```
+    
+        A) El programa compila y se ejecuta bien, ya que `Files.move` crea de manera automática todos los directorios que falten en la ruta de destino antes de trasladar el archivo.
+        
+        B) Se lanzará una excepción de tipo `NoSuchFileException` (o similar de Entrada/Salida) en la línea del `Files.move`, impidiendo que el archivo sea trasladado.
+        
+        C) El archivo `rosa_nueva.png` se renombrará en el disco duro perdiendo su extensión, pasando a llamarse simplemente `png`.
+        
+        D) Se producirá un error de compilación porque las rutas de tipo `Path` siempre deben crearse con nombres absolutos antes de poder usar `Files.move`.
+    
 
-
-
-
-
+    ??? quote "Solución"
+    
+        ❌ A) A diferencia de `Files.createDirectories()`, el método `Files.move` no tiene la capacidad de crear carpetas intermedias ausentes. Requiere obligatoriamente que toda la ruta de carpetas de destino ya exista físicamente antes de ser invocado.
+        
+        ✅ B) Dado que la carpeta contenedora `muestras/png` no existe en el momento de invocar la mudanza, el sistema operativo no podrá resolver la ruta del archivo de destino intermedio, lo que provocará un fallo de E/S (`NoSuchFileException` o `DirectoryNotEmptyException` según el caso) que detendrá el programa.
+        
+        ❌ C) Para que se renombrase a `png`, la ruta de destino tendría que haber apuntado directamente a un archivo con ese nombre, pero en este código se está intentando usar `.resolve(origen.fileName)` lo cual busca explícitamente guardar el archivo dentro de una carpeta llamada `png` que no existe.
+        
+        ❌ D) Las operaciones de la clase de utilidad `Files` admiten perfectamente rutas relativas y absolutas, por lo que la sintaxis de las rutas no genera ningún fallo al compilar.
 
 
 
