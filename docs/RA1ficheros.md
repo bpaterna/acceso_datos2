@@ -69,12 +69,12 @@ La gestión de ficheros y directorios se realiza a través de `Path` y `Files`.
 
 Representa una **ruta** en el sistema de ficheros (ej. `/home/botanico/rosa.png` o `C:\herbario\docs\clasificacion.txt`). Un objeto `Path` es una dirección y no significa que el fichero o directorio exista realmente en el disco.
 
-| Método | Descripción                                                                                                        |
-| :--- |:-------------------------------------------------------------------------------------------------------------------|
-| `Path.of(String)` | Crea un objeto `Path` a partir de un String de ruta, auqnue puede admitir más parámetros `Path.of(first, more...)`.                         |
-| `toString()` | Devuelve la ruta como un String (se llama por defecto desde `println`).                                            |
-| `toAbsolutePath()` | Devuelve la ruta absoluta del `Path`.                                                                              |
-| `fileName()` | Devuelve el nombre del fichero o directorio final de la ruta (por ejemplo, el nombre de la planta o el documento). |
+| Método             | Descripción                                                                                                                                |
+|:-------------------|:-------------------------------------------------------------------------------------------------------------------------------------------|
+| `Path.of(String)`  | Crea un objeto `Path` a partir de un String de ruta, aunque puede admitir más parámetros `Path.of(first, more...)`.                       |
+| `toString()`       | Devuelve la ruta como un String (se llama por defecto desde `println`).                                                                    |
+| `toAbsolutePath()` | Devuelve la ruta absoluta del `Path`.                                                                                                      |
+| `fileName`         | Propiedad en Kotlin que devuelve el nombre del fichero o directorio final de la ruta (por ejemplo, el nombre de la planta o el documento). |
 
 <span class="mis_ejemplos">Ejemplo 1</span>
 
@@ -892,11 +892,11 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     ```text
     --- Información leída con éxito de: datos\plantas.csv
     --- Información de la lista de objetos Planta
-    - ID: 1, Nombre común: Aloe Vera, Cientéfico: Aloe barbadensis miller, Riego: cada 7 días, Altura: 0.6m
-    - ID: 2, Nombre común: Lavanda, Cientéfico: Lavandula angustifolia, Riego: cada 3 días, Altura: 1.0m
-    - ID: 3, Nombre común: Helecho de Boston, Cientéfico: Nephrolepis exaltata, Riego: cada 5 días, Altura: 0.9m
-    - ID: 4, Nombre común: Bambú de la suerte, Cientéfico: Dracaena sanderiana, Riego: cada 4 días, Altura: 1.5m
-    - ID: 5, Nombre común: Girasol, Cientéfico: Helianthus annuus, Riego: cada 2 días, Altura: 3.0m
+    - ID: 1, Nombre común: Aloe Vera, Científico: Aloe barbadensis miller, Riego: cada 7 días, Altura: 0.6m
+    - ID: 2, Nombre común: Lavanda, Científico: Lavandula angustifolia, Riego: cada 3 días, Altura: 1.0m
+    - ID: 3, Nombre común: Helecho de Boston, Científico: Nephrolepis exaltata, Riego: cada 5 días, Altura: 0.9m
+    - ID: 4, Nombre común: Bambú de la suerte, Científico: Dracaena sanderiana, Riego: cada 4 días, Altura: 1.5m
+    - ID: 5, Nombre común: Girasol, Científico: Helianthus annuus, Riego: cada 2 días, Altura: 3.0m
     --- Información guardada con éxito en: datos\plantas2.csv
     ```
 
@@ -1596,7 +1596,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 Los ficheros binarios (como `.exe`, `.jpg`, `.mp3`, `.dat` o `.bin`) no son legibles directamente por humanos. La información se guarda en formato binario (ceros y unos), lo que permite un almacenamiento óptimo, rápido y de alta eficiencia.
 
-A continuación tenemos una tabla comparativa con algnos tipos de ficheros vistos en puntos anteriores y algunos tipos binarios:
+A continuación tenemos una tabla comparativa con algunos tipos de ficheros vistos en puntos anteriores y algunos tipos binarios:
 
 | Extensión | Contenido típico | Comentario didáctico                                                                                                                                                                                       |
 | :--- | :--- |:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -2095,6 +2095,24 @@ A diferencia del acceso secuencial, el **acceso aleatorio** nos permite situarno
 > Por ejemplo, si cada registro de nuestra colección botánica ocupa exactamente 32 bytes, para acceder al registro número 100 no tenemos que leer los 99 anteriores; podemos saltar directamente a la **posición de inicio** del registro número 100 calculándola: **Posición = 32 bytes × (100−1) = 3168 bytes**
 
 
+Para que este cálculo matemático se cumpla con total precisión, el tamaño en bytes de los campos de texto debe cuplir siempre que 1 carácter = 1 byte y, dependiendo del charset que se utilice, esto puede no cumplirse. Por ejemplo, en un charset variable como UTF-8, caracteres como la 'ñ' o las tildes ocuparán más de un byte.
+
+
+A continuación se muestra una tabla comparativa con las características de algunas codificaciones:
+
+| Característica | `Charset.defaultCharset()` | `Charsets.US_ASCII` | `Charsets.ISO_8859_1` (Latin-1) |
+| :--- | :--- | :--- | :--- |
+| **Descripción** | La codificación predeterminada de la Máquina Virtual de Java (JVM). | El estándar clásico americano de 7 bits. | Extensión de 8 bits para idiomas de Europa Occidental. |
+| **Tamaño en bytes por carácter** | **Variable** (generalmente entre 1 y 4 bytes si la máquina usa UTF-8). | **Estricto: 1 byte** por carácter. | **Estricto: 1 byte** por carácter. |
+| **Caracteres soportados** | Depende de la versión de Java:<br>- **Java 18+:** UTF-8 por defecto (soporta casi todo: tildes, emojis, caracteres asiáticos, etc.).<br>- **Java 17 o anterior:** Varía según el S.O. (Windows-1252 en Windows, UTF-8 en macOS/Linux). | Extremadamente limitado. Solo alfabeto inglés básico (A-Z, a-z), números (0-9) y signos estándar. **No soporta tildes ni la "ñ"**. | Alfabeto inglés, caracteres de Europa occidental, tildes (á, é, í...), diéresis y la **"ñ"**. *(Nota: No soporta el símbolo del Euro `€`)*. |
+| **Portabilidad** | **Baja** (en Java 17 o inferior, un archivo creado en Windows puede leerse mal en Linux). **Alta** en Java 18+. | **Total**. Es el estándar base universal. | **Alta** en entornos occidentales. |
+| **Uso ideal en programación** | Lectura/escritura rápida de archivos de texto locales para el usuario. | Protocolos de red muy básicos, comandos de consola ingleses y optimización extrema. | Estructuras de datos binarias con **registros de tamaño fijo** que requieran soporte para el idioma español (tildes, eñes). |
+
+
+> En nuestros ejemplos utilizaremos `ISO_8859_1` para asegurarnos que **1 carácter sea siempre estrictamente igual a 1 byte** en el archivo binario, permitiendo de forma segura guardar tildes y eñes sin romper la matemática de los desplazamientos de bytes de tu acceso aleatorio (`canal.position()`).
+
+
+
 
 Para el acceso aleatorio en la API moderna de Java/Kotlin (`java.nio`), trabajamos con tres herramientas en equipo:
 
@@ -2148,6 +2166,8 @@ A continuación se describen algunos de los métodos que utilizaremos:
 
 
 
+
+
 <span class="mis_ejemplos">Ejemplo 12: Lectura y escritura en ficheros binarios de tamaño fijo</span>
 
 En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un fichero binario estructurado para nuestro herbario. Cada registro representará una planta con tres campos y ocupará exactamente **32 bytes** en total:
@@ -2157,9 +2177,6 @@ En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un fichero 
 | `id_planta` | `Int` | 4 bytes | 0 – 3 |
 | `nombre_comun` | `String` | 20 bytes (longitud fija) | 4 – 23 |
 | `altura_maxima`| `Double`| 8 bytes | 24 – 31 |
-
-
-> `nombre_comun` es una cadena almacenada en un campo de longitud fija de 20 bytes. En este ejemplo se supone codificación ASCII.
 
 
 
@@ -2243,7 +2260,7 @@ fun anadirPlanta( idPlanta: Int, nombre: String, altura: Double) {
             // 2. Escribimos el Nombre (20 bytes). Rellenamos con espacios si es más corto.
             val nombreBytes = nuevaPlanta.nombreComun
                 .padEnd(TAMANO_NOMBRE, ' ')
-                .toByteArray(Charset.defaultCharset())
+                .toByteArray(Charset.ISO_8859_1())
             buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
 
             // 3. Escribimos la altura (8 bytes)
@@ -2280,7 +2297,7 @@ fun leerPlantas(): List<PlantaBinaria> {
             // 2. Leemos los bytes del nombre y los decodificamos limpiando los espacios sobrantes
             val nombreBytes = ByteArray(TAMANO_NOMBRE)
             buffer.get(nombreBytes)
-            val nombre = String(nombreBytes, Charset.defaultCharset()).trim()
+            val nombre = String(nombreBytes, Charset.ISO_8859_1()).trim()
 
             // 3. Leemos la altura
             val altura = buffer.getDouble()
