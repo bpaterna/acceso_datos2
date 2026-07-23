@@ -2879,25 +2879,18 @@ data class Planta(
 
 !!! danger "Entrega final"
 
-    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga:
-
-      - La carpeta `src`
-      - La carpeta `datos`
-      - El archivo `LEEME.md`
-
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, a carpeta `datos` y el archivo `LEEME.md`
 
 
     **CALIFICACIÓN**
     
     | Bloque de evaluación             | Criterios específicos          | Peso                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
-    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | Hasta 2,5 puntos |
-    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | Hasta 7,5 puntos |
-    | **Total**                                | **Evaluación global del proyecto**                                                                                                                                                                                                                                             | **100%**<br>*(Hasta 10 puntos)* |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 puntos |
+    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 puntos |
+    | **Total**                                | **Evaluación global del proyecto**        | 10 puntos |
     
-    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si este no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
-
-
+    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
 
 
 
