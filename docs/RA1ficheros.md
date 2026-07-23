@@ -1162,6 +1162,103 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
     ```
 
 
+!!! example "Autoevaluación"
+
+    **Pregunta 11: Se quiere leer el siguiente archivo XML:**
+    
+    ```xml
+    <planta>
+        <id_planta>1</id_planta>
+        <nombre_comun>Aloe Vera</nombre_comun>
+        <nombre_cientifico>Aloe barbadensis miller</nombre_cientifico>
+        <frecuencia_riego>7</frecuencia_riego>
+        <altura_maxima>0.6</altura_maxima>
+    </planta>
+    ```
+    
+    **Para ello, se ha diseñado la siguiente *data class* en Kotlin para representar los datos:**
+    
+    ```kotlin
+    data class PlantaXML(
+        @JacksonXmlProperty(localName = "id_planta") val idPlanta: Int,
+        @JacksonXmlProperty(localName = "nombre_comun") val nombreComun: String,
+        val nombreCientifico: String, // Propiedad declarada sin anotación
+        @JacksonXmlProperty(localName = "frecuencia_riego") val riego: Int,
+        @JacksonXmlProperty(localName = "altura_maxima") val altura: Double
+    )
+    ```
+
+    **¿Qué ocurrirá al intentar ejecutar la lectura de este fichero con `XmlMapper`?**
+    
+    A) Se leerá correctamente. Jackson es capaz de asociar de forma automática la variable `nombreCientifico` (*camelCase*) con la etiqueta `<nombre_cientifico>` (*snake_case*) del XML sin necesidad de anotaciones adicionales.
+    
+    B) Se producirá un error de compilación en Kotlin porque el compilador exige de forma estricta que todas las propiedades de una clase mapeada a XML lleven obligatoriamente la anotación `@JacksonXmlProperty`.
+    
+    C) El programa se ejecutará sin errores, pero el atributo `nombreCientifico` del objeto creado se inicializará con un valor vacío (`""`) o nulo en memoria al no encontrar su etiqueta exacta.
+    
+    D) Se lanzará una excepción en tiempo de ejecución (como `MissingKotlinParameterException`) debido a que Jackson buscará la etiqueta literal `<nombreCientifico>` en el XML, y al no encontrarla, no podrá instanciar el constructor de la clase para un parámetro no-nulo.
+    
+
+    ??? quote "Solución"
+    
+        ❌ A) Jackson no realiza traducciones de formato de nombres de variables de manera automática (como pasar de *camelCase* a *snake_case*) a menos que se configure un mapeador global muy específico. Por defecto, busca la coincidencia exacta [31].
+        
+        ❌ B) Kotlin no genera errores de compilación por la ausencia de anotaciones de Jackson, ya que estas son librerías de terceros basadas en reflexión que se evalúan en tiempo de ejecución.
+        
+        ❌ C) Como la propiedad `nombreCientifico` está declarada como un tipo no-nulo (`String`), Kotlin no permite que su valor sea `null`. Jackson no la rellenará con un texto vacío por defecto de manera silenciosa.
+        
+        ✅ D) Al no llevar la anotación, Jackson intentará buscar un elemento llamado exactamente `<nombreCientifico>` en el XML. Al no existir (en su lugar está `<nombre_cientifico>`), el valor quedará ausente. Como la propiedad en Kotlin no admite nulos (`String`) ni tiene un valor por defecto asignado, la biblioteca lanzará una excepción impidiendo la creación del objeto.
+
+
+
+    **Pregunta 12: Se quiere deserializar el archivo `plantas.xml`, el cual tiene la siguiente estructura jerárquica con un nodo raíz `<plantas>`:**
+    
+    ```xml
+    <plantas>
+        <planta>
+            <id_planta>1</id_planta>
+            <nombre_comun>Aloe Vera</nombre_comun>
+            <!-- resto de propiedades -->
+        </planta>
+        <planta>
+            <id_planta>2</id_planta>
+            <nombre_comun>Lavanda</nombre_comun>
+            <!-- resto de propiedades -->
+        </planta>
+    </plantas>
+    ```
+    
+    **Para ahorrarse la creación de la clase contenedora `PlantasWrapper`, el alumno decide escribir el código de lectura intentando recuperar directamente una lista de objetos `PlantaXML` de la siguiente forma:**
+
+    ```kotlin
+    val fichero = Path.of("datos", "plantas.xml").toFile()
+    val xmlMapper = XmlMapper().registerKotlinModule()
+    
+    // Intenta leer el archivo directamente como una lista
+    val listaPlantas: List<PlantaXML> = xmlMapper.readValue(fichero)
+    ```
+    
+    **¿Por qué fallará este código en tiempo de ejecución?**
+    
+    A) Porque el archivo XML contiene una etiqueta raíz `<plantas>` que envuelve a todo el documento. Jackson no puede mapear esta estructura directamente a una lista (`List<PlantaXML>`) sin una clase contenedora intermedia (como `PlantasWrapper`) que represente dicho nodo raíz.
+    
+    B) Porque el método `.toFile()` del objeto `Path` corrompe la estructura de la ruta y provoca que `XmlMapper` busque el archivo en una localización incorrecta del disco.
+    
+    C) Porque la biblioteca de Jackson XML tiene prohibido por limitaciones técnicas de su API devolver colecciones como listas o mapas, obligando a usar siempre vectores de tipo `Array`.
+    
+    D) Porque `xmlMapper.readValue` requiere que los tipos genéricos de Kotlin (como los que van dentro de `<...>`) se declaren obligatoriamente utilizando letras mayúsculas en una interfaz independiente.
+
+
+    ??? quote "Solución"
+    
+        ✅ A) A diferencia de JSON, los ficheros XML siempre requieren tener un único nodo raíz bien definido (en este caso, `<plantas>`). Jackson necesita un objeto de una clase que represente este elemento raíz (como `PlantasWrapper`) para comenzar el mapeo. Intentar leer el fichero directamente como una colección generará un error de formato al no coincidir el nodo de inicio con los elementos de la lista.
+        
+        ❌ B) El método `.toFile()` es el procedimiento estándar de Java NIO para transformar de forma segura un objeto `Path` en un objeto `File` clásico de Java [32], por lo que la ruta se resolverá perfectamente en el disco.
+        
+        ❌ C) Jackson puede deserializar listas sin ningún problema cuando estas forman parte de un objeto mapeado, o en otros formatos de intercambio como JSON que no requieren un elemento raíz envuelto por defecto.
+        
+        ❌ D) El tipado de genéricos en Kotlin (`List<PlantaXML>`) es correcto a nivel sintáctico y de compilación, el problema reside puramente en la lógica estructural del formato XML con respecto al objeto esperado en la raíz.
+
 
 
 !!! warning "Práctica 2: amplía tu proyecto"
@@ -1328,6 +1425,90 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
      - ID: 5, Común: Girasol, Altura: 3.0m
     --- Información guardada en: datos\plantas2.json
     ```
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 13: Se define una clase de datos de la siguiente manera para trabajar con archivos JSON:**
+
+    ```kotlin
+    // Se ha olvidado añadir una anotación en esta línea
+    data class PlantaJSON(
+        val idPlanta: Int,
+        val nombreComun: String,
+        val altura: Double
+    )
+    ```
+    
+    **Posteriormente, en el método `main` se intenta convertir un objeto de esta clase a texto JSON utilizando la librería oficial de Kotlin:**
+    
+    ```kotlin
+    val planta = PlantaJSON(1, "Rosa", 1.5)
+    val jsonString = Json.encodeToString(planta) 
+    ```
+    
+    **¿Qué ocurrirá al intentar compilar o ejecutar este código?**
+    
+    A) El programa se compilará sin problemas, pero fallará en tiempo de ejecución al intentar guardar los datos en memoria.
+    
+    B) Se producirá un error de compilación en la línea de `Json.encodeToString` porque la clase `PlantaJSON` no está marcada con la anotación `@Serializable`.
+    
+    C) El programa se ejecutará correctamente, pero el JSON generado estará vacío (`{}`) porque la librería necesita obligatoriamente que todas las propiedades lleven anotaciones individuales.
+    
+    D) Se creará el archivo en el disco duro, pero su contenido estará corrupto debido a la falta de permisos de escritura.
+
+
+    ??? quote "Solución"
+    
+        ❌ A) A diferencia de otras librerías basadas en reflexión que fallan en tiempo de ejecución, la librería oficial de Kotlin (`kotlinx.serialization`) realiza las comprobaciones de seguridad durante la compilación.
+        
+        ✅ B) Para poder serializar o deserializar una clase con la librería oficial de Kotlin, esta debe estar marcada obligatoriamente con la anotación `@Serializable` en su cabecera. Si no se añade, el compilador generará un error inmediatamente indicando que no se encuentra el serializador para dicha clase.
+        
+        ❌ C) El programa ni siquiera llegará a ejecutarse, ya que el compilador detendrá el proceso debido a la falta de la anotación requerida.
+        
+        ❌ D) El método `Json.encodeToString` únicamente realiza la conversión a texto en memoria (RAM); no interactúa directamente con el disco duro ni crea archivos físicos por sí solo.
+
+
+
+    **Pregunta 14: Disponemos del siguiente archivo JSON simple en el directorio del proyecto:**
+    
+    ```json
+    {
+        "id_planta": 1,
+        "nombre_comun": "Aloe Vera"
+    }
+    ```
+    
+    **Para leerlo, se declara un *data class* en Kotlin de esta forma (añadiendo correctamente `@Serializable`):**
+    
+    ```kotlin
+    @Serializable
+    data class PlantaSimple(
+        val idPlanta: Int,          // Propiedad sin anotación @SerialName
+        val nombreComun: String     // Propiedad sin anotación @SerialName
+    )
+    ```
+    
+    **¿Qué ocurrirá si intentamos deserializar el texto de este JSON utilizando el método `Json.decodeFromString<PlantaSimple>(jsonString)`?**
+    
+    A) La librería es inteligente y resolverá el mapeado sin problemas, convirtiendo de manera automática el formato del JSON (*snake_case*) al de Kotlin (*camelCase*).
+    
+    B) El programa se ejecutará correctamente, pero los atributos del objeto creado se inicializarán con valores nulos o por defecto (`0` y `""`).
+    
+    C) Se producirá un fallo de compilación que impedirá que el programa pueda ejecutarse.
+    
+    D) Se lanzará una excepción en tiempo de ejecución (de tipo `SerializationException`) porque la librería busca de forma estricta las claves `"idPlanta"` y `"nombreComun"`, y estas no coinciden con las del archivo JSON.
+
+
+    ??? quote "Solución"
+    
+        ❌ A) La librería oficial `kotlinx.serialization` es muy estricta y requiere coincidencia exacta en los nombres de las claves, por lo que no realiza conversiones automáticas de formato de texto por defecto.
+        
+        ❌ B) Al no encontrar las claves esperadas y tratarse de propiedades obligatorias sin un valor por defecto en la firma de la clase, el programa no continuará la ejecución con datos vacíos de manera silenciosa.
+        
+        ❌ C) El código compila perfectamente, ya que la sintaxis de la clase y de la llamada al método de lectura es totalmente correcta para el compilador de Kotlin.
+        
+        ✅ D) Al no coincidir los nombres de las propiedades de la clase de Kotlin con las claves del JSON, la librería no sabrá dónde asignar los datos y lanzará una excepción de serialización en tiempo de ejecución. Para solucionar este problema es necesario utilizar la anotación `@SerialName("...")` vista en los apuntes para indicar el nombre exacto que tiene la clave en el JSON.
 
 
 
@@ -1640,70 +1821,82 @@ fun lote() {
 
 
 !!! example "Autoevaluación"
-    **PREGUNTA 4. ¿Qué hace realmente la siguiente instrucción? `Files.exists(ruta)`**
 
-        A) Crea el fichero si no existe.
+    **Pregunta 15: Se intenta escribir un bloque de bytes crudos en un archivo utilizando la función `Files.write` de la siguiente manera:**
     
-        B) Comprueba si el fichero puede leerse.
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
     
-        C) Abre el fichero.
+    fun main() {
+        val ruta = Path.of("datos_nuevos", "lote.bin")
+        val datos = byteArrayOf(10, 20, 30, 40)
+        
+        // Intento de escritura directa sin realizar comprobaciones previas
+        Files.write(ruta, datos)
+        println("Fichero creado con éxito.")
+    }
+    ```
     
-        D) Comprueba si existe un elemento en esa ruta.
-
-    ??? example "Solución"
+    **Sabiendo que la carpeta llamada `datos_nuevos` no existe físicamente en el disco duro en el momento de iniciar el programa, ¿cuál será el comportamiento de la aplicación al ejecutarse?**
     
-        A) ❌ No crea nada.
+    A) La función `Files.write` detectará la ausencia de la ruta y creará automáticamente tanto la carpeta `datos_nuevos` como el archivo `lote.bin` antes de escribir los bytes.
     
-        B) ❌ Esa comprobación corresponde a `Files.isReadable()`.
+    B) Se lanzará una excepción de tipo `NoSuchFileException` (o similar de Entrada/Salida) en la línea de `Files.write`, deteniendo el programa e impidiendo la creación del archivo.
     
-        C) ❌ No abre el fichero.
+    C) El programa finalizará con éxito mostrando el mensaje por consola, pero los bytes se guardarán únicamente de forma temporal en la memoria RAM del sistema.
     
-        D) ✅ `Files.exists()` únicamente comprueba si existe un archivo o directorio asociado a esa ruta.
-
-
-
-    **PREGUNTA 5. ¿Cuál es la diferencia entre `Files.exists(ruta)` y `Files.isReadable(ruta)`**
+    D) Se producirá un error de compilación en Kotlin porque el constructor de `Path.of` exige que todas las carpetas especificadas existan físicamente en el disco para poder compilar.
     
-        A) Ninguna.
     
-        B) El primero comprueba la existencia y el segundo verifica si puede leerse.
+    ??? quote "Solución"
     
-        C) El segundo crea el fichero si existe.
-    
-        D) Ambos comprueban exactamente lo mismo.
-
-    ??? example "Solución"
-    
-        A) ❌ Comprueban aspectos distintos.
-    
-        B) ✅ Un archivo puede existir y, sin embargo, no poder leerse debido a los permisos del sistema operativo.
-    
-        C) ❌ Ninguno crea archivos.
-    
-        D) ❌ Son métodos diferentes porque responden preguntas distintas.
+        ❌ A) A diferencia de otras operaciones de más alto nivel, la función de bajo nivel `Files.write` no tiene la capacidad de crear de forma automática las carpetas intermedias de la ruta si estas no existen previamente en el sistema de archivos.
+        
+        ✅ B) Para poder escribir un archivo, el sistema operativo necesita que el directorio contenedor ya exista físicamente en el disco. Si la carpeta `datos_nuevos` no existe, se lanzará una excepción de Entrada/Salida (`NoSuchFileException`) al intentar abrir el canal de escritura. Por esta razón, en el Ejemplo 10 se incluye el bloque de seguridad para crear el directorio padre mediante `Files.createDirectories(directorio)` antes de escribir.
+        
+        ❌ C) El programa no completará su ejecución de forma normal; la excepción interrumpirá el flujo antes de llegar a la línea del `println`.
+        
+        ❌ D) La clase `Path` representa únicamente una dirección o ruta lógica en memoria; crear un objeto `Path` no interactúa con el disco físico y es totalmente válido en tiempo de compilación existan o no las carpetas reales.
 
 
-
-    **PREGUNTA 6. Si la instrucción `Files.isReadable(ruta)` devuelve `false` ¿Qué puede afirmarse con seguridad?**
-
-        A) El fichero está vacío.
     
-        B) El fichero tiene un formato incorrecto.
+    **Pregunta 16: Se dispone de un archivo binario llamado `lote.bin` que contiene únicamente una secuencia de bytes de control crudos (no legibles directamente como texto humano). Si en lugar de utilizar el método apropiado se intenta leer dicho archivo de la siguiente forma:**
     
-        C) No es posible leer el fichero desde el programa.
+    ```kotlin
+    import java.nio.file.Files
+    import java.nio.file.Path
     
-        D) El fichero no existe.
-
-    ??? example "Solución"
+    fun main() {
+        val ruta = Path.of("datos", "lote.bin")
+        
+        // Intento de lectura usando un método diseñado para texto plano
+        val lineas = Files.readAllLines(ruta) 
+        println("Líneas leídas: ${lineas.size}")
+    }
+    ```
     
-        A) ❌ Un archivo vacío sigue siendo legible.
+    **¿Cuál será el comportamiento más probable del programa al intentar procesar este archivo binario?**
     
-        B) ❌ El formato no influye en este método.
+    A) El programa compilará y se ejecutará correctamente, interpretando cada byte individual como si fuera una línea de texto independiente en la consola.
     
-        C) ✅ El método indica que el programa no puede leer el archivo. La causa puede ser que no exista o que no tenga permisos suficientes.
+    B) Se producirá un error de compilación ya que `Files.readAllLines` solo permite como argumento archivos que tengan explícitamente la extensión `.txt`.
     
-        D) ❌ Puede existir pero carecer de permisos.
-
+    C) Se lanzará una excepción en tiempo de ejecución (como `MalformedInputException`) debido a que el archivo contiene secuencias de bytes crudos que no corresponden a caracteres de texto válidos bajo la codificación de caracteres por defecto (UTF-8).
+    
+    D) El archivo se borrará automáticamente del disco duro debido a un mecanismo de protección del sistema de archivos al detectar una lectura de tipo incompatible.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) Los bytes crudos de un archivo binario arbitrario (como valores de control, metadatos de imágenes o ejecutables) no representan texto válido estructurado en líneas y no se procesarán de forma transparente como cadenas de texto convencionales.
+        
+        ❌ B) El método `Files.readAllLines` acepta cualquier objeto `Path` válido independientemente de la extensión que tenga el archivo físico en el disco duro; el compilador no realiza comprobaciones de extensiones de archivos.
+        
+        ✅ C) El método `Files.readAllLines` intenta decodificar el contenido del archivo utilizando el juego de caracteres estándar (UTF-8 por defecto). Si encuentra bytes arbitrarios que no representan caracteres válidos en dicha codificación (algo muy común en archivos de bytes crudos), el decodificador interno fallará lanzando una excepción de tipo `MalformedInputException`. Por este motivo, los datos puramente binarios deben leerse siempre utilizando `Files.readAllBytes`.
+        
+        ❌ D) El sistema operativo o el entorno de ejecución de Java jamás eliminarán un archivo de forma automática debido a un error de lectura por incompatibilidad de formatos; el archivo permanecerá intacto en el disco duro.
+    
 
 
 
@@ -1805,6 +1998,95 @@ fun registro() {
     - pH del Suelo: 6.8
     - Ubicación: ZONA-NORTE
     ```
+
+!!! example "Autoevaluación"
+
+    **Pregunta 17: Se dispone del siguiente código en Kotlin que escribe tres datos primitivos en un archivo binario utilizando la clase `DataOutputStream`:**
+    
+    ```kotlin
+    import java.io.DataOutputStream
+    import java.io.FileOutputStream
+    
+    fun main() {
+        val out = DataOutputStream(FileOutputStream("datos/registro.dat"))
+        
+        out.writeInt(42)            // 1. ID de la parcela (4 bytes)
+        out.writeDouble(6.8)        // 2. pH del suelo (8 bytes)
+        out.writeUTF("ZONA-NORTE")  // 3. Código (Cadena UTF-8)
+        
+        out.close()
+    }
+    ```
+    
+    **Posteriormente, al intentar recuperar la información con `DataInputStream`, se altera accidentalmente el orden de lectura de los dos primeros campos numéricos de la siguiente forma:**
+    
+    ```kotlin
+    import java.io.DataInputStream
+    import java.io.FileInputStream
+    
+    fun main() {
+        val input = DataInputStream(FileInputStream("datos/registro.dat"))
+        
+        // Se intenta leer primero el double y luego el int (orden inverso al escrito)
+        val phSuelo = input.readDouble() 
+        val idParcela = input.readInt()  
+        val zonaLabel = input.readUTF()
+        
+        input.close()
+    }
+    ```
+    
+    **¿Cuál será el comportamiento del programa al intentar ejecutar la lectura con este orden alterado?**
+    
+    A) El entorno de ejecución de Java detectará automáticamente el conflicto de tipos en el flujo de bytes y reordenará la lectura para asignar los valores correctos a cada variable.
+    
+    B) Se producirá un error de compilación inmediato porque el compilador de Kotlin asocia de forma estricta los métodos de lectura con el orden exacto de los métodos de escritura empleados en el archivo.
+    
+    C) El programa se ejecutará sin lanzar excepciones de forma inmediata, pero las variables numéricas se leerán completamente corrompidas (mostrando valores numéricos extremos o sin sentido) al interpretarse erróneamente los bytes en el flujo de memoria.
+    
+    D) Se lanzará una excepción de tipo `EOFException` de forma instantánea al intentar leer el primer dato debido a que el archivo se bloqueará por seguridad al no coincidir los tipos de datos.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) Los flujos de datos binarios estructurados no contienen ningún tipo de metadato o etiqueta que indique qué tipo de dato se escribió en cada posición. El programa procesa bytes crudos de forma consecutiva y no puede reordenar nada de manera automática.
+        
+        ❌ B) El compilador no tiene forma de analizar el archivo físico del disco duro ni sabe qué se escribió previamente en él, por lo que compilará el código de lectura sin mostrar ningún aviso de error.
+        
+        ✅ C) Al escribir con `writeInt` y `writeDouble`, se guardan consecutivamente 4 bytes y luego 8 bytes. Al intentar leer primero un `double` (`readDouble()`), el programa consumirá los primeros 8 bytes del flujo (los 4 del entero más la mitad del double), interpretándolos erróneamente como un número decimal. La lectura continuará de forma desalineada y todos los datos leídos a partir de ese punto quedarán completamente corrompidos.
+        
+        ❌ D) La excepción `EOFException` (fin de archivo) solo se lanzará si se intenta leer más allá del tamaño total del archivo físico en bytes, pero no por leer los bytes en un orden de tipos incorrecto.
+    
+        
+    **Pregunta 18: Al trabajar con flujos de datos binarios en Kotlin, se observa habitualmente la siguiente combinación de clases para abrir un archivo de lectura:**
+    
+    ```kotlin
+    val fis = FileInputStream(ruta.toFile())
+    val input = DataInputStream(fis)
+    ```
+    
+    **¿Cuál es la función o propósito de envolver la clase `FileInputStream` dentro de un objeto de la clase `DataInputStream`?**
+    
+    A) `FileInputStream` se limita a realizar la lectura física de bytes crudos desde el disco duro, mientras que `DataInputStream` actúa como un filtro que permite interpretar esos bytes directamente como tipos de datos primitivos de Java/Kotlin (`readInt()`, `readDouble()`, etc.).
+    
+    B) `DataInputStream` es una clase obligatoria para convertir automáticamente el archivo binario a un formato de texto estructurado XML en memoria antes de poder procesarlo en el código.
+    
+    C) Sirve únicamente para duplicar de manera automática la velocidad de transferencia del disco duro mediante el uso de búferes físicos integrados en el hardware.
+    
+    D) `FileInputStream` busca el archivo en una red local o servidor en la nube, mientras que `DataInputStream` se encarga de descifrar la clave de seguridad del archivo utilizando criptografía.
+    
+    
+    ??? quote "Solución"
+    
+        ✅ A) `FileInputStream` es un flujo básico orientado a bytes que solo sabe leer bytes individuales o bloques de bytes de forma genérica. Al envolverlo con `DataInputStream`, se le dota de métodos especializados de más alto nivel que permiten reconstruir directamente tipos de datos complejos y primitivos leyendo el número exacto de bytes que requiere cada tipo (por ejemplo, 4 bytes para un entero con `readInt()`).
+        
+        ❌ B) Ninguna de estas dos clases interactúa con estructuras de texto formateado como XML o JSON; su ámbito de trabajo está limitado estrictamente a la lectura y escritura de bytes en formato binario.
+        
+        ❌ C) El aumento de rendimiento por almacenamiento en búfer es responsabilidad de otra clase especializada llamada `BufferedInputStream`, la cual se puede añadir de manera opcional en la cadena de flujos.
+        
+        ❌ D) Ambas clases están diseñadas para trabajar con archivos locales de manera estándar y no realizan tareas de red ni descifrado de seguridad criptográfica por defecto.
+
+
 
 
 <span class="mi_h3">5.3. Acceso aleatorio a ficheros binarios</span>
@@ -2055,6 +2337,79 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 
 
 
+
+!!! example "Autoevaluación"
+
+    **Pregunta 19: En la función `anadirPlanta` del Ejemplo 12, se preparan los datos de una planta en un `ByteBuffer` de la siguiente manera:**
+    
+    ```kotlin
+    val buffer = ByteBuffer.allocate(TAMANO_REGISTRO)
+    
+    buffer.putInt(nuevaPlanta.idPlanta)
+    buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
+    buffer.putDouble(nuevaPlanta.alturaMaxima)
+    
+    // Se omite intencionadamente la llamada a: buffer.flip()
+    
+    while (buffer.hasRemaining()) {
+        canal.write(buffer)
+    }
+    ```
+    
+    **Si se omite la llamada al método `buffer.flip()` antes de intentar escribir en el canal (`canal.write(buffer)`), ¿cuál será el comportamiento del programa?**
+    
+    A) El canal detectará automáticamente que el búfer contiene datos nuevos y realizará la escritura física en el archivo de forma normal.
+    
+    B) Se producirá un error de compilación inmediato porque la función `canal.write` exige sintácticamente que el búfer haya sido "volteado" previamente.
+    
+    C) No se escribirá ningún dato en el archivo, ya que el puntero de posición del búfer se encuentra al final de los datos introducidos (posición 32 de 32), haciendo que `buffer.hasRemaining()` devuelva `false` y se salte el bucle de escritura.
+    
+    D) El archivo binario se creará pero se llenará únicamente con bytes de valor cero al forzar la escritura sin haber reseteado el límite máximo.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) El canal de datos de Java NIO no realiza ninguna gestión automática de los punteros internos del búfer; depende por completo del estado en el que se le entregue el objeto `ByteBuffer`.
+        
+        ❌ B) El compilador de Kotlin no analiza el estado de los punteros del búfer, por lo que compilará el código perfectamente sin mostrar ningún error.
+        
+        ✅ C) Al introducir datos en el búfer con los métodos `put...`, el cursor de posición se desplaza hacia adelante hasta llegar al final del registro (byte 32). El método `flip()` es fundamental porque "voltea" el búfer: baja la posición a 0 y define el límite de lectura en el byte 32. Si se omite, la posición sigue estando al final, por lo que el búfer considera que no queda nada por procesar (`hasRemaining()` es falso) y el bucle de escritura no llega a ejecutarse, dejando el archivo vacío.
+        
+        ❌ D) El programa no escribirá bytes a cero ni basura en el archivo; simplemente ignorará la escritura al no cumplirse la condición del bucle `while`.
+    
+    
+    **Pregunta 20: En el diseño de registros binarios de tamaño fijo, se aplica el siguiente proceso de relleno al nombre de la planta antes de escribirlo en el búfer:**
+    
+    ```kotlin
+    val nombreBytes = nuevaPlanta.nombreComun
+        .padEnd(TAMANO_NOMBRE, ' ')
+        .toByteArray()
+    ```
+    
+    **¿Cuál es la razón práctica para rellenar con espacios en blanco (mediante `.padEnd`) el campo de texto del nombre común de la planta antes de guardarlo en el archivo?**
+    
+    A) Garantizar que el campo ocupe exactamente los 20 bytes reservados en la estructura del registro, permitiendo mantener la longitud fija total de 32 bytes por cada planta y facilitar cálculos matemáticos para saltar a registros específicos en accesos aleatorios futuros.
+    
+    B) Evitar que el codificador de caracteres de la máquina virtual de Java lance una excepción de desbordamiento de memoria al encontrarse con nombres excesivamente cortos.
+    
+    C) Convertir de forma automática los caracteres especiales del idioma español (como tildes o la letra ñ) a caracteres del formato estándar ASCII para que ocupen un solo byte.
+    
+    D) Encriptar el nombre común de la planta para que ningún visor hexadecimal pueda leer la cadena de texto real en el archivo final.
+    
+    
+    ??? quote "Solución"
+    
+        ✅ A) En los archivos de acceso aleatorio, cada registro debe medir exactamente lo mismo (en este caso, 32 bytes). Si un nombre es más corto de 20 caracteres (como "Rosa") y no se rellena, el registro mediría menos de 32 bytes, lo que rompería la estructura del archivo e impediría calcular matemáticamente la posición exacta de las siguientes plantas (por ejemplo, buscar la planta número 100 multiplicando `99 * 32 bytes`).
+        
+        ❌ B) La longitud de las cadenas de texto no genera excepciones de falta de memoria en la máquina virtual por ser cortas; el sistema puede manejar cualquier longitud de texto de forma nativa.
+        
+        ❌ C) El método `.padEnd` se limita a añadir caracteres de espacio en blanco al final de la cadena de texto, pero no realiza ninguna traducción ni filtrado de caracteres especiales o codificaciones.
+        
+        ❌ D) El relleno con espacios en blanco no oculta ni encripta la información; cualquier visor hexadecimal mostrará el nombre de la planta seguido de los bytes correspondientes a los espacios (valor hexadecimal `20`).
+    
+
+
+
 <span class="mis_ejemplos">Ejemplo 13: Modificar el campo de un registro mediante acceso aleatorio</span>
 
 Ahora aprovecharemos la capacidad de `FileChannel` para posicionarnos directamente sobre una propiedad de un registro concreto utilizando el ID, para actualizarla sin alterar ni leer de forma secuencial el resto del fichero.
@@ -2134,6 +2489,67 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     - ID: 3, Nombre común: Margarita, Altura: 0.6m
     ```
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 21: En la función `modificarAlturaPlanta`, una vez localizado el registro con el ID buscado, se calcula la posición física en bytes del campo de la altura (`posicionAltura`) mediante la siguiente fórmula:**
+    
+    ```kotlin
+    val posicionAltura = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
+    ```
+    
+    **¿Cuál es la explicación lógica detrás de esta operación matemática para situar correctamente el puntero del canal de datos?**
+    
+    A) Se realiza para vaciar los datos del búfer de la memoria RAM y notificar al sistema operativo que el archivo va a incrementar su tamaño físico en el disco duro.
+    
+    B) Como la lectura completa del registro avanza el puntero hasta el final del mismo, se resta el tamaño del registro para retroceder al inicio de este, y se suman los tamaños del ID y del Nombre para saltar sobre ellos y situarse exactamente al principio del campo de la altura.
+    
+    C) Es un cálculo arbitrario exigido por la sintaxis de Kotlin para evitar que la máquina virtual de Java genere un error de desbordamiento de enteros durante la modificación del archivo.
+    
+    D) Sirve para avanzar el puntero del canal directamente hasta el final del archivo binario y añadir el nuevo valor de la altura de forma secuencial.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) La operación matemática trabaja exclusivamente con índices de posiciones en bytes; no tiene relación con la gestión de la memoria RAM ni modifica el tamaño del archivo en disco.
+        
+        ✅ B) Al terminar de leer un registro de 32 bytes (`canal.read(buffer)`), el puntero del canal se queda posicionado justo al final de dicho registro (`posicionActual`). Para modificar la altura de esa planta concreta sin tocar el resto, se debe retroceder al principio del registro (`posicionActual - TAMANO_REGISTRO`). Desde ahí, para llegar al campo de la altura, se deben ignorar los bytes correspondientes al ID (4 bytes) y al Nombre (20 bytes), de ahí que se sumen ambas constantes (`+ TAMANO_ID + TAMANO_NOMBRE`).
+        
+        ❌ C) El compilador de Kotlin no exige ninguna fórmula específica para modificar archivos; se trata de una lógica puramente matemática diseñada por el desarrollador para navegar por la estructura de bytes fijos.
+        
+        ❌ D) El objetivo del acceso aleatorio es precisamente lo contrario: no escribir al final del archivo de manera secuencial, sino posicionarse y reescribir un campo específico en medio del archivo sin alterar el resto de la información.
+    
+
+
+    **Pregunta 22: Para abrir el canal que permite modificar la altura de una planta en el archivo binario mediante acceso aleatorio, se utiliza la siguiente instrucción:**
+    
+    ```kotlin
+    FileChannel.open(archivoPath, StandardOpenOption.READ, StandardOpenOption.WRITE)
+    ```
+    
+    **¿Qué ocurriría si se añadiese accidentalmente la opción `StandardOpenOption.TRUNCATE_EXISTING` dentro de los argumentos de configuración de apertura de este canal?**
+    
+    A) El canal funcionaría de manera normal, pero la escritura del nuevo dato se realizaría de forma más eficiente al optimizarse el almacenamiento en disco.
+    
+    B) Se producirá un error de compilación inmediato porque la clase `FileChannel` no admite la opción de truncado de archivos.
+    
+    C) El archivo binario se vaciaría por completo (quedando con un tamaño de 0 bytes) en el instante exacto de abrir el canal, perdiéndose de forma irreversible toda la información guardada en él antes de poder realizar la búsqueda del ID.
+    
+    D) El sistema de archivos del sistema operativo bloquearía el archivo impidiendo que el canal realice operaciones de lectura y provocando una excepción de acceso denegado.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) El truncado de un archivo no es una técnica de optimización de velocidad; consiste en la eliminación física de todos los datos que contiene el archivo.
+        
+        ❌ B) El código compilaría perfectamente, ya que `StandardOpenOption.TRUNCATE_EXISTING` es una opción de configuración totalmente válida y soportada por la API de canales de Java/Kotlin.
+        
+        ✅ C) La opción `TRUNCATE_EXISTING` indica al canal que, si el archivo ya existe, debe vaciar su contenido por completo (reducir su tamaño a 0 bytes) al abrirse. Al intentar buscar el ID del registro que se desea modificar en las líneas siguientes, el programa se encontrará con un archivo vacío, haciendo que la búsqueda falle y perdiendo toda la información del herbario de manera accidental.
+        
+        ❌ D) El programa no fallará por un bloqueo de seguridad del sistema operativo, sino por un error lógico de diseño del flujo de datos al haber eliminado voluntariamente la información con la opción de truncado.
+    
+
 
 
 <span class="mis_ejemplos">Ejemplo 14: Eliminación de un registro binario</span>
@@ -2232,6 +2648,66 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 1, Nombre común: Rosa, Altura: 1.5m
     - ID: 2, Nombre común: Girasol, Altura: 5.5m
     ```
+
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 23: En la función `eliminarPlanta`, al procesar un registro que no coincide con el ID que se desea borrar, se ejecuta el siguiente bloque de código antes de guardarlo en el archivo temporal:**
+    
+    ```kotlin
+    } else {
+        // Rebobinamos el puntero del buffer para escribir el registro completo original
+        buffer.rewind()
+        canalEscritura.write(buffer)
+    }
+    ```
+    
+    **¿Qué problema de corrupción de datos ocurriría en el archivo temporal si se omitiera la llamada al método `buffer.rewind()` antes de realizar la escritura?**
+    
+    A) Se omitirían los primeros 4 bytes del registro (el campo del ID) al escribir en el canal temporal, guardando un registro incompleto de 28 bytes y corrompiendo la estructura del archivo, debido a que el puntero del búfer se quedó desplazado tras haber leído el entero con `buffer.getInt()`.
+    
+    B) El canal escribiría el registro de 32 bytes de forma correcta, pero duplicaría el identificador de la planta al final de la cadena de texto del nombre común.
+    
+    C) Se producirá un error de compilación inmediato porque el compilador de Kotlin detecta que el búfer ha sido leído y exige que sea reiniciado obligatoriamente.
+    
+    D) El archivo temporal se corrompería por completo al llenarse con caracteres extraños e ilegibles generados automáticamente por el sistema de archivos.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) El compilador de Kotlin no analiza el estado de los punteros internos de los búferes de Java NIO, por lo que compilará el código de forma completamente normal sin advertencias de error.
+        
+        ✅ B) Al leer el identificador del registro mediante `buffer.getInt()`, el puntero de posición del búfer se desplaza automáticamente hacia adelante 4 bytes (los que ocupa el entero). Si se escribe el búfer en el canal temporal sin rebobinarlo (`buffer.rewind()`), solo se transferirán los bytes restantes (los 28 bytes del nombre y la altura). Esto provocará que los registros en el archivo temporal dejen de medir 32 bytes, desalineando todo el fichero y corrompiendo las lecturas posteriores.
+        
+        ❌ C) El programa compilará perfectamente, pero el fallo de lógica se manifestará en tiempo de ejecución al analizar el archivo resultante.
+        
+        ❌ D) El archivo temporal no se llenará de caracteres extraños generados por el sistema; simplemente contendrá los registros originales recortados (sin el ID), lo cual desmorona la estructura de tamaño fijo del archivo.
+    
+
+
+    **Pregunta 24: Para eliminar un registro de un archivo binario de tamaño fijo, se utiliza la técnica estándar de copiar los registros que se desean conservar a un archivo temporal (`.tmp`) para luego reemplazar el original. ¿Cuál es el motivo técnico por el que no se realiza la eliminación directamente sobre el propio archivo original (in-situ)?**
+    
+    A) Los sistemas operativos actuales tienen prohibido por motivos de seguridad realizar modificaciones físicas en la zona central de cualquier archivo binario una vez escrito.
+    
+    B) La clase `FileChannel` y la API de NIO carecen de la capacidad técnica de situar el puntero en posiciones intermedias del archivo original, limitando las escrituras únicamente al final de este.
+    
+    C) Eliminar físicamente un bloque de bytes de la mitad de un archivo obligaría a reescribir y desplazar hacia adelante en el disco duro todos los bytes posteriores del archivo para tapar el hueco vacío, lo cual es una operación de Entrada/Salida extremadamente lenta y costosa para el rendimiento.
+    
+    D) El uso de un archivo temporal es un requisito obligatorio impuesto por la máquina virtual de Java para poder liberar la memoria caché del procesador antes de cerrar el canal.
+    
+    
+    ??? quote "Solución"
+    
+        ❌ A) Los sistemas operativos permiten realizar cualquier operación de lectura y escritura en cualquier posición de un archivo físico si el programa cuenta con los permisos de usuario correspondientes.
+        
+        ❌ B) `FileChannel` es perfectamente capaz de situarse y escribir en cualquier posición intermedia utilizando el método `.position(long)` [49], tal y como se demuestra en la función de modificación de registros.
+        
+        ✅ C) Físicamente, los archivos se almacenan en bloques de disco de manera consecutiva. No existe una instrucción en los sistemas de archivos que permita "recortar" un bloque intermedio de un archivo y juntar los extremos de forma instantánea. Para simular esto en el archivo original, se tendría que leer y desplazar un byte hacia atrás toda la información posterior al hueco, lo cual consume una gran cantidad de tiempo y recursos de disco. Copiar la información filtrada a un nuevo archivo secuencial temporal resulta mucho más eficiente y seguro.
+        
+        ❌ D) La máquina virtual de Java no exige el uso de archivos temporales para la gestión de su memoria caché ni para la liberación de recursos del sistema.
+    
+    
 
 !!! warning "Práctica 5: amplía tu proyecto para gestionar un fichero binario"
     En esta práctica ampliarás tu proyecto con un CRUD para gestionar la información de tu aplicación en un fichero binario de acceso aleatorio.
