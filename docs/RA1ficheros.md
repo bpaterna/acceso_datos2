@@ -1000,7 +1000,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     6. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo `leerCSV()`, que comprueba la existencia del fichero y, si existe, lo lee, deserializa las líneas a objetos de tu *data class* y muestra la lista formateada por consola.
     7. **Implementa añadir un registro:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo `anadirRegistro()`, que pide la información por consola y añade un registro al final del fichero.
-    8. **Implementa modificar un registro:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo `modificarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe, pide por consola los nuevos datos y los sustituye en el fichero.
+    8. **Implementa modificar un registro:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo `modificarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe, pide por consola el dato a modificar que quieras (menos el ID) y lo sustituye en el fichero.
     9. **Implementa eliminar un registro:** Cuando el usuario seleccione la opción `4`, llama a una función, por ejemplo `eliminarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe lo elimina.
 
        **Aspectos técnicos obligatorios:**
