@@ -7,9 +7,10 @@
 
 <span class="mi_h3">Revisiones</span>
 
-|Revisión | Fecha      | Descripción|
-|---------|------------|-------------|
-|1.0 | 13-07-2026 | Adaptación de los materiales a markdown|
+| Revisión | Fecha      | Descripción                                                   |
+|----------|------------|---------------------------------------------------------------|
+| 1.0      | 13-07-2026 | Adaptación de los materiales a markdown                       |
+| 1.1      | 24-07-2026 | Ampliación con preguntas de autoevaluación |
 
 
 ## 1. Introducción
@@ -735,8 +736,8 @@ En Kotlin, se pueden procesar con librerías tradicionales como *OpenCSV* o medi
 
 **Métodos principales de Kotlin-CSV:**
 
-| Método | Descripción                                                                                                                                                                                            | Ejemplo de uso |
-| :--- |:-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------| :--- |
+| Método | Descripción                                          |
+| :--- |:--------------------------------------------------------|
 | `readAll(File)` | Lee todo el fichero CSV y devuelve una lista de listas de cadenas (`List<List<String>>`), donde cada sublista representa una fila.                                                                     |
 | `readAllWithHeader(File)` | Lee el fichero CSV utilizando la primera línea como cabecera. Devuelve una lista de mapas (`List<Map<String, String>>`), ideal para acceder a los valores por el nombre de su columna.                 |
 | `open { readAllAsSequence() }` | Abre el archivo y procesa las filas como una secuencia (`Sequence`). Es el método más eficiente y recomendado para ficheros CSV de gran tamaño, ya que no carga todo el contenido en memoria de golpe. |
@@ -765,7 +766,7 @@ Como puedes observar el carácter delimitador que separa los campos del CSV es u
 -   `nombre_comun` (String)
 -   `nombre_cientifico` (String)
 -   `riego` (Int - frecuencia en días)
--   `altura` (Double - altura máxima en metros)
+-   `altura` (Double - altura en metros)
 
 
 > Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
@@ -967,14 +968,14 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
-    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos un menú para que el usuario interactúe con la aplicación por consola. A medida que avancemos iremos añadiendo funciones a este proyecto.
+    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos los menús para que el usuario interactúe con la aplicación por consola. A medida que avancemos iremos añadiendo funciones a este proyecto.
 
     **Realiza los siguientes pasos:**
 
     1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
-    2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos debe ser de tipo `Double`).
+    2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos de tipo `Double`).
     3. **Crea tu fichero de datos inicial:** Genera manualmente un fichero con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
-    4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución y muestre un menú en la consola con las siguientes opciones:
+    4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución (hasta que se seleccione la opción 0) y muestre un menú en la consola con las siguientes opciones:
 
         ```text
         --------------------------------------        
@@ -984,7 +985,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         0. Salir
         ```
 
-    5. **Implementa el menú "Gestión CSV":** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo, `menuCSV()` que muestre el siguiente menú:
+    5. **Implementa el menú "Gestión CSV":** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo, `menuCSV()` que muestre el siguiente menú en bucle (hasta que se seleccione la opción 0) con las siguientes opciones:
 
 
         ```text
@@ -995,11 +996,11 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         2. Añadir un registro nuevo al final del fichero
         3. Modificar un registro existente (por ID)
         4. Eliminar un registro existente (por ID)
-        0. Salir
+        0. Volver al menú principal
         ```
 
     6. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo `leerCSV()`, que comprueba la existencia del fichero y, si existe, lo lee, deserializa las líneas a objetos de tu *data class* y muestra la lista formateada por consola.
-    7. **Implementa añadir un registro:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo `anadirRegistro()`, que pide la información por consola y añade un registro al final del fichero.
+    7. **Implementa añadir un registro:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo `anadirRegistro()`, que pide la información por consola y añade un registro al final del fichero. Controla que el ID no existe y, si es así, indica que no es válido y pide otro.
     8. **Implementa modificar un registro:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo `modificarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe, pide por consola el dato a modificar que quieras (menos el ID) y lo sustituye en el fichero.
     9. **Implementa eliminar un registro:** Cuando el usuario seleccione la opción `4`, llama a una función, por ejemplo `eliminarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe lo elimina.
 
@@ -1289,7 +1290,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
         --------------------------------------        
         ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
-        1. Leer datos desde CSV
+        1. Gestión CSV
         2. Leer datos desde XML
         0. Salir
         ```
@@ -1540,7 +1541,7 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
         --------------------------------------        
         ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
-        1. Leer datos desde CSV
+        1. Gestión CSV
         2. Leer datos desde XML
         3. Leer datos desde JSON
         0. Salir
@@ -1574,7 +1575,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
         --------------------------------------        
         ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
-        1. Leer datos desde CSV
+        1. Gestión CSV
         2. Leer datos desde XML
         3. Leer datos desde JSON
         4. Convertir JSON a CSV
@@ -1603,7 +1604,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
       - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
-    ⚠️ Nota aclaratoria: Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica a mitad de camino y asegurar que vas por la dirección correcta en el desarrollo de tu proyecto.
+    ⚠️ Nota aclaratoria: Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica para asegurar que el desarrollo de tu proyecto es correcto.
 
 
 
@@ -2751,7 +2752,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
         --------------------------------------        
         ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
-        1. Leer datos desde CSV
+        1. Gestión CSV
         2. Leer datos desde XML
         3. Leer datos desde JSON
         4. Convertir JSON a CSV
@@ -2896,11 +2897,11 @@ data class Planta(
 
     **CALIFICACIÓN**
     
-    | Bloque de evaluación             | Criterios específicos          | Peso                            |
+    | Bloque de evaluación             | Criterios específicos          | Puntos                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
-    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 puntos |
-    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 puntos |
-    | **Total**                                | **Evaluación global del proyecto**        | 10 puntos |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
+    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
+    | **Total**                                | **Evaluación global del proyecto**        | 10 |
     
     ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
 
