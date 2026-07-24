@@ -980,19 +980,45 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
         --------------------------------------        
         ----------- MENÚ PRINCIPAL -----------
         --------------------------------------
-        1. Leer datos desde CSV
+        1. Gestión CSV
         0. Salir
         ```
 
-    5. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo, `leerCSV()` que compruebe la existencia del fichero y, si existe, lo lea, deserialice las líneas a objetos de tu *data class* y muestre la lista formateada por consola.
+    5. **Implementa el menú "Gestión CSV":** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo, `menuCSV()` que muestre el siguiente menú:
 
-    **Aspectos técnicos obligatorios:**
 
-    - Se añaden las librerías necesarias en las dependencias del archivo `build.gradle.kts`.
-    - El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
-    - Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
-    - Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
-    - Se controlan fallos de formato (ej. datos corruptos al parsear números) para asegurar que el programa no cae de forma inesperada si un fichero contiene errores.
+        ```text
+        --------------------------------------        
+        -------------- CRUD CSV --------------
+        --------------------------------------
+        1. Leer datos desde CSV
+        2. Añadir un registro nuevo al final del fichero
+        3. Modificar un registro existente (por ID)
+        4. Eliminar un registro existente (por ID)
+        0. Salir
+        ```
+
+    6. **Implementa la lectura del CSV:** Cuando el usuario seleccione la opción `1`, llama a una función, por ejemplo `leerCSV()`, que comprueba la existencia del fichero y, si existe, lo lee, deserializa las líneas a objetos de tu *data class* y muestra la lista formateada por consola.
+    7. **Implementa añadir un registro:** Cuando el usuario seleccione la opción `2`, llama a una función, por ejemplo `anadirRegistro()`, que pide la información por consola y añade un registro al final del fichero.
+    8. **Implementa modificar un registro:** Cuando el usuario seleccione la opción `3`, llama a una función, por ejemplo `modificarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe, pide por consola los nuevos datos y los sustituye en el fichero.
+    9. **Implementa eliminar un registro:** Cuando el usuario seleccione la opción `4`, llama a una función, por ejemplo `eliminarRegistro()`, que pide el ID por consola y recorre el CSV para ver si existe. Si no existe informa con un mensaje y si existe lo elimina.
+
+       **Aspectos técnicos obligatorios:**
+
+       - Se añaden las librerías necesarias en las dependencias del archivo `build.gradle.kts`.
+       - El menú se repite hasta que el usuario decide salir (opción 0). Si el usuario introduce letras, espacios en blanco o números fuera del rango del menú, el programa debe mostrar un aviso amigable y volver a mostrar las opciones sin detener su ejecución.
+       - Se utilizan las clases `java.nio.file.Path` y `java.nio.file.Files` para gestionar rutas y se comprueba que los ficheros existen antes de leerlos.
+       - Se gestionan adecuadamente las excepciones y la aplicación no se detiene inesperadamente.
+       - Se controlan fallos de formato (ej. datos corruptos al parsear números) para asegurar que el programa no cae de forma inesperada si un fichero contiene errores.
+
+
+
+
+CRUD CSV
+
+
+
+
 
 
 <span class="mi_h3">4.2. XML (eXtensible Markup Language)</span>
@@ -1261,7 +1287,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
 
 !!! warning "Práctica 2: amplía tu proyecto"
-    En esta práctica añadiremos un fichero de datos en formato **CSV** y ampliaremos el menú con una opción para leer su contenido.
+    En esta práctica añadiremos un fichero de datos en formato **XML** y ampliaremos el menú con una opción para leer su contenido.
 
     **Realiza los siguientes pasos:**
 
@@ -1578,8 +1604,6 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 !!! danger "Entrega parcial"
 
-    Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica a mitad de camino y asegurar que vas por la dirección correcta antes de afrontar la entrega final.
-
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
 
     **IMPORTANTE:**
@@ -1588,10 +1612,7 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
       - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
-      - Se realizarán preguntas sobre el proyecto para verificar su autoría.  
-
-
-
+    ⚠️ Nota aclaratoria: Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica a mitad de camino y asegurar que vas por la dirección correcta en el desarrollo de tu proyecto.
 
 
 
@@ -2757,7 +2778,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
 
         ```text
         --------------------------------------        
-        ---------- MENÚ fichero BIN ----------
+        ---------- CRUD fichero BIN ----------
         --------------------------------------
         1. Importar datos desde fichero de texto plano.
         2. Visualizar información del fichero binario.
