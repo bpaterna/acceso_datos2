@@ -258,7 +258,7 @@ fun organizar(){
                     // 7. Mover la muestra botánica a su nueva ubicación clasificada
                     val pathDestino = carpetaDestino.resolve(pathFichero.fileName)
                     Files.move(pathFichero, pathDestino, StandardCopyOption.REPLACE_EXISTING)
-                    println("-> Clasificando " + pathFichero.fileName + " en la carpeta [." + extension + "]")
+                    println("-> Clasificando " + pathFichero.fileName + " en la carpeta (." + extension + ")")
                 }
             }
         }
@@ -277,19 +277,19 @@ fun organizar(){
     ```text
     --- Iniciando la clasificación botánica en la carpeta: muestras ---
     -> Creando nueva sección para ficheros: .txt
-    -> Clasificando flor.txt en la carpeta [.txt]
-    -> Clasificando arbusto.txt en la carpeta [.txt]
+    -> Clasificando flor.txt en la carpeta (.txt)
+    -> Clasificando arbusto.txt en la carpeta (.txt)
     -> Creando nueva sección para ficheros: .jpg
-    -> Clasificando 20191106_071048.jpg en la carpeta [.jpg]
-    -> Clasificando 20191101_071830.jpg en la carpeta [.jpg]
+    -> Clasificando 20191106_071048.jpg en la carpeta (.jpg)
+    -> Clasificando 20191101_071830.jpg en la carpeta (.jpg)
     -> Creando nueva sección para ficheros: .mp3
-    -> Clasificando pad-harmonious-and-soothing-voice-like-background.mp3 en la carpeta [.mp3]
-    -> Clasificando dark-cinematic-atmosphere.mp3 en la carpeta [.mp3]
+    -> Clasificando pad-harmonious-and-soothing-voice-like-background.mp3 en la carpeta (.mp3)
+    -> Clasificando dark-cinematic-atmosphere.mp3 en la carpeta (.mp3)
     -> Creando nueva sección para ficheros: .mp4
-    -> Clasificando 293968_small.mp4 en la carpeta [.mp4]
+    -> Clasificando 293968_small.mp4 en la carpeta (.mp4)
     -> Creando nueva sección para ficheros: .pdf
-    -> Clasificando lorem-ipsum-1.pdf en la carpeta [.pdf]
-    -> Clasificando lorem-ipsum-2.pdf en la carpeta [.pdf]
+    -> Clasificando lorem-ipsum-1.pdf en la carpeta (.pdf)
+    -> Clasificando lorem-ipsum-2.pdf en la carpeta (.pdf)
     
     --- ¡Clasificación del herbario completada con éxito! ---
     ```
@@ -445,7 +445,7 @@ fun listado(){
                 val indentacion = "\t".repeat(profundidad)
 
                 // Determinamos si es una sección (categoría/directorio) o un registro (fichero)
-                val prefijo = if (Files.isDirectory(path)) "[CATEGORÍA]" else "[MUESTRA]"
+                val prefijo = if (Files.isDirectory(path)) "(CATEGORÍA)" else "(MUESTRA)"
 
                 // No imprimimos la propia carpeta raíz, solo su contenido clasificado
                 if (profundidad > 0) {
@@ -465,20 +465,20 @@ fun listado(){
 
     ```text
     --- Estructura final del Herbario Digital con Files.walk() ---
-        [CATEGORÍA] jpg
-            [MUESTRA] 20191101_071830.jpg
-            [MUESTRA] 20191106_071048.jpg
-        [CATEGORÍA] mp3
-            [MUESTRA] dark-cinematic-atmosphere.mp3
-            [MUESTRA] pad-harmonious-and-soothing-voice-like-background.mp3
-        [CATEGORÍA] mp4
-            [MUESTRA] 293968_small.mp4
-        [CATEGORÍA] pdf
-            [MUESTRA] lorem-ipsum-1.pdf
-            [MUESTRA] lorem-ipsum-2.pdf
-        [CATEGORÍA] txt
-            [MUESTRA] arbusto.txt
-            [MUESTRA] flor.txt
+        (CATEGORÍA) jpg
+            (MUESTRA) 20191101_071830.jpg
+            (MUESTRA) 20191106_071048.jpg
+        (CATEGORÍA) mp3
+            (MUESTRA) dark-cinematic-atmosphere.mp3
+            (MUESTRA) pad-harmonious-and-soothing-voice-like-background.mp3
+        (CATEGORÍA) mp4
+            (MUESTRA) 293968_small.mp4
+        (CATEGORÍA) pdf
+            (MUESTRA) lorem-ipsum-1.pdf
+            (MUESTRA) lorem-ipsum-2.pdf
+        (CATEGORÍA) txt
+            (MUESTRA) arbusto.txt
+            (MUESTRA) flor.txt
     ```
 
 
@@ -512,7 +512,7 @@ fun listado(){
 
     A) El programa lanzará un error de ejecución (`IndexOutOfBoundsException`) debido a que la profundidad en la raíz dará un valor negativo.
     
-    B) Se imprimirá también la carpeta raíz en el informe de consola, mostrándose al inicio de la estructura como `[CATEGORÍA] muestras`.
+    B) Se imprimirá también la carpeta raíz en el informe de consola, mostrándose al inicio de la estructura como `(CATEGORÍA) muestras`.
     
     C) El listado se mostrará de forma desordenada porque el stream no sabrá por qué elemento comenzar a ordenar.
     
@@ -602,8 +602,8 @@ fun textoPlano(){
 
     // Escribir registros de actividad (Logs) con Buffered Writer
     Files.newBufferedWriter(ruta, StandardOpenOption.APPEND).use { writer ->
-        writer.write("[SISTEMA] Invernadero automatizado iniciado...\n")
-        writer.write("[SENSOR] Nivel de humedad óptimo detectado (75%).\n")
+        writer.write("(SISTEMA) Invernadero automatizado iniciado...\n")
+        writer.write("(SENSOR) Nivel de humedad óptimo detectado (75%).\n")
     }
 
     // Lectura secuencial eficiente con newBufferedReader
@@ -636,8 +636,8 @@ fun textoPlano(){
     1. Regar cuando las raíces se observen de color grisáceo.
     2. Mantener en un espacio con luz indirecta.
     3. Evitar corrientes de aire.
-      [SISTEMA] Invernadero automatizado iniciado...
-      [SENSOR] Nivel de humedad óptimo detectado (75%).
+      (SISTEMA) Invernadero automatizado iniciado...
+      (SENSOR) Nivel de humedad óptimo detectado (75%).
     ```
 
 
@@ -710,7 +710,7 @@ fun textoPlano(){
         
         ❌ C) La API de NIO controla internamente el final del archivo (EOF) al leer los flujos de caracteres, por lo que el método termina la lectura de inmediato y devuelve la colección sin generar ningún bloqueo de ejecución.
         
-        ❌ D) El tipo de retorno de `Files.readAllLines` es `MutableList<String>` [10]. En programación, las listas pueden crearse y gestionarse con un tamaño de cero elementos perfectamente, lo cual es totalmente compatible con la sintaxis del lenguaje.
+        ❌ D) El tipo de retorno de `Files.readAllLines` es `MutableList<String>`. En programación, las listas pueden crearse y gestionarse con un tamaño de cero elementos perfectamente, lo cual es totalmente compatible con la sintaxis del lenguaje.
 
 
 
@@ -972,7 +972,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
     **Realiza los siguientes pasos:**
 
-    1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
+    1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora (consulta el apartado propuestas) y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
     2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección.
     3. **Crea tu fichero de datos inicial:** Genera manualmente un fichero con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
     4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución (hasta que se seleccione la opción 0) y muestre un menú en la consola con las siguientes opciones:
@@ -1218,7 +1218,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
 
     ??? quote "Solución"
     
-        ❌ A) Jackson no realiza traducciones de formato de nombres de variables de manera automática (como pasar de *camelCase* a *snake_case*) a menos que se configure un mapeador global muy específico. Por defecto, busca la coincidencia exacta [31].
+        ❌ A) Jackson no realiza traducciones de formato de nombres de variables de manera automática (como pasar de *camelCase* a *snake_case*) a menos que se configure un mapeador global muy específico. Por defecto, busca la coincidencia exacta.
         
         ❌ B) Kotlin no genera errores de compilación por la ausencia de anotaciones de Jackson, ya que estas son librerías de terceros basadas en reflexión que se evalúan en tiempo de ejecución.
         
@@ -1270,7 +1270,7 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
     
         ✅ A) A diferencia de JSON, los ficheros XML siempre requieren tener un único nodo raíz bien definido (en este caso, `<plantas>`). Jackson necesita un objeto de una clase que represente este elemento raíz (como `PlantasWrapper`) para comenzar el mapeo. Intentar leer el fichero directamente como una colección generará un error de formato al no coincidir el nodo de inicio con los elementos de la lista.
         
-        ❌ B) El método `.toFile()` es el procedimiento estándar de Java NIO para transformar de forma segura un objeto `Path` en un objeto `File` clásico de Java [32], por lo que la ruta se resolverá perfectamente en el disco.
+        ❌ B) El método `.toFile()` es el procedimiento estándar de Java NIO para transformar de forma segura un objeto `Path` en un objeto `File` clásico de Java, por lo que la ruta se resolverá perfectamente en el disco.
         
         ❌ C) Jackson puede deserializar listas sin ningún problema cuando estas forman parte de un objeto mapeado, o en otros formatos de intercambio como JSON que no requieren un elemento raíz envuelto por defecto.
         
@@ -2733,7 +2733,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     
         ❌ A) Los sistemas operativos permiten realizar cualquier operación de lectura y escritura en cualquier posición de un archivo físico si el programa cuenta con los permisos de usuario correspondientes.
         
-        ❌ B) `FileChannel` es perfectamente capaz de situarse y escribir en cualquier posición intermedia utilizando el método `.position(long)` [49], tal y como se demuestra en la función de modificación de registros.
+        ❌ B) `FileChannel` es perfectamente capaz de situarse y escribir en cualquier posición intermedia utilizando el método `.position(long)`, tal y como se demuestra en la función de modificación de registros.
         
         ✅ C) Físicamente, los archivos se almacenan en bloques de disco de manera consecutiva. No existe una instrucción en los sistemas de archivos que permita "recortar" un bloque intermedio de un archivo y juntar los extremos de forma instantánea. Para simular esto en el archivo original, se tendría que leer y desplazar un byte hacia atrás toda la información posterior al hueco, lo cual consume una gran cantidad de tiempo y recursos de disco. Copiar la información filtrada a un nuevo archivo secuencial temporal resulta mucho más eficiente y seguro.
         

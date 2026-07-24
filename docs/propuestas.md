@@ -69,14 +69,14 @@
 <span class="mi_h3">9. Historia (Monumentos Históricos)</span>
 *   `id_monumento` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Torre Eiffel"*.
-*   `ciudad` (**String**) - Ej: *"París, Francia"*.
+*   `ciudad` (**String**) - Ej: *"París"*.
 *   `construccion` (**Int**) - Año de finalización de la construcción.
 *   `altura` (**Double**) - Altura máxima en metros.
 
 <span class="mi_h3">10. Música (Instrumentos Musicales)</span>
 *   `id_instrumento` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Violín"*.
-*   `familia` (**String**) - Ej: *"Cuerda frotada"*, *"Viento metal"*.
+*   `familia` (**String**) - Ej: *"Cuerda"*, *"Viento"*.
 *   `invencion` (**Int**) - Año aproximado de origen histórico.
 *   `peso` (**Double**) - Peso estimado del instrumento en kilogramos.
 
