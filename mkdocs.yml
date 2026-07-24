@@ -22,7 +22,7 @@ nav:
     - RA1. Acceso a ficheros: RA1ficheros.md
     - RA2: RA2bd_rel.md
   - Material adicional:
-    - Prouestas: propuestas.md
+    - Propuestas: propuestas.md
     - Kotlin: kotlin.md
     - Docker: docker.md
 markdown_extensions:

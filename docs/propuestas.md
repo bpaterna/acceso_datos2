@@ -1,6 +1,6 @@
 # Propuestas de temáticas disponibles para tu aplicación
 
-![Imagen 1](img/docker-logo.png){ width="300" }
+
 
 <span class="mi_h3">Revisiones</span>
 
@@ -11,6 +11,7 @@
 
 
 <span class="mi_h3">1. Fauna (Reino Animal)</span>
+
 *   `id_animal` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Oso Panda"*.
 *   `origen` (**String**) - Ej: *"Asia"*.
@@ -18,6 +19,7 @@
 *   `peso_medio` (**Double**) - Peso medio en kilogramos.
 
 <span class="mi_h3">2. Astronomía (Cuerpos Celestes)</span>
+
 *   `id_cuerpo` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Júpiter"*.
 *   `tipo` (**String**) - Ej: *"Planeta gaseoso"*, *"Estrella"*.
@@ -25,6 +27,7 @@
 *   `distancia_sol` (**Double**) - Distancia media en Unidades Astronómicas (UA).
 
 <span class="mi_h3">3. Vehículos (Coches)</span>
+
 *   `id_vehiculo` (**Int**) - Identificador único.
 *   `modelo` (**String**) - Ej: *"Civic"*.
 *   `marca` (**String**) - Ej: *"Honda"*.
@@ -32,6 +35,7 @@
 *   `consumo` (**Double**) - Consumo medio en litros/100km.
 
 <span class="mi_h3">4. Cine (Películas)</span>
+
 *   `id_pelicula` (**Int**) - Identificador único.
 *   `titulo` (**String**) - Ej: *"Interstellar"*.
 *   `director` (**String**) - Ej: *"Christopher Nolan"*.
@@ -39,6 +43,7 @@
 *   `puntuacion` (**Double**) - Nota de los usuarios (ej: 0.0 a 10.0).
 
 <span class="mi_h3">5. Química (Tabla Periódica)</span>
+
 *   `id_elemento` (**Int**) - Número atómico.
 *   `nombre` (**String**) - Ej: *"Oxígeno"*.
 *   `simbolo` (**String**) - Ej: *"O"*.
