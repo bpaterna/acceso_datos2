@@ -51,6 +51,7 @@
 *   `masa_atomica` (**Double**) - Masa atómica en unidades de masa atómica (u).
 
 <span class="mi_h3">6. Videojuegos</span>
+
 *   `id_videojuego` (**Int**) - Identificador único.
 *   `titulo` (**String**) - Ej: *"The Witcher 3"*.
 *   `estudio` (**String**) - Ej: *"CD Projekt Red"*.
@@ -58,6 +59,7 @@
 *   `precio` (**Double**) - Precio de venta recomendado en euros.
 
 <span class="mi_h3">7. Geografía (Países)</span>
+
 *   `id_pais` (**Int**) - Código numérico internacional.
 *   `nombre` (**String**) - Ej: *"Canadá"*.
 *   `continente` (**String**) - Ej: *"América del Norte"*.
@@ -65,6 +67,7 @@
 *   `superficie` (**Double**) - Extensión territorial (en millones de km²).
 
 <span class="mi_h3">8. Nutrición (Alimentos)</span>
+
 *   `id_alimento` (**Int**) - Código de barras interno.
 *   `nombre` (**String**) - Ej: *"Manzana"*.
 *   `grupo` (**String**) - Ej: *"Frutas"*, *"Lácteos"*.
@@ -72,6 +75,7 @@
 *   `proteinas` (**Double**) - Gramos de proteínas por cada 100 gramos.
 
 <span class="mi_h3">9. Historia (Monumentos Históricos)</span>
+
 *   `id_monumento` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Torre Eiffel"*.
 *   `ciudad` (**String**) - Ej: *"París"*.
@@ -79,6 +83,7 @@
 *   `altura` (**Double**) - Altura máxima en metros.
 
 <span class="mi_h3">10. Música (Instrumentos Musicales)</span>
+
 *   `id_instrumento` (**Int**) - Identificador único.
 *   `nombre` (**String**) - Ej: *"Violín"*.
 *   `familia` (**String**) - Ej: *"Cuerda"*, *"Viento"*.
