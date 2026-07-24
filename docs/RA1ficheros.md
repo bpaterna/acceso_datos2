@@ -1012,15 +1012,6 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
        - Se controlan fallos de formato (ej. datos corruptos al parsear números) para asegurar que el programa no cae de forma inesperada si un fichero contiene errores.
 
 
-
-
-CRUD CSV
-
-
-
-
-
-
 <span class="mi_h3">4.2. XML (eXtensible Markup Language)</span>
 
 Los ficheros **XML** son estructurados y extensibles. Se organizan utilizando un sistema de etiquetas jerárquicas anidadas similar al HTML. Permiten la validación estructural mediante esquemas (XSD) y son muy demandados en entornos empresariales consolidados (sistemas *legacy*).
