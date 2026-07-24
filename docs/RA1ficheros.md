@@ -973,7 +973,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     **Realiza los siguientes pasos:**
 
     1. **Crea tu proyecto:** Elige la temática de tu proyecto de entre las propuestas por la profesora y busca un nombre. Luego crea el proyecto desde intelliJ para programar con Kotlin y Gradle.
-    2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección. Debe incluir obligatoriamente un identificador único o ID (`Int`), un nombre descriptivo (`String`) y al menos tres atributos adicionales (uno de ellos de tipo `Double`).
+    2. **Diseña tu data class:** Define una `data class` en Kotlin que represente un elemento individual de tu colección.
     3. **Crea tu fichero de datos inicial:** Genera manualmente un fichero con extensión `.csv` con al menos 5 registros que cumplan con la estructura de tu *data class*. Utiliza el punto y coma (`;`) como delimitador y guárdalo dentro de una carpeta llamada `datos` que deberás crear en la raíz de tu proyecto (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
     4. **Crea un menú de consola interactivo:** Programa un bucle en tu función `main()` que mantenga la aplicación en ejecución (hasta que se seleccione la opción 0) y muestre un menú en la consola con las siguientes opciones:
 
