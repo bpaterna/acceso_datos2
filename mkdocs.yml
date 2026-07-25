@@ -21,6 +21,8 @@ nav:
   - Contenidos:
     - RA1. Acceso a ficheros: RA1ficheros.md
     - RA2: RA2bd_rel.md
+    - RA5: RA5bd_doc.md
+    - RA6. Componentes: RA6componentes.md
   - Material adicional:
     - Propuestas: propuestas.md
     - Kotlin: kotlin.md
