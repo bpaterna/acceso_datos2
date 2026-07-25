@@ -1,6 +1,7 @@
 # Docker
 
-![Imagen 1](img/docker-logo.png){ width="300" }
+<img class="sin_borde" src="img/docker-logo.png" alt="docker" style="width: 400px;">
+
 
 <span class="mi_h3">Revisiones</span>
 
