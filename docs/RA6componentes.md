@@ -176,21 +176,21 @@ Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://st
 
 
 
-<img class="con_borde" src="img/springboot1.jpg" alt="SpringBoot">
+<img class="con_borde" src="img/springboot1.jpg" alt="springboot1">
 
 
 <span class="mi_sombreado">**PASO 2: Abrir el proyecto y ejecutarlo**</span>
 
 Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Vemos que, además de los archivos **application.properties** y **pom.xml** se ha creado automaticamente la clase **Plantas1Application** (con la anotación **@SpringBootApplication**) y la función de extensión **runApplication** que sirve para lanzar la aplicación.
 
-![SpringBoot 2](img/springboot2.jpg)
+
+<img class="con_borde" src="img/springboot2.jpg" alt="springboot2">
 
 
 Por tanto deberemos ejecutar la aplicación usando la clase `Plantas1Application.kt` como clase principal. Al ejecutar la aplicación veremos por Consola la salida de los mensajes de registro de Spring.
 
-![SpringBoot 3](img/springboot3.jpg)
 
-
+<img class="con_borde" src="img/springboot3.jpg" alt="springboot3">
 
 > Si el puerto 8080 está ocupado aparecerá un mensaje diciendo que no se puede iniciar el servidor Tomcat. Puedes cambiar el puerto, por ejemplo al 8888, añadiendo la siguiente línea en el archivo `application.properties` (que se encuentra en la carpeta resources del proyecto):
     ```
@@ -250,13 +250,12 @@ Ejecutamos la aplicación para levantar el servidor y comprobamos el comportamie
 
 - Sin parámetros: [http://localhost:8080/planta](http://localhost:8080/planta)
 
-![Spring 4](img/springboot4.jpg)
+<img class="con_borde" src="img/springboot4.jpg" alt="springboot4">
 
 
 - Con parámetro personalizado: [http://localhost:8080/planta?nombre=Rosa](http://localhost:8080/planta?nombre=Rosa)
 
-![Spring 5](img/springboot5.jpg)
-
+<img class="con_borde" src="img/springboot5.jpg" alt="springboot5">
 
 
 <span class="mi_sombreado">**PASO 5: Entender el funcionamiento**</span>
@@ -329,15 +328,11 @@ Creamos el archivo `index.html` en `src/main/resources/static/` y sustituimos su
 Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegador servirá esta página de inicio. Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`, permitiendo comprender el flujo básico de una petición GET con parámetros sin necesidad de Thymeleaf todavía.
 
 
-
-
-
-![Spring 6](img/springboot6.jpg)
+<img class="con_borde" src="img/springboot6.jpg" alt="springboot6">
 
 
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
-
 
 
 
