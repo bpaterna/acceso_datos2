@@ -187,8 +187,9 @@ Por tanto deberemos ejecutar la aplicación usando la clase `Plantas1Application
 
 ![SpringBoot 3](img/springboot3.jpg)
 
-!!!Note ""
-    Si el puerto 8080 está ocupado aparecerá un mensaje diciendo que no se puede iniciar el servidor Tomcat. Puedes cambiar el puerto, por ejemplo al 8888, añadiendo la siguiente línea en el archivo `application.properties` (que se encuentra en la carpeta resources del proyecto):
+
+
+> Si el puerto 8080 está ocupado aparecerá un mensaje diciendo que no se puede iniciar el servidor Tomcat. Puedes cambiar el puerto, por ejemplo al 8888, añadiendo la siguiente línea en el archivo `application.properties` (que se encuentra en la carpeta resources del proyecto):
     ```
     server.port=8888
     ```
