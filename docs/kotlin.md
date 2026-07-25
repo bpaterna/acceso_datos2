@@ -1,6 +1,7 @@
 # Kotlin
 
-![Imagen 1](img/kotlin-logo.png){ width="300" }
+![kotlin](img/kotlin-logo.png){ width="400" }
+
 
 <span class="mi_h3">Revisiones</span>
 

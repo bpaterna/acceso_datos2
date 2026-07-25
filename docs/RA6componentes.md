@@ -174,7 +174,9 @@ A continuación se describen los pasos para a crear una aplicación que saluda a
 
 Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://start.spring.io/), indicamos el nombre de la aplicación y añadimos la dependencia **Spring Web** (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón GENERATE. Esto hará que se cree el proyecto y se descargue en un archivo .zip.
 
-![SpringBoot 1](img/springboot1.jpg)
+
+
+<img class="con_borde" src="img/springboot1.jpg" alt="SpringBoot">
 
 
 <span class="mi_sombreado">**PASO 2: Abrir el proyecto y ejecutarlo**</span>
@@ -182,6 +184,7 @@ Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://st
 Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Vemos que, además de los archivos **application.properties** y **pom.xml** se ha creado automaticamente la clase **Plantas1Application** (con la anotación **@SpringBootApplication**) y la función de extensión **runApplication** que sirve para lanzar la aplicación.
 
 ![SpringBoot 2](img/springboot2.jpg)
+
 
 Por tanto deberemos ejecutar la aplicación usando la clase `Plantas1Application.kt` como clase principal. Al ejecutar la aplicación veremos por Consola la salida de los mensajes de registro de Spring.
 
