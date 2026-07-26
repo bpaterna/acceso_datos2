@@ -469,7 +469,7 @@ Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes i
 
 
 
-## 3. Spring MVC
+## 3. Spring MVC y Thymeleaf
 
 **Spring MVC** es el módulo de Spring orientado al desarrollo de aplicaciones web siguiendo el patrón **Modelo‑Vista‑Controlador (MVC)**, el cual organiza una aplicación en tres **componentes principales**:
 
@@ -549,10 +549,12 @@ Thymeleaf es un motor de plantillas que permite mezclar HTML con datos dinámico
 
 <span class="mis_ejemplos">Ejemplo 2: Aplicación utilizando Spring MVC y Thymeleaf</span>
 
-A continuación se describen los pasos para crear una aplicación que:
+A continuación se describen los pasos para crear una aplicación que es un CRUD sobre una colección de plantas almacenada en memoria.
 
-- Muestra una lista con nombres de planas y junto a cada nombre un enlace que mostrará los detalles de la planta
-- Desde la pantalla de detalles, se podrá acceder a un formulario para modificar la información de la planta. 
+- Muestra una pantalla de vienvenida desde la que se accede al listado de plantas.
+- La pantalla de listado, contiene un botón para añadir plantas nuevas y varios botones (junto al nombre de cada planta) para mostrar sus detalles, modificarlos o eliminarla.
+- Desde la pantalla de detalles, se podrá acceder a un formulario para modificar la información de la planta.
+- Al presionar sobre el botón de eliminar se pedirá confirmación.
 
 
 <span class="mi_sombreado">**PASO 1: Crear el proyecto**</span>
@@ -628,7 +630,7 @@ class PlantaRepository {
         Planta(5, "Orquídea", "Flor", 0.3, "orquidea.jpg")
     )
 
-    fun findAll(): List<Planta> = plantas
+    fun findAll(): MutableList<Planta> = plantas
 
     fun findById(id: Int): Planta? = plantas.find { it.id_planta == id }
 
@@ -643,6 +645,11 @@ class PlantaRepository {
             plantas.add(planta.copy(id_planta = nuevoId))
         }
     }
+    
+    fun deleteById(id_planta: Int) {
+        val plantas = findAll()
+        plantas.removeIf { it.id_planta == id_planta }
+    }
 }
 ```
 
@@ -651,19 +658,21 @@ class PlantaRepository {
 
 `@Repository` Indica a Spring que esta clase se encarga del **acceso directo a los datos** (crear, leer, actualizar y borrar). Además, registra la clase en el contenedor de Spring para que pueda ser inyectada automáticamente donde se necesite.
 
-| Elemento / Método | Descripción                                  |
-| :--- |:---------------------------------------------|
-| `private val plantas` | Lista mutable (`mutableListOf`) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.                       |
-| `findAll()` | Recupera y devuelve la lista completa con todas las plantas almacenadas.                                                                                |
-| `findById(id)` | Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o `null` si no encuentra ninguna.                                           |
-| `save(planta)` | Comprueba si la planta ya existe buscando su ID. Si existe, la actualiza. Si no existe, calcula de forma automática un nuevo ID secuencial y la añade a la lista. |
-
+| Elemento / Método       | Descripción                                                                                                                                                       |
+|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `private val plantas`   | Lista mutable (`mutableListOf`) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.                       |
+| `findAll()`             | Recupera y devuelve la lista completa con todas las plantas almacenadas.                                                                                          |
+| `findById(id)`          | Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o `null` si no encuentra ninguna.                                                    |
+| `save(planta)`          | Comprueba si la planta ya existe buscando su ID. Si existe, la actualiza. Si no existe, calcula de forma automática un nuevo ID secuencial y la añade a la lista. |
+| `deleteById(id_planta)` | Comprueba si la planta ya existe buscando su ID. Si existe, pide confirmación antes de eliminarla.                                                                |
 
 
 - Añadimos el **servicio** (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.service
+
+
 
 import com.example.plantas.model.Planta
 import com.example.plantas.repository.PlantaRepository
@@ -677,6 +686,11 @@ class PlantaService(private val repository: PlantaRepository) {
     fun buscarPorId(id: Int): Planta? = repository.findById(id)
 
     fun guardar(planta: Planta) = repository.save(planta)
+
+    fun borrar(id_planta: Int) {
+        repository.deleteById(id_planta)
+    }
+
 }
 ```
 
@@ -686,11 +700,12 @@ class PlantaService(private val repository: PlantaRepository) {
 
 `PlantaService(private val repository...)` Inyección de dependencias por constructor. Spring busca automáticamente la clase anotada con `@Repository` y se la proporciona al servicio cuando este se crea, sin necesidad de que hagamos un `new` de forma manual.
 
-| Método | Descripción                                                                            |
-| :--- |:---------------------------------------------------------------------------------------|
-| `listarPlantas()` | Solicita al repositorio la lista de todas las plantas y se la devuelve al controlador. |
-| `buscarPorId(id)` | Solicita al repositorio buscar una planta concreta por su identificador.               |
-| `guardar(planta)` | Ordena al repositorio que guarde o actualice la planta correspondiente.                |
+| Método              | Descripción                                                                            |
+|:--------------------|:---------------------------------------------------------------------------------------|
+| `listarPlantas()`   | Solicita al repositorio la lista de todas las plantas y se la devuelve al controlador. |
+| `buscarPorId(id)`   | Solicita al repositorio buscar una planta concreta por su identificador.               |
+| `guardar(planta)`   | Ordena al repositorio que guarde o actualice la planta correspondiente.                |
+| `borrar(id_planta)` | Ordena al repositorio que borre la planta correspondiente.                 |
 
 
 
@@ -698,27 +713,26 @@ class PlantaService(private val repository: PlantaRepository) {
 - Añadimos el **controlador** (recibe las peticiones, llama al servicio y devuelve las vistas.). Para ello, creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
 
 ```kotlin
-package com.example.plantas.controller
 
+package com.example.plantas.controller
 
 import com.example.plantas.model.Planta
 import com.example.plantas.service.PlantaService
 import org.springframework.stereotype.Controller
 import org.springframework.ui.Model
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.*
 
 @Controller
 class PlantaController(private val plantaService: PlantaService) {
 
+    // 1. LISTAR
     @GetMapping("/plantas")
     fun mostrarPlantas(model: Model): String {
-        // Obtenemos los datos desde el servicio en vez de la variable local
         model.addAttribute("plantas", plantaService.listarPlantas())
         return "plantas"
     }
 
+    // 2. DETALLE
     @GetMapping("/planta/{id_planta}")
     fun verPlanta(@PathVariable id_planta: Int, model: Model): String {
         val planta = plantaService.buscarPorId(id_planta) ?: return "errorPlanta"
@@ -726,17 +740,36 @@ class PlantaController(private val plantaService: PlantaService) {
         return "detallePlanta"
     }
 
-    @GetMapping("/planta/editar/{id_planta}")
-    fun editarPlanta(@PathVariable id_planta: Int, model: Model): String {
-        val planta = plantaService.buscarPorId(id_planta) ?: return "errorPlanta"
-        model.addAttribute("planta", planta)
-        return "editarPlanta"
+    // 3. FORMULARIO NUEVA PLANTA (pasa un objeto vacío con ID 0)
+    @GetMapping("/plantas/nueva")
+    fun nuevaPlanta(model: Model): String {
+        val plantaVacia = Planta(0, "", "", 0.0, "")
+        model.addAttribute("planta", plantaVacia)
+        model.addAttribute("titulo", "Nueva Planta")
+        return "formPlanta"
     }
 
-    @PostMapping("/planta/guardar")
-    fun guardarCambios(plantaModificada: Planta): String {
-        plantaService.guardar(plantaModificada)
-        return "redirect:/planta/${plantaModificada.id_planta}"
+    // 4. FORMULARIO EDITAR PLANTA (pasa el objeto existente)
+    @GetMapping("/plantas/editar/{id_planta}")
+    fun editarPlanta(@PathVariable id_planta: Int, model: Model): String {
+        val planta = plantaService.buscarPorId(id_planta) ?: return "redirect:/plantas"
+        model.addAttribute("planta", planta)
+        model.addAttribute("titulo", "Editar Planta")
+        return "formPlanta"
+    }
+
+    // 5. PROCESAR GUARDADO (Sirve tanto para crear como para editar)
+    @PostMapping("/plantas/guardar")
+    fun guardarPlanta(@ModelAttribute planta: Planta): String {
+        plantaService.guardar(planta)
+        return "redirect:/plantas"
+    }
+
+    // 6. PROCESAR BORRADO
+    @GetMapping("/plantas/borrar/{id_planta}")
+    fun borrarPlanta(@PathVariable id_planta: Int): String {
+        plantaService.borrar(id_planta)
+        return "redirect:/plantas"
     }
 }
 ```
@@ -747,11 +780,11 @@ class PlantaController(private val plantaService: PlantaService) {
 
 `@GetMapping` Atiende peticiones HTTP **GET** (lectura de datos) para mostrar páginas HTML.
 
-| Función | Descripción      |
-| :--- |:------------------|
+| Función | Descripción                                                                                                                            |
+| :--- |:---------------------------------------------------------------------------------------------------------------------------------------|
 | `@GetMapping("/plantas")` | Llama al servicio para obtener la lista de todas las plantas y las muestra en `plantas.html`.                                          |
 | `@GetMapping("/planta/{id_planta}")` | Solicita al servicio una planta específica por su ID para mostrarla en `detallePlanta.html`. Si no existe, muestra `errorPlanta.html`. |
-| `@GetMapping("/planta/editar/{id_planta}")` | Recupera la planta a través del servicio y la carga en el formulario de edición `editarPlanta.html`.                                   |
+| `@GetMapping("/planta/editar/{id_planta}")` | Recupera la planta a través del servicio y la carga en el formulario de edición `formPlanta.html`.                                     |
 
 `@PostMapping` Atiende peticiones HTTP **POST** (normalmente el envío de un formulario) para procesar datos.
 
@@ -766,23 +799,179 @@ class PlantaController(private val plantaService: PlantaService) {
 
 <span class="mi_sombreado">**PASO 3: Añadir las vistas con Thymeleaf**</span>
 
-Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para avisar en caso de producirse un error y la última para modificar la información de la planta. Por tanto tendremos cuatro archivos `html` todos ellos dentro de la carpeta `src/main/resources/templates/`. 
-
-
+Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para avisar en caso de producirse un error y la última un formulario para añadir una planta nueva o para modificar la información de una ya existente. Por tanto tendremos cuatro archivos `html` todos ellos dentro de la carpeta `src/main/resources/templates/`. 
 
 
 - El archivo que mostrará la lista de plantas será `plantas.html` y su código es el siguiente:
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Catálogo de Plantas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-success fw-bold">🌿 Catálogo de Plantas</h1>
+        <a href="/plantas/nueva" class="btn btn-success">Agregar Nueva Planta</a>
+    </div>
+
+    <div th:if="${plantas.size() > 0}" class="table-responsive">
+        <table class="table table-striped table-hover align-middle shadow-sm bg-white rounded">
+            <thead class="table-success">
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th class="text-center">Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="planta : ${plantas}">
+                <td th:text="${planta.id_planta}">1</td>
+                <td th:text="${planta.nombre}">Rosa</td>
+                <td th:text="${planta.tipo}">Flor</td>
+                <td class="text-center">
+                    <a th:href="@{/planta/{id}(id=${planta.id_planta})}" class="btn btn-info btn-sm">Detalles</a>
+                    <a th:href="@{/plantas/editar/{id}(id=${planta.id_planta})}" class="btn btn-warning btn-sm">Editar</a>
+                    <a th:href="@{/plantas/borrar/{id}(id=${planta.id_planta})}" class="btn btn-danger btn-sm"
+                       onclick="return confirm('¿Estás seguro de borrar esta planta?')">Borrar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div th:unless="${plantas.size() > 0}" class="alert alert-warning text-center shadow-sm">
+        No se han encontrado plantas registradas en el sistema.
+    </div>
+
+    <div class="text-start mt-4">
+        <a href="/" class="btn btn-outline-secondary">Volver a la Portada</a>
+    </div>
+</div>
+</body>
+</html>
+```
 
 
 
 - El archivo que mostrará el detalle de una plantas será `detallePlanta.html` y su código es el siguiente:
 
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalles de la Planta</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5" style="max-width: 500px;">
+    <div class="card shadow-sm border-0 text-center">
+
+        <img th:src="@{/fotos/{nombreImagen}(nombreImagen=${planta.foto})}"
+             alt="Foto"
+             class="img-fluid rounded mb-4"
+             style="max-height: 250px;">
+
+        <div class="card-body p-4">
+            <h1 class="text-success fw-bold mb-3" th:text="${planta.nombre}">Nombre</h1>
+            <p class="text-muted fs-5">
+                <strong>Tipo:</strong> <span th:text="${planta.tipo}">Flor</span> <br>
+                <strong>Altura:</strong> <span th:text="${planta.altura}">1.2</span> metros
+            </p>
+            <hr>
+            <div class="d-flex justify-content-around mt-4">
+                <a href="/plantas" class="btn btn-outline-secondary">Volver al listado</a>
+                <a th:href="@{/plantas/editar/{id}(id=${planta.id_planta})}" class="btn btn-warning">Editar</a>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+```
+
 
 - El archivo que mostrará el aviso en caso de error será `errorPlanta.html` y su código es el siguiente:
 
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Planta no encontrada</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
 
-- El archivo que mostrará el formulario para modificar la información de una planta será `editarPlanta.html` y su código es el siguiente:
+<body>
 
+<div class="container mt-5">
+<h1>Error</h1>
+
+<p>La planta que estás buscando no existe.</p>
+
+<a th:href="@{/plantas}">Volver a la lista de plantas</a>
+</div>
+</body>
+</html>
+
+```
+
+
+- El archivo que mostrará el formulario para modificar la información de una planta será `formPlanta.html` y su código es el siguiente:
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${titulo}">Formulario</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container mt-5" style="max-width: 600px;">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-success text-white">
+            <h3 class="mb-0" th:text="${titulo}">Formulario de Planta</h3>
+        </div>
+        <div class="card-body p-4">
+            <form th:action="@{/plantas/guardar}" th:object="${planta}" method="post">
+                <!-- Campo oculto para el ID -->
+                <input type="hidden" th:field="*{id_planta}">
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre:</label>
+                    <input type="text" class="form-control" th:field="*{nombre}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Tipo:</label>
+                    <input type="text" class="form-control" th:field="*{tipo}" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Altura (m):</label>
+                    <input type="number" step="0.1" class="form-control" th:field="*{altura}">
+                </div>
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Nombre Foto (ej: rosa.jpg):</label>
+                    <input type="text" class="form-control" th:field="*{foto}">
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <a href="/plantas" class="btn btn-secondary">Cancelar</a>
+                    <button type="submit" class="btn btn-success">Guardar Planta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+```
 
 
 
@@ -832,10 +1021,101 @@ Para poder mostrar las fotos de nuestras plantas en la vista de detalle, hemos g
 
 
 
-<span class="mi_sombreado">**PASO 5: Añadir las fotos de las plantas**</span>
+<span class="mi_sombreado">**PASO 5: Añadir `index.html`**</span>
 
 Además, si queremos que nuestra aplicación responda a [http://localhost:8080](http://localhost:8080) necesitamos un archivo llamado `index.html` dentro de la carpeta `src/main/resources/static/`. Por ejemplo con el siguiente contenido:
 
+
+```html
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido - Botánica</title>
+    <!-- Importación de Bootstrap mediante CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* Un pequeño toque de personalización para el tema botánico */
+        .btn-success-botanic {
+            background-color: #2e7d32;
+            border-color: #1b5e20;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .btn-success-botanic:hover {
+            background-color: #1b5e20;
+            border-color: #0d3c11;
+            color: white;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body class="bg-light d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+
+<div class="container text-center py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+
+            <!-- Icono representativo -->
+            <div class="display-1 text-success mb-4">🌿</div>
+
+            <!-- Título del Portal -->
+            <h1 class="fw-bold mb-3">Botánica</h1>
+
+            <p class="fs-5 text-muted mb-5">
+                Bienvenido a la aplicación de gestión del vivero. Explora nuestro catálogo de plantas, consulta fichas técnicas, añade nuevas especies o edita los registros de forma cómoda.
+            </p>
+
+            <!-- Botón de acceso que redirige al controlador de Thymeleaf -->
+            <div class="d-grid gap-2 col-8 mx-auto">
+                <a href="/plantas" class="btn btn-success-botanic btn-lg shadow-sm py-3">
+                    Entrar al Catálogo
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Script de Bootstrap -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+```
+
+
+
+
+
+
+
+Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguieten paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
+
+En una aplicación mal diseñada, tendrías que modificar el controlador, las vistas HTML y las rutas de red para adaptarlas a la lectura de archivos. Pero en nuestra aplicación:
+
+1.  El **Controlador** (`PlantaController`) solo sabe que le pide datos a la capa de **Servicio**.
+2.  La capa de **Servicio** (`PlantaService`) solo sabe que solicita guardar o listar plantas a la capa de **Repositorio**.
+
+Esto significa que si sustituimos la información en memoria por un archivo físico:
+*   **¡No tendremos que modificar ni una sola línea de código en nuestro Controlador!**
+*   **¡No tendremos que tocar ninguna de nuestras plantillas HTML de Thymeleaf!**
+
+Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando exactamente igual. Solo necesitaremos programar una nueva versión de nuestro **Repositorio** que lea y escriba en disco.
+
+
+
+### 📂 Práctica de Equipo: Tu primer proyecto con Persistencia Real
+
+Utilizando todo lo aprendido en el **RA1 (Acceso a ficheros)**, os retamos a realizar el almacenamiento permanente de la aplicación.
+
+#### El reto:
+1.  Cread un archivo llamado `plantas.csv` en vuestra carpeta de recursos (`src/main/resources/data/plantas.csv`) con algunos registros iniciales separados por punto y coma (`;`).
+2.  Cread un nuevo repositorio llamado **`PlantaFileRepository`** que reemplace al de memoria. Esta clase deberá usar las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
+    *   **Leer el CSV** y transformarlo en una lista de objetos `Planta` cuando se solicite listar.
+    *   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre una planta.
+3.  Modificad vuestro **`PlantaService`** para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
 
 
 
