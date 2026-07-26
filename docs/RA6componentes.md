@@ -384,10 +384,10 @@ Hacemos algunos cambios en nuestro archivo `index.html` en `src/main/resources/s
 
 **Explicación de los cambios realizados:**
 
-- **\<div class="container mt-5"\>:** Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.
-- **class="form-control":** Cambia el cuadro de texto simple por un campo de texto con bordes suaves y que resalta al hacer clic.
-- **class="btn btn-success":** Convierte el botón gris por defecto del navegador en un botón verde.
-- **class="text-muted" y class="link-secondary":** Suavizan el color del texto secundario y del enlace para mejorar la jerarquía visual.
+- `<div class="container mt-5">` Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.
+- `class="form-control"` Cambia el cuadro de texto simple por un campo de texto con bordes suaves y que resalta al hacer clic.
+- `class="btn btn-success"` Convierte el botón gris por defecto del navegador en un botón verde.
+- `class="text-muted"` y `class="link-secondary"` Suavizan el color del texto secundario y del enlace para mejorar la jerarquía visual.
 
 
 
@@ -549,12 +549,11 @@ Thymeleaf es un motor de plantillas que permite mezclar HTML con datos dinámico
 
 <span class="mis_ejemplos">Ejemplo 2: Aplicación utilizando Spring MVC y Thymeleaf</span>
 
-A continuación se describen los pasos para crear una aplicación que es un CRUD sobre una colección de plantas almacenada en memoria.
+A continuación se describen los pasos para crear una aplicación que es un CRUD sobre una colección de plantas almacenada en memoria y que tiene las siguientes vistas:
 
-- Muestra una pantalla de vienvenida desde la que se accede al listado de plantas.
-- La pantalla de listado, contiene un botón para añadir plantas nuevas y varios botones (junto al nombre de cada planta) para mostrar sus detalles, modificarlos o eliminarla.
-- Desde la pantalla de detalles, se podrá acceder a un formulario para modificar la información de la planta.
-- Al presionar sobre el botón de eliminar se pedirá confirmación.
+- Pantalla de bienvenida desde la que se accede al listado de plantas.
+- Pantalla de listado con un botón para añadir plantas nuevas y el listado de plantas con botones para mostrar sus detalles, modificarlos o eliminarla.
+- Formulario con campos para modificar la información de un planta o añadir una nueva.
 
 
 <span class="mi_sombreado">**PASO 1: Crear el proyecto**</span>
@@ -1099,24 +1098,21 @@ En una aplicación mal diseñada, tendrías que modificar el controlador, las vi
 2.  La capa de **Servicio** (`PlantaService`) solo sabe que solicita guardar o listar plantas a la capa de **Repositorio**.
 
 Esto significa que si sustituimos la información en memoria por un archivo físico:
-*   **¡No tendremos que modificar ni una sola línea de código en nuestro Controlador!**
-*   **¡No tendremos que tocar ninguna de nuestras plantillas HTML de Thymeleaf!**
+
+-   **¡No tendremos que modificar ni una sola línea de código en nuestro Controlador!**
+-   **¡No tendremos que tocar ninguna de nuestras plantillas HTML de Thymeleaf!**
 
 Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando exactamente igual. Solo necesitaremos programar una nueva versión de nuestro **Repositorio** que lea y escriba en disco.
 
 
-
-### 📂 Práctica de Equipo: Tu primer proyecto con Persistencia Real
-
-Utilizando todo lo aprendido en el **RA1 (Acceso a ficheros)**, os retamos a realizar el almacenamiento permanente de la aplicación.
-
-#### El reto:
-1.  Cread un archivo llamado `plantas.csv` en vuestra carpeta de recursos (`src/main/resources/data/plantas.csv`) con algunos registros iniciales separados por punto y coma (`;`).
-2.  Cread un nuevo repositorio llamado **`PlantaFileRepository`** que reemplace al de memoria. Esta clase deberá usar las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
-    *   **Leer el CSV** y transformarlo en una lista de objetos `Planta` cuando se solicite listar.
-    *   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre una planta.
-3.  Modificad vuestro **`PlantaService`** para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
-
+!!! warning "Reto 1: CRUD (CSV) con Spring MVC y Thymeleaf"
+   
+    Por equipos el trabajo a realizar es el siguiente:
+    1. Rescatad el archivo `.CSV`que utilizasteis en el RA1 y guardadlo en la carpeta de recursos (`src/main/resources/data/plantas.csv`).
+    2.  Cread un nuevo repositorio llamado **`PlantaFileRepository`** que reemplace al de memoria. Esta clase deberá usar las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
+    -   **Leer el CSV** y transformarlo en una lista de objetos `Planta` cuando se solicite listar.
+    -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre una planta.
+    3.  Modificad vuestro **`PlantaService`** para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
 
 
 
