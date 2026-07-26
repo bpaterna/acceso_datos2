@@ -291,7 +291,7 @@ Nuestra ruta dinámica `/planta` funciona correctamente porque la hemos mapeado 
 
 <span class="mi_sombreado">**PASO 5: Añadir una página de inicio HTML**</span>
 
-Como hemos visto en los pasos anteriores, necesitamos que la dirección raíz http://localhost:8080/ muestre una pantalla de inicio amigable en lugar de un error de "página no encontrada". Para solucionar esto, nos apoyaremos en la carpeta de recursos estáticos de Spring Boot `src/main/resources/static/`. Cualquier archivo que guardemos en esta carpeta (imágenes, CSS, HTML sencillos) será servido directamente por el servidor web sin necesidad de escribir código Java o Kotlin en nuestro controlador.
+Como hemos visto en los pasos anteriores, necesitamos que la dirección raíz [http://localhost:8080](http://localhost:8080)  muestre una pantalla de inicio amigable en lugar de un error de "página no encontrada". Para solucionar esto, nos apoyaremos en la carpeta de recursos estáticos de Spring Boot `src/main/resources/static/`. Cualquier archivo que guardemos en esta carpeta (imágenes, CSS, HTML sencillos) será servido directamente por el servidor web sin necesidad de escribir código Java o Kotlin adicional.
 
 Una de las reglas automáticas de Spring Boot es que si guardas un archivo llamado exactamente `index.html` dentro de `static/`, el servidor lo utilizará de forma automática como la página de inicio para la ruta raíz `/`. Vamos a comprobarlo.
 
@@ -329,7 +329,7 @@ Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegad
 
 <img class="con_borde" src="img/springboot7.jpg" alt="springboot7">
 
-Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`. Devolviendo el mismo resultado que en los pasos 3 y 4.
+Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`. Devolviendo el mismo resultado que en el pasos 4.
 
 
 
@@ -384,7 +384,7 @@ Hacemos algunos cambios en nuestro archivo `index.html` en `src/main/resources/s
 
 **Explicación de los cambios realizados:**
 
-- **<div class="container mt-5">:** Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.
+- **\<div class="container mt-5"\>:** Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.
 - **class="form-control":** Cambia el cuadro de texto simple por un campo de texto con bordes suaves y que resalta al hacer clic.
 - **class="btn btn-success":** Convierte el botón gris por defecto del navegador en un botón verde.
 - **class="text-muted" y class="link-secondary":** Suavizan el color del texto secundario y del enlace para mejorar la jerarquía visual.
@@ -575,14 +575,14 @@ De esta forma, cuando realicemos un cambio en un archivo de código de nuestra a
 
 <img class="con_borde" src="img/springboot8.jpg" alt="springboot8">
 
-Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Dejaremos el archivo `PlantasApplication.kt` (clase principal) tal como está y añadiremos los archivos de nuestra aplicación para que la estructura del proyecto quede como en la siguiente imagen:
+Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Dejamos el archivo `PlantasApplication.kt` (clase principal) tal como está y añadimos los archivos de nuestra aplicación para que la estructura del proyecto quede como en la siguiente imagen:
 
-<img class="con_borde" src="img/springboot8.jpg" alt="springboot8">
+<img class="con_borde" src="img/springboot9.jpg" alt="springboot9">
 
 
 <span class="mi_sombreado">**PASO 2: Añadir modelo, repositorio, servicio y controlador**</span>
 
-- Añadimos el modelo (representa los datos de la aplicación). Para ello, creamos el archivo `Planta.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/model/` con el código siguiente:
+- Añadimos el **modelo** (representa los datos de la aplicación). Para ello, creamos el archivo `Planta.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/model/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.model
@@ -596,7 +596,21 @@ data class Planta(
 )
 ```
 
-- Añadimos el repositorio (gestiona la lista mutable en memoria). Para ello, creamos el archivo `PlantaRepository.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/repository/` con el código siguiente:
+**Explicación del código:**
+
+`data class` Es una clase especial de Kotlin diseñada específicamente para almacenar datos. Al usarla, Kotlin genera automáticamente de forma interna los métodos `getters`, `setters`, `toString()`, `equals()` y `copy()`, lo que nos ahorra escribir decenas de líneas de código repetitivo.
+
+| Atributo | Tipo | Descripción                                             |
+| :--- | :--- |:--------------------------------------------------------|
+| `id_planta` | `Int` | Identificador único de cada planta (clave primaria).    |
+| `nombre` | `String` | Nombre común de la planta.                              |
+| `tipo` | `String` | Categoría o tipo de planta (ej. Flor, Suculenta).       |
+| `altura` | `Double` | Altura máxima estimada en metros.                       |
+| `foto` | `String` | Nombre del archivo de imagen asociado (ej. `rosa.jpg`). |
+
+
+
+- Añadimos el **repositorio** (gestiona la lista mutable en memoria). Para ello, creamos el archivo `PlantaRepository.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/repository/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.repository
@@ -632,12 +646,24 @@ class PlantaRepository {
 }
 ```
 
-- Añadimos el servicio (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
+
+**Explicación del código:**
+
+`@Repository` Indica a Spring que esta clase se encarga del **acceso directo a los datos** (crear, leer, actualizar y borrar). Además, registra la clase en el contenedor de Spring para que pueda ser inyectada automáticamente donde se necesite.
+
+| Elemento / Método | Descripción                                  |
+| :--- |:---------------------------------------------|
+| `private val plantas` | Lista mutable (`mutableListOf`) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.                       |
+| `findAll()` | Recupera y devuelve la lista completa con todas las plantas almacenadas.                                                                                |
+| `findById(id)` | Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o `null` si no encuentra ninguna.                                           |
+| `save(planta)` | Comprueba si la planta ya existe buscando su ID. Si existe, la actualiza. Si no existe, calcula de forma automática un nuevo ID secuencial y la añade a la lista. |
+
+
+
+- Añadimos el **servicio** (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.service
-
-
 
 import com.example.plantas.model.Planta
 import com.example.plantas.repository.PlantaRepository
@@ -654,7 +680,22 @@ class PlantaService(private val repository: PlantaRepository) {
 }
 ```
 
-- Añadimos el controlador (recibe las peticiones, llama al servicio y devuelve las vistas.). Para ello, creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
+**Explicación del código:**
+
+`@Service` Indica a Spring que esta clase contiene la **lógica de negocio** y las reglas de nuestra aplicación. Actúa como una capa intermedia de seguridad y control entre lo que pide el controlador y lo que hace el repositorio.
+
+`PlantaService(private val repository...)` Inyección de dependencias por constructor. Spring busca automáticamente la clase anotada con `@Repository` y se la proporciona al servicio cuando este se crea, sin necesidad de que hagamos un `new` de forma manual.
+
+| Método | Descripción                                                                            |
+| :--- |:---------------------------------------------------------------------------------------|
+| `listarPlantas()` | Solicita al repositorio la lista de todas las plantas y se la devuelve al controlador. |
+| `buscarPorId(id)` | Solicita al repositorio buscar una planta concreta por su identificador.               |
+| `guardar(planta)` | Ordena al repositorio que guarde o actualice la planta correspondiente.                |
+
+
+
+
+- Añadimos el **controlador** (recibe las peticiones, llama al servicio y devuelve las vistas.). Para ello, creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.controller
@@ -699,6 +740,102 @@ class PlantaController(private val plantaService: PlantaService) {
     }
 }
 ```
+
+**Explicación del código:**
+
+`@Controller` Indica a Spring que esta clase es un controlador que maneja peticiones web y devuelve vistas HTML (plantillas de Thymeleaf).
+
+`@GetMapping` Atiende peticiones HTTP **GET** (lectura de datos) para mostrar páginas HTML.
+
+| Función | Descripción      |
+| :--- |:------------------|
+| `@GetMapping("/plantas")` | Llama al servicio para obtener la lista de todas las plantas y las muestra en `plantas.html`.                                          |
+| `@GetMapping("/planta/{id_planta}")` | Solicita al servicio una planta específica por su ID para mostrarla en `detallePlanta.html`. Si no existe, muestra `errorPlanta.html`. |
+| `@GetMapping("/planta/editar/{id_planta}")` | Recupera la planta a través del servicio y la carga en el formulario de edición `editarPlanta.html`.                                   |
+
+`@PostMapping` Atiende peticiones HTTP **POST** (normalmente el envío de un formulario) para procesar datos.
+
+| Función | Descripción                         |
+| :--- |:--------------------------------------|
+| `@PostMapping("/planta/guardar")` | Envía los datos modificados al **servicio** para que los actualice en el repositorio. Al terminar, redirige al detalle de la planta con `redirect:/planta/{id_planta}`. Se utiliza `redirect` para evitar el reenvío duplicado de formularios si el usuario refresca la página. |
+
+`Model` Interfaz de Spring utilizada para pasar datos desde el controlador hacia la vista HTML (Thymeleaf).
+
+`@PathVariable` Anotación que se utiliza para extraer y leer parámetros directamente desde la ruta de la URL (en este caso, `{id_planta}`).
+
+
+<span class="mi_sombreado">**PASO 3: Añadir las vistas con Thymeleaf**</span>
+
+Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para avisar en caso de producirse un error y la última para modificar la información de la planta. Por tanto tendremos cuatro archivos `html` todos ellos dentro de la carpeta `src/main/resources/templates/`. 
+
+
+
+
+- El archivo que mostrará la lista de plantas será `plantas.html` y su código es el siguiente:
+
+
+
+- El archivo que mostrará el detalle de una plantas será `detallePlanta.html` y su código es el siguiente:
+
+
+- El archivo que mostrará el aviso en caso de error será `errorPlanta.html` y su código es el siguiente:
+
+
+- El archivo que mostrará el formulario para modificar la información de una planta será `editarPlanta.html` y su código es el siguiente:
+
+
+
+
+
+**Explicación de las vistas Thymeleaf**
+
+Condicionales:
+
+* th:if muestra un mensaje si hay plantas registradas.
+
+* th:unless muestra un mensaje alternativo si no hay plantas.
+
+Iteración sobre la colección:
+
+* th:each="planta : ${plantas}" recorre la lista de plantas (plantas) y crea un bloque de código html (en este caso el que hay dentro de la etiqueta `<p>`) para cada planta.
+
+Mostrar datos dinámicos:
+
+* th:text="${planta.nombre}" muestra el nombre de la planta.
+
+* th:text="'Tipo: ' + ${planta.tipo}" concatena el texto "Tipo: " con el tipo de la planta.
+
+* th:text="'Altura: ' + ${planta.altura} + ' metros'" muestra la altura de la planta en metros.
+
+Enlaces dinámicos:
+
+* th:href="@{/planta/{id_planta}(id_planta=${planta.id_planta})}" genera un enlace a la página de detalles de la planta usando el id_planta de la planta.
+
+Imágenes dinámicas:
+
+* th:src="@{/fotos/{nombreImagen}(nombreImagen=${planta.foto})}" carga foto de la planta.
+
+
+Formulario:
+
+* th:action="@{/planta/guardar}" indica la URL a la que se enviarán los datos del formulario cuando se haga submit.
+
+* th:object="${planta}" asocia un objeto del modelo de Spring (Model) con el formulario. En este caso `${planta}` hace referencia a la planta que se pasó al modelo desde el controlador: `model.addAttribute("planta", planta)`. Esto permite usar atributos de planta en los campos del formulario.
+
+
+
+
+<span class="mi_sombreado">**PASO 4: Añadir las fotos de las plantas**</span>
+
+Para poder mostrar las fotos de nuestras plantas en la vista de detalle, hemos guardado las fotos en una carpeta llamada `fotos` dentro de `src/main/resources/static/`.
+
+
+
+
+<span class="mi_sombreado">**PASO 5: Añadir las fotos de las plantas**</span>
+
+Además, si queremos que nuestra aplicación responda a [http://localhost:8080](http://localhost:8080) necesitamos un archivo llamado `index.html` dentro de la carpeta `src/main/resources/static/`. Por ejemplo con el siguiente contenido:
+
 
 
 
