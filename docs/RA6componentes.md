@@ -324,15 +324,142 @@ Creamos el archivo `index.html` en `src/main/resources/static/` y sustituimos su
 </html>
 ```
 
-
 Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegador servirá esta página de inicio. Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`, permitiendo comprender el flujo básico de una petición GET con parámetros sin necesidad de Thymeleaf todavía.
-
 
 <img class="con_borde" src="img/springboot6.jpg" alt="springboot6">
 
 
 !!! success "Prueba y analiza el ejemplo"
+Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+Ahora vamos a darle a nuestra aplicación un aspecto más profesional utilizando `bootstrap`. Podemos encontrar mucha documentacion en internet sobre como utilizarlo. Por ejemplo en:
+
+- [https://getbootstrap.com/docs/5.3/getting-started/introduction/](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [https://www.w3schools.com/bootstrap5/](https://www.w3schools.com/bootstrap5/)
+
+
+Hacemos algunos cambios en nuestro archivo `index.html` en `src/main/resources/static/` para que quede así:
+
+```html
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Portal de Plantas</title>
+    <!-- CDN de Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Contenedor principal para centrar y dar margen superior -->
+<div class="container mt-5">
+
+    <h1 class="mb-3">🌱 Portal de Plantas</h1>
+    <p class="text-muted">Explora nuestro catálogo básico introduciendo el nombre de tu planta favorita.</p>
+
+    <!-- Formulario con un ancho máximo sugerido para que no ocupe toda la pantalla -->
+    <form action="/planta" method="GET" id="plantForm" class="mb-4" style="max-width: 400px;">
+        <div class="mb-3">
+            <label for="plantField" class="form-label">Escribe el nombre de la planta:</label>
+            <input type="text" name="nombre" id="plantField" class="form-control" placeholder="Ej. Rosa, Cactus..." required>
+        </div>
+        <button type="submit" class="btn btn-success">Consultar</button>
+    </form>
+
+    <a href="/planta" class="link-secondary">Ver planta por defecto (Helecho)</a>
+
+</div>
+
+</body>
+</html>
+```
+
+**Explicación de los cambios realizados:**
+
+- **<div class="container mt-5">:** Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.
+- **class="form-control":** Cambia el cuadro de texto simple por un campo de texto con bordes suaves y que resalta al hacer clic.
+- **class="btn btn-success":** Convierte el botón gris por defecto del navegador en un botón verde.
+- **class="text-muted" y class="link-secondary":** Suavizan el color del texto secundario y del enlace para mejorar la jerarquía visual.
+
+
+
+Y sustituimos el código del fichero `Plantas1Application.kt` por el siguiente:
+
+```kotlin
+package com.example.plantas1
+
+import org.springframework.boot.autoconfigure.SpringBootApplication
+import org.springframework.boot.runApplication
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.RestController
+import org.springframework.http.MediaType // Necesario para especificar el tipo de retorno
+
+@SpringBootApplication
+@RestController
+class PlantasIntroApplication {
+
+    // Especificamos que este método devuelve HTML para que el navegador lo renderice correctamente
+    @GetMapping("/planta", produces = [MediaType.TEXT_HTML_VALUE])
+    fun infoPlanta(
+        @RequestParam(value = "nombre", defaultValue = "Helecho") nombre: String
+    ): String {
+        // Usamos una cadena multilínea de Kotlin para escribir HTML de forma limpia
+        return """
+            <!DOCTYPE HTML>
+            <html lang="es">
+            <head>
+                <meta charset="UTF-8">
+                <title>Detalle de Planta</title>
+                <!-- CDN de Bootstrap para aplicar el diseño -->
+                <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+            </head>
+            <body class="bg-light">
+                <div class="container mt-5">
+                    
+                    <!-- Alerta de Bootstrap para mostrar la información -->
+                    <div class="alert alert-success shadow-sm" role="alert">
+                        <h4 class="alert-heading">🌿 Consulta Realizada</h4>
+                        <p class="mb-0">
+                            ¡Hola! Estás consultando información sobre la planta: <strong>$nombre</strong>.
+                        </p>
+                    </div>
+                    
+                    <!-- Botón para regresar al index.html -->
+                    <a href="/" class="btn btn-outline-secondary btn-sm mt-2">Volver al inicio</a>
+                    
+                </div>
+            </body>
+            </html>
+        """.trimIndent()
+    }
+}
+
+fun main(args: Array<String>) {
+    runApplication<PlantasIntroApplication>(*args)
+}
+```
+
+**Explicación de los cambios realizados:**
+
+- **produces = [MediaType.TEXT_HTML_VALUE]:** Por defecto, un @RestController que devuelve un String lo envía como texto plano (text/plain). Al añadir este parámetro en @GetMapping, le indicamos a Spring que añada la cabecera HTTP Content-Type: text/html para que el navegador interprete las etiquetas HTML y cargue la hoja de estilos de Bootstrap.
+- **Cadenas triples (""") de Kotlin:** Permiten escribir código HTML estructurado en múltiples líneas sin tener que concatenar constantemente con símbolos +, facilitando mucho la legibilidad del código fuente de la clase.
+- **Diseño minimalista:** Se envuelve el mensaje en un componente alert `alert-success` y se incluye un pequeño botón para volver a la página principal (/), lo que permite navegar entre el formulario y el resultado de forma fluida.
+
+
+
+Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes imágenes:
+
+<img class="con_borde" src="img/bootstrap1.jpg" alt="bootstrap1">
+
+<img class="con_borde" src="img/bootstrap2.jpg" alt="bootstrap2">
+
+
+
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
+
 
 
 
