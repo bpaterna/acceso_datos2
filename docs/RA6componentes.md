@@ -166,14 +166,25 @@ Una vez creado el proyecto tendremos las configuraciones y dependencias en los a
 - Ofrece herramientas para manejar errores y excepciones de forma global mediante @ControllerAdvice o controladores personalizados.
 
 
+
+**Pasos que sigue la ejecución de la aplicación**
+
+- **Inicio de la aplicación:** Se ejecuta el método main, lo que inicia un servidor web embebido (por defecto, `Tomcat`) en el puerto 8080.
+
+- **Solicitudes HTTP:**  Spring Boot permite funcionar a partir de rutas dinámicas y/o de archivos estáticos.
+
+- **Respuesta:**  La aplicación procesa la solicitud y devuelve un resultado al navegador.
+
+
+
+
 <span class="mis_ejemplos">Ejemplo 1: Aplicación Spring Boot con Spring Web</span>
 
-A continuación se describen los pasos para a crear una aplicación que saluda al usuario utilizando Spring Web.
+A continuación se describen los pasos para a crear una aplicación utilizando Spring Web.
 
 <span class="mi_sombreado">**PASO 1: Crear el proyecto**</span>
 
-Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://start.spring.io/), indicamos el nombre de la aplicación y añadimos la dependencia **Spring Web** (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón GENERATE. Esto hará que se cree el proyecto y se descargue en un archivo .zip.
-
+Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://start.spring.io/), indicamos el nombre de la aplicación y añadimos la dependencia **Spring Web** (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón `GENERATE`. Esto hará que se cree el proyecto y se descargue en un archivo .zip.
 
 
 <img class="con_borde" src="img/springboot1.jpg" alt="springboot1">
@@ -183,12 +194,10 @@ Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://st
 
 Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Vemos que, además de los archivos **application.properties** y **pom.xml** se ha creado automaticamente la clase **Plantas1Application** (con la anotación **@SpringBootApplication**) y la función de extensión **runApplication** que sirve para lanzar la aplicación.
 
-
 <img class="con_borde" src="img/springboot2.jpg" alt="springboot2">
 
 
-Por tanto deberemos ejecutar la aplicación usando la clase `Plantas1Application.kt` como clase principal. Al ejecutar la aplicación veremos por Consola la salida de los mensajes de registro de Spring.
-
+Antes de escribir una sola línea de código en nuestro controlador, vamos a ejecutar la aplicación tal y como viene por defecto. Abrimos el archivo `Plantas1Application.kt` y hacemos clic en el botón de reproducción (Run) de IntelliJ. Veremos por consola la salida de los mensajes de registro de Spring.
 
 <img class="con_borde" src="img/springboot3.jpg" alt="springboot3">
 
@@ -197,9 +206,22 @@ Por tanto deberemos ejecutar la aplicación usando la clase `Plantas1Application
     server.port=8888
     ```
 
-<span class="mi_sombreado">**PASO 3: Añadir el código de nuestra aplicación**</span>
 
-Sustituimos el código del fichero `Plantas1Application.kt` por el siguiente:
+Abrimos nuestro navegador web y accedemos a la dirección [http://localhost:8080](http://localhost:8080) pero vemos una pantalla de error genérica de Spring llamada "Whitelabel Error Page (404 Not Found)". Este error 404 significa que no hemos programado absolutamente nada para que nuestra applicación responda en esa ruta raíz (/). El servidor está levantado, pero está "vacío" de contenido.
+
+
+<img class="con_borde" src="img/springboot4.jpg" alt="springboot4">
+
+!!! success "Prueba y analiza el ejemplo"
+    Realiza los pasos 1 y 2 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
+
+
+Hemos comentado anteriormente que Spring Boot permite funcionar a partir de rutas dinámicas y de archivos estáticos. En los pasos siguientes añadiremos esas funcionalidades a nuestra aplicación
+
+
+<span class="mi_sombreado">**PASO 3: Añadir una ruta dinámica a nuestra aplicación**</span>
+
+Para que nuestra aplicación empiece a hacer algo útil, añadimos una función a la clase principal `Plantas1Application.kt`. Sustituimos su código por el siguiente:
 
 ```kotlin
 package com.example.plantas1
@@ -227,8 +249,8 @@ fun main(args: Array<String>) {
 }
 ```
 
-Como puedes ver, se han incluido anotaciones e importaciones, a continuación se explica cada una de ellas:
 
+**Explicación de los cambios realizados:**
 
 * **@RestController**: se utiliza para que Spring reconozca la clase como un controlador que maneja solicitudes HTTP. Combina:
     * @Controller: Define la clase como un controlador web.
@@ -250,51 +272,30 @@ Ejecutamos la aplicación para levantar el servidor y comprobamos el comportamie
 
 - Sin parámetros: [http://localhost:8080/planta](http://localhost:8080/planta)
 
-<img class="con_borde" src="img/springboot4.jpg" alt="springboot4">
+<img class="con_borde" src="img/springboot5.jpg" alt="springboot5">
 
 
 - Con parámetro personalizado: [http://localhost:8080/planta?nombre=Rosa](http://localhost:8080/planta?nombre=Rosa)
 
-<img class="con_borde" src="img/springboot5.jpg" alt="springboot5">
+<img class="con_borde" src="img/springboot6.jpg" alt="springboot6">
 
 
-<span class="mi_sombreado">**PASO 5: Entender el funcionamiento**</span>
-
-Spring Boot está configurado para servir automáticamente cualquier archivo colocado en:
-
-- static/
-
-- public/
-
-- resources/
-
-- META-INF/resources/
+Nuestra ruta dinámica `/planta` funciona correctamente porque la hemos mapeado de forma explícita mediante `@GetMapping("/planta")`. Pero la ruta raíz [http://localhost:8080](http://localhost:8080) sigue devolviendo la misma pantalla de error. Esto es lógico: hemos programado la ruta `/planta`, pero seguimos sin tener nada programado para la raíz `/`.
 
 
-Esto significa que al poner un archivo estático ahí:
-
-- el servidor embebido (Tomcat) lo devuelve tal cual.
-
-- no pasa por ningún controlador.
-
-- no necesita anotaciones.
-
-- no tienes que hacer un @GetMapping.
-
-
-Los pasos que sigue la ejecución de la aplicación son los siguientes:
-
-- **Inicio de la aplicación:** Se ejecuta el método main, lo que inicia un servidor web embebido (por defecto, `Tomcat`) en el puerto 8080.
-
-- **Solicitudes HTTP:**  En nuestro caso la aplicación solamente está disponible en `/planta` y cuando un cliente envía una `solicitud GET` a [http://localhost:8080/planta](http://localhost:8080/planta) (con o sin el parámetro `nombre`), el método `infoPlanta` maneja la solicitud. [http://localhost:8080](http://localhost:8080) dará error porque no hay ningún recurso raíz definido.
-
-- **Respuesta:**  La aplicación devuelve un mensaje personalizado en texto plano según el parámetro `myName`.
+!!! success "Prueba y analiza el ejemplo"
+    Realiza los pasos 3 y 4 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
 
 
 
-<span class="mi_sombreado">**PASO 6: Añadir una página de inicio HTML**</span>
 
-Creamos el archivo `index.html` en `src/main/resources/static/` y sustituimos su contenido por:
+<span class="mi_sombreado">**PASO 5: Añadir una página de inicio HTML**</span>
+
+Como hemos visto en los pasos anteriores, necesitamos que la dirección raíz http://localhost:8080/ muestre una pantalla de inicio amigable en lugar de un error de "página no encontrada". Para solucionar esto, nos apoyaremos en la carpeta de recursos estáticos de Spring Boot `src/main/resources/static/`. Cualquier archivo que guardemos en esta carpeta (imágenes, CSS, HTML sencillos) será servido directamente por el servidor web sin necesidad de escribir código Java o Kotlin en nuestro controlador.
+
+Una de las reglas automáticas de Spring Boot es que si guardas un archivo llamado exactamente `index.html` dentro de `static/`, el servidor lo utilizará de forma automática como la página de inicio para la ruta raíz `/`. Vamos a comprobarlo.
+
+Crea el archivo `index.html` dentro de la carpeta `src/main/resources/static/` con el siguiente contenido:
 
 ```html
 <!DOCTYPE HTML>
@@ -324,14 +325,20 @@ Creamos el archivo `index.html` en `src/main/resources/static/` y sustituimos su
 </html>
 ```
 
-Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegador servirá esta página de inicio. Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`, permitiendo comprender el flujo básico de una petición GET con parámetros sin necesidad de Thymeleaf todavía.
+Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegador servirá la página de inicio siguiente: 
 
-<img class="con_borde" src="img/springboot6.jpg" alt="springboot6">
+<img class="con_borde" src="img/springboot7.jpg" alt="springboot7">
+
+Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`. Devolviendo el mismo resultado que en los pasos 3 y 4.
+
 
 
 !!! success "Prueba y analiza el ejemplo"
-Prueba el código de ejemplo y verifica que funciona correctamente.
+    Realiza el paso 5 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
 
+
+
+<span class="mi_sombreado">**PASO 6: Mejorar el aspecto**</span>
 
 Ahora vamos a darle a nuestra aplicación un aspecto más profesional utilizando `bootstrap`. Podemos encontrar mucha documentacion en internet sobre como utilizarlo. Por ejemplo en:
 
@@ -456,9 +463,243 @@ Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes i
 <img class="con_borde" src="img/bootstrap2.jpg" alt="bootstrap2">
 
 
-
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    Realiza el paso 6 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
+
+
+
+
+## 3. Spring MVC
+
+**Spring MVC** es el módulo de Spring orientado al desarrollo de aplicaciones web siguiendo el patrón **Modelo‑Vista‑Controlador (MVC)**, el cual organiza una aplicación en tres **componentes principales**:
+
+* **Modelo**: Son los datos. Es responsable de:
+
+    * Gestionar el estado de la aplicación.
+
+    * Interactuar con la base de datos u otros servicios para obtener y procesar datos.
+
+    * Proveer datos a la vista.
+
+* **Vista**: Es lo que ve el usuario. Es responsable de:
+
+    * Renderizar información en un formato adecuado, como HTML.
+
+    * Mostrar al usuario los resultados de las acciones ejecutadas.
+
+* **Controlador**: Actúa como intermediario entre el modelo y la vista. Es responsable de:
+
+    * Procesar las solicitudes del usuario (peticiones HTTP).
+
+    * Interactuar con el modelo para obtener o modificar datos.
+
+    * Seleccionar y devolver la vista adecuada para responder al usuario.
+
+
+
+Estos tres componentes trabajan de la siguiente forma:
+
+1) El usuario interactúa con la **Vista** (interfaz). Envia un formulario o hace clic en un enlace.
+
+2) La petición es enviada al **Controlador**.
+
+3) El **Controlador** procesa la petición, interactúa con el **Modelo** si es necesario y selecciona la **Vista** que debe renderizar la respuesta.
+
+4) La **Vista** presenta la respuesta al usuario.
+
+
+![MCV1](img/MVC1.png)
+
+
+Spring MVC forma parte del ecosistema Spring y se organiza siguiendo una arquitectura en capas en la que cada capa tiene una función concreta y se comunica únicamente con las capas adyacentes. Esta arquitectura encaja perfectamente con el patrón MVC (Model–View–Controller) y proporciona toda la infraestructura necesaria para manejar peticiones HTTP, invocar controladores y devolver vistas (HTML, JSON, etc.) lo que permite aplicaciones más mantenibles, escalables y fáciles de entender.
+
+En la siguiente tabla se muestran las capas más habituales en una aplicación Spring con su equivalencia en Spring MVC, sus anotaciones más habituales y la función que realiza cada una de ellas:
+
+**Anotaciones por capa y correspondencia Spring ↔ MVC**
+
+| Capas Spring      | Capa MVC    | Anotaciones  | Función           |
+|-------------------|-------------|--------------|-------------------|
+| Controller (Web)                    | Controller  | `@Controller`<br>`@RestController`<br>`@RequestMapping`<br>`@GetMapping`<br> `@RequestParam` <br> `@PostMapping`<br>`@PutMapping`<br>`@DeleteMapping` | Recibe peticiones HTTP, gestiona rutas y parámetros, llama a la capa Service y devuelve una vista o una respuesta (JSON)<br>**No contiene lógica de negocio ni acceso a datos**                         |
+| Model (Entidades)<br>Service (Negocio)<br>Repository (Persistencia) | Model | `@Entity`, `@Table`, `@Id`<br>`@Service`, `@Transactional`<br>`@Repository` | Contiene las clases que modelan la información del negocio, aplica reglas y validaciones y accede a la base de datos para realizar operaciones CRUD (manteniendo aislada la BD del resto de la aplicación)        |
+| View (Representación HTML / JSON)               | View | *(sin anotaciones)* | Representa los datos al usuario:<br>• Archivo HTML con sintaxis específica para contenido dinámico si se utiliza Thymeleaf / JSP 	(Ubicación Thymeleaf: `src/main/resources/templates/`)<br>• Datos en formato JSON / XML en apps REST (si no se utiliza un motor de plantillas). En REST, el JSON actúa como la vista |
+
+
+![MCV1](img/MVC2.png)
+
+
+**Vistas con Thymeleaf**
+
+Thymeleaf es un motor de plantillas que permite mezclar HTML con datos dinámicos proporcionados por el controlador en Spring MVC. Utiliza atributos especiales que comienzan con th: para manipular estos datos de forma dinámica. La siguiente tabla muestra los atributos Thymeleaf más comunes:
+
+| **Atributo**    | **Descripción**                                                                                        | **Ejemplo**                                                                                           |
+| --------------- | ------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------- |
+| **`th:text`**   | Rellena el contenido de un elemento HTML con un valor dinámico.                                        | `<p th:text="${mensaje}">Texto por defecto</p>`                                                       |
+| **`th:each`**   | Itera sobre una colección (lista, array, etc.) y genera un nuevo elemento HTML para cada item.         | `<ul><li th:each="planta : ${plantas}" th:text="${planta.nombre}">Nombre de la planta</li></ul>`      |
+| **`th:if`**     | Muestra el contenido solo si la condición es verdadera.                                                | `<p th:if="${hayPlantas}">Hay plantas registradas</p>`                                                |
+| **`th:unless`** | Muestra el contenido solo si la condición es falsa.                                                    | `<p th:unless="${hayPlantas}">No hay plantas registradas</p>`                                         |
+| **`th:href`**   | Construye enlaces dinámicos para el atributo `href` de un enlace `<a>`.                                | `<a th:href="@{/planta/{id}(id=${planta.id})}">Ver detalles</a>`                                      |
+| **`th:src`**    | Construye enlaces dinámicos para el atributo `src` de una imagen `<img>`.                              | `<img th:src="@{/imagenes/{nombreImagen}(nombreImagen=${planta.imagen})}" alt="Imagen de la planta">` |
+| **`th:action`** | Define la URL a la que se enviará un formulario cuando se haga submit.              | `<form th:action="@{/planta/guardar}" method="post"><button type="submit">Guardar</button></form>`    |
+| **`th:object`**   | Asocia un objeto del modelo con el formulario, permitiendo vincular automáticamente sus atributos. | `<form th:object="${planta}" th:action="@{/planta/guardar}" method="post">...</form>`                |
+| **`th:value`**  | Rellena el valor de un campo de formulario (`input`, `textarea`, etc.) con un valor dinámico.          | `<input type="text" th:value="${planta.nombre}" />`                            |
+| **`th:field`**  | Asocia un campo de formulario con un atributo del modelo de Spring, vincula los datos automáticamente. | `<input type="text" th:field="*{nombre}" />`                                     |
+
+
+
+
+<span class="mis_ejemplos">Ejemplo 2: Aplicación utilizando Spring MVC y Thymeleaf</span>
+
+A continuación se describen los pasos para crear una aplicación que:
+
+- Muestra una lista con nombres de planas y junto a cada nombre un enlace que mostrará los detalles de la planta
+- Desde la pantalla de detalles, se podrá acceder a un formulario para modificar la información de la planta. 
+
+
+<span class="mi_sombreado">**PASO 1: Crear el proyecto**</span>
+
+Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://start.spring.io/), indicamos el nombre de la aplicación `plantas` y, en este caso, además de la dependencia **Spring Web** necesitamos también **Thymeleaf** (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón `GENERATE` para descargar nuestro nuevo proyecto.
+
+Opcionalmente podemos añadir **Spring Boot DevTools** que nos ahorrará tiempo de desarrollo ya que:
+
+- Reinicia automáticamente la aplicación cuando cambias código.
+
+- Recarga las plantillas Thymeleaf sin reiniciar manualmente.
+
+Para tener estas funciones activas, además de añadir la dependencia, hay que configurar IntelliJ para que compile al guardar. Esto se consigue activando las opciones siguientes:
+
+- Build project automatically (Settings → Build, Execution, Deployment → Compiler)
+
+- Allow auto-make to start even if developed application is currently running (Settings → Advanced Settings)
+
+De esta forma, cuando realicemos un cambio en un archivo de código de nuestra aplicación, bastará con guardarlo y recargar el navegador (sin reiniciar la app) para ver los cambios inmediatamente.
+
+<img class="con_borde" src="img/springboot8.jpg" alt="springboot8">
+
+Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Dejaremos el archivo `PlantasApplication.kt` (clase principal) tal como está y añadiremos los archivos de nuestra aplicación para que la estructura del proyecto quede como en la siguiente imagen:
+
+<img class="con_borde" src="img/springboot8.jpg" alt="springboot8">
+
+
+<span class="mi_sombreado">**PASO 2: Añadir modelo, repositorio, servicio y controlador**</span>
+
+- Añadimos el modelo (representa los datos de la aplicación). Para ello, creamos el archivo `Planta.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/model/` con el código siguiente:
+
+```kotlin
+package com.example.plantas.model
+
+data class Planta(
+    var id_planta: Int,
+    var nombre: String,
+    var tipo: String,
+    var altura: Double,
+    var foto: String
+)
+```
+
+- Añadimos el repositorio (gestiona la lista mutable en memoria). Para ello, creamos el archivo `PlantaRepository.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/repository/` con el código siguiente:
+
+```kotlin
+package com.example.plantas.repository
+
+import com.example.plantas.model.Planta
+import org.springframework.stereotype.Repository
+
+@Repository
+class PlantaRepository {
+
+    // La lista en memoria se traslada aquí y actúa como nuestra "Base de Datos" temporal
+    private val plantas = mutableListOf(
+        Planta(1, "Rosa", "Flor", 0.5, "rosa.jpg"),
+        Planta(2, "Cactus", "Suculenta", 1.2, "cactus.jpg"),
+        Planta(5, "Orquídea", "Flor", 0.3, "orquidea.jpg")
+    )
+
+    fun findAll(): List<Planta> = plantas
+
+    fun findById(id: Int): Planta? = plantas.find { it.id_planta == id }
+
+    fun save(planta: Planta) {
+        val index = plantas.indexOfFirst { it.id_planta == planta.id_planta }
+        if (index != -1) {
+            // Edición de planta existente
+            plantas[index] = planta
+        } else {
+            // Creación de nueva planta (simulación de ID autoincremental)
+            val nuevoId = (plantas.maxOfOrNull { it.id_planta } ?: 0) + 1
+            plantas.add(planta.copy(id_planta = nuevoId))
+        }
+    }
+}
+```
+
+- Añadimos el servicio (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
+
+```kotlin
+package com.example.plantas.service
+
+
+
+import com.example.plantas.model.Planta
+import com.example.plantas.repository.PlantaRepository
+import org.springframework.stereotype.Service
+
+@Service
+class PlantaService(private val repository: PlantaRepository) {
+
+    fun listarPlantas(): List<Planta> = repository.findAll()
+
+    fun buscarPorId(id: Int): Planta? = repository.findById(id)
+
+    fun guardar(planta: Planta) = repository.save(planta)
+}
+```
+
+- Añadimos el controlador (recibe las peticiones, llama al servicio y devuelve las vistas.). Para ello, creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
+
+```kotlin
+package com.example.plantas.controller
+
+
+import com.example.plantas.model.Planta
+import com.example.plantas.service.PlantaService
+import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
+import org.springframework.web.bind.annotation.PostMapping
+
+@Controller
+class PlantaController(private val plantaService: PlantaService) {
+
+    @GetMapping("/plantas")
+    fun mostrarPlantas(model: Model): String {
+        // Obtenemos los datos desde el servicio en vez de la variable local
+        model.addAttribute("plantas", plantaService.listarPlantas())
+        return "plantas"
+    }
+
+    @GetMapping("/planta/{id_planta}")
+    fun verPlanta(@PathVariable id_planta: Int, model: Model): String {
+        val planta = plantaService.buscarPorId(id_planta) ?: return "errorPlanta"
+        model.addAttribute("planta", planta)
+        return "detallePlanta"
+    }
+
+    @GetMapping("/planta/editar/{id_planta}")
+    fun editarPlanta(@PathVariable id_planta: Int, model: Model): String {
+        val planta = plantaService.buscarPorId(id_planta) ?: return "errorPlanta"
+        model.addAttribute("planta", planta)
+        return "editarPlanta"
+    }
+
+    @PostMapping("/planta/guardar")
+    fun guardarCambios(plantaModificada: Planta): String {
+        plantaService.guardar(plantaModificada)
+        return "redirect:/planta/${plantaModificada.id_planta}"
+    }
+}
+```
+
 
 
 
