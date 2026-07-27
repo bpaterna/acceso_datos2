@@ -423,7 +423,6 @@ Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegad
 Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`. Devolviendo el mismo resultado que en el pasos 4.
 
 
-
 !!! success "Prueba y analiza el ejemplo"
     Realiza el paso 5 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
 
@@ -763,7 +762,9 @@ Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ
 
 <span class="mi_sombreado">**PASO 2: Añadir modelo, repositorio, servicio y controlador**</span>
 
-- Añadimos el **modelo** (representa los datos de la aplicación). Para ello, creamos el archivo `Planta.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/model/` con el código siguiente:
+<span class="mi_h3">Añadir el modelo</span>
+
+El **modelo** representa los datos de la aplicación. Creamos el archivo `Planta.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/model/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.model
@@ -791,7 +792,9 @@ data class Planta(
 
 
 
-- Añadimos el **repositorio** (gestiona la lista mutable en memoria). Para ello, creamos el archivo `PlantaRepository.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/repository/` con el código siguiente:
+<span class="mi_h3">Añadir el repositorio</span>
+
+El **repositorio** gestiona la lista mutable en memoria. Creamos el archivo `PlantaRepository.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/repository/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.repository
@@ -845,7 +848,9 @@ class PlantaRepository {
 | `deleteById(id_planta)` | Elimina de la lista (en memoria) la planta que coincida con el ID proporcionado       |
 
 
-- Añadimos el **servicio** (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
+<span class="mi_h3">Añadir el servicio</span>
+
+El **servicio** hace de intermediario entre el controlador y repositorio. Creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
 
 ```kotlin
 package com.example.plantas.service
@@ -887,8 +892,9 @@ class PlantaService(private val repository: PlantaRepository) {
 
 
 
+<span class="mi_h3">Añadir el controlador</span>
 
-- Añadimos el **controlador** (recibe las peticiones, llama al servicio y devuelve las vistas.). Para ello, creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
+El **controlador** recibe las peticiones, llama al servicio y devuelve las vistas. Creamos el archivo `PlantaController.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/controller/` con el código siguiente:
 
 ```kotlin
 
@@ -977,10 +983,12 @@ class PlantaController(private val plantaService: PlantaService) {
 
 <span class="mi_sombreado">**PASO 3: Añadir las vistas con Thymeleaf**</span>
 
-Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para avisar en caso de producirse un error y la última un formulario para añadir una planta nueva o para modificar la información de una ya existente. Por tanto tendremos cuatro archivos `html` todos ellos dentro de la carpeta `src/main/resources/templates/`. 
+Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para el formulario que sirve para añadir una planta nueva o para modificar la información de una ya existente y una última para avisar en caso de producirse un error. Por tanto tendremos cuatro archivos `html` todos ellos dentro de la carpeta `src/main/resources/templates/`. 
 
 
-- El archivo que mostrará la lista de plantas será `plantas.html` y su código es el siguiente:
+<span class="mi_h3">Lista de plantas</span>
+
+El archivo que mostrará la lista de plantas será `plantas.html` y su código es el siguiente:
 
 ```html
 <!DOCTYPE html>
@@ -1036,8 +1044,9 @@ Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas
 ```
 
 
+<span class="mi_h3">Detalle de una plantas</span>
 
-- El archivo que mostrará el detalle de una plantas será `detallePlanta.html` y su código es el siguiente:
+El archivo que mostrará el detalle de una plantas será `detallePlanta.html` y su código es el siguiente:
 
 ```html
 <!DOCTYPE html>
@@ -1075,33 +1084,9 @@ Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas
 ```
 
 
-- El archivo que mostrará el aviso en caso de error será `errorPlanta.html` y su código es el siguiente:
+<span class="mi_h3">Formulario nueva / modificación</span>
 
-```html
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Planta no encontrada</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-
-<div class="container mt-5">
-<h1>Error</h1>
-
-<p>La planta que estás buscando no existe.</p>
-
-<a th:href="@{/plantas}">Volver a la lista de plantas</a>
-</div>
-</body>
-</html>
-
-```
-
-
-- El archivo que mostrará el formulario para modificar la información de una planta será `formPlanta.html` y su código es el siguiente:
+El archivo que mostrará el formulario para pedir los datos de una nueva planta o modificar la información de una existente será `formPlanta.html` y su código es el siguiente:
 
 ```html
 <!DOCTYPE html>
@@ -1152,6 +1137,33 @@ Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas
 ```
 
 
+<span class="mi_h3">Aviso en caso de error</span>
+
+El archivo que mostrará el aviso en caso de error será `errorPlanta.html` y su código es el siguiente:
+
+```html
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Planta no encontrada</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-5">
+<h1>Error</h1>
+
+<p>La planta que estás buscando no existe.</p>
+
+<a th:href="@{/plantas}">Volver a la lista de plantas</a>
+</div>
+</body>
+</html>
+
+```
+
 
 
 **Explicación de las vistas Thymeleaf**
@@ -1195,7 +1207,6 @@ Formulario:
 <span class="mi_sombreado">**PASO 4: Añadir las fotos de las plantas**</span>
 
 Para poder mostrar las fotos de nuestras plantas en la vista de detalle, hemos guardado las fotos en una carpeta llamada `fotos` dentro de `src/main/resources/static/`.
-
 
 
 
@@ -1264,6 +1275,12 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
 ```
 
 
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código del ejemplo y verifica que el comportamiento es correcto.
+
+
+
+AUTOEVALUACIÓN
 
 
 Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
