@@ -1,7 +1,7 @@
 # RA6. Componentes
 
 !!! info "RA6"
-    Programa componentes de acceso a datos identificando las características que debe poseer un componente y utilizando herramientas de desarrollo..
+    Programa componentes de acceso a datos identificando las características que debe poseer un componente y utilizando herramientas de desarrollo.
 
 
 
@@ -207,13 +207,58 @@ Antes de escribir una sola línea de código en nuestro controlador, vamos a eje
     ```
 
 
-Abrimos nuestro navegador web y accedemos a la dirección [http://localhost:8080](http://localhost:8080) pero vemos una pantalla de error genérica de Spring llamada "Whitelabel Error Page (404 Not Found)". Este error 404 significa que no hemos programado absolutamente nada para que nuestra applicación responda en esa ruta raíz (/). El servidor está levantado, pero está "vacío" de contenido.
+Abrimos nuestro navegador web y accedemos a la dirección [http://localhost:8080](http://localhost:8080) pero vemos una pantalla de error genérica de Spring llamada "Whitelabel Error Page (404 Not Found)". Este error 404 significa que no hemos programado absolutamente nada para que nuestra aplicación responda en esa ruta raíz (/). El servidor está levantado, pero está "vacío" de contenido.
 
 
 <img class="con_borde" src="img/springboot4.jpg" alt="springboot4">
 
 !!! success "Prueba y analiza el ejemplo"
     Realiza los pasos 1 y 2 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 1: Tras arrancar nuestra aplicación en IntelliJ, abrimos el navegador y accedemos a `http://localhost:8080/`. El navegador nos muestra la pantalla de error "Whitelabel Error Page" con un código de estado "404 Not Found". ¿Qué significa exactamente este comportamiento?**
+
+    A) La aplicación ha fallado al compilarse o iniciarse debido a un error de sintaxis en el código de nuestra clase principal, por lo que el servidor web embebido se ha detenido de inmediato.
+    
+    B) El servidor web embebido Tomcat se ha iniciado con éxito, pero la dirección lógica `localhost` no está apuntando correctamente a nuestro propio ordenador.
+    
+    C) El servidor web embebido Tomcat está funcionando correctamente, pero el framework no encuentra en este momento ninguna regla o recurso estático que se encargue de responder a las peticiones en la dirección raíz (`/`).
+    
+    D) El navegador web ha bloqueado la conexión porque Spring Boot requiere obligatoriamente que se configure un puerto seguro cifrado (HTTPS) para poder servir páginas, incluso durante el desarrollo local.
+
+    ??? quote "Solución"
+    
+        ❌ A) Si la aplicación hubiera fallado al compilar o iniciar, el servidor no estaría activo. En ese caso, el navegador mostraría un error de conexión genérico del sistema operativo ("Conexión rechazada" o "No se puede acceder a este sitio web"), en lugar de una pantalla estructurada de Spring Boot (Whitelabel Error Page).
+        
+        ❌ B) La dirección `localhost` (que se resuelve a la IP de bucle local `127.0.0.1`) es un estándar que siempre apunta al propio dispositivo físico del usuario. El hecho de que se devuelva una página de error de Spring demuestra que la conexión con el servidor local sí se ha establecido.
+        
+        ✅ C) El error 404 (Not Found) es una respuesta HTTP estructurada generada por el propio framework. Esto confirma que el servidor Tomcat se ha levantado con éxito, pero nos avisa de que aún no hemos mapeado ningún recurso (ni una vista HTML en la carpeta de recursos ni una ruta dinámica en un controlador) para responder a la ruta raíz `/` de nuestra aplicación.
+        
+        ❌ D) Durante la etapa de desarrollo local, Spring Boot se ejecuta perfectamente bajo el protocolo HTTP no cifrado y el puerto estándar 8080. No es necesario configurar certificados SSL (HTTPS) para levantar o depurar la aplicación en local de forma inicial.
+
+
+    **Pregunta 2: Queremos modificar el puerto de red por defecto (8080) en el que se ejecuta nuestra aplicación de Spring Boot para utilizar el puerto 8888. ¿Cómo debemos realizar esta configuración?**
+
+    A) Debemos buscar el archivo `pom.xml` y añadir una dependencia de Maven llamada `<port>8888</port>` dentro del bloque de dependencias principales.
+    
+    B) Debemos abrir el archivo `application.properties` (en `src/main/resources/`) y añadir la línea `server.port=8888`.
+    
+    C) Debemos modificar la función `main` en `Plantas1Application.kt` y pasarle el valor numérico `8888` como argumento al método `runApplication`.
+    
+    D) No es posible cambiar el puerto durante el desarrollo local; el puerto 8080 está configurado de forma inalterable en el servidor embebido Tomcat que incluye Spring Boot.
+
+    ??? quote "Solución"
+    
+        ❌ A) El archivo `pom.xml` se utiliza de forma exclusiva para gestionar las dependencias de librerías del proyecto y coordinar su construcción con Maven, no para configurar propiedades dinámicas del servidor en tiempo de ejecución.
+        
+        ✅ B) El archivo `application.properties` es el archivo central de configuración de una aplicación Spring Boot. Al añadir la clave `server.port=8888`, el framework intercepta esta propiedad durante el inicio y ordena al servidor Tomcat embebido que escuche peticiones en el nuevo puerto asignado en lugar de usar el predeterminado (8080).
+        
+        ❌ C) La función `runApplication<Plantas1Application>(*args)` inicializa el contexto de la aplicación de Spring y le transmite los argumentos recibidos por consola, pero no expone de manera directa parámetros para la configuración de puertos en su llamada.
+        
+        ❌ D) El puerto del servidor web embebido es altamente configurable. Podemos modificar el puerto por motivos de seguridad o por pura necesidad técnica si otro programa (como una base de datos local o un contenedor Docker) ya está ocupando el puerto 8080 en nuestra máquina de desarrollo.
+
 
 
 Hemos comentado anteriormente que Spring Boot permite funcionar a partir de rutas dinámicas y de archivos estáticos. En los pasos siguientes añadiremos esas funcionalidades a nuestra aplicación
@@ -288,6 +333,52 @@ Nuestra ruta dinámica `/planta` funciona correctamente porque la hemos mapeado 
 
 
 
+!!! example "Autoevaluación"
+
+    **Pregunta 3: En el código del Paso 3 de la aplicación, el método `infoPlanta` declara el parámetro `@RequestParam(value = "nombre", defaultValue = "Helecho") nombre: String`. Si abrimos el navegador y accedemos a `http://localhost:8080/planta` (omitiendo por completo el parámetro de consulta en la URL), ¿cuál será el comportamiento de la aplicación?**
+ 
+    A) El servidor lanzará una excepción de tipo `MissingServletRequestParameterException` y se mostrará un error de estado "400 Bad Request" en el navegador al no haber enviado un parámetro obligatorio.
+    
+    B) El programa se ejecutará correctamente y mostrará por pantalla el mensaje utilizando el valor por defecto: *"¡Hola! Estás consultando información sobre la planta: Helecho."*
+
+    C) El parámetro se resolverá como un valor `null` en Kotlin, lo que provocará un error de ejecución de inmediato al intentar concatenar un objeto nulo en un tipo de dato no anulable (`String`).
+    
+    D) El servidor web Tomcat bloqueará la solicitud de forma automática por motivos de seguridad, ya que no se permiten peticiones HTTP GET que carezcan de parámetros en su URL.
+
+    ??? quote "Solución"
+     
+        ❌ A) Por defecto, todos los parámetros anotados con `@RequestParam` son obligatorios. Sin embargo, al configurar la propiedad `defaultValue`, esta obligatoriedad se desactiva implícitamente, ya que el framework siempre dispone de un valor que asignar en caso de ausencia. No se producirá ningún error de tipo 400.
+     
+        ✅ B) El atributo `defaultValue` le indica a Spring Boot que, si el cliente no proporciona el parámetro `nombre` en la URL de su petición, debe asignar de forma automática el valor de texto `"Helecho"` a la variable. La aplicación se ejecuta con éxito y muestra el valor predeterminado.
+
+        ❌ C) En Kotlin, la variable `nombre` se ha declarado de tipo `String` (tipo no anulable). Spring Boot garantiza la seguridad frente a nulos asignándole el valor configurado en el `defaultValue` en caso de que la URL no lo traiga. Si quisiéramos que fuera verdaderamente opcional y nulo, deberíamos declararlo como `String?` y prescindir del valor por defecto.
+        
+        ❌ D) El protocolo HTTP y el servidor Tomcat admiten perfectamente cualquier combinación de parámetros en peticiones GET (incluyendo peticiones limpias sin ningún parámetro). No existe ninguna restricción técnica ni de seguridad en el protocolo por este motivo.
+
+
+
+    **Pregunta 4: En el código de nuestra clase principal `Plantas1Application` hemos utilizado la anotación `@RestController`. ¿Cuál es la diferencia principal entre utilizar `@RestController` y la anotación `@Controller` tradicional?**
+
+    A) Con `@RestController`, los métodos de la clase devuelven directamente los datos en el cuerpo de la respuesta HTTP (como texto plano o JSON), mientras que con `@Controller` se espera devolver el nombre lógico de una vista HTML (como una plantilla de Thymeleaf).
+    
+    B) La anotación `@RestController` es de uso exclusivo para lenguajes de programación modernos como Kotlin, mientras que `@Controller` solo se puede emplear cuando programamos la aplicación en Java tradicional.
+    
+    C) `@RestController` permite que el servidor de aplicaciones Tomcat escuche peticiones en múltiples puertos de forma simultánea, mientras que `@Controller` limita la ejecución del servidor a un único puerto de red.
+    
+    D) No existe ninguna diferencia técnica real entre ambas; `@RestController` es simplemente una anotación antigua que ha quedado obsoleta con la llegada de las últimas versiones de Spring Boot.
+
+    ??? quote "Solución"
+    
+        ✅ A) La anotación de conveniencia `@RestController` combina internamente `@Controller` y `@ResponseBody`. Esto significa que cualquier cadena de texto u objeto devuelto por sus funciones se escribirá directamente en el flujo de la respuesta HTTP (lo cual es idóneo para APIs REST). Por el contrario, un `@Controller` tradicional interpreta el texto devuelto como la ruta de un archivo de plantilla que debe renderizarse (como un archivo `.html`).
+        
+        ❌ B) Ambas anotaciones forman parte del núcleo del módulo Spring Web y son totalmente compatibles tanto en Java como en Kotlin. El comportamiento del framework es independiente del lenguaje de la JVM utilizado para escribir el código fuente.
+        
+        ❌ C) La configuración de los puertos de red es responsabilidad del servidor web embebido (Tomcat) y se define en el archivo `application.properties`. Ninguna anotación de controlador tiene la capacidad de influir sobre el socket del servidor a ese nivel.
+        
+        ❌ D) Ambas anotaciones están completamente vigentes y se utilizan a diario en entornos profesionales. La separación de conceptos es fundamental: se utiliza `@RestController` para endpoints que envían datos brutos (normalmente JSON) y `@Controller` clásico para servir interfaces de usuario completas con plantillas dinámicas.
+
+
+
 
 <span class="mi_sombreado">**PASO 5: Añadir una página de inicio HTML**</span>
 
@@ -336,6 +427,51 @@ Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá a
 !!! success "Prueba y analiza el ejemplo"
     Realiza el paso 5 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
 
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 5: Para crear la página de inicio, hemos guardado el archivo `index.html` en la ruta `src/main/resources/static/`. Si en esa misma carpeta guardamos un archivo de imagen llamado `logo.png`, ¿cuál será la dirección correcta para acceder a él desde el navegador?**
+
+    A) Tendremos que crear obligatoriamente un controlador en Kotlin con la ruta `@GetMapping("/static/logo.png")` para que lea el archivo del disco y lo envíe.
+    
+    B) Deberemos acceder obligatoriamente mediante la ruta `http://localhost:8080/static/logo.png`, ya que el nombre de la carpeta contenedora debe aparecer en la URL.
+    
+    C) El archivo no se podrá mostrar porque la carpeta `static/` está programada para servir de forma exclusiva archivos que tengan la extensión `.html`.
+    
+    D) Podremos acceder a él de forma directa introduciendo en la barra del navegador la dirección `http://localhost:8080/logo.png`.
+
+    ??? quote "Solución"
+    
+        ❌ A) Una de las grandes ventajas de la carpeta `static/` es que no requiere escribir código de controlador para servir archivos. Spring Boot se encarga de mapear y exponer el contenido de este directorio de manera automática en la raíz de la aplicación.
+        
+        ❌ B) Aunque en la estructura física del proyecto el archivo resida dentro de la carpeta `static`, de cara al exterior este directorio de recursos no se escribe en la URL de navegación, ya que Spring Boot mapea de forma transparente todo su contenido sobre el recurso raíz (`/`).
+        
+        ❌ C) La carpeta de recursos estáticos de Spring Boot admite cualquier tipo de recurso que el navegador sea capaz de interpretar o descargar (ficheros `.css`, scripts `.js`, imágenes de todo tipo, PDFs, fuentes tipográficas, etc.), no existiendo ninguna limitación a los documentos HTML.
+        
+        ✅ D) Todo archivo que se ubique dentro de la ruta física `src/main/resources/static/` se expone públicamente directo en la raíz del servidor. Por tanto, el archivo de imagen `logo.png` se servirá de inmediato al escribir su nombre justo detrás del host y del puerto configurado.
+
+
+
+    **Pregunta 6: En el formulario HTML de nuestro archivo `index.html`, ¿qué elemento o atributo es el responsable directo de que Spring Boot sepa que el texto escrito por el usuario debe asignarse al parámetro `nombre` de nuestra función `infoPlanta`?**
+
+    A) El atributo `id="plantField"` de la etiqueta `<input>`, que debe llamarse igual que la variable de Kotlin para que el framework realice la vinculación.
+    
+    B) El atributo `action="/planta"` de la etiqueta `<form>`, ya que es el encargado de enlazar de forma automática todos los campos del formulario con la base de datos.
+    
+    C) El atributo `name="nombre"` de la etiqueta `<input>`, cuyo valor debe coincidir exactamente con el nombre esperado por la anotación `@RequestParam` de nuestro controlador.
+    
+    D) El atributo `id="plantForm"` de la etiqueta `<form>`, que asocia de forma interna la estructura del formulario con nuestra clase controladora de Spring Boot.
+
+    ??? quote "Solución"
+    
+        ❌ A) El atributo `id` se utiliza en desarrollo web exclusivamente para identificar de forma unívoca a un elemento concreto dentro de la estructura de la página (para aplicarle estilos CSS o manipularlo con Javascript), pero el navegador nunca lo envía al servidor al procesar el formulario.
+        
+        ❌ B) El atributo `action` de un formulario solo indica al navegador a qué dirección de red (URL) debe enviar los datos cuando el usuario pulse el botón de envío, pero no influye en cómo se etiquetan las variables individuales que viajan en la petición.
+        
+        ✅ C) Cuando un formulario se envía, el navegador web construye la petición HTTP emparejando la información en formato de "clave y valor" utilizando únicamente el atributo `name` de cada campo de entrada. Por este motivo, es imprescindible que el valor de `name` en el HTML coincida con el nombre que espera recibir nuestro método mediante `@RequestParam`.
+        
+        ❌ D) El identificador de la etiqueta `<form>` sirve para dar estilo u organizar la estructura de la página, pero el framework Spring Boot es completamente ajeno a este valor y no lo utiliza en ningún momento para vincular los parámetros de consulta.
 
 
 <span class="mi_sombreado">**PASO 6: Mejorar el aspecto**</span>
@@ -450,9 +586,9 @@ fun main(args: Array<String>) {
 
 **Explicación de los cambios realizados:**
 
-- **produces = [MediaType.TEXT_HTML_VALUE]:** Por defecto, un @RestController que devuelve un String lo envía como texto plano (text/plain). Al añadir este parámetro en @GetMapping, le indicamos a Spring que añada la cabecera HTTP Content-Type: text/html para que el navegador interprete las etiquetas HTML y cargue la hoja de estilos de Bootstrap.
-- **Cadenas triples (""") de Kotlin:** Permiten escribir código HTML estructurado en múltiples líneas sin tener que concatenar constantemente con símbolos +, facilitando mucho la legibilidad del código fuente de la clase.
-- **Diseño minimalista:** Se envuelve el mensaje en un componente alert `alert-success` y se incluye un pequeño botón para volver a la página principal (/), lo que permite navegar entre el formulario y el resultado de forma fluida.
+- `produces = [MediaType.TEXT_HTML_VALUE]` Por defecto, un @RestController que devuelve un String lo envía como texto plano (text/plain). Al añadir este parámetro en @GetMapping, le indicamos a Spring que añada la cabecera HTTP Content-Type: text/html para que el navegador interprete las etiquetas HTML y cargue la hoja de estilos de Bootstrap.
+- `Cadenas triples (""") de Kotlin` Permiten escribir código HTML estructurado en múltiples líneas sin tener que concatenar constantemente con símbolos +, facilitando mucho la legibilidad del código fuente de la clase.
+- `Diseño minimalista` Se envuelve el mensaje en un componente alert `alert-success` y se incluye un pequeño botón para volver a la página principal (/), lo que permite navegar entre el formulario y el resultado de forma fluida.
 
 
 
@@ -466,6 +602,50 @@ Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes i
 !!! success "Prueba y analiza el ejemplo"
     Realiza el paso 6 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
 
+
+
+!!! example "Autoevaluación"
+
+    **Pregunta 7: En el archivo `Plantas1Application.kt` modificamos nuestro controlador dinámico para que devuelva un bloque de texto HTML. Para lograrlo, configuramos su anotación como `@GetMapping("/planta", produces = [MediaType.TEXT_HTML_VALUE])`. ¿Qué ocurriría si omitiéramos el parámetro `produces` y dejáramos la anotación simplemente como `@GetMapping("/planta")`?**
+
+    A) El navegador web mostraría la página en "texto plano", es decir, veríamos literalmente escritas en la pantalla todas las etiquetas (como `<html>`, `<h1>`, etc.) en lugar de ver la página web interpretada y estilizada con Bootstrap.
+    
+    B) Se produciría un error de compilación en Kotlin porque el framework exige obligatoriamente declarar el tipo de medio de retorno para poder compilar textos que hagan uso de las comillas triples.
+    
+    C) El servidor web embebido Tomcat lanzaría un error interno del servidor de código 500 (Internal Server Error) debido a que no sabría con qué codificación de caracteres procesar la respuesta.
+    
+    D) No pasaría absolutamente nada; las versiones modernas de los navegadores web ignoran por completo este parámetro y detectan de manera inteligente que se trata de código HTML basándose en la primera etiqueta.
+
+    ??? quote "Solución"
+    
+        ✅ A) Por defecto, un `@RestController` que retorna un objeto de tipo `String` envía la respuesta HTTP con la cabecera `Content-Type: text/plain`. Al añadir `produces = [MediaType.TEXT_HTML_VALUE]`, obligamos a Spring a enviar la cabecera `Content-Type: text/html`. Sin esta cabecera específica, el navegador interpreta que está recibiendo texto sin formato y nos muestra de forma literal las etiquetas HTML en pantalla en lugar de interpretarlas y pintarlas en su interfaz.
+        
+        ❌ B) El compilador de Kotlin es completamente independiente al comportamiento de la librería Spring Web. Compilará perfectamente la cadena de texto multilínea con o sin el parámetro en la anotación, ya que para Kotlin se trata de un método convencional que devuelve una variable de tipo `String`.
+        
+        ❌ C) El servidor Tomcat procesará la petición de forma adecuada y el controlador devolverá un código de estado HTTP exitoso (200 OK) con la cadena de texto correspondiente. No se producirá ningún fallo en el backend que deba catalogarse con un código de error de la familia 500.
+        
+        ❌ D) Aunque algunos navegadores web antiguos realizaban tareas de análisis de contenido para intentar adivinar el formato (*MIME sniffing*), las especificaciones de seguridad actuales de los navegadores modernos exigen respetar de forma estricta la cabecera de tipo enviada por el servidor para evitar la ejecución de código malicioso, por lo que el parámetro es totalmente necesario.
+
+
+    **Pregunta 8: En el método `infoPlanta` de nuestro controlador dinámico, utilizamos las comillas triples (`"""`) al principio y al final del bloque HTML devuelto, seguido de la llamada a la función `.trimIndent()`. ¿Cuál es la finalidad de utilizar esta sintaxis en Kotlin?**
+
+    A) Permite cifrar el código HTML en memoria antes de ser enviado por la red, protegiendo los datos de nuestra aplicación frente a posibles ataques de interceptación.
+    
+    B) Facilita la escritura de bloques de texto que ocupan varias líneas sin tener que usar molestos caracteres de escape (como `\"` o `\n`) ni concatenar líneas con el símbolo `+`, eliminando además la sangría común del editor de código.
+    
+    C) Obliga a Spring Boot a procesar el código HTML mediante el motor de plantillas Thymeleaf antes de entregarlo al cliente, haciendo que la carga de las vistas sea mucho más rápida.
+    
+    D) Es una sintaxis que requiere de forma obligatoria el framework Spring Boot para poder buscar de forma automática las clases de Bootstrap dentro de la cadena de texto de Kotlin.
+
+    ??? quote "Solución"
+    
+        ❌ A) Las comillas triples de Kotlin no realizan ningún tipo de cifrado ni codificación de seguridad sobre la cadena de texto. Su uso es puramente estético y organizativo para facilitar la lectura del código fuente por parte del desarrollador.
+        
+        ✅ B) Las comillas triples (`"""`) habilitan lo que en Kotlin se conoce como "cadenas de texto en bruto" (*raw strings*). En ellas se pueden escribir comillas dobles y saltos de línea con total libertad sin necesidad de escaparlos. Por su parte, la función `.trimIndent()` detecta la sangría mínima común de todo el bloque escrito en nuestro IDE y la elimina, de modo que el código HTML se genera limpio y alineado a la izquierda.
+        
+        ❌ C) El motor de plantillas de Thymeleaf solo procesa archivos ubicados en el directorio `templates` a través de un controlador tradicional. Al estar utilizando un `@RestController`, el texto devuelto con las comillas triples se envía directo al cliente sin pasar por ningún motor de plantillas.
+        
+        ❌ D) Spring Boot y las clases de Bootstrap se comportan exactamente igual independientemente de cómo se construya la cadena de texto en Kotlin. El framework no analiza el contenido del texto para buscar clases de CSS ni requiere de esta sintaxis de forma exclusiva para funcionar.
 
 
 
@@ -646,8 +826,7 @@ class PlantaRepository {
     }
     
     fun deleteById(id_planta: Int) {
-        val plantas = findAll()
-        plantas.removeIf { it.id_planta == id_planta }
+        plantas.removeAll { it.id_planta == id_planta }
     }
 }
 ```
@@ -657,13 +836,13 @@ class PlantaRepository {
 
 `@Repository` Indica a Spring que esta clase se encarga del **acceso directo a los datos** (crear, leer, actualizar y borrar). Además, registra la clase en el contenedor de Spring para que pueda ser inyectada automáticamente donde se necesite.
 
-| Elemento / Método       | Descripción                                                                                                                                                       |
-|:------------------------|:------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| `private val plantas`   | Lista mutable (`mutableListOf`) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.                       |
-| `findAll()`             | Recupera y devuelve la lista completa con todas las plantas almacenadas.                                                                                          |
-| `findById(id)`          | Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o `null` si no encuentra ninguna.                                                    |
+| Elemento / Método       | Descripción                                                                                                                                   |
+|:------------------------|:----------------------------------------------------------------------------------------------------------------------------------------------|
+| `private val plantas`   | Lista mutable (`mutableListOf`) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.   |
+| `findAll()`             | Recupera y devuelve la lista completa con todas las plantas almacenadas.                                                                      |
+| `findById(id)`          | Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o `null` si no encuentra ninguna.                                |
 | `save(planta)`          | Comprueba si la planta ya existe buscando su ID. Si existe, la actualiza. Si no existe, calcula de forma automática un nuevo ID secuencial y la añade a la lista. |
-| `deleteById(id_planta)` | Comprueba si la planta ya existe buscando su ID. Si existe, pide confirmación antes de eliminarla.                                                                |
+| `deleteById(id_planta)` | Elimina de la lista (en memoria) la planta que coincida con el ID proporcionado       |
 
 
 - Añadimos el **servicio** (intermediario que aplican cualquier lógica de negocio intermedia antes de acceder a los datos). Para ello, creamos el archivo `PlantaService.kt` dentro de la carpeta `src/main/kotlin/com/example/plantas/service/` con el código siguiente:
@@ -779,17 +958,17 @@ class PlantaController(private val plantaService: PlantaService) {
 
 `@GetMapping` Atiende peticiones HTTP **GET** (lectura de datos) para mostrar páginas HTML.
 
-| Función | Descripción                                                                                                                            |
-| :--- |:---------------------------------------------------------------------------------------------------------------------------------------|
-| `@GetMapping("/plantas")` | Llama al servicio para obtener la lista de todas las plantas y las muestra en `plantas.html`.                                          |
-| `@GetMapping("/planta/{id_planta}")` | Solicita al servicio una planta específica por su ID para mostrarla en `detallePlanta.html`. Si no existe, muestra `errorPlanta.html`. |
-| `@GetMapping("/planta/editar/{id_planta}")` | Recupera la planta a través del servicio y la carga en el formulario de edición `formPlanta.html`.                                     |
+| Función                                      | Descripción                                                                                                                            |
+|:---------------------------------------------|:---------------------------------------------------------------------------------------------------------------------------------------|
+| `@GetMapping("/plantas")`                    | Llama al servicio para obtener la lista de todas las plantas y las muestra en `plantas.html`.                                          |
+| `@GetMapping("/plantas/{id_planta}")`        | Solicita al servicio una planta específica por su ID para mostrarla en `detallePlanta.html`. Si no existe, muestra `errorPlanta.html`. |
+| `@GetMapping("/plantas/editar/{id_planta}")` | Recupera la planta a través del servicio y la carga en el formulario de edición `formPlanta.html`.                                     |
 
 `@PostMapping` Atiende peticiones HTTP **POST** (normalmente el envío de un formulario) para procesar datos.
 
-| Función | Descripción                         |
-| :--- |:--------------------------------------|
-| `@PostMapping("/planta/guardar")` | Envía los datos modificados al **servicio** para que los actualice en el repositorio. Al terminar, redirige al detalle de la planta con `redirect:/planta/{id_planta}`. Se utiliza `redirect` para evitar el reenvío duplicado de formularios si el usuario refresca la página. |
+| Función                            | Descripción                         |
+|:-----------------------------------|:--------------------------------------|
+| `@PostMapping("/plantas/guardar")` | Envía los datos modificados al **servicio** para que los actualice en el repositorio. Al terminar, redirige al detalle de la planta con `redirect:/planta/{id_planta}`. Se utiliza `redirect` para evitar el reenvío duplicado de formularios si el usuario refresca la página. |
 
 `Model` Interfaz de Spring utilizada para pasar datos desde el controlador hacia la vista HTML (Thymeleaf).
 
@@ -1020,9 +1199,9 @@ Para poder mostrar las fotos de nuestras plantas en la vista de detalle, hemos g
 
 
 
-<span class="mi_sombreado">**PASO 5: Añadir `index.html`**</span>
+<span class="mi_sombreado">**PASO 5: Añadir la página de inicio**</span>
 
-Además, si queremos que nuestra aplicación responda a [http://localhost:8080](http://localhost:8080) necesitamos un archivo llamado `index.html` dentro de la carpeta `src/main/resources/static/`. Por ejemplo con el siguiente contenido:
+Además, si queremos que nuestra aplicación responda a [http://localhost:8080](http://localhost:8080) necesitamos un archivo llamado `index.html` dentro de la carpeta `src/main/resources/static/`. Por ejemplo, con el siguiente contenido:
 
 
 ```html
@@ -1087,10 +1266,7 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
 
 
 
-
-
-
-Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguieten paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
+Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
 
 En una aplicación mal diseñada, tendrías que modificar el controlador, las vistas HTML y las rutas de red para adaptarlas a la lectura de archivos. Pero en nuestra aplicación:
 
@@ -1105,14 +1281,18 @@ Esto significa que si sustituimos la información en memoria por un archivo fís
 Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando exactamente igual. Solo necesitaremos programar una nueva versión de nuestro **Repositorio** que lea y escriba en disco.
 
 
-!!! warning "Reto 1: CRUD (CSV) con Spring MVC y Thymeleaf"
+!!! warning "Reto 1: CRUD con Spring MVC y Thymeleaf sobre un CSV"
    
     Por equipos el trabajo a realizar es el siguiente:
-    1. Rescatad el archivo `.CSV`que utilizasteis en el RA1 y guardadlo en la carpeta de recursos (`src/main/resources/data/plantas.csv`).
-    2.  Cread un nuevo repositorio llamado **`PlantaFileRepository`** que reemplace al de memoria. Esta clase deberá usar las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
-    -   **Leer el CSV** y transformarlo en una lista de objetos `Planta` cuando se solicite listar.
-    -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre una planta.
-    3.  Modificad vuestro **`PlantaService`** para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
+
+    1. Cread un nuevo proyecto como el del ejemplo que acabamos de trabajar para crear una aplicación que haga lo mismo pero sobre el archivo `.csv` que utilizasteis en el RA1.
+
+    Pistas:
+    1. Guardad el archivo `.csv` en la carpeta de recursos (`src/main/resources/data/plantas.csv`).
+    2. Cread un nuevo repositorio que use las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
+    -   **Leer el CSV** y transformarlo en una lista de objetos cuando se solicite listar.
+    -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre un registro.
+    3.  Modificad vuestro servicio para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
 
 
 
