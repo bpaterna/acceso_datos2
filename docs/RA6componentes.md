@@ -10,7 +10,7 @@
 | Revisión | Fecha      | Descripción                                                   |
 |----------|------------|---------------------------------------------------------------|
 | 1.0      | 25-07-2026 | Adaptación de los materiales a markdown                       |
-| 1.1      | 25-07-2026 | Ampliación con preguntas de autoevaluación |
+| 1.1      | 28-07-2026 | Ampliación con preguntas de autoevaluación |
 
 
 ## 1. Introducción
