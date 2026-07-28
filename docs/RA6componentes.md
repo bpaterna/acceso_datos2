@@ -1467,9 +1467,9 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
 
 
 
-Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
+Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya vimos en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso sería modificar la aplicación para guardar la información de las plantas en un fichero CSV.
 
-En una aplicación mal diseñada, tendrías que modificar el controlador, las vistas HTML y las rutas de red para adaptarlas a la lectura de archivos. Pero en nuestra aplicación:
+En una aplicación mal diseñada, habría que modificar el controlador, las vistas HTML y las rutas de red para adaptarlas a la lectura de archivos. Pero en nuestra aplicación:
 
 1.  El **Controlador** (`PlantaController`) solo sabe que le pide datos a la capa de **Servicio**.
 2.  La capa de **Servicio** (`PlantaService`) solo sabe que solicita guardar o listar plantas a la capa de **Repositorio**.
@@ -1484,22 +1484,21 @@ Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando e
 
 !!! warning "Reto 1: CRUD con Spring MVC y Thymeleaf sobre un CSV"
    
-    Por equipos el trabajo a realizar es el siguiente:
+    El trabajo a realizar por cada equipo es el siguiente:
 
-    1. Cread un nuevo proyecto utilizando Spring Initializr con las mismas dependencias del ejemplo `Ejemplo 2`.
-    2. El comportamiento de la aplicación ha de ser el mismo que el `Ejemplo 2` pero sobre el archivo `.csv` que utilizasteis en el RA1.
-    3. Utilizad Bootstrap para darle estilo al proyecto de forma que quede totalmente diferente del `Ejemplo 2`.  
-
-
-    Pistas:
-
-    1. Guardad el archivo `.csv` en la carpeta de recursos (`src/main/resources/data/`).
-    2. Cread un nuevo repositorio que use las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
-    -   **Leer el CSV** y transformarlo en una lista de objetos cuando se solicite listar.
-    -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre un registro.
-    3.  Modificad vuestro servicio para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
+    1. Crear un nuevo proyecto utilizando Spring Initializr con las mismas dependencias que el `Ejemplo 2`.
+    2. Guardar el archivo `.csv` que se utilizó en el RA1 en la carpeta de recursos (`src/main/resources/data/`). 
+    3. Modificar el repositorio para que use las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
+        -   **Leer el CSV** y transformarlo en una lista de objetos cuando se solicite listar.
+        -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre un registro.
+    4. Modificar el servicio para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.
+    5. Utilizar Bootstrap para que el estilo del proyecto quede totalmente diferente del `Ejemplo 2`.  
 
 
+
+!!! danger "Entrega"
+
+    Sigue las instrucciones disponibles en la tarea de Aules. 
 
 
 
