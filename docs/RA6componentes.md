@@ -1281,7 +1281,7 @@ A continuación se muestran las pantallas de la aplicación:
 
 - Pantalla de bienvenida 
 
-<img class="con_borde" src="img/RA6/componentes-ej2-1.jpg" alt="ej2-1">
+<img class="con_borde" src="img/RA6/ej2-1.jpg" alt="ej2-1">
 
 
 - Listado de plantas
