@@ -1286,29 +1286,27 @@ A continuación se muestran las pantallas de la aplicación:
 
 - Listado de plantas
 
-<img class="con_borde" src="img/RA6/componentes-ej2-2.jpg" alt="ej2-2">
+<img class="con_borde" src="img/RA6/ej2-2.jpg" alt="ej2-2">
 
 
 - Formulario para añadir una planta nueva
 
-<img class="con_borde" src="img/RA6/componentes-ej2-3.jpg" alt="ej2-3">
+<img class="con_borde" src="img/RA6/ej2-3.jpg" alt="ej2-3">
 
 
 - Detalles de una planta existente
 
-<img class="con_borde" src="img/RA6/componentes-ej2-4.jpg" alt="ej2-4">
+<img class="con_borde" src="img/RA6/ej2-4.jpg" alt="ej2-4">
 
 
 - Formulario para modificar la información de una planta existente
 
-<img class="con_borde" src="img/RA6/componentes-ej2-5.jpg" alt="ej2-5">
+<img class="con_borde" src="img/RA6/ej2-5.jpg" alt="ej2-5">
 
 
 - Mensaje de confirmación de borrado de una planta
 
-<img class="con_borde" src="img/RA6/componentes-ej2-6.jpg" alt="ej2-6">
-
-
+<img class="con_borde" src="img/RA6/ej2-6.jpg" alt="ej2-6">
 
 
 
