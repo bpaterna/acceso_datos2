@@ -475,7 +475,7 @@ Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá a
 
 <span class="mi_sombreado">**PASO 6: Mejorar el aspecto**</span>
 
-Ahora vamos a darle a nuestra aplicación un aspecto más profesional utilizando `bootstrap`. Podemos encontrar mucha documentacion en internet sobre como utilizarlo. Por ejemplo en:
+Ahora vamos a darle a nuestra aplicación un aspecto más profesional utilizando `Bootstrap`. Podemos encontrar mucha documentacion en internet sobre como utilizarlo. Por ejemplo en:
 
 - [https://getbootstrap.com/docs/5.3/getting-started/introduction/](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
 - [https://www.w3schools.com/bootstrap5/](https://www.w3schools.com/bootstrap5/)
@@ -1280,7 +1280,191 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
 
 
 
-AUTOEVALUACIÓN
+!!! example "Autoevaluación"
+
+    **Pregunta 9: En nuestro `PlantaRepository.kt` declaramos la variable `private val plantas = mutableListOf(...)` en memoria. ¿Cuál será el ciclo de vida de los datos almacenados (plantas añadidas, editadas o borradas) utilizando este enfoque?**
+
+    A) Los datos permanecerán activos únicamente mientras la aplicación web esté ejecutándose. Si reiniciamos el servidor en IntelliJ, todos los cambios se perderán y la lista volverá a su estado inicial.
+    
+    B) Spring Boot guarda de manera automática la lista mutable en una base de datos relacional oculta en el disco duro, de modo que los cambios se conservan permanentemente entre reinicios.
+    
+    C) Los datos se perderán de forma inmediata cada vez que el usuario cierre la pestaña activa de su navegador web, pero se mantendrán intactos si detenemos y arrancamos de nuevo el servidor en IntelliJ.
+    
+    D) Kotlin almacena los objetos de tipo `Planta` en la memoria caché global de la JVM para siempre, por lo que los datos persistirán indefinidamente de forma nativa sin necesidad de recurrir a archivos o bases de datos externas.
+
+    ??? quote "Solución"
+    
+        ✅ A) El repositorio almacena la lista mutable en la memoria RAM (volátil) del ordenador donde corre el servidor. Al detener el proceso de ejecución, esa memoria se libera. Al arrancar de nuevo la aplicación, la variable se inicializa desde cero con los tres registros declarados de forma predeterminada en el código.
+        
+        ❌ B) Spring Boot no asume decisiones de persistencia física de forma automática a menos que configuremos un motor de base de datos o almacenamiento en ficheros de manera explícita en nuestro proyecto. La lista mutable del repositorio reside exclusivamente en memoria.
+        
+        ❌ C) El ciclo de vida de la memoria RAM del servidor de Spring es independiente al navegador del cliente. Cerrar el navegador no borra los datos en memoria del servidor; solo se pierden si el proceso de IntelliJ se apaga o se detiene.
+        
+        ❌ D) Aunque la JVM gestiona los objetos en memoria mediante su recolector de basura, no existe ningún mecanismo de persistencia nativa e inmutable en Kotlin para las variables locales una vez finaliza el hilo de ejecución de la aplicación.
+
+
+
+
+    **Pregunta 10: La clase `PlantaService` declara en su constructor la variable `private val repository: PlantaRepository`. ¿Cómo recibe el servicio la instancia de este repositorio para poder hacer uso de sus métodos?**
+
+    A) Kotlin genera de forma implícita un bloque de inicialización `init` donde hace una llamada directa al constructor `PlantaRepository()` para crear la instancia que necesita el servicio.
+    
+    B) Spring Boot detecta que la clase `PlantaRepository` tiene la anotación `@Repository` y se encarga de inyectar automáticamente la instancia creada en el constructor del servicio al inicializar la aplicación.
+    
+    C) El servidor web Tomcat busca archivos con el nombre `PlantaRepository` en el disco duro de la máquina y carga sus métodos dinámicamente utilizando reflexión avanzada de Java.
+    
+    D) Es necesario que el controlador instancie de forma explícita ambas clases en su código y las vincule llamando manualmente a un método de asignación o de tipo *setter*.
+
+    ??? quote "Solución"
+    
+        ❌ A) Aunque Kotlin genera automáticamente el mapeo del constructor primario, no realiza ninguna creación de objetos de clases externas por su cuenta si no se lo ordenamos. Es el framework de Spring el encargado de gestionar las instancias.
+        
+        ✅ B) Este comportamiento es el núcleo de la Inyección de Dependencias (DI) de Spring. Al marcar la clase con `@Repository`, se registra como un componente (*bean*) administrado por el contenedor del framework. Al iniciar, Spring busca el constructor de `PlantaService` y, al comprobar que requiere un `PlantaRepository`, le asocia e inyecta de manera transparente la instancia que ya tiene gestionada.
+        
+        ❌ C) El servidor Tomcat se encarga exclusivamente de resolver las conexiones de red HTTP y hospedar la aplicación, pero es totalmente ajeno a las dependencias internas de las clases de Kotlin o Spring.
+        
+        ❌ D) Uno de los propósitos principales de utilizar Spring Boot es evitar que tengamos que instanciar manualmente las dependencias en cascada (usando `new` o constructores manuales), logrando un diseño de bajo acoplamiento entre capas.
+
+
+
+
+    **Pregunta 11: En el controlador, el método `guardarPlanta` procesa el formulario mediante `@PostMapping` y devuelve la cadena `"redirect:/plantas"`. ¿Cuál es la razón técnica de realizar una redirección tras guardar datos en lugar de cargar la vista del listado directamente?**
+
+    A) Thymeleaf no admite el procesamiento de formularios de tipo POST si no se le redirige obligatoriamente a una página estática del directorio `static/`.
+    
+    B) Se utiliza para forzar al sistema de persistencia en memoria a realizar un vaciado preventivo de la memoria RAM de la JVM antes de que el usuario vuelva a listar los elementos.
+    
+    C) La redirección es un paso obligatorio en Spring MVC para evitar que el navegador web lance un error interno de protocolo HTTP 500 al recibir peticiones que no sean GET.
+    
+    D) Aplica el patrón de desarrollo "Post-Redirect-Get" (PRG) para evitar que, si el usuario refresca la página (F5) en su navegador, se vuelva a enviar el formulario de forma accidental y se duplique la acción de guardado en la aplicación.
+
+    ??? quote "Solución"
+    
+        ❌ A) Thymeleaf puede procesar cualquier tipo de redirección o plantilla dinámica de forma exitosa. Las páginas de la carpeta `static/` son estáticas y no procesan datos de servidor, por lo que redirigir allí rompería el flujo dinámico de la web.
+        
+        ❌ B) El almacenamiento en memoria de la lista mutable se gestiona de forma directa en Kotlin y no guarda relación con la lógica de redirecciones de las cabeceras HTTP que gestiona el navegador del usuario.
+        
+        ❌ C) Spring MVC permite responder a una petición POST cargando un HTML directamente sin necesidad de redirigir. No se produce ningún error de protocolo, pero se introduce una mala experiencia de usuario y fallos potenciales en el estado de los datos.
+        
+        ✅ D) El patrón PRG es una buena práctica del desarrollo web clásico. Si tras un envío de formulario (POST) el servidor responde cargando el HTML del listado de forma directa, la URL activa del navegador del usuario seguirá siendo la del formulario de envío. Si el usuario pulsa F5 para recargar la página, el navegador repetirá la petición POST, provocando que los datos se guarden dos veces (creando una planta duplicada). Al responder con una redirección a una petición GET (`redirect:/plantas`), la barra de direcciones cambia y el refresco de pantalla es totalmente seguro.
+
+
+
+
+    **Pregunta 12: En la ruta `@GetMapping("/planta/{id_planta}")`, ¿cuál es la función de la anotación `@PathVariable` en el parámetro `id_planta: Int` de la función de nuestro controlador?**
+
+    A) Extrae el valor numérico escrito directamente en ese segmento dinámico de la URL de la petición para poder buscar la planta correspondiente a través del servicio.
+    
+    B) Lee un parámetro oculto en el cuerpo de la petición que ha sido transmitido mediante el envío de un formulario de tipo POST.
+    
+    C) Declara una variable local temporal dentro del motor de Thymeleaf para poder marcar visualmente la fila de la tabla seleccionada por el usuario.
+    
+    D) Indica a Spring Boot que el parámetro de la ruta es opcional y que, en caso de que no se especifique, debe cargarse por defecto un valor de tipo nulo.
+
+    ??? quote "Solución"
+    
+        ✅ A) La anotación `@PathVariable` asocia una variable dinámica delimitada por llaves en la ruta de red (en este caso, `{id_planta}`) con un parámetro de la función de Kotlin. Si un usuario accede a `/planta/2`, Spring Boot extrae el carácter `"2"`, realiza la conversión de tipo a un valor entero (`Int`) y se lo proporciona al método para que podamos buscar la planta con id 2 en el listado.
+        
+        ❌ B) Para leer parámetros del cuerpo de una petición enviados por un formulario se utilizan anotaciones de tipo `@ModelAttribute` o `@RequestParam`, ya que esos datos viajan estructurados en la petición HTTP y no expuestos en la dirección URL.
+        
+        ❌ C) La anotación `@PathVariable` pertenece de forma exclusiva al controlador del lado de servidor de Spring Boot, no teniendo ninguna validez ni funcionalidad dentro del código HTML de la vista del cliente.
+        
+        ❌ D) Los parámetros de ruta marcados como `@PathVariable` son requeridos de forma estricta por el enrutador de Spring Boot para que la petición coincida con el controlador. Si se omite el parámetro en la URL, el servidor responderá con una pantalla de error 404 (recurso no encontrado).
+
+
+
+    **Pregunta 13: En el archivo `formPlanta.html`, la etiqueta de formulario declara `th:object="${planta}"` y las etiquetas de entrada usan la sintaxis `th:field="*{nombre}"`. ¿Qué función realiza el símbolo de asterisco (`*`) en la expresión del campo?**
+
+    A) Indica a Thymeleaf que la variable pertenece a una tabla relacional mapeada en una base de datos externa de persistencia permanente.
+    
+    B) Actúa como una expresión de selección atajo ("selection expression") para evaluar la propiedad de forma relativa con respecto al objeto vinculado al formulario en `th:object`.
+    
+    C) Sirve para indicarle al navegador que el campo del formulario es de carácter obligatorio y debe validarse antes de realizar el envío de los datos.
+    
+    D) Es un operador comodín que realiza una búsqueda recursiva para localizar propiedades con ese nombre en cualquier clase del modelo del proyecto.
+
+    ??? quote "Solución"
+    
+        ❌ A) Thymeleaf es un motor de renderizado de vistas y desconoce por completo la existencia de tablas relacionales o de bases de datos. El asterisco es una sintaxis de enlace de datos orientada exclusivamente a la visualización de datos en el cliente.
+        
+        ✅ B) En las plantillas de Thymeleaf, la expresión con asterisco (`*{...}`) se utiliza para evaluar propiedades con respecto a un objeto previamente seleccionado (el objeto declarado en la etiqueta superior mediante `th:object="${planta}"`). Escribir `th:field="*{nombre}"` es una forma simplificada y limpia de escribir `th:field="${planta.nombre}"`, lo cual ahorra código y previene errores al manejar formularios con muchos campos.
+        
+        ❌ C) La validación y obligatoriedad de los campos de entrada de un formulario en HTML se configura mediante el atributo estándar `required` de las etiquetas de entrada de HTML5, no afectando el uso de un asterisco en Thymeleaf a esta validación.
+        
+        ❌ D) Thymeleaf requiere que las propiedades existan de forma explícita dentro del objeto vinculado. No realiza búsquedas con comodines ni asocia variables de forma ambigua por motivos de seguridad y tipado.
+
+
+
+
+
+    **Pregunta 14: En el formulario de la plantilla `formPlanta.html`, incluimos el campo oculto `<input type="hidden" th:field="*{id_planta}">`. ¿Qué comportamiento se produciría al intentar guardar los cambios de una planta existente si eliminásemos este campo del formulario?**
+
+    A) Los datos de la planta se guardarían correctamente en el listado pero el sistema los archivaría en un fichero temporal en disco de forma automática.
+    
+    B) Se producirá un error de compilación inmediato en la plantilla de Thymeleaf porque el formulario exige que todas las variables del modelo estén visibles en pantalla.
+    
+    C) El navegador web bloquearía la petición por motivos de seguridad al detectar un desajuste de propiedades entre las etiquetas HTML y el modelo de Kotlin.
+    
+    D) El repositorio interpretaría el envío como la inserción de una planta totalmente nueva (al recibir un ID cero o nulo) y crearía un registro duplicado en lugar de actualizar el existente.
+
+    ??? quote "Solución"
+    
+        ❌ A) El repositorio no realiza archivados automáticos en ficheros temporales si se le omite el identificador de los objetos en la petición de guardado.
+        
+        ❌ B) Thymeleaf no restringe la visibilidad de los atributos de un objeto en pantalla. Podemos omitir la representación visual de tantas propiedades como queramos en la plantilla sin que el compilador del motor proteste por ello.
+        
+        ❌ C) Los navegadores web procesan los formularios de forma estándar sin auditar de manera inteligente el tipado o consistencia lógica de las clases de Kotlin del servidor.
+        
+        ✅ D) El ID de la planta es la clave para diferenciar una operación de creación de una de actualización. Al editar una planta, necesitamos que viaje su ID original de forma transparente. Como es un campo de tipo `hidden`, el usuario no lo ve en la pantalla, pero viaja incrustado en los datos de la petición POST. Al omitir este campo, el objeto llega al controlador con su identificador por defecto (cero), lo que provoca que el método `save` del repositorio asuma que es una planta nueva, asignándole un nuevo ID secuencial y duplicándola en el listado en lugar de modificar la existente.
+
+
+
+
+
+    **Pregunta 15: En la plantilla HTML `plantas.html`, utilizamos la línea `<tr th:each="planta : ${plantas}">`. ¿Qué representa exactamente la variable de contexto `${plantas}` (con el símbolo `$`) y de dónde procede su información?**
+
+    A) Es una variable local declarada directamente en la propia plantilla HTML mediante una función de Javascript que inicia el bucle sobre la tabla de la página.
+    
+    B) Es una ruta de red física que apunta al archivo `Planta.kt` del modelo para indicar a Thymeleaf qué tipo de objeto debe instanciar en cada fila.
+    
+    C) Es el atributo que el controlador añadió previamente al modelo mediante la instrucción `model.addAttribute("plantas", ...)` antes de llamar y devolver la vista.
+    
+    D) Es una palabra clave reservada de Thymeleaf que hace referencia automática a cualquier estructura de tipo lista que se encuentre declarada dentro del repositorio.
+
+    ??? quote "Solución"
+    
+        ❌ A) Thymeleaf es un motor de plantillas de servidor. La expresión `${plantas}` se resuelve e interpreta en el servidor de Spring Boot antes de enviar el archivo al navegador, por lo que no es una variable del lado del cliente ni de Javascript.
+        
+        ❌ B) La expresión `${}` no hace referencia a rutas físicas de archivos de Kotlin ni a imports de clases, sino a variables de datos que han sido depositadas explícitamente en el mapa de contexto de la vista.
+        
+        ✅ C) La interfaz `Model` de Spring actúa como una caja de transporte de información. Cuando el método de nuestro controlador ejecuta `model.addAttribute("plantas", plantaService.listarPlantas())`, guarda la lista de objetos bajo la clave de texto `"plantas"`. Thymeleaf recupera esa variable mediante su lenguaje de expresiones para poder pintar las filas de la tabla dinámicamente.
+        
+        ❌ D) Thymeleaf no tiene conexión directa con la capa de datos (Repository). No puede leer variables de Kotlin que no hayan sido transferidas de forma voluntaria a la capa de presentación mediante el objeto `Model` del controlador.
+
+
+
+
+    **Pregunta 16: En nuestro diseño arquitectónico por capas, el controlador llama de forma indirecta al repositorio a través de la capa `PlantaService`. Si en este ejemplo el servicio se limita a delegar las funciones directamente al repositorio, ¿por qué es una buena práctica de diseño mantener esta capa intermedia?**
+
+    A) Porque es una restricción técnica obligatoria de la JVM de Java para poder compilar de forma segura proyectos basados en Spring MVC.
+    
+    B) Porque de este modo se permite que el controlador se conecte con los archivos físicos del disco duro sin tener que pasar por las clases del modelo.
+    
+    C) Porque desacopla el controlador del acceso directo a los datos, permitiendo añadir en el futuro reglas de negocio (validaciones, seguridad o transacciones) sin tener que alterar el controlador ni las vistas.
+    
+    D) Porque mejora drásticamente el rendimiento de lectura del servidor al almacenar en segundo plano las peticiones de listados en una cola de la base de datos.
+
+    ??? quote "Solución"
+    
+        ❌ A) No existe ninguna limitación en Java o Kotlin que impida a un controlador llamar directamente a un repositorio si se desea hacer. La separación en capas es una decisión de arquitectura de diseño de software voluntaria para crear sistemas limpios.
+        
+        ❌ B) La capa de servicio es de lógica de negocio y no tiene relación directa con el sistema de archivos del sistema operativo. De hecho, el acceso físico a los datos sigue siendo responsabilidad del repositorio.
+        
+        ✅ C) La capa de servicio (Service) es la propietaria legítima de las reglas de negocio de nuestra aplicación. Mantener esta capa intermedia, incluso en fases iniciales donde solo delega funciones de forma directa, nos garantiza una arquitectura limpia y escalable. Si en el futuro decidimos que no se permiten plantas con alturas negativas o que solo los usuarios administradores pueden borrar registros, implementaremos esa lógica en el servicio de forma centralizada sin tocar el controlador ni alterar la interfaz web.
+        
+        ❌ D) La capa de servicio no gestiona cachés de red ni colas de mensajes del servidor web por sí misma. El rendimiento del servidor Tomcat se mantiene idéntico independientemente del número de capas lógicas definidas en el backend.
+
+
 
 
 Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya aprendiste en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso es modificar la aplicación para guardar la información de las plantas en un fichero CSV.
@@ -1302,10 +1486,14 @@ Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando e
    
     Por equipos el trabajo a realizar es el siguiente:
 
-    1. Cread un nuevo proyecto como el del ejemplo que acabamos de trabajar para crear una aplicación que haga lo mismo pero sobre el archivo `.csv` que utilizasteis en el RA1.
+    1. Cread un nuevo proyecto utilizando Spring Initializr con las mismas dependencias del ejemplo `Ejemplo 2`.
+    2. El comportamiento de la aplicación ha de ser el mismo que el `Ejemplo 2` pero sobre el archivo `.csv` que utilizasteis en el RA1.
+    3. Utilizad Bootstrap para darle estilo al proyecto de forma que quede totalmente diferente del `Ejemplo 2`.  
+
 
     Pistas:
-    1. Guardad el archivo `.csv` en la carpeta de recursos (`src/main/resources/data/plantas.csv`).
+
+    1. Guardad el archivo `.csv` en la carpeta de recursos (`src/main/resources/data/`).
     2. Cread un nuevo repositorio que use las librerías de lectura y escritura de archivos de Kotlin (`java.io.File`) para:
     -   **Leer el CSV** y transformarlo en una lista de objetos cuando se solicite listar.
     -   **Escribir en el CSV** volcando toda la lista cada vez que se cree, edite o borre un registro.
