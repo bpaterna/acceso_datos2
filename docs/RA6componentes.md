@@ -187,19 +187,19 @@ A continuación se describen los pasos para a crear una aplicación utilizando S
 Accedemos a Spring Initializr desde la url [https://start.spring.io/](https://start.spring.io/), indicamos el nombre de la aplicación y añadimos la dependencia **Spring Web** (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón `GENERATE`. Esto hará que se cree el proyecto y se descargue en un archivo .zip.
 
 
-<img class="con_borde" src="img/springboot1.jpg" alt="springboot1">
+<img class="con_borde" src="img/RA6/springboot1.jpg" alt="springboot1">
 
 
 <span class="mi_sombreado">**PASO 2: Abrir el proyecto y ejecutarlo**</span>
 
 Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Vemos que, además de los archivos **application.properties** y **pom.xml** se ha creado automaticamente la clase **Plantas1Application** (con la anotación **@SpringBootApplication**) y la función de extensión **runApplication** que sirve para lanzar la aplicación.
 
-<img class="con_borde" src="img/springboot2.jpg" alt="springboot2">
+<img class="con_borde" src="img/RA6/springboot2.jpg" alt="springboot2">
 
 
 Antes de escribir una sola línea de código en nuestro controlador, vamos a ejecutar la aplicación tal y como viene por defecto. Abrimos el archivo `Plantas1Application.kt` y hacemos clic en el botón de reproducción (Run) de IntelliJ. Veremos por consola la salida de los mensajes de registro de Spring.
 
-<img class="con_borde" src="img/springboot3.jpg" alt="springboot3">
+<img class="con_borde" src="img/RA6/springboot3.jpg" alt="springboot3">
 
 > Si el puerto 8080 está ocupado aparecerá un mensaje diciendo que no se puede iniciar el servidor Tomcat. Puedes cambiar el puerto, por ejemplo al 8888, añadiendo la siguiente línea en el archivo `application.properties` (que se encuentra en la carpeta resources del proyecto):
     ```
@@ -210,7 +210,7 @@ Antes de escribir una sola línea de código en nuestro controlador, vamos a eje
 Abrimos nuestro navegador web y accedemos a la dirección [http://localhost:8080](http://localhost:8080) pero vemos una pantalla de error genérica de Spring llamada "Whitelabel Error Page (404 Not Found)". Este error 404 significa que no hemos programado absolutamente nada para que nuestra aplicación responda en esa ruta raíz (/). El servidor está levantado, pero está "vacío" de contenido.
 
 
-<img class="con_borde" src="img/springboot4.jpg" alt="springboot4">
+<img class="con_borde" src="img/RA6/springboot4.jpg" alt="springboot4">
 
 !!! success "Prueba y analiza el ejemplo"
     Realiza los pasos 1 y 2 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.
@@ -317,12 +317,12 @@ Ejecutamos la aplicación para levantar el servidor y comprobamos el comportamie
 
 - Sin parámetros: [http://localhost:8080/planta](http://localhost:8080/planta)
 
-<img class="con_borde" src="img/springboot5.jpg" alt="springboot5">
+<img class="con_borde" src="img/RA6/springboot5.jpg" alt="springboot5">
 
 
 - Con parámetro personalizado: [http://localhost:8080/planta?nombre=Rosa](http://localhost:8080/planta?nombre=Rosa)
 
-<img class="con_borde" src="img/springboot6.jpg" alt="springboot6">
+<img class="con_borde" src="img/RA6/springboot6.jpg" alt="springboot6">
 
 
 Nuestra ruta dinámica `/planta` funciona correctamente porque la hemos mapeado de forma explícita mediante `@GetMapping("/planta")`. Pero la ruta raíz [http://localhost:8080](http://localhost:8080) sigue devolviendo la misma pantalla de error. Esto es lógico: hemos programado la ruta `/planta`, pero seguimos sin tener nada programado para la raíz `/`.
@@ -418,7 +418,7 @@ Crea el archivo `index.html` dentro de la carpeta `src/main/resources/static/` c
 
 Ahora, al acceder a [http://localhost:8080/](http://localhost:8080/), el navegador servirá la página de inicio siguiente: 
 
-<img class="con_borde" src="img/springboot7.jpg" alt="springboot7">
+<img class="con_borde" src="img/RA6/springboot7.jpg" alt="springboot7">
 
 Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a `/planta?nombre=valor_introducido`. Devolviendo el mismo resultado que en el pasos 4.
 
@@ -593,9 +593,9 @@ fun main(args: Array<String>) {
 
 Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes imágenes:
 
-<img class="con_borde" src="img/bootstrap1.jpg" alt="bootstrap1">
+<img class="con_borde" src="img/RA6/bootstrap1.jpg" alt="bootstrap1">
 
-<img class="con_borde" src="img/bootstrap2.jpg" alt="bootstrap2">
+<img class="con_borde" src="img/RA6/bootstrap2.jpg" alt="bootstrap2">
 
 
 !!! success "Prueba y analiza el ejemplo"
@@ -687,7 +687,7 @@ Estos tres componentes trabajan de la siguiente forma:
 4) La **Vista** presenta la respuesta al usuario.
 
 
-![MCV1](img/MVC1.png)
+![MCV1](img/RA6/MVC1.png)
 
 
 Spring MVC forma parte del ecosistema Spring y se organiza siguiendo una arquitectura en capas en la que cada capa tiene una función concreta y se comunica únicamente con las capas adyacentes. Esta arquitectura encaja perfectamente con el patrón MVC (Model–View–Controller) y proporciona toda la infraestructura necesaria para manejar peticiones HTTP, invocar controladores y devolver vistas (HTML, JSON, etc.) lo que permite aplicaciones más mantenibles, escalables y fáciles de entender.
@@ -703,7 +703,7 @@ En la siguiente tabla se muestran las capas más habituales en una aplicación S
 | View (Representación HTML / JSON)               | View | *(sin anotaciones)* | Representa los datos al usuario:<br>• Archivo HTML con sintaxis específica para contenido dinámico si se utiliza Thymeleaf / JSP 	(Ubicación Thymeleaf: `src/main/resources/templates/`)<br>• Datos en formato JSON / XML en apps REST (si no se utiliza un motor de plantillas). En REST, el JSON actúa como la vista |
 
 
-![MCV1](img/MVC2.png)
+![MCV1](img/RA6/MVC2.png)
 
 
 **Vistas con Thymeleaf**
@@ -753,11 +753,11 @@ Para tener estas funciones activas, además de añadir la dependencia, hay que c
 
 De esta forma, cuando realicemos un cambio en un archivo de código de nuestra aplicación, bastará con guardarlo y recargar el navegador (sin reiniciar la app) para ver los cambios inmediatamente.
 
-<img class="con_borde" src="img/springboot8.jpg" alt="springboot8">
+<img class="con_borde" src="img/RA6/springboot8.jpg" alt="springboot8">
 
 Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Dejamos el archivo `PlantasApplication.kt` (clase principal) tal como está y añadimos los archivos de nuestra aplicación para que la estructura del proyecto quede como en la siguiente imagen:
 
-<img class="con_borde" src="img/springboot9.jpg" alt="springboot9">
+<img class="con_borde" src="img/RA6/springboot9.jpg" alt="springboot9">
 
 
 <span class="mi_sombreado">**PASO 2: Añadir modelo, repositorio, servicio y controlador**</span>
@@ -1275,6 +1275,46 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
 ```
 
 
+
+
+A continuación se muestran las pantallas de la aplicación:
+
+- Pantalla de bienvenida 
+
+<img class="con_borde" src="img/RA6/componentes-ej2-1.jpg" alt="ej2-1">
+
+
+- Listado de plantas
+
+<img class="con_borde" src="img/RA6/componentes-ej2-2.jpg" alt="ej2-2">
+
+
+- Formulario para añadir una planta nueva
+
+<img class="con_borde" src="img/RA6/componentes-ej2-3.jpg" alt="ej2-3">
+
+
+- Detalles de una planta existente
+
+<img class="con_borde" src="img/RA6/componentes-ej2-4.jpg" alt="ej2-4">
+
+
+- Formulario para modificar la información de una planta existente
+
+<img class="con_borde" src="img/RA6/componentes-ej2-5.jpg" alt="ej2-5">
+
+
+- Mensaje de confirmación de borrado de una planta
+
+<img class="con_borde" src="img/RA6/componentes-ej2-6.jpg" alt="ej2-6">
+
+
+
+
+
+
+
+
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código del ejemplo y verifica que el comportamiento es correcto.
 
@@ -1324,7 +1364,6 @@ Además, si queremos que nuestra aplicación responda a [http://localhost:8080](
         ❌ C) El servidor Tomcat se encarga exclusivamente de resolver las conexiones de red HTTP y hospedar la aplicación, pero es totalmente ajeno a las dependencias internas de las clases de Kotlin o Spring.
         
         ❌ D) Uno de los propósitos principales de utilizar Spring Boot es evitar que tengamos que instanciar manualmente las dependencias en cascada (usando `new` o constructores manuales), logrando un diseño de bajo acoplamiento entre capas.
-
 
 
 
