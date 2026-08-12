@@ -86,9 +86,6 @@ Conocer qué **tipo de gestor de base de datos** se está utilizando es esencial
 - Fácil de configurar y desplegar, ya que la base de datos reside en un archivo local.
 - Casos de uso: aplicaciones de escritorio, móviles, prototipos, pruebas unitarias.
 
-!!! warning "Práctica 1: Crea tu base de datos"
-A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DB Browser for SQLite](db_browser_sqlite.html)
-
 
 
 ## 2. Conexión a un SGBD
@@ -208,12 +205,10 @@ fun main() {
 
 
 
-!!! warning "Práctica 2: Crea tu proyecto Gradle y conecta a tu base de datos"
-    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
-    - Copia la BD creada en la práctica anterior en la carpeta `datos`.
-    - Añade las líneas de código necesarias para conectar con tu BD y muestra un mensaje indicando si se ha establecido la conexión correctamente o no.
-
-
+!!! warning "Práctica 1: Crea tu BD y conecta a ella desde tu proyecto Gradle"
+    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.    
+    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DB Browser for SQLite](db_browser_sqlite.html) y guárdala en la carpeta `datos` de tu proyecto.
+    - Añade las líneas de código necesarias para conectar a tu BD y muestra un mensaje indicando si se ha establecido la conexión correctamente o no.
 
 
 ---
