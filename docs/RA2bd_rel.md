@@ -150,18 +150,12 @@ Sus principales características son:
 - Se necesita un driver específico (conector) para cada SGBD:
 
 
-A continuación se muestra su sintaxis general. Aunque puede variar según el SGBD con el que se trabaje. Por ejemplo en SQLite no se necesita usuario ni contraseña ya que es una base de datos local y embebida:
+A continuación se muestra su sintaxis general. Aunque puede variar según el SGBD con el que se trabaje. Por ejemplo en SQLite no se necesita usuario ni contraseña ya que es una base de datos local:
 
     jdbc:<gestor>://<host>:<puerto>/<nombre_base_datos>
 
 
-También dependiendo del SGBD será necesario utilizar la dependencia adecuada en **Gradle** añadiendo las líneas correspondientes en el fichero **build.gradle.kts**. A continuación se muestran las líneas para los SGBD PostgreSQL, MySQL y SQLite.
-
-```
-dependencies {
-   . . .
-}
-```
+También dependiendo del SGBD será necesario utilizar la dependencia adecuada en **Gradle** añadiendo las líneas correspondientes en el fichero **build.gradle.kts** dentro del bloque `dependencies { . . . }`
 
 
 **Algunos ejemplos de conectores según el SGBD**
@@ -174,7 +168,7 @@ SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD | implementation("org.x
 
 
 
-Hemos visto que SQLite es una BD local y por tanto debe de estar dentro del proyecto, la ubicaremos en una  carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta src y que el archivo build.gradle.kts).
+
 
 
 <span class="mis_ejemplos">Ejemplo 1: Conexión a SQLite</span>
@@ -201,7 +195,7 @@ fun main() {
 !!! success "Prueba y analiza el ejemplo"
     - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
     - Descarga el fichero con la BD de ejemplo desde el siguiente enlace:
-       [florabotanica.sqlite](recursos/florabotanica.sqlite){:florabotanica.sqlite} y cópialo en la carpeta adecuada del proyecto.
+       [florabotanica.sqlite](recursos/florabotanica.sqlite){:florabotanica.sqlite} y cópialo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
     - Ejecuta el programa y verifica que la conexión con la BD se establece correctamente.
 
 
@@ -209,8 +203,6 @@ fun main() {
     - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.    
     - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DB Browser for SQLite](db_browser_sqlite.html) y guárdala en la carpeta `datos` de tu proyecto.
     - Añade las líneas de código necesarias para conectar a tu BD y muestra un mensaje indicando si se ha establecido la conexión correctamente o no.
-
-
 
 
 
