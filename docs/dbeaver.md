@@ -15,7 +15,7 @@
 
 - Explorar la estructura de la base de datos (tablas, vistas, claves, relaciones…).
 - Consultar datos.
-- Modificar tablas, añadir registros o ejecutar scripts SQL sin salir del proyecto.
+- Modificar tablas, añadir registros o ejecutar scripts SQL.
 - Probar consultas antes de implementarlas en el programa.
 - Exportar datos en distintos formatos.
 
@@ -45,7 +45,7 @@ Si todo está correcto, aparecerá un mensaje de éxito:
 <img class="con_borde" src="img/dbeaver/dbeaver08.png" alt="dbeaver">
 
 
-> Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente (hacer clic en el botón **Download**:
+> Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente (hacer clic en el botón **Download**):
 > <img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
 >
 > Si la descarga falla, harrá que descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
@@ -54,7 +54,7 @@ Si todo está correcto, aparecerá un mensaje de éxito:
 
 
 
-- Una vez la prueba de conexión sea satisfactoria, cerrar el mensaje y hacer clic en el botón **Finalizar**. La nueva conexión aparecerá en el panel lateral izquierdo:
+- Una vez la prueba de conexión sea satisfactoria, cerrar el mensaje y hacer clic en el botón **Finalizar**. La nueva conexión aparecerá en el panel lateral izquierdo y podremos trabajar sobre la BD:
 
 <img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
 
@@ -64,7 +64,7 @@ Si todo está correcto, aparecerá un mensaje de éxito:
 
 ## Conexión a MySQL
 
-Los siguientes pasos muestran como conectar a una BD *MySQL*:
+Los siguientes pasos muestran como conectar a una BD **MySQL**:
 
 - Hacer clic en el botón **Nueva conexión** (enchufe) o ir al menú *Archivo > Nueva conexión*:
 
@@ -85,7 +85,7 @@ Los siguientes pasos muestran como conectar a una BD *MySQL*:
 > <img class="con_borde" src="img/dbeaver/dbeaver10.jpg" alt="dbeaver">
 
 
-- Una vez conectado se visualizarán las bases de datos del servidor:
+- Una vez conectado se visualizarán las BD del servidor a las que el usuario indicado en la conexión tiene acceso:
 
 <img class="con_borde" src="img/dbeaver/dbeaver11.jpg" alt="dbeaver">
 
