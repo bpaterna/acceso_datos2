@@ -184,11 +184,11 @@ fun main() {
     val dbPath = "datos/florabotanica.sqlite"
     val file = File(dbPath)
     println("Ruta absoluta de la BD: ${file.absolutePath}")
-    
+
     val url = "jdbc:sqlite:${dbPath}"
     DriverManager.getConnection(url).use { conn ->
-        println("Conexión establecida correctamente")
-    }   
+        println("**** Conexión establecida correctamente")
+    }
 }
 ```
 
@@ -201,7 +201,7 @@ fun main() {
 
 !!! warning "Práctica 1: Crea tu BD y conecta a ella desde tu proyecto Gradle"
     - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.    
-    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DB Browser for SQLite](db_browser_sqlite.html) y guárdala en la carpeta `datos` de tu proyecto.
+    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DBeaver](dbeaver.html) y guárdala en la carpeta `datos` de tu proyecto.
     - Añade las líneas de código necesarias para conectar a tu BD y muestra un mensaje indicando si se ha establecido la conexión correctamente o no.
 
 
@@ -306,7 +306,7 @@ fun main() {
 
     try {
         conn = DriverManager.getConnection(URL_BD)
-        println("Conectado a la BD")
+        println("**** Conexión establecida correctamente")
 
         stmt = conn.createStatement()
         rs = stmt.executeQuery("SELECT * FROM plantas")
@@ -323,7 +323,7 @@ fun main() {
             rs?.close()
             stmt?.close()
             conn?.close()
-            println("Conexión cerrada correctamente")
+            println("*** Conexión cerrada correctamente")
         } catch (e: Exception) {
             println("Error al cerrar los recursos: ${e.message}")
         }
@@ -346,7 +346,7 @@ import java.sql.DriverManager
 import java.sql.SQLException
 
 // Ruta al archivo de base de datos SQLite
-const val URL_BD = "jdbc:sqlite:src/main/resources/florabotanica.sqlite"
+const val URL_BD = "jdbc:sqlite:datos/florabotanica.sqlite"
 
 // Obtener conexión
 fun conectarBD(): Connection? {
@@ -360,7 +360,7 @@ fun conectarBD(): Connection? {
 
 fun main() {
     conectarBD()?.use { conn ->
-        println("Conectado a la BD con .use")
+        println("*** Conectado a la BD con .use")
 
         conn.createStatement().use { stmt ->
             stmt.executeQuery("SELECT * FROM plantas").use { rs ->
@@ -388,7 +388,7 @@ fun main() {
 !!! warning "Práctica 2: amplía tu proyecto"
     - Declara una constante con la ruta a la BD. 
     - Declara una función para conectar a la BD. 
-    - En el main conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
+    - Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
 
 
 
