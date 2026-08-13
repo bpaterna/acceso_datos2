@@ -968,7 +968,7 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
 
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
-    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos los menús para que el usuario interactúe con la aplicación por consola. A medida que avancemos iremos añadiendo funciones a este proyecto.
+    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra estructura de datos principal, crearemos nuestro primer fichero de datos en formato **CSV** y programaremos los menús para que el usuario interactúe con la aplicación por consola creando lo que se denomina **CRUD**, es decir, **C**reate (crear), **R**ead (Leer), **U**pdate (Actualizar) y **D**elete (Borrar). A medida que avancemos iremos añadiendo funciones a este proyecto.
 
     **Realiza los siguientes pasos:**
 

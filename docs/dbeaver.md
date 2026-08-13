@@ -1,6 +1,6 @@
 # DBeaver
 
-![Imagen 1](img/dbeaver/dbeaver01.png)
+![dbeaver](img/dbeaver/dbeaver01.png)
 
 <span class="mi_h3">Revisiones</span>
 
@@ -25,6 +25,8 @@
 
 
 <!--
+
+FALTA ACABAR
 
 ## Conexión a SQLite
 
@@ -67,7 +69,7 @@ Desde allí puedes:
 ![ref](img/dbeaver6.jpg)
 
 
-FALTA
+FALTA ACABAR
 -->
 
 
