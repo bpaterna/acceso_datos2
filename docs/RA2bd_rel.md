@@ -155,23 +155,24 @@ A continuación se muestra su sintaxis general. Aunque puede variar según el SG
     jdbc:<gestor>://<host>:<puerto>/<nombre_base_datos>
 
 
-**Algunos ejemplos de conectores según el SGBD**
-
-SGBD|	Conector (Driver JDBC)|	URL de conexión típica 
-----|-------------------------|-----------------------
-PostgreSQL|	org.postgresql.Driver| jdbc:postgresql://host:puerto/nombreBD
-MySQL / MariaDB|	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD
-SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD
-
 También dependiendo del SGBD será necesario utilizar la dependencia adecuada en **Gradle** añadiendo las líneas correspondientes en el fichero **build.gradle.kts**. A continuación se muestran las líneas para los SGBD PostgreSQL, MySQL y SQLite.
 
 ```
 dependencies {
-    implementation("org.postgresql:postgresql:42.7.1") //Postgres 
-    implementation("com.mysql:mysql-connector-j:8.3.0") //MySQL
-    implementation("org.xerial:sqlite-jdbc:3.43.0.0") //SQLite
+   . . .
 }
 ```
+
+
+**Algunos ejemplos de conectores según el SGBD**
+
+SGBD|	Conector (Driver JDBC)|	URL de conexión típica | Dependencia Gradle
+----|-------------------------|-----------------------|-----------------------
+PostgreSQL|	org.postgresql.Driver| jdbc:postgresql://host:puerto/nombreBD |implementation("org.postgresql:postgresql:42.7.1")
+MySQL / MariaDB|	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD | implementation("com.mysql:mysql-connector-j:8.3.0")
+SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD | implementation("org.xerial:sqlite-jdbc:3.43.0.0")
+
+
 
 Hemos visto que SQLite es una BD local y por tanto debe de estar dentro del proyecto, la ubicaremos en una  carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta src y que el archivo build.gradle.kts).
 
@@ -340,7 +341,7 @@ fun main() {
 ```
 
 
-!!! success "Prueba y analiza el ejemplo 2"
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
@@ -387,7 +388,7 @@ fun main() {
 }
 ```
 
-!!! success "Prueba y analiza el ejemplo 3"
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 !!! warning "Práctica 2: amplía tu proyecto"
