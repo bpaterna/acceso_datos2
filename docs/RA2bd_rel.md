@@ -167,10 +167,6 @@ MySQL / MariaDB|	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD | i
 SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD | implementation("org.xerial:sqlite-jdbc:3.43.0.0")
 
 
-
-
-
-
 <span class="mis_ejemplos">Ejemplo 1: Conexión a SQLite</span>
 
 El siguiente ejemplo muestra como conectar a una BD **SQLite** llamada `florabotanica.sqlite` que se encuentra en la carpeta `datos` dentro de un proyecto en **Kotlin**.
@@ -199,10 +195,7 @@ fun main() {
     - Ejecuta el programa y verifica que la conexión con la BD se establece correctamente.
 
 
-!!! warning "Práctica 1: Crea tu BD y conecta a ella desde tu proyecto Gradle"
-    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.    
-    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DBeaver](dbeaver.html) y guárdala en la carpeta `datos` de tu proyecto.
-    - Añade las líneas de código necesarias para conectar a tu BD y muestra un mensaje indicando si se ha establecido la conexión correctamente o no.
+
 
 
 
@@ -385,12 +378,226 @@ fun main() {
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
-!!! warning "Práctica 2: amplía tu proyecto"
+!!! warning "Práctica 1: crea la base de tu proyecto"
+    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
+    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DBeaver](dbeaver.html) y guárdala en la carpeta `datos` en la raízde tu proyecto.
     - Declara una constante con la ruta a la BD. 
     - Declara una función para conectar a la BD. 
     - Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
 
 
+
+
+
+
+## 4. Objetos de acceso a datos (DAO)
+Los objetos de acceso a datos son una buena forma de organizar nuestro código para manejar las diferentes operaciones CRUD de acceso a los datos. Es el Data Access Object (DAO) y algunas de las ventajas de utilizar estos objetos son las siguientes:
+
+- Organización: todo el código SQL está en un único lugar.
+- Reutilización: puedes llamar a PlantasDAO.listarPlantas() desde distintos sitios sin repetir la consulta.
+- Mantenibilidad: si cambia la base de datos, solo tocas el DAO.
+- Claridad: el resto de tu app se lee mucho más limpio, sin SQL mezclado.
+
+
+<span class="mis_ejemplos">Ejemplo 4: DAO</span>
+
+El siguiente ejemplo es el DAO para la tabla `plantas` de la BD `florabotanica.sqlite`. La estructura de la tabla `plantas` es la siguiente:
+
+![Imagen 2](img/BD/3_plantas.png)
+
+Creamos un archivo **PlantasDAO.kt** en el que declararemos una data class con la misma estructura que la tabla `plantas` y las funciones para leer la información de la tabla, añadir registros nuevos, modificar la información existente y borrarla. El código fuente es:
+
+``` kotlin
+data class Planta(
+    val id_planta: Int? = null, // lo genera SQLite automáticamente
+    val nombreComun: String,
+    val nombreCientifico: String,
+    val stock: Int,
+    val precio: Double
+)
+
+object PlantasDAO {
+    fun listarPlantas(): List<Planta> {
+        val lista = mutableListOf<Planta>()
+        conectarBD()?.use { conn ->
+            conn.createStatement().use { stmt ->
+                stmt.executeQuery("SELECT * FROM plantas").use { rs ->
+                    while (rs.next()) {
+                        lista.add(
+                            Planta(
+                                id_planta = rs.getInt("id_planta"),
+                                nombreComun = rs.getString("nombre_comun"),
+                                nombreCientifico = rs.getString("nombre_cientifico"),
+                                stock = rs.getInt("stock"),
+                                precio = rs.getDouble("precio")
+                            )
+                        )
+                    }
+                }
+            }
+        } ?: println("No se pudo establecer la conexión.")
+        return lista
+    }
+
+    // Consultar planta por ID
+    fun consultarPlantaPorId(id: Int): Planta? {
+        var planta: Planta? = null
+        conectarBD()?.use { conn ->
+            conn.prepareStatement("SELECT * FROM plantas WHERE id_planta = ?").use { pstmt ->
+                pstmt.setInt(1, id)
+                pstmt.executeQuery().use { rs ->
+                    if (rs.next()) {
+                        planta = Planta(
+                            id_planta = rs.getInt("id_planta"),
+                            nombreComun = rs.getString("nombre_comun"),
+                            nombreCientifico = rs.getString("nombre_cientifico"),
+                            stock = rs.getInt("stock"),
+                            precio = rs.getDouble("precio")
+                        )
+                    }
+                }
+            }
+        } ?: println("No se pudo establecer la conexión.")
+        return planta
+    }
+
+    fun insertarPlanta(planta: Planta) {
+        conectarBD()?.use { conn ->
+            conn.prepareStatement(
+                "INSERT INTO plantas(nombre_comun, nombre_cientifico, stock, precio) VALUES (?, ?, ?, ?)"
+            ).use { pstmt ->
+                pstmt.setString(1, planta.nombreComun)
+                pstmt.setString(2, planta.nombreCientifico)
+                pstmt.setInt(3, planta.stock)
+                pstmt.setDouble(4, planta.precio)
+                pstmt.executeUpdate()
+                println("Planta '${planta.nombreComun}' insertada con éxito.")
+            }
+        } ?: println("No se pudo establecer la conexión.")
+    }
+
+    fun actualizarPlanta(planta: Planta) {
+        if (planta.id_planta == null) {
+            println("No se puede actualizar una planta sin id.")
+            return
+        }
+        conectarBD()?.use { conn ->
+            conn.prepareStatement(
+                "UPDATE plantas SET nombre_comun = ?, nombre_cientifico = ?, stock = ?, precio = ? WHERE id_planta = ?"
+            ).use { pstmt ->
+                pstmt.setString(1, planta.nombreComun)
+                pstmt.setString(2, planta.nombreCientifico)
+                pstmt.setInt(3, planta.stock)
+                pstmt.setDouble(4, planta.precio)
+                pstmt.setInt(5, planta.id_planta)
+                val filas = pstmt.executeUpdate()
+                if (filas > 0) {
+                    println("Planta con id=${planta.id_planta} actualizada con éxito.")
+                } else {
+                    println("No se encontró ninguna planta con id=${planta.id_planta}.")
+                }
+            }
+        } ?: println("No se pudo establecer la conexión.")
+    }
+
+    fun eliminarPlanta(id: Int) {
+        conectarBD()?.use { conn ->
+            conn.prepareStatement("DELETE FROM plantas WHERE id_planta = ?").use { pstmt ->
+                pstmt.setInt(1, id)
+                val filas = pstmt.executeUpdate()
+                if (filas > 0) {
+                    println("Planta con id=$id eliminada correctamente.")
+                } else {
+                    println("No se encontró ninguna planta con id=$id.")
+                }
+            }
+        } ?: println("No se pudo establecer la conexión.")
+    }
+}
+```
+
+La llamada a estas funciones desde **main.kt** podría ser:
+
+``` kotlin
+fun main() {
+
+    // Listar todas las plantas
+    println("Lista de plantas:")
+    PlantasDAO.listarPlantas().forEach {
+        println(" - [${it.id_planta}] ${it.nombreComun} (${it.nombreCientifico}), stock ${it.stock} unidades, precio: ${it.precio} €")
+    }
+
+    // Consultar planta por ID
+    val planta = PlantasDAO.consultarPlantaPorId(3)
+    if (planta != null) {
+        println("Planta encontrada: [${planta.id_planta}] ${planta.nombreComun} (${planta.nombreCientifico}), stock ${planta.stock} unidades, precio: ${planta.precio} €")
+    } else {
+        println("No se encontró ninguna planta con ese ID.")
+    }
+
+    // Insertar plantas
+    PlantasDAO.insertarPlanta(
+        Planta(
+            nombreComun = "Palmera",
+            nombreCientifico = "Arecaceae",
+            stock = 2,
+            precio = 50.5
+        )
+    )
+
+    // Actualizar planta con id=1
+    PlantasDAO.actualizarPlanta(
+        Planta(
+            id_planta = 1,
+            nombreComun = "Aloe Arborescens",
+            nombreCientifico = "Aloe barbadensis miller",
+            stock = 20,
+            precio = 5.8
+        )
+    )
+
+    // Eliminar planta con id=2
+    PlantasDAO.eliminarPlanta(2)
+}
+```
+
+!!! success "Prueba y analiza el ejemplo 4"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
+
+!!! warning "Práctica 2: amplía tu proyecto"
+
+    1. **Crea un menú para gestionar la información de la tabla de tu BD con las opciones siguientes:
+
+        ```text
+        --------------------------------------        
+        ---------- CRUD (nombre tabla) ----------
+        --------------------------------------
+        1. Importar datos desde fichero de texto plano.
+        2. Visualizar información.
+        3. Añadir un registro nuevo
+        4. Modificar un registro existente (por ID)
+        5. Eliminar un registro existente (por ID)
+        0. Salir
+        ```
+
+    2. Añade a tu proyecto un objetos de acceso a datos (DAO) para manejar las diferentes operaciones CRUD de la tabla de tu BD.
+
+    3. Utiliza .use en todas tus operaciones para asegurarte de que se cierran correctamente todos los recursos.
+
+
+
+
+
+
+
+
+
+
+
+!!! warning "Práctica 3: amplía tu proyecto"
+
+    1. Añade otras dos tablas a tu BD y sus correspondientes DAO a tu proyecto.
+    2. Amplía el menú para poder gestionar los datos de todas las tablas.
 
 
 
