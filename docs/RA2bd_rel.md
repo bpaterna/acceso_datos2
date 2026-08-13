@@ -297,10 +297,9 @@ import java.sql.ResultSet
 import java.sql.DriverManager
 import java.sql.SQLException
 
-// Ruta al archivo de base de datos SQLite
-const val URL_BD = "jdbc:sqlite:src/main/resources/florabotanica.sqlite"
-
 fun main() {
+    val URL_BD = "jdbc:sqlite:datos/florabotanica.sqlite"
+
     var conn: Connection? = null
     var stmt: Statement? = null
     var rs: ResultSet? = null
@@ -339,13 +338,7 @@ fun main() {
 
 <span class="mis_ejemplos">Ejemplo 3: Utilización de .use</span>
 
-A continuación se muestra un **ejemplo con .use (sin necesidad de cerrar recursos manualmente)** que realiza la misma consulta que el ejemplo anterior. Ahora los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una función para conectar a la BD:
-
-- **conn.use { ... }** cierra la conexión automáticamente al final del bloque.
-
-- **stmt.use { ... }** cierra el Statement automáticamente.
-
-- **ResultSet** se cierra cuando cierras el Statement.
+A continuación se muestra un **ejemplo con .use (sin necesidad de cerrar recursos manualmente)** que realiza la misma consulta que el ejemplo anterior. Ahora los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD:
 
 ``` kotlin
 import java.sql.Connection
@@ -367,7 +360,7 @@ fun conectarBD(): Connection? {
 
 fun main() {
     conectarBD()?.use { conn ->
-        println("Conectado a la BD")
+        println("Conectado a la BD con .use")
 
         conn.createStatement().use { stmt ->
             stmt.executeQuery("SELECT * FROM plantas").use { rs ->
@@ -379,6 +372,15 @@ fun main() {
     } ?: println("No se pudo conectar")
 }
 ```
+
+**Explicación del código:**
+
+- **conn.use { ... }** cierra la conexión automáticamente al final del bloque.
+
+- **stmt.use { ... }** cierra el Statement automáticamente.
+
+- **ResultSet** se cierra al cerarse el Statement.
+
 
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
