@@ -14,12 +14,10 @@
 **DBeaver** es una herramienta gráfica y gratuita que permite gestionar múltiples bases de datos de forma visual. Algunas de las acciones que podemos realizar con esta herramienta son las siguientes:
 
 - Explorar la estructura de la base de datos (tablas, vistas, claves, relaciones…).
-
 - Consultar datos.
-
 - Modificar tablas, añadir registros o ejecutar scripts SQL sin salir del proyecto.
-
 - Probar consultas antes de implementarlas en el programa.
+- Exportar datos en distintos formatos.
 
 
 
@@ -33,7 +31,7 @@ Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sql
 
 
 
-- Seleccionar el tipo de base de datos **SQlite** y pulsar **Siguiente**.
+- Seleccionar **SQlite** y pulsar **Siguiente**.
 
 <img class="con_borde" src="img/dbeaver/dbeaver03.png" alt="dbeaver">
 
@@ -48,18 +46,15 @@ Si todo está correcto, aparecerá un mensaje de éxito.
 <img class="con_borde" src="img/dbeaver/dbeaver08.png" alt="dbeaver">
 
 
-Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente.
-    
-<img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
+> Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente.
+> <img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
+> Si la descarga falla, descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
+> <img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
+> <img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
-Si la descarga falla, descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
-
-<img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
-
-<img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
 - Hacer clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
-Desde allí puedes realizar operaciones como, por ejemplo, visualizar datos (tablas, vistas, funciones y procedimientos), ejecutar sentencias SQL, operar con registros (consultar y modificar) o exportar datos en distintos formatos.
+
 
 <img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
 
