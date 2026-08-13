@@ -23,46 +23,46 @@
 
 
 
-
 ## Conexión a SQLite
 
-Los siguientes pasos ilustran como conectar a la BD **florabotanica.sqlite** de nuestro proyecto.
+Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sqlite** ubicada en la carpeta `datos` dentro de la raíz de nuestro proyecto:
 
-Para conectar a una base de datos, una vez iniciado el programa hay que hacer clic en el botón **Nueva conexión** (ícono de enchufe) o ir al menú `Archivo > Nueva conexión`.
+1. Hacer clic en el botón **Nueva conexión** (ícono de enchufe) o ir al menú `Archivo > Nueva conexión`.
 
 <img class="con_borde" src="img/dbeaver/dbeaver02.png" alt="dbeaver">
 
 
 
-Luego hay que seleccionar el tipo de base de datos a la que se quiere conectar. A continuación de describen los pasos para conectar a SQLite y a MySQL.
-
-
-1. Selecciona el tipo de base de datos **SQlite** y pulsa **Siguiente**.
+2. Seleccionar el tipo de base de datos **SQlite** y pulsar **Siguiente**.
 
 <img class="con_borde" src="img/dbeaver/dbeaver03.png" alt="dbeaver">
 
 
 
+3. Introducir la ruta de la BD y hacer clic en el botón *probar conexión*
 
-2. Introduce la ruta donde se encuentra la BD y haz clic en el botón *probar conexión*
+<img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
 
-    <img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
+Si todo está correcto, verás un mensaje de éxito.  
 
-    Si todo está correcto, verás un mensaje de éxito.  
+<img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
+
+
+Si DBeaver necesita un controlador (driver), te lo ofrecerá para descargar automáticamente.
     
-    Si DBeaver necesita un controlador (driver), te lo ofrecerá para descargar automáticamente.
+<img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
+
+Si la descarga falla, ve a https://github.com/xerial/sqlite-jdbc/releases y descarga el archivo **sqlite-jdbc-3.50.3.0.jar**
+
+Edita el driver:
+
+<img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
     
-    <img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
+Y añádelo manualmente:
 
-    Si la descarga falla, ve a https://github.com/xerial/sqlite-jdbc/releases y descarga el archivo **sqlite-jdbc-3.50.3.0.jar**
+<img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
-    Edita el driver:
-    <img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
-    
-    Y añádelo manualmente:
-    <img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
-
-3. Haz clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
+4. Haz clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
 Desde allí puedes:
 
 - Ver tablas, vistas, funciones y procedimientos
@@ -70,7 +70,7 @@ Desde allí puedes:
 - Consultar y modificar registros
 - Exportar datos en distintos formatos
 
-
+<img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
 
 
 
