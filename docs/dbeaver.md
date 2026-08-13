@@ -25,10 +25,9 @@
 
 Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sqlite** ubicada en la carpeta `datos` dentro de la raíz de nuestro proyecto:
 
-- Hacer clic en el botón **Nueva conexión** (ícono de enchufe) o ir al menú `Archivo > Nueva conexión`.
+- Hacer clic en el botón **Nueva conexión** (enchufe) o ir al menú *Archivo > Nueva conexión*.
 
 <img class="con_borde" src="img/dbeaver/dbeaver02.png" alt="dbeaver">
-
 
 
 - Seleccionar **SQlite** y pulsar **Siguiente**.
@@ -37,7 +36,7 @@ Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sql
 
 
 
-- Introducir la ruta de la BD y hacer clic en el botón *probar conexión*
+- Introducir la ruta de la BD y hacer clic en el botón **probar conexión**
 
 <img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
 
@@ -45,36 +44,36 @@ Si todo está correcto, aparecerá un mensaje de éxito.
 
 <img class="con_borde" src="img/dbeaver/dbeaver08.png" alt="dbeaver">
 
+- Cerrar el mensaje y hacer clic en el botón **Finalizar*+. La nueva conexión aparecerá en el panel lateral izquierdo.
+
+<img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
+
 
 > Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente.
 > <img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
-> Si la descarga falla, descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
+> 
+> Si la descarga falla, harrá que descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
 > <img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
 > <img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
-
-- Hacer clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
-
-
-<img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
 
 
 ## Conexión a MySQL
 
 Los siguientes pasos ilustran como conectar a una BD *MySQL*:
 
-- Hacer clic en el botón `Nueva conexión` (ícono de enchufe) o entrar al menú `Archivo > Nueva conexión`
+- Hacer clic en el botón **Nueva conexión** (enchufe) o ir al menú *Archivo > Nueva conexión*.
+
 
 <img class="con_borde" src="img/dbeaver/dbeaver02.png" alt="dbeaver">
 
-- Seleccionar `MySQL` y pulsar en el botón `Siguiente`
+- Seleccionar **MySQL** y pulsar en el botón **Siguiente**
 
 <img class="con_borde" src="img/dbeaver/dbeaver08.jpg" alt="dbeaver">
 
 - Indicar los datos del `servidor`, `usuario` y `contraseña`. Para ver todas las bases de datos a las que el usuario puede acceder marcar la casilla `Show all database`y no indicar nada en la casilla `database` 
 
 <img class="con_borde" src="img/dbeaver/dbeaver09.jpg" alt="dbeaver">
-
 
 
 > Si aparece `Error "Public Key Retrieval is not allowed"` hacer clic con el botón derecho en la conexión y seleccionar `Editar conexión` luego ir a la pestaña `Driver Properties` y cambiar la propiedad `allowPublicKeyRetrieval` a `TRUE` (por defecto está a `false`). Por último hacer clic en el botón `Aceptar`.
