@@ -27,25 +27,25 @@
 
 Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sqlite** ubicada en la carpeta `datos` dentro de la raíz de nuestro proyecto:
 
-1. Hacer clic en el botón **Nueva conexión** (ícono de enchufe) o ir al menú `Archivo > Nueva conexión`.
+- Hacer clic en el botón **Nueva conexión** (ícono de enchufe) o ir al menú `Archivo > Nueva conexión`.
 
 <img class="con_borde" src="img/dbeaver/dbeaver02.png" alt="dbeaver">
 
 
 
-2. Seleccionar el tipo de base de datos **SQlite** y pulsar **Siguiente**.
+- Seleccionar el tipo de base de datos **SQlite** y pulsar **Siguiente**.
 
 <img class="con_borde" src="img/dbeaver/dbeaver03.png" alt="dbeaver">
 
 
 
-3. Introducir la ruta de la BD y hacer clic en el botón *probar conexión*
+- Introducir la ruta de la BD y hacer clic en el botón *probar conexión*
 
 <img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
 
 Si todo está correcto, verás un mensaje de éxito.  
 
-<img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
+<img class="con_borde" src="img/dbeaver/dbeaver08.png" alt="dbeaver">
 
 
 Si DBeaver necesita un controlador (driver), te lo ofrecerá para descargar automáticamente.
@@ -62,59 +62,54 @@ Y añádelo manualmente:
 
 <img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
-4. Haz clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
-Desde allí puedes:
-
-- Ver tablas, vistas, funciones y procedimientos
-- Ejecutar sentencias SQL
-- Consultar y modificar registros
-- Exportar datos en distintos formatos
+- Haz clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
+Desde allí puedes realizar operaciones como, por ejemplo, visualizar datos (tablas, vistas, funciones y procedimientos), ejecutar sentencias SQL, operar con registros (consultar y modificar) o exportar datos en distintos formatos.
 
 <img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
 
 
-
 ## Conexión a MySQL
 
-Para conectar a una base de datos *MySQL* sigue estos pasos:
+Los siguientes pasos ilustran como conectar a una BD *MySQL*:
 
-1. Haz clic en el botón `Nueva conexión` (ícono de enchufe) o entra al menú `Archivo > Nueva conexión`
+- Hacer clic en el botón `Nueva conexión` (ícono de enchufe) o entrar al menú `Archivo > Nueva conexión`
 
-    ![Imagen 2](img/dbeaver/dbeaver02.png)
+<img class="con_borde" src="img/dbeaver/dbeaver02.png" alt="dbeaver">
 
-2. Selecciona `MySQL` y pulsa en el botón `Siguiente`
+- Seleccionar `MySQL` y pulsar en el botón `Siguiente`
 
-    ![Imagen 8](img/dbeaver/dbeaver08.jpg)
+<img class="con_borde" src="img/dbeaver/dbeaver08.jpg" alt="dbeaver">
 
-3. Indica los datos del `servidor`, `usuario` y `contraseña`. Si quieres ver todas las bases de datos a las que el usuario puede acceder deja marcada la casilla `Show all database`y no indiques nada en la casilla `database` 
+- Indicar los datos del `servidor`, `usuario` y `contraseña`. Para ver todas las bases de datos a las que el usuario puede acceder marcar la casilla `Show all database`y no indicar nada en la casilla `database` 
 
-    ![Imagen 9](img/dbeaver/dbeaver09.jpg)
+<img class="con_borde" src="img/dbeaver/dbeaver09.jpg" alt="dbeaver">
 
-    !!!Note ""
-        Si aparece `Error "Public Key Retrieval is not allowed"` haz clic con el botón derecho en tu conexión y selecciona `Editar conexión` luego ve a la pestaña `Driver Properties` y cambia la propiedad `allowPublicKeyRetrieval` a `TRUE` (por defecto está a `false`). Luego haz clic en el botón `Aceptar`.
-        ![Imagen 10](img/dbeaver/dbeaver10.jpg)
 
-4. Una vez conectado, verás las bases de datos del servidor
 
-    ![Imagen 11](img/dbeaver/dbeaver11.jpg)
+> Si aparece `Error "Public Key Retrieval is not allowed"` hacer clic con el botón derecho en la conexión y seleccionar `Editar conexión` luego ir a la pestaña `Driver Properties` y cambiar la propiedad `allowPublicKeyRetrieval` a `TRUE` (por defecto está a `false`). Por último hacer clic en el botón `Aceptar`.
+> <img class="con_borde" src="img/dbeaver/dbeaver10.jpg" alt="dbeaver">
 
+
+        
+
+- Una vez conectado se visualizarán las bases de datos del servidor:
+
+<img class="con_borde" src="img/dbeaver/dbeaver11.jpg" alt="dbeaver">
 
 
 <span class="mi_h3">Ver funciones y procedimientos almacenados</span>
 
 Para poder ver el código de una función o un procedimiento almacenado en nuestra BD seguir estos pasos:
 
-1. Desplegar el apartado Procedures de la BD.
+- Desplegar el apartado Procedures de la BD.
 
-2. Hacer clic con el botón derecho sobre la función o procedimiento, entrar en `Generar SQL` y luego en `DDL`.
+- Hacer clic con el botón derecho sobre la función o procedimiento, entrar en `Generar SQL` y luego en `DDL`.
 
-    ![Imagen 12](img/dbeaver/dbeaver12.jpg)
+<img class="con_borde" src="img/dbeaver/dbeaver12.jpg" alt="dbeaver">
 
-    El código de la fución o procedimiento aparecerá en una ventana nueva.
+El código de la fución o procedimiento aparecerá en una ventana nueva.
 
-    ![Imagen 13](img/dbeaver/dbeaver13.jpg)
-
-
+<img class="con_borde" src="img/dbeaver/dbeaver13.jpg" alt="dbeaver">
 
 ---
 
