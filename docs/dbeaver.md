@@ -43,26 +43,22 @@ Los siguientes pasos ilustran como conectar a una BD llamada **florabotanica.sql
 
 <img class="con_borde" src="img/dbeaver/dbeaver04.png" alt="dbeaver">
 
-Si todo está correcto, verás un mensaje de éxito.  
+Si todo está correcto, aparecerá un mensaje de éxito.  
 
 <img class="con_borde" src="img/dbeaver/dbeaver08.png" alt="dbeaver">
 
 
-Si DBeaver necesita un controlador (driver), te lo ofrecerá para descargar automáticamente.
+Si DBeaver necesita un controlador (driver), ofrecerá su descarga automáticamente.
     
 <img class="con_borde" src="img/dbeaver/dbeaver05.png" alt="dbeaver">
 
-Si la descarga falla, ve a https://github.com/xerial/sqlite-jdbc/releases y descarga el archivo **sqlite-jdbc-3.50.3.0.jar**
-
-Edita el driver:
+Si la descarga falla, descargar el archivo **sqlite-jdbc-3.50.3.0.jar** manualmente desde https://github.com/xerial/sqlite-jdbc/releases y editar el driver para añadirlo:
 
 <img class="con_borde" src="img/dbeaver/dbeaver06.png" alt="dbeaver">
-    
-Y añádelo manualmente:
 
 <img class="con_borde" src="img/dbeaver/dbeaver07.png" alt="dbeaver">
 
-- Haz clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
+- Hacer clic en **Finalizar*. La nueva conexión aparecerá en el panel lateral izquierdo.  
 Desde allí puedes realizar operaciones como, por ejemplo, visualizar datos (tablas, vistas, funciones y procedimientos), ejecutar sentencias SQL, operar con registros (consultar y modificar) o exportar datos en distintos formatos.
 
 <img class="con_borde" src="img/dbeaver/dbeaver09.png" alt="dbeaver">
