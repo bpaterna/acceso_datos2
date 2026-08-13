@@ -4,10 +4,10 @@
 
 <span class="mi_h3">Revisiones</span>
 
-| Revisión | Fecha      | Descripción                                                       |
-|----------|------------|-------------------------------------------------------------------|
-| 1.0      | 11-10-2025 | Adaptación de los materiales a markdown                           |
-| 1.1      | 06-11-2025 | Ampliación con sección ver funciones y procedimientos almacenados |
+| Revisión | Fecha      | Descripción                                 |
+|----------|------------|---------------------------------------------|
+| 1.0      | 11-10-2025 | Adaptación de los materiales a markdown     |
+| 1.1      | 13-08-2026 | Ampliación con sección de conexión a SQLite |
 
 <span class="mi_h3">Introducción</span>
 
