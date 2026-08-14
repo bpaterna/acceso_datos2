@@ -21,10 +21,10 @@ Una **base de datos relacional** es un sistema de almacenamiento de información
 
 **Ejemplo de tabla `plantas`:**
 
-| id_planta | nombre_comun | altura    |
-| :--- | :--- |:------|
-| 1 | Aloe Vera | 8.50  |
-| 2 | Ficus Benjamina | 15.00 |
+| id_planta | nombre_comun | stock | precio |
+| :--- | :--- |:------|:-------|
+| 1 | Aloe Vera | 20    | 10.5   |
+| 2 | Ficus Benjamina | 40    | 4.75   |
 
 
 **Ejemplo de tabla `jardines`:**
@@ -43,15 +43,17 @@ La **Clave primaria (Primary Key)** es una columna (o conjunto de columnas) que 
 La **Clave foránea (Foreign Key)** es una columna que **hace referencia a una clave primaria de otra tabla** para establecer una relación.
 
 Si queremos registrar las plantas que tiene cada jardín, podemos utilizar una tabla intermedia llamada `jardines_plantas`. Esta tabla tendrá sus propias relaciones mediante claves foráneas:
+
 * El campo `id_jardin` será una clave foránea que apunta al campo `id_jardin` de la tabla `jardines`.
 * El campo `id_planta` será una clave foránea que apunta al campo `id_planta` de la tabla `plantas`.
 
+
 **Ejemplo de tabla `jardines_plantas`:**
 
-| id_jardin_planta | id_jardin | id_planta | fecha_plantacion |
-|:-----------------|:----------| :--- |:-----------------|
-| 1                | 1         | 1 | 2025-09-18       |
-| 2                | 1         | 2 | 2025-09-18       |
+|  id_jardin | id_planta | cantidad |
+|:----------| :--- |:---------|
+|  1         | 1 | 8        |
+|  1         | 2 | 12       |
 
 
 El lenguaje **SQL (Structured Query Language)** se utiliza para gestionar bases de datos relacionales ya que gracias a él se pueden crear, modificar, consultar y eliminar datos de forma sencilla y estandarizada. Es lo que se denomina **CRUD**, es decir, **C**reate (crear), **R**ead (Leer), **U**pdate (Actualizar) y **D**elete (Borrar). Esto lo convierte en la opción preferida para una amplia variedad de aplicaciones empresariales y tecnológicas.
@@ -378,11 +380,15 @@ fun main() {
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
-    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
-    - A partir del fichero de información `csv` utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que tenga una estructura acorde a la información del fichero y guárdala en la carpeta `datos` en la raíz de tu proyecto. Guarda también, en la misma carpeta, el fichero `csv`. Puedes utilizar la herramienta [DBeaver](dbeaver.html).
-    - Declara una constante con la ruta a la BD. 
-    - Declara una función para conectar a la BD. 
-    - Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
+    En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra BD a partir del archivo `csv` de nuestro proyecto anterior y verificaremos que podemos conectar a ella correctamente y leer su información. A medida que avancemos iremos añadiendo funciones a este proyecto.
+
+    **Realiza los siguientes pasos:**
+
+    1. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
+    2. A partir del fichero de información `csv` utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que tenga una estructura acorde a la información del fichero y guárdala en la carpeta `datos` en la raíz de tu proyecto. Guarda también, en la misma carpeta, el fichero `csv`. Puedes utilizar la herramienta [DBeaver](dbeaver.html).
+    3. Declara una constante con la ruta a la BD. 
+    4. Declara una función para conectar a la BD. 
+    5. Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
 
 
 
@@ -562,12 +568,15 @@ fun main() {
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 !!! warning "Práctica 2: amplía tu proyecto"
+    En esta práctica ampliarás tu proyecto con un menú para que el usuario interactúe con la aplicación por consola. El menú tendrá una opción para importar la información del fichero `csv` y las opciones **CRUD**, es decir, **C**reate (crear), **R**ead (Leer), **U**pdate (Actualizar) y **D**elete (Borrar).
+
+    **Realiza los siguientes pasos:**
 
     1. Crea un menú para gestionar la información de la tabla de tu BD con las opciones siguientes:
 
         ```text
         --------------------------------------        
-        ---------- CRUD (nombre tabla) ----------
+        ---------- MENÚ PRINCIPAL ----------
         --------------------------------------
         1. Importar datos desde fichero CSV
         2. Visualizar información
@@ -577,7 +586,7 @@ fun main() {
         0. Salir
         ```
 
-    2. Añade a tu proyecto un objeto de acceso a datos (DAO) para manejar las diferentes operaciones CRUD de la tabla de tu BD y realiza las llamadas correctas a cada operación desde cada opción del menú.
+    2. Añade a tu proyecto un objeto de acceso a datos (DAO) con todas las funciones necesarias para manejar las diferentes operaciones CRUD de la tabla de tu BD y realiza las llamadas correctas a cada operación desde cada opción del menú.
 
     3. Utiliza .use en todas tus operaciones para asegurarte de que se cierran correctamente todos los recursos.
 
@@ -713,6 +722,9 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
 
 !!! warning "Práctica 3: amplía tu proyecto"
+    En esta práctica ampliarás tu BD y crearás el código necesario para gestionar la infromación empleando transacciones y controlando posibles excepciones. También reestructurarás la interacción con el usuario modificando el menú principal y creando dos submenús.
+
+    **Realiza los siguientes pasos:**
 
     1. Modifica el menú de la práctica anterior para tener un menú principal y dos submenús, de forma que quede algo parecido a lo siguiente:
 
@@ -760,9 +772,19 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
 
 !!! danger "Entrega 1"
-    Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
 
-    **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
+
+
+    **CALIFICACIÓN**
+    
+    | Bloque de evaluación             | Criterios específicos          | Puntos                            |
+    | :------------------------- | :--------------------------------------- | :-----------------------------: |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
+    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
+    | **Total**                                | **Evaluación global del proyecto**        | 10 |
+    
+    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
 
 
 

@@ -2892,7 +2892,7 @@ data class Planta(
 
 !!! danger "Entrega final"
 
-    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, a carpeta `datos` y el archivo `LEEME.md`
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, la carpeta `datos` y el archivo `LEEME.md`
 
 
     **CALIFICACIÓN**
