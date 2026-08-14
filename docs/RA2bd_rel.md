@@ -767,16 +767,13 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
         0. Salir
         ```
 
-    2. Añade otras dos tablas a tu BD.
-    3. Añade los correspondientes DAO a tu proyecto para gestionar la información de las nuevas tablas.
-    4. Implementa alguna operación sobre la BD que requiera el control mediante transacciones.
-    5. No olvides controlar los posibles errores mediante la captura de excepciones.
+    2. Añade otras dos tablas a tu BD y los correspondientes DAO a tu proyecto para gestionar su información.
+    3. Implementa alguna operación sobre la BD (parecida a la del ejemplo) que requiera el control mediante transacciones.
+    4. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
 !!! danger "Entrega 1"
-
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
-
 
     **CALIFICACIÓN**
     

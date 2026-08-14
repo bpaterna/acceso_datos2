@@ -1595,7 +1595,6 @@ Formato Origen (ej. CSV) ➔ Objetos Kotlin en Memoria ➔ Formato Destino (ej. 
 
 
 !!! danger "Entrega parcial"
-
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
 
     **IMPORTANTE:**
@@ -2891,7 +2890,6 @@ data class Planta(
 
 
 !!! danger "Entrega final"
-
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, la carpeta `datos` y el archivo `LEEME.md`
 
 
