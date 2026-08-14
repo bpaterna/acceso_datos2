@@ -580,7 +580,7 @@ fun main() {
         0. Salir
         ```
 
-    2. Añade a tu proyecto un objetos de acceso a datos (DAO) para manejar las diferentes operaciones CRUD de la tabla de tu BD.
+    2. Añade a tu proyecto un objeto de acceso a datos (DAO) para manejar las diferentes operaciones CRUD de la tabla de tu BD y realiza las llamadas correctas a cada operación desde cada opción del menú.
 
     3. Utiliza .use en todas tus operaciones para asegurarte de que se cierran correctamente todos los recursos.
 
@@ -665,9 +665,15 @@ Para el siguiente ejemplo se han añadido a la BD las tablas `jardines`y `jardin
 
 <img class="con_borde" src="img/BD/4_jardines_plantas.png" alt="commit_rollback">
 
+Puedes descargar la BD aquí: [florabotanica2.sqlite](recursos/florabotanica2.sqlite){:florabotanica2.sqlite}
 
+Supongamos que queremos llevar varias unidades de una planta a un jardín. El programa debe realizar los siguientes pasos:
 
-Supongamos que queremos llevar varias unidades de una planta a un jardín. El programa debe actualizar el stock en la tabla `plantas` (restando las unidades correspondientes) y añadir un registro en la tabla `jardines_plantas` indicando el jadín, la planta y la cantidad. Ambas operaciones deben realizarse juntas, o no realizarse ninguna. El código sería el siguiente:
+- Pedir la información al usuario (jardín, planta y cantidad a llevar).
+- Actualizar el stock en la tabla `plantas` (restando la cantidad indicada).
+- Añadir un registro en la tabla `jardines_plantas` con el jadín, la planta y la cantidad. 
+
+Si después de actualizar el stock en la tabla `plantas`, la inserción del registro en `jardines_plantas` falla (por ejemplo se intenta insertar un registro con un id_jardin y un id_planta que ya existen la BD devuelve un error de duplicidad de clave primaria), el stock de la planta debería volver al valor inicial (es decir, desaher el cambio hecho en el paso anterior). Por tanto, ambas operaciones deben realizarse juntas, o no realizarse ninguna. El código sería el siguiente:
 
 ``` kotlin
 fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
@@ -716,20 +722,55 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
 !!! warning "Práctica 3: amplía tu proyecto"
 
-    1. Añade otras dos tablas a tu BD y sus correspondientes DAO a tu proyecto.
-    2. Amplía el menú para poder gestionar los datos de todas las tablas.
-    3. Incluye alguna opción a tu menú para realizar alguna operación sobre la BD que requiera el control mediante transacciones.
-    4. No olvides controlar los posibles errores mediante la captura de excepciones.
+    1. Modifica el menú de la práctica anterior para tener un menú principal y dos submenús, de forma que quede algo parecido a lo siguiente:
 
+        ```text
+        --------------------------------------        
+        ----------- MENÚ PRINCIPAL -----------
+        --------------------------------------
+        1. CRUD (nombre tabla 1)
+        2. CRUD (nombre tabla 2)
+        0. Salir
+        ```
+
+    2. Crea un submenú para gestionar la información de la primera tabla (el que tenías como menú principal en la práctica anterior). Este menú debe aparecer al indicar la opción 1 del menú principal y debe tener las opciones siguientes:
+
+        ```text
+        --------------------------------------        
+        ---------- CRUD (nombre tabla) ----------
+        --------------------------------------
+        1. Importar datos desde fichero CSV
+        2. Visualizar información
+        3. Añadir un registro nuevo
+        4. Modificar un registro existente (por ID)
+        5. Eliminar un registro existente (por ID)
+        0. Salir
+        ```
+
+    3. Crea un submenú para gestionar la información de la segunda tabla. Este menú debe aparecer al indicar la opción 2 del menú principal y debe tener las opciones siguientes:
+
+        ```text
+        --------------------------------------        
+        ---------- CRUD (nombre tabla) ----------
+        --------------------------------------
+        1. (Operación que requiera transacciones)
+        2. Visualizar información
+        3. Añadir un registro nuevo
+        4. Modificar un registro existente (por ID)
+        5. Eliminar un registro existente (por ID)
+        0. Salir
+        ```
+
+    4. Añade otras dos tablas a tu BD.
+    5. Añade los correspondientes DAO a tu proyecto para gestionar la información de las nuevas tablas.
+    6. Implementa alguna operación sobre la BD que requiera el control mediante transacciones.
+    7. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
 !!! danger "Entrega 1"
     Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
 
     **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
-
-
-
 
 
 
