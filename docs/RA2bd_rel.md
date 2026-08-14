@@ -726,7 +726,9 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
     **Realiza los siguientes pasos:**
 
-    1. Modifica el menú de la práctica anterior para tener un menú principal y dos submenús, de forma que quede algo parecido a lo siguiente:
+    1. Añade dos tablas a tu BD de forma que quede con una lógica parecida a la del ejemplo visto anteriormente.
+
+    2. Modifica el menú de la práctica anterior para tener un menú principal y dos submenús, de forma que quede algo parecido a lo siguiente:
 
         Un menú principal:
 
@@ -736,6 +738,7 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
         --------------------------------------
         1. CRUD (nombre tabla 1)
         2. CRUD (nombre tabla 2)
+        3. (Operación que requiera transacciones)
         0. Salir
         ```
 
@@ -743,7 +746,7 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
         ```text
         --------------------------------------        
-        ---------- CRUD (nombre tabla) ----------
+        ---------- CRUD (nombre tabla 1) ----------
         --------------------------------------
         1. Importar datos desde fichero CSV
         2. Visualizar información
@@ -757,19 +760,18 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
         ```text
         --------------------------------------        
-        ---------- CRUD (nombre tabla) ----------
+        ---------- CRUD (nombre tabla 2) ----------
         --------------------------------------
-        1. (Operación que requiera transacciones)
-        2. Visualizar información
-        3. Añadir un registro nuevo
-        4. Modificar un registro existente (por ID)
-        5. Eliminar un registro existente (por ID)
+        1. Visualizar información
+        2. Añadir un registro nuevo
+        3. Modificar un registro existente (por ID)
+        4. Eliminar un registro existente (por ID)
         0. Salir
         ```
 
-    2. Añade otras dos tablas a tu BD y los correspondientes DAO a tu proyecto para gestionar su información.
-    3. Implementa alguna operación sobre la BD (parecida a la del ejemplo) que requiera el control mediante transacciones.
-    4. No olvides controlar los posibles errores mediante la captura de excepciones.
+    3. Añade el DAO para gestionar la información de la segunda tabla.
+    4. Implementa alguna operación sobre la BD (parecida a la del ejemplo) que requiera el control mediante transacciones.
+    5. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
 !!! danger "Entrega 1"
