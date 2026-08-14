@@ -721,12 +721,14 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
-!!! warning "Práctica 3: amplía tu proyecto"
-    En esta práctica ampliarás tu BD y crearás el código necesario para gestionar la infromación empleando transacciones y controlando posibles excepciones. También reestructurarás la interacción con el usuario modificando el menú principal y creando dos submenús.
+!!! warning "Práctica 3: finaliza tu aplicación"
+    En esta práctica ampliarás tu BD y crearás el código necesario para gestionar la información empleando transacciones y controlando posibles excepciones. También reestructurarás la interacción con el usuario modificando el menú principal y creando dos submenús.
 
     **Realiza los siguientes pasos:**
 
     1. Modifica el menú de la práctica anterior para tener un menú principal y dos submenús, de forma que quede algo parecido a lo siguiente:
+
+        Un menú principal:
 
         ```text
         --------------------------------------        
@@ -737,7 +739,7 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
         0. Salir
         ```
 
-    2. Crea un submenú para gestionar la información de la primera tabla (el que tenías como menú principal en la práctica anterior). Este menú debe aparecer al indicar la opción 1 del menú principal y debe tener las opciones siguientes:
+        Un submenú para gestionar la información de la primera tabla (el que tenías como menú principal en la práctica anterior) al que se accede desde la opción 1 del menú principal:
 
         ```text
         --------------------------------------        
@@ -751,7 +753,7 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
         0. Salir
         ```
 
-    3. Crea un submenú para gestionar la información de la segunda tabla. Este menú debe aparecer al indicar la opción 2 del menú principal y debe tener las opciones siguientes:
+        Un submenú para gestionar la información de la segunda tabla al que se accede desde la opción 2 del menú principal:
 
         ```text
         --------------------------------------        
@@ -765,10 +767,10 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
         0. Salir
         ```
 
-    4. Añade otras dos tablas a tu BD.
-    5. Añade los correspondientes DAO a tu proyecto para gestionar la información de las nuevas tablas.
-    6. Implementa alguna operación sobre la BD que requiera el control mediante transacciones.
-    7. No olvides controlar los posibles errores mediante la captura de excepciones.
+    2. Añade otras dos tablas a tu BD.
+    3. Añade los correspondientes DAO a tu proyecto para gestionar la información de las nuevas tablas.
+    4. Implementa alguna operación sobre la BD que requiera el control mediante transacciones.
+    5. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
 !!! danger "Entrega 1"
