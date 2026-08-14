@@ -341,7 +341,6 @@ import java.sql.SQLException
 // Ruta al archivo de base de datos SQLite
 const val URL_BD = "jdbc:sqlite:datos/florabotanica.sqlite"
 
-// Obtener conexión
 fun conectarBD(): Connection? {
     return try {
         DriverManager.getConnection(URL_BD)
@@ -439,7 +438,6 @@ object PlantasDAO {
         return lista
     }
 
-    // Consultar planta por ID
     fun consultarPlantaPorId(id: Int): Planta? {
         var planta: Planta? = null
         conectarBD()?.use { conn ->
@@ -520,7 +518,6 @@ La llamada a estas funciones desde **main.kt** podría ser:
 
 ``` kotlin
 fun main() {
-
     // Listar todas las plantas
     println("Lista de plantas:")
     PlantasDAO.listarPlantas().forEach {
@@ -676,42 +673,37 @@ Supongamos que queremos llevar varias unidades de una planta a un jardín. El pr
 Si después de actualizar el stock en la tabla `plantas`, la inserción del registro en `jardines_plantas` falla (por ejemplo se intenta insertar un registro con un id_jardin y un id_planta que ya existen la BD devuelve un error de duplicidad de clave primaria), el stock de la planta debería volver al valor inicial (es decir, desaher el cambio hecho en el paso anterior). Por tanto, ambas operaciones deben realizarse juntas, o no realizarse ninguna. El código sería el siguiente:
 
 ``` kotlin
-fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
-    conectarBD()?.use { conn ->
-        try {
-            conn.autoCommit = false  // Iniciar transacción manual
+    fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
+        conectarBD()?.use { conn ->
+            try {
+                conn.autoCommit = false  // Iniciar transacción manual
 
-            // Restar stock a la planta
-            conn.prepareStatement("UPDATE plantas SET stock = stock - $cantidad WHERE id_planta = ?").use { stock ->
+                // Restar stock a la planta
+                val stock = conn.prepareStatement("UPDATE plantas SET stock = stock - $cantidad WHERE id_planta = ?")
                 stock.setInt(1, id_planta)
                 stock.executeUpdate()
-            }
 
-            // Añadir línea en tabla jardines_plantas
-            conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)").use { plantar ->
+                // Añadir línea en tabla jardines_plantas
+                val plantar = conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)")
                 plantar.setInt(1, id_jardin)
                 plantar.setInt(2, id_planta)
                 plantar.setInt(3, cantidad)
                 plantar.executeUpdate()
-            }
 
-            // Confirmar cambios
-            conn.commit()
-            println("Transacción realizada con éxito.")
-        } catch (e: SQLException) {
-            if (e.message?.contains("UNIQUE constraint failed") == true) {
-                println("Intento de insertar clave duplicada")
-                conn.rollback()
-                println("Transacción revertida.")
-            } else {
-                throw e // otros errores, relanzamos
+                // Confirmar cambios
+                conn.commit()
+                println("Transferencia realizada con éxito.")
+            } catch (e: SQLException) {
+                if (e.message?.contains("UNIQUE constraint failed") == true) {
+                    println("Intento de insertar clave duplicada")
+                    conn.rollback()
+                    println("Transacción revertida.")
+                } else {
+                    throw e // otros errores, relanzamos
+                }
             }
-        } finally {
-            // Código que se ejecuta siempre
-            println("Fin del programa.")
         }
     }
-}
 ```
 
 Si no se produce ningún error se hará el `commit` y en caso contrario el `rollback`
