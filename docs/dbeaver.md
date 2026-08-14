@@ -7,7 +7,7 @@
 | Revisión | Fecha      | Descripción                                 |
 |----------|------------|---------------------------------------------|
 | 1.0      | 11-10-2025 | Adaptación de los materiales a markdown     |
-| 1.1      | 13-08-2026 | Ampliación con sección de conexión a SQLite |
+| 1.1      | 14-08-2026 | Ampliación con sección de conexión a SQLite |
 
 <span class="mi_h3">Introducción</span>
 
@@ -23,7 +23,7 @@
 
 ## Conexión a SQLite
 
-Los siguientes pasos muestran como conectar a una BD llamada **florabotanica.sqlite** ubicada en la carpeta `datos` dentro de la raíz de nuestro proyecto:
+Los siguientes pasos muestran como conectar a una BD llamada **florabotanica.sqlite**:
 
 - Hacer clic en el botón **Nueva conexión** (enchufe) o ir al menú *Archivo > Nueva conexión*:
 

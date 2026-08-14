@@ -380,7 +380,7 @@ fun main() {
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
     - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
-    - A partir del fichero de información utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que contenga la información del fichero. Puedes utilizar [DBeaver](dbeaver.html) y guárdala en la carpeta `datos` en la raízde tu proyecto.
+    - A partir del fichero de información `csv` utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que tenga una estructura acorde a la información del fichero y guárdala en la carpeta `datos` en la raíz de tu proyecto. Guarda también, en la misma carpeta, el fichero `csv`. Puedes utilizar la herramienta [DBeaver](dbeaver.html).
     - Declara una constante con la ruta a la BD. 
     - Declara una función para conectar a la BD. 
     - Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
@@ -403,7 +403,7 @@ Los objetos de acceso a datos son una buena forma de organizar nuestro código p
 
 El siguiente ejemplo es el DAO para la tabla `plantas` de la BD `florabotanica.sqlite`. La estructura de la tabla `plantas` es la siguiente:
 
-![Imagen 2](img/BD/3_plantas.png)
+<img class="con_borde" src="img/BD/3_plantas.png" alt="DAO">
 
 Creamos un archivo **PlantasDAO.kt** en el que declararemos una data class con la misma estructura que la tabla `plantas` y las funciones para leer la información de la tabla, añadir registros nuevos, modificar la información existente y borrarla. El código fuente es:
 
@@ -566,14 +566,14 @@ fun main() {
 
 !!! warning "Práctica 2: amplía tu proyecto"
 
-    1. **Crea un menú para gestionar la información de la tabla de tu BD con las opciones siguientes:
+    1. Crea un menú para gestionar la información de la tabla de tu BD con las opciones siguientes:
 
         ```text
         --------------------------------------        
         ---------- CRUD (nombre tabla) ----------
         --------------------------------------
-        1. Importar datos desde fichero de texto plano.
-        2. Visualizar información.
+        1. Importar datos desde fichero CSV
+        2. Visualizar información
         3. Añadir un registro nuevo
         4. Modificar un registro existente (por ID)
         5. Eliminar un registro existente (por ID)
@@ -588,16 +588,149 @@ fun main() {
 
 
 
+## 5. Transacciones y excepciones
+
+<span class="mi_h3">Transacciones</span>
+
+Una transacción es una secuencia de una o más operaciones sobre una base de datos que deben ejecutarse como una unidad indivisible. El objetivo es asegurar que todas las operaciones se completen con éxito o, en caso de fallo, ninguna de ellas se aplique, manteniendo así la base de datos en un estado consistente. Por ejemplo, en una transferencia bancaria, si falla el abono en una cuenta, se cancela el débito en la otra.
+
+Las transacciones se gestionan mediante comandos como BEGIN TRANSACTION (para iniciar), COMMIT (para confirmar los cambios) y ROLLBACK (para deshacer los cambios en caso de error). Este mecanismo protege la base de datos frente a fallos parciales y situaciones de concurrencia, asegurando que los datos siempre reflejen una realidad válida y coherente.
+
+
+**Propiedades de una transacción (ACID)**
+
+Las transacciones garantizan propiedades fundamentales, conocidas por el acrónimo ACID:
+
+Propiedad|	Significado breve
+---------|-------------------
+Atomicidad|	Todas las operaciones se ejecutan o ninguna lo hace
+Consistencia|	El sistema pasa de un estado válido a otro
+Isolación|	No interfiere con otras transacciones simultáneas
+Durabilidad| Una vez confirmada, el cambio permanece
+
+
+**Comandos clave**
+
+Para controlar correctamente una transacción desde el código, necesitamos usar tres comandos clave:
+
+- **commit()**: Confirma los cambios realizados por la transacción, haciéndolos permanentes.
+- **rollback()**: Revierte todos los cambios realizados durante la transacción actual, volviendo al estado anterior.
+
+Por defecto, muchas conexiones JDBC están en modo **auto-commit**, es decir, cada operación se ejecuta y confirma automáticamente. Para usar transacciones de forma manual, debes desactivar este modo con la instrucción `conexion.autoCommit = false`
 
 
 
+<span class="mi_h3">Excepciones</span>
 
+El manejo de excepciones en las transacciones es absolutamente necesario para garantizar que los datos de la base de datos no queden en un estado inconsistente o corrupto cuando ocurre un error durante una operación.
+
+Una transacción sin control de errores no es una transacción segura. Siempre hay que estar preparado para deshacer todo si algo sale mal.
+
+Cuando realizamos varias operaciones dentro de una misma transacción (por ejemplo, una transferencia bancaria), pueden ocurrir errores como:
+
+- un fallo de conexión,
+- un ID incorrecto,
+- un valor nulo inesperado,
+- un error lógico como saldo insuficiente.
+
+Si no controlamos esos errores, la base de datos podría:
+
+- Aplicar solo algunas de las operaciones
+- Dejar datos parcialmente modificados
+- Generar resultados incorrectos para otros usuarios
+
+Para evitarlo se utiliza un bloque **try-catch** que:
+
+- Llama a commit() si todo sale bien
+- Llama a rollback() si ocurre cualquier excepción
+
+``` kotlin
+        try {
+            conexion.autoCommit = false
+
+            // Varias operaciones SQL...
+            conexion.commit()  // Todo bien
+        } catch (e: Exception) {
+            conexion.rollback()  // Algo falló → revertir
+            println("Error en la transacción. Cambios anulados.")
+        }
+``` 
+
+
+<span class="mis_ejemplos">Ejemplo 5: commit y rollback</span>
+
+Para el siguiente ejemplo se han añadido a la BD las tablas `jardines`y `jardines_plantas` cuya estructura es la siguiente:
+
+<img class="con_borde" src="img/BD/4_jardines.png" alt="commit_rollback">
+
+<img class="con_borde" src="img/BD/4_jardines_plantas.png" alt="commit_rollback">
+
+
+
+Supongamos que queremos llevar varias unidades de una planta a un jardín. El programa debe actualizar el stock en la tabla `plantas` (restando las unidades correspondientes) y añadir un registro en la tabla `jardines_plantas` indicando el jadín, la planta y la cantidad. Ambas operaciones deben realizarse juntas, o no realizarse ninguna. El código sería el siguiente:
+
+``` kotlin
+fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
+    conectarBD()?.use { conn ->
+        try {
+            conn.autoCommit = false  // Iniciar transacción manual
+
+            // Restar stock a la planta
+            conn.prepareStatement("UPDATE plantas SET stock = stock - $cantidad WHERE id_planta = ?").use { stock ->
+                stock.setInt(1, id_planta)
+                stock.executeUpdate()
+            }
+
+            // Añadir línea en tabla jardines_plantas
+            conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)").use { plantar ->
+                plantar.setInt(1, id_jardin)
+                plantar.setInt(2, id_planta)
+                plantar.setInt(3, cantidad)
+                plantar.executeUpdate()
+            }
+
+            // Confirmar cambios
+            conn.commit()
+            println("Transacción realizada con éxito.")
+        } catch (e: SQLException) {
+            if (e.message?.contains("UNIQUE constraint failed") == true) {
+                println("Intento de insertar clave duplicada")
+                conn.rollback()
+                println("Transacción revertida.")
+            } else {
+                throw e // otros errores, relanzamos
+            }
+        } finally {
+            // Código que se ejecuta siempre
+            println("Fin del programa.")
+        }
+    }
+}
+```
+
+Si no se produce ningún error se hará el `commit` y en caso contrario el `rollback`
+
+!!! success "Prueba y analiza el ejemplo"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
 !!! warning "Práctica 3: amplía tu proyecto"
 
     1. Añade otras dos tablas a tu BD y sus correspondientes DAO a tu proyecto.
     2. Amplía el menú para poder gestionar los datos de todas las tablas.
+    3. Incluye alguna opción a tu menú para realizar alguna operación sobre la BD que requiera el control mediante transacciones.
+    4. No olvides controlar los posibles errores mediante la captura de excepciones.
+
+
+
+!!! danger "Entrega 1"
+    Entrega en Aules la carpeta `main` de tu proyecto comprimida en formato .zip
+
+    **IMPORTANTE**: El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+
+
+
+
 
 
 
