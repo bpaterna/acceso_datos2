@@ -219,7 +219,7 @@ En **JDBC** (Java Database Connectivity), las operaciones sobre la base de datos
 | Crear tablas (DDL) o sentencias SQL complejas que no cambian | **`Statement`** |
 
 
-> **Nota práctica:** Aunque las interfaces de JDBC se llaman **`Statement`** y **`PreparedStatement`**, para obtener sus instancias desde la conexión del código utilizaremos los métodos correspondientes:
+> Aunque las interfaces de JDBC se llaman **`Statement`** y **`PreparedStatement`**, para obtener sus instancias desde la conexión del código utilizaremos los métodos correspondientes:
 > -`val stmt = conexion.createStatement()`
 > -`val pstmt = conexion.prepareStatement("SELECT...")`
 
@@ -314,20 +314,18 @@ fun main() {
 
 
 !!! success "Prueba y analiza el ejemplo"
-Prueba el código de ejemplo y verifica que funciona correctamente.
+    Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
 
 **Opción 2: El enfoque moderno de Kotlin (Cierre automático con .use)**
 
-Para solucionar la fragilidad y la gran cantidad de código repetitivo del método manual, Kotlin introduce la función de extensión **`.use { ... }`**.
-
-Esta función se puede aplicar a cualquier recurso que implemente la interfaz `AutoCloseable` (como nuestras conexiones, sentencias y resultados). Al utilizarla, **Kotlin garantiza que el recurso se cerrará automáticamente al salir del bloque**, incluso si ocurre una excepción o un error inesperado durante la ejecución. 
+Para solucionar la fragilidad y la gran cantidad de código repetitivo del método manual, Kotlin introduce la función de extensión **`.use { ... }`**. Esta función se puede aplicar a cualquier recurso que implemente la interfaz `AutoCloseable` (como nuestras conexiones, sentencias y resultados). Al utilizarla, **Kotlin garantiza que el recurso se cerrará automáticamente al salir del bloque**, incluso si ocurre una excepción o un error inesperado durante la ejecución. A continuación vemos un ejemplo:
 
 
 <span class="mis_ejemplos">Ejemplo 3: Cierre automático con .use</span>
 
-A continuación se muestra un **ejemplo con .use (sin necesidad de cerrar recursos manualmente)** que realiza la misma consulta que el ejemplo anterior. Ahora los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD:
+En esteejemplo, que realiza la misma consulta que el ejemplo anterior, los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD:
 
 ``` kotlin
 import java.sql.Connection
