@@ -2446,7 +2446,7 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 Ahora aprovecharemos la capacidad de `FileChannel` para posicionarnos directamente sobre una propiedad de un registro concreto utilizando el ID, para actualizarla sin alterar ni leer de forma secuencial el resto del fichero.
 
 ```kotlin
-fun modificarPrecioPlanta(idPlanta: Int, nuevaPrecio: Double) {
+fun modificarPrecioPlanta(idPlanta: Int, nuevoPrecio: Double) {
     try {
         // Abrimos el canal con permisos de Lectura y Escritura
         FileChannel.open(archivoPath, StandardOpenOption.READ, StandardOpenOption.WRITE).use { canal ->
@@ -2896,7 +2896,7 @@ data class Planta(
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
     | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
     | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
-    | **Total**                                | **Evaluación global del proyecto**        | 10 |
+   
     
     ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
 

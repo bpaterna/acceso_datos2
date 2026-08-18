@@ -3,35 +3,35 @@
     <id_planta>1</id_planta>
     <nombre_comun>Aloe Vera</nombre_comun>
     <nombre_cientifico>Aloe barbadensis miller</nombre_cientifico>
-    <frecuencia_riego>7</frecuencia_riego>
-    <altura_maxima>0.6</altura_maxima>
+    <stock>7</stock>
+    <precio>0.6</precio>
   </planta>
   <planta>
     <id_planta>2</id_planta>
     <nombre_comun>Lavanda</nombre_comun>
     <nombre_cientifico>Lavandula angustifolia</nombre_cientifico>
-    <frecuencia_riego>3</frecuencia_riego>
-    <altura_maxima>1.0</altura_maxima>
+    <stock>3</stock>
+    <precio>1.0</precio>
   </planta>
   <planta>
     <id_planta>3</id_planta>
     <nombre_comun>Helecho de Boston</nombre_comun>
     <nombre_cientifico>Nephrolepis exaltata</nombre_cientifico>
-    <frecuencia_riego>5</frecuencia_riego>
-    <altura_maxima>0.9</altura_maxima>
+    <stock>5</stock>
+    <precio>0.9</precio>
   </planta>
   <planta>
     <id_planta>4</id_planta>
     <nombre_comun>Bambú de la suerte</nombre_comun>
     <nombre_cientifico>Dracaena sanderiana</nombre_cientifico>
-    <frecuencia_riego>4</frecuencia_riego>
-    <altura_maxima>1.5</altura_maxima>
+    <stock>4</stock>
+    <precio>1.5</precio>
   </planta>
   <planta>
     <id_planta>5</id_planta>
     <nombre_comun>Girasol</nombre_comun>
     <nombre_cientifico>Helianthus annuus</nombre_cientifico>
-    <frecuencia_riego>2</frecuencia_riego>
-    <altura_maxima>3.0</altura_maxima>
+    <stock>2</stock>
+    <precio>3.0</precio>
   </planta>
 </plantas>
