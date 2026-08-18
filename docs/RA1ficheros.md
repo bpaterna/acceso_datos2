@@ -2893,7 +2893,7 @@ data class Planta(
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, la carpeta `datos` y el archivo `LEEME.md`
 
 
-    **CALIFICACIÓN**
+    <span class="mi_sombreado_entrega">**CALIFICACIÓN**</span>
     
     | Bloque de evaluación             | Criterios específicos          | Puntos                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
