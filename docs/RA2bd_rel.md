@@ -1234,7 +1234,7 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 !!! danger "Entrega 1"
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto.
 
-    **CALIFICACIÓN**
+    <span class="mi_sombreado_entrega">**CALIFICACIÓN**</span> 
     
     | Bloque de evaluación             | Criterios específicos          | Puntos                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |

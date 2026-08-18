@@ -61,6 +61,14 @@ img.con_borde {border:#767676 solid 2px !important;}
 
 .mi_sombreado { background: #e5f8fb; }
 
+.mi_sombreado_entrega { background: #ffe7ec; }
+
+
+.quote {display: none !important}
+
+/*.quote {visibility: hidden !important}*/
+
+
 /*para la impresión del pdf
 .md-typeset .admonition-title::before {
   left: 0.5rem;
