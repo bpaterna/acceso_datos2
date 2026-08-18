@@ -300,8 +300,9 @@ En **JDBC** (Java Database Connectivity), las operaciones sobre la base de datos
 
 
 > Aunque las interfaces de JDBC se llaman **`Statement`** y **`PreparedStatement`**, para obtener sus instancias desde la conexión del código utilizaremos los métodos correspondientes:
-> -`val stmt = conexion.createStatement()`
-> -`val pstmt = conexion.prepareStatement("SELECT...")`
+> 
+> - `val stmt = conexion.createStatement()`
+> - `val pstmt = conexion.prepareStatement("SELECT...")`
 
 
 - Los métodos **executeQuery()**, **executeUpdate()** y **execute()** se utilizan para ejecutar sentencias SQL, pero se usan en contextos diferentes. A continuación se muestra una tabla con el uso de cada uno:
