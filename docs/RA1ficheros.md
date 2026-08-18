@@ -7,10 +7,11 @@
 
 <span class="mi_h3">Revisiones</span>
 
-| Revisión | Fecha      | Descripción                                                   |
-|----------|------------|---------------------------------------------------------------|
-| 1.0      | 13-07-2026 | Adaptación de los materiales a markdown                       |
+| Revisión | Fecha      | Descripción                                |
+|----------|------------|--------------------------------------------|
+| 1.0      | 13-07-2026 | Adaptación de los materiales a markdown    |
 | 1.1      | 24-07-2026 | Ampliación con preguntas de autoevaluación |
+| 1.2      | 18-08-2026 | Modificación de algunos ejemplos           |
 
 
 ## 1. Introducción
