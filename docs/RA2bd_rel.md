@@ -244,7 +244,7 @@ Cuando una aplicación accede a una base de datos, el sistema operativo y el SGB
 
 En tecnologías como Java o Kotlin (usando JDBC), **estos recursos no se liberan automáticamente** al terminar de usarse. Si olvidamos cerrarlos de forma explícita, podemos provocar graves problemas en la aplicación:
 
-- **Fugas de memoria (*Memory Leaks*):** acumulación de objetos en la RAM que degradan el rendimiento general.
+- **Fugas de memoria:** acumulación de objetos en la RAM que degradan el rendimiento general.
 - **Bloqueo de conexiones:** agotamiento del número máximo de conexiones que admite la base de datos, impidiendo que otros usuarios o procesos se conecten.
 - **Errores inesperados:** comportamientos inestables en la aplicación al intentar operar con recursos que han quedado "huérfanos".
 
@@ -252,7 +252,7 @@ Para liberar estos recursos, tradicionalmente se ha seguido un enfoque manual qu
 
 
 
-**Opción 1: El enfoque tradicional (Cierre manual con close())**
+**Opción 1: El enfoque tradicional (cierre manual con close())**
 
 Este es el estilo clásico heredado de Java. Consiste en declarar las variables de los recursos fuera del bloque de ejecución, inicializarlas dentro de un `try` y asegurarse de cerrarlas manualmente dentro de un bloque `finally`, el cual se ejecuta siempre, ocurra o no un error.
 
@@ -261,12 +261,7 @@ El orden correcto de cierre manual siempre debe ser **desde el recurso más inte
 
 <span class="mis_ejemplos">Ejemplo 2: Cierre manual con close()</span>
 
-En este ejemplo se utiliza el enfoque tradicional de Java para cerrar recursos en un bloque finally. Los pasos de la ejecución son:
-
-- Declarar una constante con la ruta a la BD.
-- Establecer la conexión.
-- Consultar datos.
-- Cerrar los recursos abiertos (ResultSet, Statement y Connection) utilizando **close()** dentro de un bloque **finally**.
+En este ejemplo se declara una constante con la ruta a la BD, se establece la conexión, se consultan los datos y, por último, se cierran los recursos abiertos (ResultSet, Statement y Connection) utilizando **close()** dentro de un bloque **finally**.
 
 
 ``` kotlin
@@ -318,14 +313,14 @@ fun main() {
 
 
 
-**Opción 2: El enfoque moderno de Kotlin (Cierre automático con .use)**
+**Opción 2: El enfoque moderno de Kotlin (cierre automático con .use)**
 
 Para solucionar la fragilidad y la gran cantidad de código repetitivo del método manual, Kotlin introduce la función de extensión **`.use { ... }`**. Esta función se puede aplicar a cualquier recurso que implemente la interfaz `AutoCloseable` (como nuestras conexiones, sentencias y resultados). Al utilizarla, **Kotlin garantiza que el recurso se cerrará automáticamente al salir del bloque**, incluso si ocurre una excepción o un error inesperado durante la ejecución. A continuación vemos un ejemplo:
 
 
 <span class="mis_ejemplos">Ejemplo 3: Cierre automático con .use</span>
 
-En esteejemplo, que realiza la misma consulta que el ejemplo anterior, los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD:
+En este ejemplo, que realiza la misma consulta que el ejemplo anterior, los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD.
 
 ``` kotlin
 import java.sql.Connection
