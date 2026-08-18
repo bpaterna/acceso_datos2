@@ -64,9 +64,9 @@ img.con_borde {border:#767676 solid 2px !important;}
 .mi_sombreado_entrega { background: #ffe7ec; }
 
 
-.quote {display: none !important}
+/*.quote {display: none !important}
 
-/*.quote {visibility: hidden !important}*/
+.quote {visibility: hidden !important}*/
 
 
 /*para la impresión del pdf
