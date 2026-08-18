@@ -1,7 +1,7 @@
 # RA2. Acceso a Bases de Datos relacionales
 
 !!! info "RA2"
-    Desarrolla aplicaciones que gestionan información almacenada en bases de datos relacionales identificando y utilizando mecanismos de conexión..
+    Desarrolla aplicaciones que gestionan información almacenada en bases de datos relacionales identificando y utilizando mecanismos de conexión.
 
 
 
@@ -35,12 +35,12 @@ Una **base de datos relacional** es un sistema de almacenamiento de información
 | 2         | Olimpo | Valencia |
 
 
-La **Clave primaria (Primary Key)** es una columna (o conjunto de columnas) que **identifica de forma única** cada fila de una tabla. En nuestro ejemplo:
+La **clave primaria (Primary Key)** es una columna (o conjunto de columnas) que **identifica de forma única** cada fila de una tabla. En nuestro ejemplo:
 
 - `id_planta` es la clave primaria en la tabla `plantas`.
 - `id_jardin` es la clave primaria en la tabla `jardines`.
 
-La **Clave foránea (Foreign Key)** es una columna que **hace referencia a una clave primaria de otra tabla** para establecer una relación.
+La **clave foránea o clave agena (Foreign Key)** es una columna que **hace referencia a una clave primaria de otra tabla** para establecer una relación.
 
 Si queremos registrar las plantas que tiene cada jardín, podemos utilizar una tabla intermedia llamada `jardines_plantas`. Esta tabla tendrá sus propias relaciones mediante claves foráneas:
 
@@ -162,11 +162,11 @@ También dependiendo del SGBD será necesario utilizar la dependencia adecuada e
 
 **Algunos ejemplos de conectores según el SGBD**
 
-SGBD|	Conector (Driver JDBC)|	URL de conexión típica | Dependencia Gradle
-----|-------------------------|-----------------------|-----------------------
+SGBD|	Conector (Driver JDBC)| 	URL de conexión típica                | Dependencia Gradle
+----|-------------------------|----------------------------------------|-----------------------
 PostgreSQL|	org.postgresql.Driver| jdbc:postgresql://host:puerto/nombreBD |implementation("org.postgresql:postgresql:42.7.1")
-MySQL |	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD | implementation("com.mysql:mysql-connector-j:8.3.0")
-SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD | implementation("org.xerial:sqlite-jdbc:3.43.0.0")
+MySQL |	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD      | implementation("com.mysql:mysql-connector-j:8.3.0")
+SQLite (embebido)|	org.sqlite.JDBC	| jdbc:sqlite:ruta_archivo.sqlite | implementation("org.xerial:sqlite-jdbc:3.43.0.0")
 
 
 <span class="mis_ejemplos">Ejemplo 1: Conexión a SQLite</span>
@@ -197,6 +197,86 @@ fun main() {
     - Ejecuta el programa y verifica que la conexión con la BD se establece correctamente.
 
 
+
+!!! example "Autoevaluación"
+    
+    **Pregunta 1: Se intenta establecer una conexión a una base de datos local SQLite utilizando JDBC de la siguiente manera:**
+    
+    ```kotlin
+    import java.io.File
+    import java.sql.DriverManager
+    
+    fun main() {
+        val dbPath = "db_sistema/datos.sqlite"
+        val url = "jdbc:sqlite:$dbPath"
+        
+        // Intento de conexión directa a la base de datos
+        DriverManager.getConnection(url).use { conn ->
+            println("Conexión establecida con éxito.")
+        }
+    }
+    ```
+    
+    **Sabiendo que la carpeta llamada `db_sistema` no existe físicamente en el disco duro en el momento de iniciar el programa, ¿cuál será el comportamiento de la aplicación al ejecutarse?**
+    
+    A) El driver JDBC de SQLite detectará la ausencia de la ruta y creará automáticamente tanto la carpeta `db_sistema` como el archivo `datos.sqlite` antes de abrir la conexión de manera transparente.
+    
+    B) Se lanzará una excepción de tipo `SQLException` (causada internamente por un error de apertura de archivo tipo `SQLITE_CANTOPEN`) al no poder crear el archivo en una ruta inexistente, deteniendo la aplicación.
+    
+    C) El programa se conectará correctamente y guardará los datos en la memoria RAM del sistema operativo, posponiendo la creación real del directorio `db_sistema` para cuando se apague la aplicación de forma ordenada.
+    
+    D) Se producirá un error de compilación en Kotlin porque el driver `org.sqlite.JDBC` analiza estáticamente la cadena de la URL en tiempo de diseño y exige que todas las carpetas referenciadas existan en el disco.
+    
+    ??? quote "Solución"
+
+        ❌ A) El motor embebido de SQLite tiene la capacidad de crear automáticamente el archivo físico final (`datos.sqlite`) si este no existe, pero **no** creará de forma automática las carpetas intermedias o directorios padres (como `db_sistema`) en el disco duro.
+        
+        ✅ B) Para poder instanciar el archivo físico de la base de datos, el sistema operativo requiere que el directorio contenedor exista previamente. Al no existir la carpeta `db_sistema`, SQLite fallará al intentar crear el archivo físico y arrojará una excepción `SQLException` (típicamente con el mensaje de error `SQLITE_CANTOPEN`). Para solucionarlo, se debe crear la carpeta contenedora en el código antes de la conexión usando, por ejemplo, `File("db_sistema").mkdirs()`.
+        
+        ❌ C) Al estar configurada la base de datos para residir en un archivo local en disco (Pág. 3 y 6) [3, 6], SQLite requiere obligatoriamente poder abrir y escribir en dicho archivo físico para poder operar. El sistema no guardará los datos temporalmente en la memoria RAM de manera automática ante un fallo de disco, por lo que la excepción detendrá el programa de inmediato sin llegar a ejecutar el bloque interno.
+        
+        ❌ D) La URL de conexión JDBC es un simple parámetro de tipo `String`. Su validez y la existencia de los recursos que describe se comprueban únicamente en tiempo de ejecución (runtime), por lo que el compilador de Kotlin no detectará ningún error estático en esta línea de código.
+
+    
+    
+    **Pregunta 2: Se intenta establecer una conexión a un sistema gestor de bases de datos independiente de la siguiente manera:**
+    
+    ```kotlin
+    import java.sql.DriverManager
+    import java.sql.SQLException
+    
+    fun main() {
+        // Intento de conexión a un servidor PostgreSQL local
+        val url = "jdbc:postgresql://localhost:5432/inventario"
+        val usuario = "admin"
+        val contrasenia = "1234"
+        
+        DriverManager.getConnection(url, usuario, contrasenia).use { conn ->
+            println("Conexión establecida con el servidor PostgreSQL.")
+        }
+    }
+    ```
+    
+    **Sabiendo que el proyecto tiene configurada correctamente la dependencia de Gradle para PostgreSQL, pero el servicio del servidor PostgreSQL en la máquina local (`localhost`) se encuentra detenido (apagado), ¿cuál será el comportamiento de la aplicación al ejecutarse?**
+    
+    A) El driver JDBC de PostgreSQL levantará automáticamente una instancia ligera y embebida del servidor PostgreSQL en segundo plano para poder simular la conexión local.
+    
+    B) La aplicación se quedará bloqueada indefinidamente en un bucle de espera activa sin lanzar errores, esperando a que el usuario inicie manualmente el servidor PostgreSQL en su sistema.
+    
+    C) Se lanzará una excepción de tipo `SQLException` (indicando un fallo de conexión física o rechazo de puerto de red), deteniendo inmediatamente la ejecución del programa.
+    
+    D) El programa compilará y completará su ejecución mostrando el mensaje de éxito por consola debido a que JDBC simula una conexión virtual temporal si detecta que el puerto de red está apagado.
+    
+    ??? quote "Solución"
+    
+        ❌ A) A diferencia de los gestores embebidos como SQLite, PostgreSQL es un gestor de bases de datos robusto basado en una arquitectura cliente-servidor. Requiere un proceso de servidor dedicado y en ejecución; el driver cliente de JDBC no tiene la capacidad de levantar o arrancar el servicio del servidor por sí mismo.
+        
+        ❌ B) El intento de conexión a la red cuenta con un tiempo de espera límite por defecto (*timeout*). Si la conexión no se establece rápidamente, el driver desiste y lanza la excepción correspondiente; el programa nunca se quedará bloqueado indefinidamente en un bucle de espera.
+        
+        ✅ C) Al estar el servicio del servidor PostgreSQL apagado, no hay ningún proceso escuchando en el puerto TCP `5432` de la máquina local. Cuando el driver intente abrir un canal de red físico, recibirá un rechazo de conexión (Connection refused) por parte del sistema de red, lo que se traducirá inmediatamente en una excepción de tipo `SQLException`, interrumpiendo la ejecución.
+        
+        ❌ D) JDBC no simula ni emula conexiones de manera virtual por defecto en tiempo de ejecución. Si el servidor físico de base de datos no está disponible para procesar la autenticación del usuario y la contraseña, la llamada a `DriverManager.getConnection` siempre fallará.
+    
 
 
 
@@ -312,6 +392,106 @@ fun main() {
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
+!!! example "Autoevaluación"
+    
+    **Pregunta 3: Se desea implementar el enfoque clásico para conectarse a una base de datos y se escribe el siguiente bloque de código en Kotlin:**
+    
+    ```kotlin
+    import java.sql.DriverManager
+    import java.sql.SQLException
+    
+    fun main() {
+        val URL_BD = "jdbc:sqlite:datos/florabotanica.sqlite"
+        
+        try {
+            // Declaración e inicialización directa de variables dentro del bloque try
+            val conn = DriverManager.getConnection(URL_BD)
+            val stmt = conn.createStatement()
+            val rs = stmt.executeQuery("SELECT * FROM plantas")
+            
+            while (rs.next()) {
+                println(rs.getString("nombre_comun"))
+            }
+        } catch (e: SQLException) {
+            println("Error en la base de datos: ${e.message}")
+        } finally {
+            // Intento de liberar manualmente los recursos
+            try {
+                rs?.close()
+                stmt?.close()
+                conn?.close()
+                println("*** Recursos cerrados de manera manual")
+            } catch (e: Exception) {
+                println("Error al cerrar: ${e.message}")
+            }
+        }
+    }
+    ```
+    
+    **Al intentar compilar y ejecutar este código, ¿cuál será el resultado obtenido en el entorno de desarrollo?**
+    
+    A) Se producirá un error de compilación en el bloque `finally` porque las variables `rs`, `stmt` y `conn` se han declarado dentro del bloque `try` y no son visibles fuera de su ámbito (*scope*).
+    
+    B) El código compilará y se ejecutará con éxito debido a que los bloques `try` y `finally` comparten de forma automática el mismo contexto de variables locales.
+    
+    C) Se lanzará una excepción de tipo `NullPointerException` en tiempo de ejecución al intentar cerrar `rs` porque las variables no se declararon como mutables y nulables fuera del bloque.
+    
+    D) El compilador de Kotlin optimizará el código en segundo plano, omitiendo el bloque `finally` al detectar que las variables son locales, por lo que el programa finalizará con éxito de manera silenciosa.
+    
+    ??? quote "Solución"
+    
+        ✅ A) Las variables declaradas dentro de un bloque de ejecución (como el bloque `try`) tienen un ámbito (*scope*) restringido únicamente a ese bloque de código. Dado que el bloque `finally` es un entorno independiente, no tiene acceso a las variables creadas dentro del `try`. Por esta razón, el enfoque tradicional exige declarar las variables de recursos como nulables y mutables (`var`) fuera del bloque `try`, para poder inicializarlas dentro de este y cerrarlas de forma segura en el `finally`.
+        
+        ❌ B) El compilador de Kotlin (al igual que el de Java) aplica reglas estrictas de ámbito. Ninguna variable declarada dentro de las llaves de un `try` es visible o accesible desde el bloque `finally`.
+        
+        ❌ C) El programa no puede lanzar excepciones en tiempo de ejecución debido a que el código contiene errores de sintaxis graves (variables no declaradas en el ámbito del `finally`) que impiden que el proyecto llegue a compilarse con éxito.
+        
+        ❌ D) El compilador de Kotlin no realiza optimizaciones automáticas de cierre de recursos en segundo plano ni elimina bloques de código. Si el programador comete un error de ámbito de variables, el código simplemente fallará al compilar.
+    
+
+    
+    **Pregunta 4: Se ha implementado una función auxiliar encargada de cerrar manualmente los recursos abiertos tras realizar una consulta en la base de datos:**
+    
+    ```kotlin
+    import java.sql.Connection
+    import java.sql.Statement
+    import java.sql.ResultSet
+    
+    fun liberarRecursosManualmente(rs: ResultSet?, stmt: Statement?, conn: Connection?) {
+        try {
+            // Intento de cierre de recursos siguiendo el orden recomendado
+            rs?.close()
+            stmt?.close()
+            conn?.close()
+            println("Todos los recursos se han liberado de forma segura.")
+        } catch (e: Exception) {
+            println("Fallo al liberar los recursos: ${e.message}")
+        }
+    }
+    ```
+    
+    **Sabiendo que el primer recurso (`rs?.close()`) lanza una excepción en tiempo de ejecución al intentar cerrarse, ¿cuál será el comportamiento de la aplicación en esta función?**
+    
+    A) El bloque `try` capturará de forma inteligente el fallo del `ResultSet`, ignorando la línea conflictiva y continuando secuencialmente con el cierre del `Statement` y de la `Connection` en las líneas de abajo.
+    
+    B) El flujo de ejecución se detendrá inmediatamente en la línea de `rs?.close()`, provocando un fallo en cascada que impedirá que las llamadas a `stmt?.close()` y `conn?.close()` se lleguen a ejecutar.
+    
+    C) El compilador de Kotlin detectará la fragilidad de esta estructura de antemano y obligará al programador a envolver cada método `.close()` dentro de su propio bloque `try-catch` individual para poder compilar.
+    
+    D) Se producirá un error de tipo `NullPointerException` porque el método `close()` requiere obligatoriamente que todos los parámetros de la función sean distintos de `null` para poder procesarse.
+    
+    ??? quote "Solución"
+    
+        ❌ A) Un bloque `try` convencional no tiene la capacidad de reanudar la ejecución en la línea siguiente después de que se ha producido una excepción. En cuanto una línea falla, el control del programa salta inmediatamente al bloque de captura `catch`.
+        
+        ✅ B) Este es el principal peligro del enfoque clásico (el fallo en cascada). Si el cierre del `ResultSet` (`rs?.close()`) genera un error y lanza una excepción, el resto de las líneas consecutivas dentro del `try` se omiten y el flujo de ejecución salta al bloque `catch`. Esto provoca que el `Statement` y la `Connection` permanezcan abiertos de forma indefinida en el sistema, generando una fuga de recursos.
+        
+        ❌ C) El compilador de Kotlin no fuerza la división en bloques `try-catch` individuales, ya que compilar llamadas secuenciales a métodos que arrojan excepciones es perfectamente válido. Es responsabilidad exclusiva del programador diseñar un código seguro o emplear alternativas modernas como `.use`.
+        
+        ❌ D) El operador de llamada segura `?.` de Kotlin (`rs?.close()`) comprueba automáticamente si el objeto es nulo. Si el recurso es `null`, simplemente se ignora la llamada y la ejecución continúa a la siguiente línea sin lanzar ninguna excepción de puntero nulo (*NullPointerException*).
+    
+
+
 
 **Opción 2: El enfoque moderno de Kotlin (cierre automático con .use)**
 
@@ -370,9 +550,89 @@ fun main() {
 
 
 
-
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+
+!!! example "Autoevaluación"
+    
+    **Pregunta 5: Se escribe el siguiente bloque de código en Kotlin para abrir una conexión empleando la herramienta recomendada de este lenguaje:**
+    
+    ```kotlin
+    import java.sql.DriverManager
+    
+    fun main() {
+        val url = "jdbc:sqlite:datos/florabotanica.sqlite"
+        
+        // Conexión directa utilizando la función de extensión .use
+        DriverManager.getConnection(url).use { conn ->
+            println("Conexión abierta correctamente con la base de datos.")
+            // ... operaciones de lectura y escritura ...
+        }
+    }
+    ```
+    
+    **Sabiendo que no se ha escrito ninguna llamada explícita a un método de cierre (como `conn.close()`) dentro del bloque de llaves `{ ... }`, ¿cómo se gestionará la liberación de la conexión en esta aplicación?**
+    
+    A) La conexión permanecerá abierta en segundo plano consumiendo memoria y canales activos hasta que el proceso completo de la aplicación se cierre de forma forzada por el sistema operativo.
+    
+    B) Se producirá un error de compilación en Kotlin porque el compilador exige de forma obligatoria que todo bloque que emplee `DriverManager` finalice con una llamada manual de cierre del recurso.
+    
+    C) El programador deberá implementar obligatoriamente un bloque `finally` tradicional al final de la función para ejecutar de forma manual la destrucción del objeto en memoria.
+    
+    D) La función de extensión `.use` se encargará de cerrar de forma automática y segura la conexión `conn` en el instante en que la ejecución salga de su bloque de llaves, sin necesidad de escribir un cierre manual.
+    
+    ??? quote "Solución"
+    
+        ❌ A) El propósito principal de la herramienta `.use` es evitar que las conexiones queden huérfanas o abiertas en memoria. No es necesario que el sistema operativo finalice el proceso para liberar la conexión.
+        
+        ❌ B) El código compilará y funcionará perfectamente. La función `.use` está disponible para cualquier clase de JDBC que implemente la interfaz de cierre automático y no requiere añadir código manual redundante.
+        
+        ❌ C) No es necesario mezclar bloques `finally` manuales cuando se emplea este enfoque moderno, ya que esta estructura automatiza todo el proceso de limpieza interna de forma transparente.
+        
+        ✅ D) Esta es la ventaja clave de la prevención de descuidos. Al utilizar la función de extensión `.use`, Kotlin se encarga de llamar internamente al método de cierre del recurso tan pronto como finalice la ejecución de su bloque asociado, evitando por completo el riesgo de que al programador se le olvide cerrar la conexión.
+    
+    
+    **Pregunta 6: Se ha implementado una función que realiza consultas en la base de datos anidando bloques de recursos automáticos de la siguiente manera:**
+    
+    ```kotlin
+    import java.sql.Connection
+    import java.sql.Statement
+    import java.sql.ResultSet
+    
+    fun consultarYProcesar(conn: Connection) {
+        conn.createStatement().use { stmt ->
+            stmt.executeQuery("SELECT * FROM plantas").use { rs ->
+                // Simulación de un error inesperado durante el recorrido de datos
+                throw RuntimeException("Fallo crítico en la lectura de registros.")
+            }
+        }
+    }
+    ```
+    
+    **Sabiendo que se lanza la excepción `RuntimeException` de forma interna mientras se leen los datos de la consulta, ¿cuál será el comportamiento de los recursos `rs` y `stmt` en esta función?**
+    
+    A) Al producirse un fallo crítico dentro del bloque más interno, los recursos `rs` y `stmt` quedarán colgados y abiertos indefinidamente en el sistema al interrumpirse el flujo normal.
+    
+    B) La función `.use` capturará y silenciará la excepción internamente para poder ejecutar el cierre con éxito, impidiendo que el error se propague hacia fuera de la función.
+    
+    C) Kotlin propagará la excepción hacia el exterior para que pueda ser gestionada, pero garantizando el cierre automático y seguro tanto de `rs` como de `stmt` de manera ordenada.
+    
+    D) Se producirá un fallo en cascada idéntico al del método tradicional, de modo que solo se cerrará el recurso `rs` y el `stmt` permanecerá abierto al romperse el flujo de ejecución.
+    
+    ??? quote "Solución"
+    
+        ❌ A) La función `.use` está diseñada precisamente para garantizar que los recursos se cierren pase lo que pase. Una excepción interna no impedirá que la limpieza de la memoria se lleve a cabo de forma efectiva.
+        
+        ❌ B) La función `.use` no oculta ni silencia los errores del programa. Su único cometido es asegurar la liberación del recurso; una vez cerrado este, permite que la excepción original siga su camino hacia arriba para que el resto de la aplicación pueda enterarse del fallo y gestionarlo.
+        
+        ✅ C) Esta es la ventaja de decirle adiós al fallo en cascada. Cada bloque `.use` actúa de manera segura e independiente. Al lanzarse la excepción en el bloque interno de `rs`, Kotlin cierra de inmediato el `ResultSet`. Al propagarse el error hacia el bloque padre, este detecta la salida de su bloque y cierra inmediatamente el `Statement` de forma ordenada en la jerarquía antes de permitir que la excepción continúe subiendo.
+        
+        ❌ D) El comportamiento del fallo en cascada (donde un error en un recurso impide cerrar los demás) es exclusivo del cierre manual tradicional en un único bloque `try`. El anidamiento con `.use` soluciona este problema por diseño.
+    
+
+
 
 !!! warning "Práctica 1: crea la base de tu proyecto"
     En esta práctica daremos forma a la base de nuestro proyecto. Diseñaremos nuestra BD a partir del archivo `csv` de nuestro proyecto anterior y verificaremos que podemos conectar a ella correctamente y leer su información. A medida que avancemos iremos añadiendo funciones a este proyecto.
@@ -384,7 +644,6 @@ fun main() {
     3. Declara una constante con la ruta a la BD. 
     4. Declara una función para conectar a la BD. 
     5. Conecta con la BD y realiza una consulta sobre tus datos utilizando .use (para no tener que cerrar recursos manualmente).
-
 
 
 
@@ -562,6 +821,98 @@ fun main() {
 !!! success "Prueba y analiza el ejemplo 4"
     Prueba el código de ejemplo y verifica que funciona correctamente.
 
+
+
+!!! example "Autoevaluación"
+    
+    **Pregunta 7: En el programa principal (`main.kt`) de nuestra aplicación, se utiliza el patrón de diseño para consultar un registro y mostrarlo de la siguiente manera:**
+    
+    ```kotlin
+    fun main() {
+        // El programa principal interactúa con los datos a través de la capa DAO
+        val planta = PlantasDAO.consultarPlantaPorId(3)
+        
+        if (planta != null) {
+            println("Planta encontrada: ${planta.nombreComun} (${planta.nombreCientifico})")
+        } else {
+            println("No se encontró ninguna planta con ese ID.")
+        }
+    }
+    ```
+    
+    **Analizando este fragmento de código, ¿cuál de las siguientes afirmaciones describe una de las principales ventajas de utilizar el patrón DAO en la arquitectura de esta aplicación?**
+    
+    A) Acelera de forma automática el proceso de compilación de Kotlin porque precompila y valida las sentencias SQL en tiempo de diseño antes de ejecutar el programa.
+    
+    B) Evita por completo la necesidad de importar librerías de persistencia (como JDBC) o configurar drivers de bases de datos en los archivos de Gradle de la aplicación.
+    
+    C) Permite que el programa principal interactúe con los registros y acceda a los datos directamente sin necesidad de crear clases de datos auxiliares intermedias en el código.
+    
+    D) Proporciona claridad y mantenibilidad, ya que mantiene todo el código SQL y la lógica JDBC aislados en el objeto DAO, dejando el resto de la aplicación limpio y libre de consultas mezcladas.
+    
+    ??? quote "Solución"
+    
+        ❌ A) El compilador de Kotlin no analiza ni precompila las sentencias SQL en tiempo de diseño por el hecho de utilizar el patrón DAO; los errores de SQL seguirán detectándose únicamente al ejecutar el programa.
+        
+        ❌ B) El patrón DAO es un patrón de diseño a nivel de código; no elimina el requisito técnico de importar los drivers JDBC ni las dependencias necesarias en Gradle para poder conectarse físicamente a la base de datos.
+        
+        ❌ C) Al contrario, para poder devolver datos limpios y orientados a objetos, el patrón DAO requiere acoplarse con clases de datos (como la `data class Planta`) que sirvan de molde para estructurar la información leída.
+        
+        ✅ D) Esta es una de las grandes ventajas de este patrón (claridad y mantenibilidad). Al encapsular las consultas, conexiones y mapeos de bases de datos dentro del objeto `PlantasDAO`, logramos que el programa principal interactúe con los datos de forma orientada a objetos. Esto hace que la aplicación sea más limpia y que, si la base de datos cambia en el futuro, solo tengamos que modificar el código interno del DAO, sin afectar para nada a nuestro archivo principal.
+    
+    
+    **Pregunta 8: Se analiza el método de lectura global que se encuentra implementado dentro del objeto encargado de gestionar el acceso a los datos:**
+    
+    ```kotlin
+    object PlantasDAO {
+        fun listarPlantas(): List<Planta> {
+            val lista = mutableListOf<Planta>()
+            conectarBD()?.use { conn ->
+                conn.createStatement().use { stmt ->
+                    stmt.executeQuery("SELECT * FROM plantas").use { rs ->
+                        while (rs.next()) {
+                            // Transformación de filas del cursor en objetos Planta
+                            lista.add(
+                                Planta(
+                                    id_planta = rs.getInt("id_planta"),
+                                    nombreComun = rs.getString("nombre_comun"),
+                                    nombreCientifico = rs.getString("nombre_cientifico"),
+                                    stock = rs.getInt("stock"),
+                                    precio = rs.getDouble("precio")
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+            return lista
+        }
+    }
+    ```
+    
+    **¿Cuál es el propósito fundamental de transformar los registros del cursor `ResultSet` (`rs`) en instancias de la clase `Planta` antes de retornarlas fuera de la función?**
+    
+    A) Desacoplar la lógica de negocio de la base de datos, de modo que el resto de la aplicación pueda trabajar con objetos nativos de Kotlin sin tener que gestionar cursores JDBC abiertos o dependencias de bajo nivel.
+    
+    B) Reducir drásticamente el consumo de tráfico de red al comprimir las cadenas de texto del cursor en un formato binario optimizado propio de las clases de datos de Kotlin.
+    
+    C) Impedir de forma automática que el driver de la base de datos lance excepciones de tipo `SQLException` durante la lectura de nombres de columnas que no coincidan.
+    
+    D) Sustituir la persistencia física en el disco duro, eliminando la tabla `plantas` de la base de datos y moviendo la información a un almacenamiento en caché virtual administrado por el DAO.
+    
+    ??? quote "Solución"
+    
+        ✅ A) Esta transformación (o mapeo) es la esencia del patrón DAO. Los cursores `ResultSet` son recursos de bajo nivel fuertemente ligados a una conexión activa con la base de datos que no deben propagarse fuera de la capa de persistencia. Al transformar cada fila en un objeto limpio `Planta` y cerrar el cursor antes de retornar la lista, el resto de la aplicación puede utilizar los datos de manera cómoda y orientada a objetos sin preocuparse de conexiones de bases de datos abiertas ni importar JDBC.
+        
+        ❌ B) Las clases de datos de Kotlin son simples estructuras en la memoria RAM y no aplican ningún tipo de compresión binaria ni reducen el tráfico de red de la base de datos durante las consultas.
+        
+        ❌ C) El mapeo de datos no previene fallos ni excepciones. Si hay un error de sintaxis SQL o si se intenta leer una columna inexistente mediante `rs.getString()`, se lanzará una excepción `SQLException` de igual manera.
+        
+        ❌ D) El objeto DAO no elimina ni reemplaza el almacenamiento en el disco duro; actúa únicamente como un puente e intermediario para leer, insertar o modificar los datos persistentes de la base de datos real.
+    
+    
+
+
 !!! warning "Práctica 2: amplía tu proyecto"
     En esta práctica ampliarás tu proyecto con un menú para que el usuario interactúe con la aplicación por consola. El menú tendrá una opción para importar la información del fichero `csv` y las opciones **CRUD**, es decir, **C**reate (crear), **R**ead (Leer), **U**pdate (Actualizar) y **D**elete (Borrar).
 
@@ -723,6 +1074,108 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
 !!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+
+
+!!! example "Autoevaluación"
+    
+    **Pregunta 9: Se desea escribir un bloque de código para gestionar manualmente una transferencia de stock entre tablas mediante una transacción segura:**
+    
+    ```kotlin
+    import java.sql.Connection
+    
+    fun registrarOperacionTransaccional(conn: Connection) {
+        try {
+            // Configuración inicial de la conexión
+            conn.autoCommit = false
+            
+            // ... ejecución de múltiples sentencias SQL de actualización e inserción ...
+            
+            conn.commit()
+            println("Cambios confirmados correctamente.")
+        } catch (e: Exception) {
+            conn.rollback()
+        }
+    }
+    ```
+    
+    **Al inicio de este bloque de transacciones manuales, ¿cuál es el propósito exacto de configurar la instrucción `conn.autoCommit = false`?**
+    
+    A) Desactivar el modo de confirmación automática de JDBC para que las operaciones SQL se agrupen y no se consoliden de forma definitiva en el disco hasta que se ejecute la orden `conn.commit()`.
+    
+    B) Denegar de forma permanente cualquier operación de escritura en la base de datos hasta que el programa finalice por completo, protegiendo las tablas contra inserciones maliciosas.
+    
+    C) Indicar al motor de la base de datos que debe silenciar los errores de tipo `SQLException` y continuar ejecutando sentencias consecutivas sin lanzar ninguna excepción al programa.
+    
+    D) Almacenar temporalmente los datos en la memoria RAM del equipo de manera exclusiva, eliminando el archivo físico de la base de datos para volverlo a generar cuando se llame a `conn.commit()`.
+    
+    ??? quote "Solución"
+    
+        ✅ A) Por defecto, la mayoría de las conexiones JDBC operan en modo *auto-commit*, lo que significa que cada sentencia SQL individual se ejecuta y se confirma automáticamente en disco. Para poder agrupar varias operaciones (como reducir el stock de una planta e insertar una fila en una tabla intermedia) y asegurar que se apliquen todas juntas o ninguna lo haga, es indispensable desactivar este modo predeterminado estableciendo `autoCommit = false`.
+        
+        ❌ B) El uso de `autoCommit = false` no bloquea los accesos ni prohíbe las modificaciones; simplemente pospone su consolidación oficial en la base de datos hasta que el programador decida enviar la confirmación mediante `commit()`.
+        
+        ❌ C) Esta instrucción no tiene relación alguna con silenciar o ignorar excepciones. Si ocurre un fallo en una sentencia SQL (como un error de sintaxis o violación de clave única), se lanzará una excepción que deberá ser capturada y gestionada en el bloque `catch`.
+        
+        ❌ D) El SGBD no elimina ni modifica el archivo físico de la base de datos. Utiliza sus propios mecanismos de registro transaccional interno para mantener la seguridad y consistencia de los datos en todo momento.
+    
+    
+    
+    
+    **Pregunta 10: Se ejecuta una función transaccional que contiene dos operaciones dependientes sobre la base de datos:**
+    
+    ```kotlin
+    import java.sql.Connection
+    import java.sql.SQLException
+    
+    fun registrarTransferencia(conn: Connection) {
+        try {
+            conn.autoCommit = false
+            
+            // Operación 1: Restar 10 unidades de stock en la tabla plantas (Se ejecuta con éxito)
+            conn.prepareStatement("UPDATE plantas SET stock = stock - 10 WHERE id_planta = 1").use { stmt1 ->
+                stmt1.executeUpdate()
+            }
+            
+            // Operación 2: Insertar registro en tabla intermedia (Falla por clave duplicada)
+            conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (1, 1, 10)").use { stmt2 ->
+                stmt2.executeUpdate()
+            }
+            
+            conn.commit()
+        } catch (e: SQLException) {
+            try {
+                conn.rollback()
+                println("Se ha producido un error. Operación revertida.")
+            } catch (rollbackEx: SQLException) {
+                rollbackEx.printStackTrace()
+            }
+        }
+    }
+    ```
+    
+    **Sabiendo que la Operación 1 se ejecuta correctamente, pero la Operación 2 falla y lanza una excepción, ¿cuál será el estado final del stock de la planta con ID 1 tras ejecutarse este código?**
+    
+    A) El stock de la planta se habrá reducido en 10 unidades, ya que la primera operación se completó de manera exitosa antes de que ocurriera el fallo de la segunda.
+    
+    B) Se producirá un error de compilación debido a que no es sintácticamente válido realizar un método `.rollback()` dentro del bloque de captura `catch` de una excepción.
+    
+    C) El stock de la planta permanecerá inalterado (con su valor inicial), ya que al fallar la segunda operación se ejecuta un `rollback()` que deshace el cambio de la primera, manteniendo la consistencia.
+    
+    D) La base de datos se corromperá y quedará bloqueada para lecturas futuras debido a la inconsistencia de datos generada al interrumpirse la segunda consulta.
+    
+    ??? quote "Solución"
+    
+        ❌ A) Si no controláramos los errores mediante transacciones, la base de datos aplicaría únicamente la primera operación, dejando datos parcialmente modificados e inconsistentes. Sin embargo, al usar transacciones con un bloque de control de errores, esta reducción parcial se deshace.
+        
+        ❌ B) El código es perfectamente válido. Llamar a `conn.rollback()` dentro del bloque de captura de errores `catch` es el procedimiento estándar de control de transacciones para revertir cambios pendientes cuando se detecta una anomalía de tipo `SQLException`.
+        
+        ✅ C) Este es el comportamiento fundamental de una transacción atómica (todas las operaciones se ejecutan o ninguna lo hace). Dado que la segunda operación falló debido a una restricción de clave única o duplicada, el flujo se desvió de inmediato al bloque `catch` para ejecutar `conn.rollback()`. Esta instrucción deshace de forma automática la reducción de stock realizada en la primera consulta, devolviendo la base de datos a su estado original y evitando la inconsistencia de los datos.
+        
+        ❌ D) El SGBD está diseñado para gestionar transacciones de forma segura. El uso del método `rollback()` garantiza la vuelta a un estado válido anterior de forma limpia y transparente, protegiendo los archivos físicos contra la corrupción de datos.
+    
+    
 
 
 !!! warning "Práctica 3: finaliza tu aplicación"
