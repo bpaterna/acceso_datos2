@@ -2890,12 +2890,9 @@ data class Planta(
 
 
 !!! danger "Entrega final"
-    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, la carpeta `datos` y el archivo `LEEME.md`
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga: la carpeta `src`, la carpeta `datos` y el archivo `LEEME.md`. Tu trabajo se calificará con la siguiente tabla:
 
-
-    <span class="mi_sombreado_entrega">**CALIFICACIÓN**</span>
-    
-    | Bloque de evaluación             | Criterios específicos          | Puntos                            |
+    | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
     | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
     | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
