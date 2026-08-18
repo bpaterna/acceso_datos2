@@ -143,7 +143,7 @@ Las principales formas de conectarse a una base de datos son las siguientes:
 | Aplicaciones móviles                   | Apps Android/iOS que acceden a BD locales (como **SQLite**) o remotas (vía **Firebase**, API REST, etc.). |
 | Herramientas de integración de datos   | Software como **Talend**, **Pentaho**, **Apache Nifi** para migrar, transformar o sincronizar datos entre sistemas. |
 
-De todas las formas posibles de interactuar con una base de datos, nos vamos a centrar en el uso de **conectores JDBC (Java Database Connectivity)**. Una aplicación (escrita en Kotlin, Java u otro lenguaje) puede leer, insertar o modificar información almacenada en una base de datos relacional si previamente se ha conectado al sitema gestor de base de datos (SGBD). **JDBC** es una API estándar de Java (y compatible con Kotlin) que permite conectarse a una BD, enviar instrucciones SQL y procesar los resultados manualmente. Es el método de más bajo nivel, pero ofrece un control total sobre lo que ocurre en la BD. Es ideal para aprender los fundamentos del acceso a datos y aprenderlo ayuda a entender mejor lo que hace un ORM por debajo.
+De todas las formas posibles de interactuar con una base de datos, nos vamos a centrar en el uso de **conectores JDBC (Java Database Connectivity)**. Una aplicación (escrita en Kotlin, Java u otro lenguaje) puede leer, insertar o modificar información almacenada en una base de datos relacional si previamente se ha conectado al sistema gestor de base de datos (SGBD). **JDBC** es una API estándar de Java (y compatible con Kotlin) que permite conectarse a una BD, enviar instrucciones SQL y procesar los resultados manualmente. Es el método de más bajo nivel, pero ofrece un control total sobre lo que ocurre en la BD. Es ideal para aprender los fundamentos del acceso a datos y aprenderlo ayuda a entender mejor lo que hace un ORM por debajo.
 
 Sus principales características son:
 
@@ -165,7 +165,7 @@ También dependiendo del SGBD será necesario utilizar la dependencia adecuada e
 SGBD|	Conector (Driver JDBC)|	URL de conexión típica | Dependencia Gradle
 ----|-------------------------|-----------------------|-----------------------
 PostgreSQL|	org.postgresql.Driver| jdbc:postgresql://host:puerto/nombreBD |implementation("org.postgresql:postgresql:42.7.1")
-MySQL / MariaDB|	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD | implementation("com.mysql:mysql-connector-j:8.3.0")
+MySQL |	com.mysql.cj.jdbc.Driver| jdbc:mysql://host:puerto/nombreBD | implementation("com.mysql:mysql-connector-j:8.3.0")
 SQLite (embebido)|	org.sqlite.JDBC	|jdbc:sqlite:nombreBD | implementation("org.xerial:sqlite-jdbc:3.43.0.0")
 
 
@@ -205,18 +205,23 @@ fun main() {
 
 En **JDBC** (Java Database Connectivity), las operaciones sobre la base de datos se realizan  utilizando los siguientes objetos y métodos:
 
-- **Connection**, establece el canal de comunicación con el SGBD (PostgreSQL, MySQL, etc.)
+- **`Connection`**, establece el canal de comunicación con el SGBD (PostgreSQL, MySQL, etc.)
 
-- Los objetos **PreparedStatement** y **CreateStatement** se utlizan para enviar consultas SQL desde el programa a la base de datos. A continuación se muestra una tabla con el uso de cada uno:
+- Los objetos **`Statement`** y **`PreparedStatement`** se **utilizan** para enviar consultas SQL desde el programa a la base de datos. A continuación se muestra una tabla con el uso de cada uno:
 
 
-| Si necesitas...                                     | Usa...            |
-|-----------------------------------------------------|-------------------|
-| Consultas sin parámetros                            | `CreateStatement`       |
-| Consultas con datos del usuario                     | `PreparedStatement` |
-| Seguridad frente a inyecciones SQL                  | `PreparedStatement` |
-| Ejecutar muchas veces con distintos valores         | `PreparedStatement` |
-| Crear tablas o sentencias SQL complejas que no cambian | `CreateStatement`
+| Si necesitas... | Usa... |
+| :--- | :--- |
+| Consultas estáticas o sin parámetros | **`Statement`** |
+| Consultas con datos dinámicos proporcionados por el usuario | **`PreparedStatement`** |
+| Seguridad garantizada frente a inyecciones SQL | **`PreparedStatement`** |
+| Ejecutar la misma consulta muchas veces con distintos valores | **`PreparedStatement`** |
+| Crear tablas (DDL) o sentencias SQL complejas que no cambian | **`Statement`** |
+
+
+> **Nota práctica:** Aunque las interfaces de JDBC se llaman **`Statement`** y **`PreparedStatement`**, para obtener sus instancias desde la conexión del código utilizaremos los métodos correspondientes:
+> -`val stmt = conexion.createStatement()`
+> -`val pstmt = conexion.prepareStatement("SELECT...")`
 
 
 - Los métodos **executeQuery()**, **executeUpdate()** y **execute()** se utilizan para ejecutar sentencias SQL, pero se usan en contextos diferentes. A continuación se muestra una tabla con el uso de cada uno:
@@ -231,59 +236,38 @@ Método|	Uso principal|	Tipo de sentencia SQL|	Resultado que devuelve
 
 <span class="mi_h3">Liberación de recursos</span>
 
-Cuando una aplicación accede a una base de datos, abre varios recursos internos que consumen memoria y conexiones activas en el sistema:
+Cuando una aplicación accede a una base de datos, el sistema operativo y el SGBD abren varios recursos internos que consumen memoria y canales de comunicación activos:
 
-- La conexión con el servidor de base de datos (Connection).
-- Las sentencias SQL preparadas (Statement o PreparedStatement).
-- El resultado de la consulta (ResultSet).
+- **La conexión** con el servidor de bases de datos (`Connection`).
+- **Las sentencias SQL** preparadas para ejecutarse (`Statement` o `PreparedStatement`).
+- **El resultado** de las consultas almacenado en memoria (`ResultSet`).
 
-Estos recursos no se liberan automáticamente cuando se termina su uso (especialmente en Java o Kotlin con JDBC). Si no se cierran correctamente, se pueden producir problemas como:
+En tecnologías como Java o Kotlin (usando JDBC), **estos recursos no se liberan automáticamente** al terminar de usarse. Si olvidamos cerrarlos de forma explícita, podemos provocar graves problemas en la aplicación:
 
-- Fugas de memoria.
-- Bloqueo de conexiones (demasiadas conexiones abiertas).
-- Degradación del rendimiento.
-- Errores inesperados en la aplicación.
+- **Fugas de memoria (*Memory Leaks*):** acumulación de objetos en la RAM que degradan el rendimiento general.
+- **Bloqueo de conexiones:** agotamiento del número máximo de conexiones que admite la base de datos, impidiendo que otros usuarios o procesos se conecten.
+- **Errores inesperados:** comportamientos inestables en la aplicación al intentar operar con recursos que han quedado "huérfanos".
 
-Para liberar estos recursos hay dos opciones:
-
-**1. Usar try–catch–finally manual**
-
-Cuándo:
-
-- No estás en Kotlin o no puedes usar .use.
-
-- Necesitas capturar y manejar excepciones dentro del mismo método.
-
-- Necesitas lógica extra antes o después de cerrar el recurso (por ejemplo, reintentos, logging detallado, liberar múltiples recursos en un orden específico).
-
-- Estás trabajando en un proyecto que sigue un estilo más clásico de Java.
-
-
-**2. Utilización de .use { ... }**
-
-Es la que utilizaremos en nuestros proyectos.
-
-Se recomienda utilizarlo si:
-
-- Estás trabajando con un recurso que implementa AutoCloseable (Connection, Statement, ResultSet, File, etc.).
-
-- Solo necesitas abrir, usar y cerrar el recurso de forma automática.
-
-- No necesitas lógica compleja de manejo de excepciones dentro del mismo bloque.
-
-Ventajas:
-
-- Código más limpio y legible.
-
-- Cierra automáticamente el recurso aunque ocurra una excepción.
-
-- Evita errores de olvidar close().
+Para liberar estos recursos, tradicionalmente se ha seguido un enfoque manual que hoy en día ha evolucionado hacia soluciones mucho más seguras. A continuación, analizamos ambos métodos.
 
 
 
-<span class="mis_ejemplos">Ejemplo 2: Utilización de close()</span>
+**Opción 1: El enfoque tradicional (Cierre manual con close())**
 
-A continuación tienes un ejemplo en el que se declara una constante con la ruta a la BD, se establece la conexión, se consultan datos y se cierran los recursos abiertos (ResultSet, Statement y Connection) utilizando **close()** dentro de un bloque **finally** para garantizar su cierre incluso si ocurre un error. El orden correcto de cierre es del más interno al más externo:
+Este es el estilo clásico heredado de Java. Consiste en declarar las variables de los recursos fuera del bloque de ejecución, inicializarlas dentro de un `try` y asegurarse de cerrarlas manualmente dentro de un bloque `finally`, el cual se ejecuta siempre, ocurra o no un error.
+
+El orden correcto de cierre manual siempre debe ser **desde el recurso más interno hacia el más externo** (primero el resultado, luego la sentencia y finalmente la conexión). A continuación vemos un ejemplo:
+
+
+<span class="mis_ejemplos">Ejemplo 2: Cierre manual con close()</span>
+
+En este ejemplo se utiliza el enfoque tradicional de Java para cerrar recursos en un bloque finally. Los pasos de la ejecución son:
+
+- Declarar una constante con la ruta a la BD.
+- Establecer la conexión.
+- Consultar datos.
+- Cerrar los recursos abiertos (ResultSet, Statement y Connection) utilizando **close()** dentro de un bloque **finally**.
+
 
 ``` kotlin
 import java.sql.Connection
@@ -326,12 +310,22 @@ fun main() {
 }
 ```
 
+> **IMPORTANTE:** Si el primer recurso que intentamos cerrar (`rs?.close()`) lanza una excepción, el flujo de ejecución se detendrá inmediatamente. Como consecuencia, el `Statement` y la `Connection` nunca llegarán a cerrarse, provocando un **fallo en cascada** y una fuga de recursos en el sistema.
+
 
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+Prueba el código de ejemplo y verifica que funciona correctamente.
 
 
-<span class="mis_ejemplos">Ejemplo 3: Utilización de .use</span>
+
+**Opción 2: El enfoque moderno de Kotlin (Cierre automático con .use)**
+
+Para solucionar la fragilidad y la gran cantidad de código repetitivo del método manual, Kotlin introduce la función de extensión **`.use { ... }`**.
+
+Esta función se puede aplicar a cualquier recurso que implemente la interfaz `AutoCloseable` (como nuestras conexiones, sentencias y resultados). Al utilizarla, **Kotlin garantiza que el recurso se cerrará automáticamente al salir del bloque**, incluso si ocurre una excepción o un error inesperado durante la ejecución. 
+
+
+<span class="mis_ejemplos">Ejemplo 3: Cierre automático con .use</span>
 
 A continuación se muestra un **ejemplo con .use (sin necesidad de cerrar recursos manualmente)** que realiza la misma consulta que el ejemplo anterior. Ahora los recursos abiertos de cerrarán automáticamente. Además, por organización del código, se ha declarado una constante con la ruta a la BD y una función para conectar a la BD:
 
@@ -367,13 +361,21 @@ fun main() {
 }
 ```
 
+
 **Explicación del código:**
 
-- **conn.use { ... }** cierra la conexión automáticamente al final del bloque.
+1. **`conectarBD()?.use { conn -> ... }`**: Intenta conectar. Si tiene éxito, abre el bloque y garantiza que `conn` se cerrará de forma segura al finalizar, pase lo que pase.
+2. **`conn.createStatement().use { stmt -> ... }`**: Crea la sentencia y asegura su cierre automático al salir de su respectivo bloque secundario.
+3. **`stmt.executeQuery(...).use { rs -> ... }`**: Ejecuta la consulta y protege el resultado (`rs`) asegurando su cierre automático al terminar de recorrer las filas.
 
-- **stmt.use { ... }** cierra el Statement automáticamente.
 
-- **ResultSet** se cierra al cerarse el Statement.
+**Ventajas de este enfoque:**
+
+- **Código limpio:** Evitamos declarar variables mutables con `var` e inicializarlas a `null` [10].
+- **Adiós al fallo en cascada:** Cada bloque `.use` actúa de manera independiente y segura. Si uno de ellos falla, Kotlin se asegura de propagar la excepción pero cerrando primero todos los recursos que se abrieron previamente en la jerarquía.
+- **Prevención de descuidos:** Evitamos el riesgo de olvidar escribir un `.close()` manual [9].
+
+
 
 
 !!! success "Prueba y analiza el ejemplo"
@@ -611,7 +613,7 @@ Propiedad|	Significado breve
 ---------|-------------------
 Atomicidad|	Todas las operaciones se ejecutan o ninguna lo hace
 Consistencia|	El sistema pasa de un estado válido a otro
-Isolación|	No interfiere con otras transacciones simultáneas
+Aislamiento|	No interfiere con otras transacciones simultáneas
 Durabilidad| Una vez confirmada, el cambio permanece
 
 
@@ -685,28 +687,37 @@ Si después de actualizar el stock en la tabla `plantas`, la inserción del regi
     fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
         conectarBD()?.use { conn ->
             try {
-                conn.autoCommit = false  // Iniciar transacción manual
+                conn.autoCommit = false // Iniciar transacción manual
 
-                // Restar stock a la planta
-                val stock = conn.prepareStatement("UPDATE plantas SET stock = stock - $cantidad WHERE id_planta = ?")
-                stock.setInt(1, id_planta)
-                stock.executeUpdate()
+                // Restar stock a la planta (usando .use y parámetros adecuados)
+                conn.prepareStatement("UPDATE plantas SET stock = stock - ? WHERE id_planta = ?").use { stockStmt ->
+                    stockStmt.setInt(1, cantidad)
+                    stockStmt.setInt(2, id_planta)
+                    stockStmt.executeUpdate()
+                }
 
-                // Añadir línea en tabla jardines_plantas
-                val plantar = conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)")
-                plantar.setInt(1, id_jardin)
-                plantar.setInt(2, id_planta)
-                plantar.setInt(3, cantidad)
-                plantar.executeUpdate()
+                // Añadir línea en tabla jardines_plantas (usando .use)
+                conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)").use { plantarStmt ->
+                    plantarStmt.setInt(1, id_jardin)
+                    plantarStmt.setInt(2, id_planta)
+                    plantarStmt.setInt(3, cantidad)
+                    plantarStmt.executeUpdate()
+                }
 
-                // Confirmar cambios
+                // Confirmar cambios si todo ha ido bien
                 conn.commit()
                 println("Transferencia realizada con éxito.")
             } catch (e: SQLException) {
-                if (e.message?.contains("UNIQUE constraint failed") == true) {
-                    println("Intento de insertar clave duplicada")
+                // Hacemos rollback ante cualquier error antes de procesar/relanzar la excepción
+                try {
                     conn.rollback()
-                    println("Transacción revertida.")
+                    println("Transacción revertida debido a un error.")
+                } catch (rollbackEx: SQLException) {
+                    rollbackEx.printStackTrace()
+                }
+
+                if (e.message?.contains("UNIQUE constraint failed") == true) {
+                    println("Intento de insertar clave duplicada.")
                 } else {
                     throw e // otros errores, relanzamos
                 }
