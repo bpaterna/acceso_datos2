@@ -644,7 +644,7 @@ fun textoPlano(){
 
 !!! example "Autoevaluación"
 
-    **Pregunta 7: Se quiere registrar el riego de una planta al final del archivo diario sin borrar las anotaciones anteriores, y se escribe el siguiente código. ¿Cuál será el comportamiento del programa?**
+    **Pregunta 7: Se quiere registrar el stock de una planta al final del archivo diario sin borrar las anotaciones anteriores, y se escribe el siguiente código. ¿Cuál será el comportamiento del programa?**
 
     ```kotlin
     import java.nio.file.Files
@@ -653,7 +653,7 @@ fun textoPlano(){
     
     fun main() {
         val ruta = Path.of("documentos/registro_diario.txt")
-        val nuevaAnotacion = "14:00 - Orquídea regada."
+        val nuevaAnotacion = "14:00 - Queda al menos una orquídea."
     
         Files.writeString(ruta, nuevaAnotacion, StandardOpenOption.WRITE)
     }
@@ -765,8 +765,8 @@ Como puedes observar el carácter delimitador que separa los campos del CSV es u
 -   `id_planta` (Int)
 -   `nombre_comun` (String)
 -   `nombre_cientifico` (String)
--   `riego` (Int - frecuencia en días)
--   `altura` (Double - altura en metros)
+-   `stock` (Int)
+-   `precio` (Double)
 
 
 > Puedes descargar el fichero desde este enlace: [plantas.csv](recursos/plantas.csv){:plantas.csv} y guardarlo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
@@ -797,8 +797,8 @@ data class Planta(
     val idPlanta: Int,
     val nombreComun: String,
     val nombreCientifico: String,
-    val riego: Int,
-    val altura: Double
+    val stock: Int,
+    val precio: Double
 )
 
 fun main() {
@@ -816,7 +816,7 @@ fun gestionCSV(){
     // Mostrar por consola la información deserializada
     println("--- Información de la lista de objetos Planta")
     for (dato in datos) {
-        println("  - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Riego: cada ${dato.riego} días, Altura: ${dato.altura}m")
+        println("  - ID: ${dato.idPlanta}, Nombre común: ${dato.nombreComun}, Científico: ${dato.nombreCientifico}, Stock: ${dato.stock} unidades, Precio: ${dato.precio}€")
     }
 
     // Guardar una copia procesada en un nuevo fichero CSV
@@ -844,9 +844,9 @@ fun leerDatosCSV(ruta: Path): List<Planta> {
                     val id = columnas[0].toInt()
                     val nombreComun = columnas[1]
                     val nombreCientifico = columnas[2]
-                    val riego = columnas[3].toInt()
-                    val altura = columnas[4].toDouble()
-                    Planta(id, nombreComun, nombreCientifico, riego, altura)
+                    val stock = columnas[3].toInt()
+                    val precio = columnas[4].toDouble()
+                    Planta(id, nombreComun, nombreCientifico, stock, precio)
                 } catch (e: Exception) {
                     println("Fila inválida ignorada: $columnas -> Error: ${e.message}")
                     null
@@ -872,8 +872,8 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
                     planta.idPlanta.toString(),
                     planta.nombreComun,
                     planta.nombreCientifico,
-                    planta.riego.toString(),
-                    planta.altura.toString()
+                    planta.stock.toString(),
+                    planta.precio.toString()
                 )
             },
             fichero
@@ -893,11 +893,11 @@ fun escribirCSV(ruta: Path, plantas: List<Planta>) {
     ```text
     --- Información leída con éxito de: datos\plantas.csv
     --- Información de la lista de objetos Planta
-    - ID: 1, Nombre común: Aloe Vera, Científico: Aloe barbadensis miller, Riego: cada 7 días, Altura: 0.6m
-    - ID: 2, Nombre común: Lavanda, Científico: Lavandula angustifolia, Riego: cada 3 días, Altura: 1.0m
-    - ID: 3, Nombre común: Helecho de Boston, Científico: Nephrolepis exaltata, Riego: cada 5 días, Altura: 0.9m
-    - ID: 4, Nombre común: Bambú de la suerte, Científico: Dracaena sanderiana, Riego: cada 4 días, Altura: 1.5m
-    - ID: 5, Nombre común: Girasol, Científico: Helianthus annuus, Riego: cada 2 días, Altura: 3.0m
+    - ID: 1, Nombre común: Aloe Vera, Científico: Aloe barbadensis miller, Stock: 7 unidades, Precio: 0.6€
+    - ID: 2, Nombre común: Lavanda, Científico: Lavandula angustifolia, Stock: 3 unidades, Precio: 1.0€
+    - ID: 3, Nombre común: Helecho de Boston, Científico: Nephrolepis exaltata, Stock: 5 unidades, Precio: 0.9€
+    - ID: 4, Nombre común: Bambú de la suerte, Científico: Dracaena sanderiana, Stock: 4 unidades, Precio: 1.5€
+    - ID: 5, Nombre común: Girasol, Científico: Helianthus annuus, Stock: 2 unidades, Precio: 3.0€
     --- Información guardada con éxito en: datos\plantas2.csv
     ```
 
@@ -1042,15 +1042,15 @@ Partimos de un fichero llamado `plantas.xml` almacenado dentro de la carpeta `da
         <id_planta>1</id_planta>
         <nombre_comun>Aloe Vera</nombre_comun>
         <nombre_cientifico>Aloe barbadensis miller</nombre_cientifico>
-        <frecuencia_riego>7</frecuencia_riego>
-        <altura_maxima>0.6</altura_maxima>
+        <stock>7</stock>
+        <precio>0.6</precio>
     </planta>
     <planta>
         <id_planta>2</id_planta>
         <nombre_comun>Lavanda</nombre_comun>
         <nombre_cientifico>Lavandula angustifolia</nombre_cientifico>
-        <frecuencia_riego>3</frecuencia_riego>
-        <altura_maxima>1.0</altura_maxima>
+        <stock>3</stock>
+        <precio>1.0</precio>
     </planta>
 </plantas>
 ```
@@ -1095,10 +1095,10 @@ data class PlantaXML(
     val nombreComun: String,
     @JacksonXmlProperty(localName = "nombre_cientifico")
     val nombreCientifico: String,
-    @JacksonXmlProperty(localName = "frecuencia_riego")
-    val riego: Int,
-    @JacksonXmlProperty(localName = "altura_maxima")
-    val altura: Double
+    @JacksonXmlProperty(localName = "stock")
+    val stock: Int,
+    @JacksonXmlProperty(localName = "precio")
+    val precio: Double
 )
 
 // Clase contenedora que representará la etiqueta raíz <plantas>
@@ -1123,7 +1123,7 @@ fun gestionXML(){
 
     println("--- Información de la lista de objetos PlantaXML")
     for (planta in datos) {
-        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Riego: cada ${planta.riego} días")
+        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Stock: ${planta.stock} unidades")
     }
 
     escribirDatosXML(salidaXML, datos)
@@ -1170,11 +1170,11 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
     ```text
     --- Información leída con éxito de: datos\plantas.xml
     --- Información de la lista de objetos PlantaXML
-     - ID: 1, Común: Aloe Vera, Riego: cada 7 días
-     - ID: 2, Común: Lavanda, Riego: cada 3 días
-     - ID: 3, Común: Helecho de Boston, Riego: cada 5 días
-     - ID: 4, Común: Bambú de la suerte, Riego: cada 4 días
-     - ID: 5, Común: Girasol, Riego: cada 2 días
+     - ID: 1, Común: Aloe Vera, Stock: 7 unidades
+     - ID: 2, Común: Lavanda, Stock: 3 unidades
+     - ID: 3, Común: Helecho de Boston, Stock: 5 unidades
+     - ID: 4, Común: Bambú de la suerte, Stock: 4 unidades
+     - ID: 5, Común: Girasol, Stock: 2 unidades
     --- Información guardada en XML: datos\plantas2.xml    
     ```
 
@@ -1188,8 +1188,8 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
         <id_planta>1</id_planta>
         <nombre_comun>Aloe Vera</nombre_comun>
         <nombre_cientifico>Aloe barbadensis miller</nombre_cientifico>
-        <frecuencia_riego>7</frecuencia_riego>
-        <altura_maxima>0.6</altura_maxima>
+        <stock>7</stock>
+        <precio>0.6</precio>
     </planta>
     ```
     
@@ -1200,8 +1200,8 @@ fun escribirDatosXML(ruta: Path, plantas: List<PlantaXML>) {
         @JacksonXmlProperty(localName = "id_planta") val idPlanta: Int,
         @JacksonXmlProperty(localName = "nombre_comun") val nombreComun: String,
         val nombreCientifico: String, // Propiedad declarada sin anotación
-        @JacksonXmlProperty(localName = "frecuencia_riego") val riego: Int,
-        @JacksonXmlProperty(localName = "altura_maxima") val altura: Double
+        @JacksonXmlProperty(localName = "stock") val stock: Int,
+        @JacksonXmlProperty(localName = "precio") val precio: Double
     )
     ```
 
@@ -1327,15 +1327,15 @@ Partimos de un fichero llamado `plantas.json` almacenado dentro de la carpeta `d
     "id_planta": 1,
     "nombre_comun": "Aloe Vera",
     "nombre_cientifico": "Aloe barbadensis miller",
-    "frecuencia_riego": 7,
-    "altura_maxima": 0.6
+    "stock": 7,
+    "precio": 0.6
   },
   {
     "id_planta": 2,
     "nombre_comun": "Lavanda",
     "nombre_cientifico": "Lavandula angustifolia",
-    "frecuencia_riego": 3,
-    "altura_maxima": 1.0
+    "stock": 3,
+    "precio": 1.0
   }
 ]
 ```
@@ -1375,8 +1375,8 @@ data class PlantaJSON(
     @SerialName("id_planta") val idPlanta: Int,
     @SerialName("nombre_comun") val nombreComun: String,
     @SerialName("nombre_cientifico") val nombreCientifico: String,
-    @SerialName("frecuencia_riego") val riego: Int,
-    @SerialName("altura_maxima") val altura: Double
+    @SerialName("stock") val stock: Int,
+    @SerialName("precio") val precio: Double
 )
 
 fun main() {
@@ -1390,7 +1390,7 @@ fun gestionJSON(){
     val datos = leerJSON(entradaJSON)
     println("--- Información de la lista de objetos PlantaJSON")
     for (planta in datos) {
-        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Altura: ${planta.altura}m")
+        println(" - ID: ${planta.idPlanta}, Común: ${planta.nombreComun}, Precio: ${planta.precio}€")
     }
 
     escribirJSON(salidaJSON, datos)
@@ -1435,11 +1435,11 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
     ```text
     --- Información leída con éxito de: datos\plantas.json
     --- Información de la lista de objetos PlantaJSON
-     - ID: 1, Común: Aloe Vera, Altura: 0.6m
-     - ID: 2, Común: Lavanda, Altura: 1.0m
-     - ID: 3, Común: Helecho de Boston, Altura: 0.9m
-     - ID: 4, Común: Bambú de la suerte, Altura: 1.5m
-     - ID: 5, Común: Girasol, Altura: 3.0m
+     - ID: 1, Común: Aloe Vera, Precio: 0.6€
+     - ID: 2, Común: Lavanda, Precio: 1.0€
+     - ID: 3, Común: Helecho de Boston, Precio: 0.9€
+     - ID: 4, Común: Bambú de la suerte, Precio: 1.5€
+     - ID: 5, Común: Girasol, Precio: 3.0€
     --- Información guardada en: datos\plantas2.json
     ```
 
@@ -1453,7 +1453,7 @@ fun escribirJSON(ruta: Path, plantas: List<PlantaJSON>) {
     data class PlantaJSON(
         val idPlanta: Int,
         val nombreComun: String,
-        val altura: Double
+        val precio: Double
     )
     ```
     
@@ -2187,11 +2187,11 @@ A continuación se describen algunos de los métodos que utilizaremos:
 
 En este ejemplo utilizaremos `FileChannel` y `ByteBuffer` para crear un fichero binario estructurado para nuestro herbario. Cada registro representará una planta con tres campos y ocupará exactamente **32 bytes** en total:
 
-| Campo | Tipo | Tamaño fijo | Rango de bytes en el registro |
-| :--- | :--- | :--- | :--- |
-| `id_planta` | `Int` | 4 bytes | 0 – 3 |
+| Campo          | Tipo | Tamaño fijo | Rango de bytes en el registro |
+|:---------------| :--- | :--- | :--- |
+| `id_planta`    | `Int` | 4 bytes | 0 – 3 |
 | `nombre_comun` | `String` | 20 bytes (longitud fija) | 4 – 23 |
-| `altura_maxima`| `Double`| 8 bytes | 24 – 31 |
+| `precio`          | `Double`| 8 bytes | 24 – 31 |
 
 
 
@@ -2206,14 +2206,14 @@ import java.nio.file.StandardOpenOption
 data class PlantaBinaria(
     val idPlanta: Int,
     val nombreComun: String,
-    val alturaMaxima: Double
+    val precio: Double
 )
 
 // Definimos los tamaños del registro binario
 const val TAMANO_ID = Int.SIZE_BYTES // 4 bytes
 const val TAMANO_NOMBRE = 20         // 20 bytes para la cadena de texto
-const val TAMANO_ALTURA = Double.SIZE_BYTES // 8 bytes
-const val TAMANO_REGISTRO = TAMANO_ID + TAMANO_NOMBRE + TAMANO_ALTURA // 32 bytes en total
+const val TAMANO_PRECIO = Double.SIZE_BYTES // 8 bytes
+const val TAMANO_REGISTRO = TAMANO_ID + TAMANO_NOMBRE + TAMANO_PRECIO // 32 bytes en total
 
 val archivoPath = Path.of("datos","plantas.bin")
 
@@ -2236,7 +2236,7 @@ fun crearHerbario(){
     vaciarCrearFichero()
 
     for (planta in listaSemillas) {
-        anadirPlanta(planta.idPlanta, planta.nombreComun, planta.alturaMaxima)
+        anadirPlanta(planta.idPlanta, planta.nombreComun, planta.precio)
     }
 }
 
@@ -2257,8 +2257,8 @@ fun vaciarCrearFichero() {
 }
 
 // Añade un registro de planta al final del fichero
-fun anadirPlanta( idPlanta: Int, nombre: String, altura: Double) {
-    val nuevaPlanta = PlantaBinaria(idPlanta, nombre, altura)
+fun anadirPlanta( idPlanta: Int, nombre: String, precio: Double) {
+    val nuevaPlanta = PlantaBinaria(idPlanta, nombre, precio)
 
     try {
         FileChannel.open(
@@ -2278,8 +2278,8 @@ fun anadirPlanta( idPlanta: Int, nombre: String, altura: Double) {
                 .toByteArray(Charsets.ISO_8859_1)
             buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
 
-            // 3. Escribimos la altura (8 bytes)
-            buffer.putDouble(nuevaPlanta.alturaMaxima)
+            // 3. Escribimos precio (8 bytes)
+            buffer.putDouble(nuevaPlanta.precio)
 
             // Preparamos el buffer para volcar la información al canal
             buffer.flip()
@@ -2314,10 +2314,10 @@ fun leerPlantas(): List<PlantaBinaria> {
             buffer.get(nombreBytes)
             val nombre = String(nombreBytes, Charsets.ISO_8859_1).trim()
 
-            // 3. Leemos la altura
-            val altura = buffer.getDouble()
+            // 3. Leemos precio
+            val precio = buffer.getDouble()
 
-            plantas.add(PlantaBinaria(id, nombre, altura))
+            plantas.add(PlantaBinaria(id, nombre, precio))
             buffer.clear()
         }
     }
@@ -2329,7 +2329,7 @@ fun mostrarInfo() {
     println("\n--- Plantas leídas secuencialmente del fichero .bin: ---")
     val leidas = leerPlantas()
     for (p in leidas) {
-        println(" - ID: ${p.idPlanta}, Nombre común: ${p.nombreComun}, Altura: ${p.alturaMaxima}m")
+        println(" - ID: ${p.idPlanta}, Nombre común: ${p.nombreComun}, ${p.precio}€")
     }
 }
 ```
@@ -2344,9 +2344,9 @@ fun mostrarInfo() {
     - Planta 'Margarita' añadida correctamente.
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 3.0m
-    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 3.0€
+    - ID: 3, Nombre común: Margarita, 0.6€
     ```
 
 **Representación Hexadecimal en Disco**
@@ -2364,7 +2364,7 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 
 - **ID (1):** Representado en los primeros 4 bytes `00 00 00 01`.
 - **Nombre ("Rosa"):** Bytes en ASCII `52 6F 73 61`, seguidos de espacios `20` hasta completar los 20 bytes fijos.
-- **Altura (1.5):** Representado en formato de doble precisión IEEE 754 ocupando los bytes `3F F8 00 00 00 00 00 00`.
+- **Precio (1.5):** Representado en formato de doble precisión IEEE 754 ocupando los bytes `3F F8 00 00 00 00 00 00`.
 
 
 
@@ -2378,7 +2378,7 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
     
     buffer.putInt(nuevaPlanta.idPlanta)
     buffer.put(nombreBytes, 0, TAMANO_NOMBRE)
-    buffer.putDouble(nuevaPlanta.alturaMaxima)
+    buffer.putDouble(nuevaPlanta.precio)
     
     // Se omite intencionadamente la llamada a: buffer.flip()
     
@@ -2446,7 +2446,7 @@ Offset    00 01 02 03 04 05 06 07 08 09 0A 0B 0C 0D 0E 0F   ASCII
 Ahora aprovecharemos la capacidad de `FileChannel` para posicionarnos directamente sobre una propiedad de un registro concreto utilizando el ID, para actualizarla sin alterar ni leer de forma secuencial el resto del fichero.
 
 ```kotlin
-fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
+fun modificarPrecioPlanta(idPlanta: Int, nuevaPrecio: Double) {
     try {
         // Abrimos el canal con permisos de Lectura y Escritura
         FileChannel.open(archivoPath, StandardOpenOption.READ, StandardOpenOption.WRITE).use { canal ->
@@ -2462,26 +2462,26 @@ fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
                 if (id == idPlanta) {
                     encontrado = true
 
-                    // Calculamos la posición del campo altura en bytes dentro del fichero:
+                    // Calculamos la posición del campo precio en bytes dentro del fichero:
                     // (Inicio de este registro) + Desplazamiento ID + Desplazamiento Nombre
-                    val posicionAltura = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
+                    val posicionPrecio = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
 
-                    // Nos situamos en el canal exactamente sobre el campo altura
-                    canal.position(posicionAltura)
+                    // Nos situamos en el canal exactamente sobre el campo precio
+                    canal.position(posicionPrecio)
 
-                    val bufferAltura = ByteBuffer.allocate(TAMANO_ALTURA)
-                    bufferAltura.putDouble(nuevaAltura)
-                    bufferAltura.flip()
+                    val bufferPrecio = ByteBuffer.allocate(TAMANO_PRECIO)
+                    bufferPrecio.putDouble(nuevoPrecio)
+                    bufferPrecio.flip()
 
-                    while (bufferAltura.hasRemaining()) {
-                        canal.write(bufferAltura)
+                    while (bufferPrecio.hasRemaining()) {
+                        canal.write(bufferPrecio)
                     }
                 }
                 buffer.clear()
             }
 
             if (encontrado) {
-                println("\n--- Altura de la planta con ID $idPlanta modificada correctamente a ${nuevaAltura}m.")
+                println("\n--- Precio de la planta con ID $idPlanta modificado correctamente a ${nuevoPrecio}m.")
             } else {
                 println("No se encontró ninguna planta con el ID: $idPlanta")
             }
@@ -2495,7 +2495,7 @@ fun modificarAlturaPlanta(idPlanta: Int, nuevaAltura: Double) {
 Añadimos a la función `main` las líneas para llamar a la nueva función y volver a mostrar la información después de modificarla:
 
 ```kotlin
-    modificarAlturaPlanta(2, 5.5)
+    modificarPrecioPlanta(2, 5.5)
     mostrarInfo()
 ```
 
@@ -2509,43 +2509,43 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - Planta 'Margarita' añadida correctamente.
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 3.0m
-    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 3.0€
+    - ID: 3, Nombre común: Margarita, 0.6€
 
-    --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
+    --- Precio de la planta con ID 2 modificado correctamente a 5.5m.
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 5.5m
-    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 5.5€
+    - ID: 3, Nombre común: Margarita, 0.6€
     ```
 
 
 !!! example "Autoevaluación"
 
-    **Pregunta 21: En la función `modificarAlturaPlanta`, una vez localizado el registro con el ID buscado, se calcula la posición física en bytes del campo de la altura (`posicionAltura`) mediante la siguiente fórmula:**
+    **Pregunta 21: En la función `modificarPrecioPlanta`, una vez localizado el registro con el ID buscado, se calcula la posición física en bytes del campo del precio (`posicionPrecio`) mediante la siguiente fórmula:**
     
     ```kotlin
-    val posicionAltura = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
+    val posicionPrecio = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
     ```
     
     **¿Cuál es la explicación lógica detrás de esta operación matemática para situar correctamente el puntero del canal de datos?**
     
     A) Se realiza para vaciar los datos del búfer de la memoria RAM y notificar al sistema operativo que el archivo va a incrementar su tamaño físico en el disco duro.
     
-    B) Como la lectura completa del registro avanza el puntero hasta el final del mismo, se resta el tamaño del registro para retroceder al inicio de este, y se suman los tamaños del ID y del Nombre para saltar sobre ellos y situarse exactamente al principio del campo de la altura.
+    B) Como la lectura completa del registro avanza el puntero hasta el final del mismo, se resta el tamaño del registro para retroceder al inicio de este, y se suman los tamaños del ID y del Nombre para saltar sobre ellos y situarse exactamente al principio del campo precio.
     
     C) Es un cálculo arbitrario exigido por la sintaxis de Kotlin para evitar que la máquina virtual de Java genere un error de desbordamiento de enteros durante la modificación del archivo.
     
-    D) Sirve para avanzar el puntero del canal directamente hasta el final del archivo binario y añadir el nuevo valor de la altura de forma secuencial.
+    D) Sirve para avanzar el puntero del canal directamente hasta el final del archivo binario y añadir el nuevo valor del precio de forma secuencial.
     
     
     ??? quote "Solución"
     
         ❌ A) La operación matemática trabaja exclusivamente con índices de posiciones en bytes; no tiene relación con la gestión de la memoria RAM ni modifica el tamaño del archivo en disco.
         
-        ✅ B) Al terminar de leer un registro de 32 bytes (`canal.read(buffer)`), el puntero del canal se queda posicionado justo al final de dicho registro (`posicionActual`). Para modificar la altura de esa planta concreta sin tocar el resto, se debe retroceder al principio del registro (`posicionActual - TAMANO_REGISTRO`). Desde ahí, para llegar al campo de la altura, se deben ignorar los bytes correspondientes al ID (4 bytes) y al Nombre (20 bytes), de ahí que se sumen ambas constantes (`+ TAMANO_ID + TAMANO_NOMBRE`).
+        ✅ B) Al terminar de leer un registro de 32 bytes (`canal.read(buffer)`), el puntero del canal se queda posicionado justo al final de dicho registro (`posicionActual`). Para modificar el precio de esa planta concreta sin tocar el resto, se debe retroceder al principio del registro (`posicionActual - TAMANO_REGISTRO`). Desde ahí, para llegar al campo precio, se deben ignorar los bytes correspondientes al ID (4 bytes) y al Nombre (20 bytes), de ahí que se sumen ambas constantes (`+ TAMANO_ID + TAMANO_NOMBRE`).
         
         ❌ C) El compilador de Kotlin no exige ninguna fórmula específica para modificar archivos; se trata de una lógica puramente matemática diseñada por el desarrollador para navegar por la estructura de bytes fijos.
         
@@ -2553,7 +2553,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     
 
 
-    **Pregunta 22: Para abrir el canal que permite modificar la altura de una planta en el archivo binario mediante acceso aleatorio, se utiliza la siguiente instrucción:**
+    **Pregunta 22: Para abrir el canal que permite modificar el precio de una planta en el archivo binario mediante acceso aleatorio, se utiliza la siguiente instrucción:**
     
     ```kotlin
     FileChannel.open(archivoPath, StandardOpenOption.READ, StandardOpenOption.WRITE)
@@ -2663,21 +2663,21 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - Planta 'Margarita' añadida correctamente.
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 3.0m
-    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 3.0€
+    - ID: 3, Nombre común: Margarita, 0.6€
 
-    --- Altura de la planta con ID 2 modificada correctamente a 5.5m.
+    --- Precio de la planta con ID 2 modificada correctamente a 5.5m.
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 5.5m
-    - ID: 3, Nombre común: Margarita, Altura: 0.6m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 5.5€
+    - ID: 3, Nombre común: Margarita, 0.6€
 
     **** Planta con ID 3 eliminada con éxito.
     --- Plantas leídas secuencialmente del fichero .bin: ---
-    - ID: 1, Nombre común: Rosa, Altura: 1.5m
-    - ID: 2, Nombre común: Girasol, Altura: 5.5m
+    - ID: 1, Nombre común: Rosa, 1.5€
+    - ID: 2, Nombre común: Girasol, 5.5€
     ```
 
 
@@ -2709,7 +2709,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     
         ❌ A) El compilador de Kotlin no analiza el estado de los punteros internos de los búferes de Java NIO, por lo que compilará el código de forma completamente normal sin advertencias de error.
         
-        ✅ B) Al leer el identificador del registro mediante `buffer.getInt()`, el puntero de posición del búfer se desplaza automáticamente hacia adelante 4 bytes (los que ocupa el entero). Si se escribe el búfer en el canal temporal sin rebobinarlo (`buffer.rewind()`), solo se transferirán los bytes restantes (los 28 bytes del nombre y la altura). Esto provocará que los registros en el archivo temporal dejen de medir 32 bytes, desalineando todo el fichero y corrompiendo las lecturas posteriores.
+        ✅ B) Al leer el identificador del registro mediante `buffer.getInt()`, el puntero de posición del búfer se desplaza automáticamente hacia adelante 4 bytes (los que ocupa el entero). Si se escribe el búfer en el canal temporal sin rebobinarlo (`buffer.rewind()`), solo se transferirán los bytes restantes (los 28 bytes del nombre y precio). Esto provocará que los registros en el archivo temporal dejen de medir 32 bytes, desalineando todo el fichero y corrompiendo las lecturas posteriores.
         
         ❌ C) El programa compilará perfectamente, pero el fallo de lógica se manifestará en tiempo de ejecución al analizar el archivo resultante.
         
@@ -2849,7 +2849,7 @@ Este es un programa de consola desarrollado en Kotlin para gestionar un catálog
 data class Planta(
     val idPlanta: Int,
     val nombreComun: String,
-    val alturaMaxima: Double
+    val precio: Double
 )
 ```
 
@@ -2857,7 +2857,7 @@ data class Planta(
 
 - **id_planta**: Int - 4 bytes (desplazamiento 0 a 3)
 - **nombre_comun**: String - 20 bytes (longitud fija rellenada con espacios, desplazamiento 4 a 23)
-- **altura_maxima**: Double - 8 bytes (desplazamiento 24 a 31)
+- **precio**: Double - 8 bytes (desplazamiento 24 a 31)
 - **Tamaño Total del Registro**: 4 + 20 + 8 = 32 bytes
 
 ---
