@@ -10,7 +10,7 @@
 | Revisión | Fecha      | Descripción                                                   |
 |----------|------------|---------------------------------------------------------------|
 | 1.0      | 12-08-2026 | Adaptación de los materiales a markdown                       |
-| 1.1      | 24-08-2026 | Ampliación con preguntas de autoevaluación |
+| 1.1      | 19-08-2026 | Ampliación con preguntas de autoevaluación |
 
 
 ## 1. Introducción
@@ -21,10 +21,10 @@ Una **base de datos relacional** es un sistema de almacenamiento de información
 
 **Ejemplo de tabla `plantas`:**
 
-| id_planta | nombre_comun | stock | precio |
+| id_planta | nombre_comun | nombre_cientifico | stock | precio |
 | :--- | :--- |:------|:-------|
-| 1 | Aloe Vera | 20    | 10.5   |
-| 2 | Ficus Benjamina | 40    | 4.75   |
+| 1 | Aloe Vera | Aloe barbadensis miller | 20    | 10.5   |
+| 2 | Lavanda | Lavandula angustifolia | 40    | 4.75   |
 
 
 **Ejemplo de tabla `jardines`:**
@@ -663,7 +663,7 @@ Los objetos de acceso a datos son una buena forma de organizar nuestro código p
 
 El siguiente ejemplo es el DAO para la tabla `plantas` de la BD `florabotanica.sqlite`. La estructura de la tabla `plantas` es la siguiente:
 
-<img class="con_borde" src="img/BD/3_plantas.png" alt="DAO">
+<img class="con_borde" src="img/RA2/plantas.png" alt="DAO">
 
 Creamos un archivo **PlantasDAO.kt** en el que declararemos una data class con la misma estructura que la tabla `plantas` y las funciones para leer la información de la tabla, añadir registros nuevos, modificar la información existente y borrarla. El código fuente es:
 
@@ -1014,9 +1014,9 @@ Para evitarlo se utiliza un bloque **try-catch** que:
 
 Para el siguiente ejemplo se han añadido a la BD las tablas `jardines`y `jardines_plantas` cuya estructura es la siguiente:
 
-<img class="con_borde" src="img/BD/4_jardines.png" alt="commit_rollback">
+<img class="con_borde" src="img/RA2/jardines.png" alt="commit_rollback">
 
-<img class="con_borde" src="img/BD/4_jardines_plantas.png" alt="commit_rollback">
+<img class="con_borde" src="img/RA2/jardines_plantas.png" alt="commit_rollback">
 
 Puedes descargar la BD aquí: [florabotanica2.sqlite](recursos/florabotanica2.sqlite){:florabotanica2.sqlite}
 
@@ -1237,11 +1237,383 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
     
     | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
-    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (un `.zip` con carpetas `src`, `datos`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
     | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
 
     
     ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
+
+
+
+
+
+
+
+## 6. Funciones y procedimientos almacenados
+
+Las funciones (FUNCTION) y los procedimientos (PROCEDURE) **no se crean desde el lenguaje Kotlin**, ya que son elementos propios del SGBD. Para definirlos, se utiliza SQL y se ejecutan **directamente sobre la base de datos** a través de un cliente SQL.
+
+Tanto las funciones como los procedimientos almacenados son bloques de código que se guardan en el servidor de la base de datos y que encapsulan una serie de instrucciones SQL.
+
+Se usan para:
+
+- Reutilizar operaciones complejas
+- Organizar mejor la lógica de negocio
+- Mejorar el rendimiento (menos tráfico entre app y BD)
+- Mantener la integridad de datos
+
+
+
+| Concepto          | Función                                | Procedimiento                          |
+| ----------------- | -------------------------------------- | -------------------------------------- |
+| Devuelve          | Un valor simple                        | Un conjunto de datos o varios valores  |
+| Llamada SQL       | `SELECT fn_total_valor_planta(3)`      | `CALL sp_listar_plantas_por_jardin(1)` |
+| Llamada en Kotlin | `SELECT fn...` con `PreparedStatement` | `CALL sp...` con `CallableStatement`   |
+| Uso típico        | Cálculos                               | Listados, inserciones, actualizaciones |
+
+
+
+> **SQLite** no soporta funciones ni procedimientos almacenados como lo hacen otros SGBD, por eso a partir de aquí trabajaremos en MySQL.
+
+
+<span class="mi_h3">Funciones</span>
+
+Una **función** está diseñada para **calcular y devolver un resultado**. Se puede usar directamente dentro de una consulta SQL como parte de un SELECT, WHERE, ORDER BY, etc. Las funciones siempre devuelven un valor. La sintaxis general para crear una función en MySQL es la siguiente:
+
+```sql
+DELIMITER //
+
+CREATE FUNCTION nombre_funcion(parámetro1 tipo, parámetro2 tipo, ...)
+RETURNS tipo_dato
+[DETERMINISTIC | NOT DETERMINISTIC]
+[READS SQL DATA | MODIFIES SQL DATA | NO SQL]
+BEGIN
+    -- Declaraciones opcionales
+    DECLARE variable_local tipo;
+
+    -- Lógica de la función
+    SET variable_local = ...;
+
+    -- Retornar un valor
+    RETURN variable_local;
+END
+//
+
+DELIMITER ;
+```
+
+| Parte                            | Significado                                                                                                                                                                                                   |
+|----------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `DELIMITER //`                   | Cambia el delimitador temporalmente (porque dentro de la función usas `;`).                                                                                                                                   |
+| `CREATE FUNCTION nombre_funcion` | Define la función y su nombre.                                                                                                                                                                                |
+| `RETURNS tipo_dato`              | Especifica el tipo de valor que devolverá (`INT`, `DOUBLE`, `VARCHAR(n)`, etc.).                                                                                                                              |
+| `DETERMINISTIC`                  | Indica que siempre devuelve el mismo resultado para los mismos parámetros. Esto permite que el optimizador de MySQL y los motores de replicación **cacheen** resultados o eviten reevaluaciones innecesarias. |
+| `NO DETERMINISTIC`               | Indica que el resultado puede variar aunque los argumentos sean iguales, por ejemplo si se usan funciones como RAND(), NOW(), etc.                                                                            |
+| `BEGIN ... END`                  | Marca el bloque de instrucciones.                                                                                                                                                                             |
+| `DECLARE`                        | Declara variables locales (opcional).                                                                                                                                                                         |
+| `RETURN`                         | Devuelve un único valor.                                                                                                                                                                                      |
+| `DELIMITER ;`                    | Restablece el delimitador habitual.                                                                                                                                                                           |
+
+
+<span class="mis_ejemplos">Ejemplo 6: Trabajar con funciones</span>
+
+El siguiente ejemplo crea una función que devuelve el valor total en € del stock de una planta (stock × precio).
+
+```sql
+DELIMITER //
+
+DROP FUNCTION IF EXISTS fn_total_valor_planta;
+//
+
+CREATE FUNCTION fn_total_valor_planta(p_id_planta INT)
+  RETURNS DOUBLE
+  DETERMINISTIC
+BEGIN
+  DECLARE total DOUBLE;
+
+  SET total = (
+    SELECT stock * precio 
+    FROM plantas
+    WHERE id_planta = p_id_planta);
+
+  RETURN total;
+
+END;
+//
+
+DELIMITER ;
+```
+
+Para que la función se guarde en la BD hay que ejecutar el código anterior como un script SQL. El resultado será el siguiente:
+
+<img class="con_borde" src="img/RA2/fun1.jpg" alt="funciones">
+
+
+
+Una vez guardada, la podemos llamar desde dentro de la propia BD ejecutando el script SQL:
+```sql
+SELECT fn_total_valor_planta(3);
+```
+
+En este caso el resultado de la ejecución es el que se muestra en la siguiente imagen:
+
+<img class="con_borde" src="img/RA2/fun2.jpg" alt="funciones">
+
+
+Una vez que las funciones están creados en la base de datos, se pueden utilizar perfectamente desde Kotlin a través de JDBC, igual que se hace con cualquier consulta SQL y se gestionan mediante objetos `PreparedStatement`. Las funciones se invocan con `SELECT nombre_funcion(...)`. A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
+
+```kotlin
+fun llamar_fn_total_valor_planta(id: Int){
+    conectarBD()?.use { conn ->
+        val sql = "SELECT fn_total_valor_planta(?)"
+        conn.prepareStatement(sql).use { stmt ->
+            stmt.setInt(1, id)
+            stmt.executeQuery().use { rs ->
+                if (rs.next()) {
+                    val resultado = rs.getInt(1)
+                    println("El valor es: $resultado")
+                }
+            }
+        }
+    }
+}
+```
+
+!!! success "Prueba y analiza el ejemplo 6"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+
+
+<span class="mi_h3">Procedimientos</span>
+
+Un **procedimiento** sirve para **ejecutar acciones** dentro de la base de datos, como insertar registros, modificar datos o gestionar operaciones en bloque. La sintaxis general para crear un procedimiento en MySQL es la siguiente:
+
+```sql
+DELIMITER //
+
+CREATE PROCEDURE nombre_procedimiento(
+[IN | OUT | INOUT] parametro1 tipo,
+[IN | OUT | INOUT] parametro2 tipo,
+...
+)
+BEGIN
+-- Declaraciones opcionales
+DECLARE variable_local tipo;
+
+    -- Lógica del procedimiento
+    SELECT ...;
+    UPDATE ...;
+    -- etc.
+END
+//
+
+DELIMITER ;
+```
+
+| Parte                                            | Descripción                                                           |
+| ------------------------------------------------ | --------------------------------------------------------------------- |
+| `DELIMITER //`                                   | Cambia el delimitador temporal para poder usar `;` dentro del cuerpo. |
+| `CREATE PROCEDURE nombre`                        | Declara el procedimiento.                                             |
+| `IN`, `OUT`, `INOUT`                             | Especifica la dirección del parámetro:                                |
+|  `IN` → se pasa al procedimiento (solo lectura). |                                                                       |
+|  `OUT` → se devuelve como salida.                |                                                                       |
+|  `INOUT` → se pasa y puede ser modificado.       |                                                                       |
+| `BEGIN ... END`                                  | Define el bloque de instrucciones.                                    |
+| `DECLARE`                                        | Declara variables locales si las necesitas.                           |
+| `DELIMITER ;`                                    | Restablece el delimitador normal.                                     |
+
+
+<span class="mis_ejemplos">Ejemplo 7: Trabajar con procedimientos</span>
+
+El siguiente ejemplo crea un procedimiento que devuelve un listado con las plantas y cantidades que hay en un jardín determinado.
+
+```sql
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_listar_plantas_por_jardin;
+//
+
+CREATE PROCEDURE sp_listar_plantas_por_jardin(IN p_id_jardin INT)
+BEGIN
+  SELECT j.nombre AS jardin,
+         p.nombre_comun AS planta,
+         jp.cantidad
+  FROM jardines_plantas jp
+  JOIN jardines j ON jp.id_jardin = j.id_jardin
+  JOIN plantas p ON jp.id_planta = p.id_planta
+  WHERE j.id_jardin = p_id_jardin;
+END;
+//
+
+DELIMITER ;
+```
+
+Al igual que en las funciones, para que un procedimiento se guarde en la BD hay que ejecutar el código anterior como un script SQL. El resultado será el siguiente:
+
+<img class="con_borde" src="img/RA2/proc1.jpg" alt="procedimientos">
+
+
+Una vez guardado, lo podemos llamar desde dentro de la propia BD ejecutando el script SQL siguiente:
+```sql
+CALL sp_listar_plantas_por_jardin(1);
+```
+
+En este caso el resultado de la ejecución es el que se muestra en la siguiente imagen:
+
+<img class="con_borde" src="img/RA2/proc2.jpg" alt="procedimientos">
+
+
+
+Una vez que los procedimientos están creados en la base de datos, se pueden utilizar perfectamente desde Kotlin a través de JDBC, igual que se hace con cualquier consulta SQL y se gestionan mediante objetos `CallableStatement`. Los procedimientos se llaman con `CALL nombre_procedimiento(...)`. A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
+
+```kotlin
+fun llamar_sp_listar_plantas_por_jardin(id: Int){
+    conectarBD()?.use { conn ->
+        val sqlProcedimiento = "{CALL sp_listar_plantas_por_jardin(?)}"
+        conn.prepareCall(sqlProcedimiento).use { call ->
+            call.setInt(1, 1) // id_jardin = 1
+            call.executeQuery().use { rs ->
+                println("\n Plantas del jardín :$id")
+                while (rs.next()) {
+                    val planta = rs.getString("planta")
+                    val cantidad = rs.getInt("cantidad")
+                    println(" - $planta (Cantidad: $cantidad)")
+                }
+            }
+        }
+    }
+}
+```
+
+!!! success "Prueba y analiza el ejemplo 7"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+
+<span class="mis_ejemplos">Ejemplo 8: Otro ejemplo de procedimientos</span>
+
+El siguiente ejemplo crea un procedimiento que inserta una planta en un jardín (en la tabla jardines_plantas). El procedimiento recibe el `id_jardin`, el `id_planta` y una `cantidad`. Si la relación ya existe, actualizará la cantidad (sumando) y si no existe, insertará una nueva fila.
+
+```sql
+DELIMITER //
+
+DROP PROCEDURE IF EXISTS sp_agregar_planta_a_jardin;
+//
+CREATE PROCEDURE sp_agregar_planta_a_jardin(
+    IN p_id_jardin INT,
+    IN p_id_planta INT,
+    IN p_cantidad INT
+)
+BEGIN
+    -- Verificar si la relación jardín-planta ya existe
+    IF EXISTS (
+        SELECT 1 FROM jardines_plantas
+        WHERE id_jardin = p_id_jardin AND id_planta = p_id_planta
+    ) THEN
+        -- Si existe, actualiza la cantidad
+        UPDATE jardines_plantas
+        SET cantidad = cantidad + p_cantidad
+        WHERE id_jardin = p_id_jardin AND id_planta = p_id_planta;
+
+        SELECT CONCAT('Cantidad actualizada. Nueva cantidad: ', cantidad)
+        AS mensaje
+        FROM jardines_plantas
+        WHERE id_jardin = p_id_jardin AND id_planta = p_id_planta;
+
+    ELSE
+        -- Si no existe, inserta una nueva relación
+        INSERT INTO jardines_plantas (id_jardin, id_planta, cantidad)
+        VALUES (p_id_jardin, p_id_planta, p_cantidad);
+
+        SELECT 'Nueva planta agregada al jardín.' AS mensaje;
+    END IF;
+END;
+//
+
+DELIMITER ;
+```
+
+Después de ejecutar el script anterior ya tenemos el procedimiento almacenado en nustra BD:
+
+<img class="con_borde" src="img/RA2/proc3.jpg" alt="procedimientos">
+
+
+Ejecutamos el script SQL dentro de la misma BD
+```sql
+-- Insertar una nueva planta en el jardín 2
+CALL sp_agregar_planta_a_jardin(2, 5, 4);
+
+-- Insertar más cantidad de una planta que ya existe
+CALL sp_agregar_planta_a_jardin(2, 5, 3);
+
+-- Verificar resultado
+SELECT * FROM jardines_plantas WHERE id_jardin = 2 AND id_planta = 5;
+```
+
+El resultado de la ejecución es el que se muestra en la siguiente imagen:
+
+<img class="con_borde" src="img/RA2/proc4.jpg" alt="procedimientos">
+
+
+
+A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
+
+```kotlin
+fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
+    conectarBD()?.use { conn ->
+        val sql = "{CALL sp_agregar_planta_a_jardin(?, ?, ?)}"
+        conn.prepareCall(sql).use { call ->
+            call.setInt(1, id_p)  // id_jardin
+            call.setInt(2, id_j)  // id_planta
+            call.setInt(3, cant)  // cantidad
+
+            call.executeQuery().use { rs ->
+                while (rs.next()) {
+                    println(rs.getString("mensaje"))
+                }
+            }
+        }
+    }
+}
+```
+
+
+!!! success "Prueba y analiza el ejemplo 8"
+    Prueba el código de ejemplo y verifica que funciona correctamente.
+
+
+
+
+!!! warning "Práctica 6: Proyecto con MySQL"
+    En esta práctica montaremos un servidor MySQL con Docker y diseñaremos nuestra BD MySQL a partir de la SQLite que ya tenemos. Luego crearemos un nuevo proyecto para gestionar sus datos igual que hicimos en el proyecto anterior.
+
+    **Realiza los siguientes pasos:**
+
+    1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
+    2. Crea la BD a partir de la que tienes SQLite.
+    3. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
+    4. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`.
+    5. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades pero esta vez sobre la BD MySQL del servidor dockerizado).
+    6. Crea al menos una función en tu base de datos y comprueba que se ejecuta correctamente desde dentro de ella.
+    7. Amplia el menú principal de tu proyecto y añade el código necesario para llamar a las funciones de tu BD.
+    8. Crea al menos dos procedimientos, uno que devuelva información resultante de realizar una consulta entre todas las tablas que hay en tu BD y otro que inserte información de una de las tablas.
+    9. Amplia el menú de tu proyecto y añade el código necesario para llamar a los procedimientos de tu BD.
+
+
+
+
+!!! danger "Entrega 2"
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente la carpeta `src` y un archivo `.sql` con tu BD (exportada con el comando `mysqldump`). Tu trabajo se calificará con la siguiente tabla:
+
+    | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
+    | :------------------------- | :--------------------------------------- | :-----------------------------: |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (un `.zip` con carpeta `src` y archivo `.sql`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
+    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
+
+    
+    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
+
 
 
 

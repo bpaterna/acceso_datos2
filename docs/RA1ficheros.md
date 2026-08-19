@@ -51,7 +51,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 - Es el más común y sencillo.
 - Se usa cuando se desea leer todo el contenido o recorrer registro por registro. Por ejemplo: lectura de un catálogo de plantas línea por línea, o de un fichero binario de taxonomía registro a registro.
 
-![Imagen 1](img/ficheros1.jpg)
+![Imagen 1](img/RA1/ficheros1.jpg)
 
 **Acceso aleatorio**
 
@@ -60,7 +60,7 @@ El acceso a ficheros es una tarea fundamental en la programación, ya que permit
 - Requiere técnicas más avanzadas como el uso de `FileChannel`, `SeekableByteChannel` o `RandomAccessFile`.
 
 
-![Imagen 2](img/ficheros2.jpg)
+![Imagen 2](img/RA1/ficheros2.jpg)
 
 
 ## 2. Gestión de ficheros y directorios
@@ -842,12 +842,12 @@ fun leerDatosCSV(ruta: Path): List<Planta> {
         plantas = filas.mapNotNull { columnas ->
             if (columnas.size >= 5) {
                 try {
-                    val id = columnas[0].toInt()
+                    val idPlanta = columnas[0].toInt()
                     val nombreComun = columnas[1]
                     val nombreCientifico = columnas[2]
                     val stock = columnas[3].toInt()
                     val precio = columnas[4].toDouble()
-                    Planta(id, nombreComun, nombreCientifico, stock, precio)
+                    Planta(idPlanta, nombreComun, nombreCientifico, stock, precio)
                 } catch (e: Exception) {
                     println("Fila inválida ignorada: $columnas -> Error: ${e.message}")
                     null
@@ -2899,7 +2899,7 @@ data class Planta(
 
     | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
-    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (carpetas `src`, `datos` y el archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
+    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (un `.zip` con carpetas `src`, `datos` y archivo `LEEME.md`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
     | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
    
     
