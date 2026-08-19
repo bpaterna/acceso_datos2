@@ -11,7 +11,7 @@
 |----------|------------|--------------------------------------------|
 | 1.0      | 13-07-2026 | Adaptación de los materiales a markdown    |
 | 1.1      | 24-07-2026 | Ampliación con preguntas de autoevaluación |
-| 1.2      | 18-08-2026 | Modificación de algunos ejemplos           |
+| 1.2      | 19-08-2026 | Modificación de algunos ejemplos           |
 
 
 ## 1. Introducción
@@ -22,7 +22,7 @@ Un **fichero o archivo** es una unidad de almacenamiento de datos en un sistema 
 
 - **Nombre:** Cada fichero tiene un nombre único dentro de su directorio.
 - **Extensión:** Indica su tipo (`.txt` para texto, `.jpg` para imágenes, etc.).
-- **Ubicación:** Directorios (carpetas) dentro del sistema de ficheros.
+- **Ubicación:** Se localizan en directorios (carpetas) dentro del sistema de ficheros.
 - **Contenido:** Texto, imágenes, vídeos, código fuente, bases de datos, etc.
 - **Permisos de acceso:** Se pueden configurar para permitir o restringir la lectura, escritura o ejecución a determinados usuarios o programas.
 
@@ -374,7 +374,7 @@ fun organizar(){
     
         ❌ A) A diferencia de `Files.createDirectories()`, el método `Files.move` no tiene la capacidad de crear carpetas intermedias ausentes. Requiere obligatoriamente que toda la ruta de carpetas de destino ya exista físicamente antes de ser invocado.
         
-        ✅ B) Dado que la carpeta contenedora `muestras/png` no existe en el momento de invocar la mudanza, el sistema operativo no podrá resolver la ruta del archivo de destino intermedio, lo que provocará un fallo de E/S (`NoSuchFileException` o `DirectoryNotEmptyException` según el caso) que detendrá el programa.
+        ✅ B) Dado que la carpeta contenedora `muestras/png` no existe en el momento de invocar la mudanza, el sistema operativo no podrá resolver la ruta del archivo de destino intermedio, lo que provocará un fallo de Entrada/Salida (concretamente una excepción de tipo `NoSuchFileException`) que detendrá el programa de forma inmediata.
         
         ❌ C) Para que se renombrase a `png`, la ruta de destino tendría que haber apuntado directamente a un archivo con ese nombre, pero en este código se está intentando usar `.resolve(origen.fileName)` lo cual busca explícitamente guardar el archivo dentro de una carpeta llamada `png` que no existe.
         
@@ -2462,10 +2462,14 @@ fun modificarPrecioPlanta(idPlanta: Int, nuevoPrecio: Double) {
                 val id = buffer.getInt()
                 if (id == idPlanta) {
                     encontrado = true
+                    // Calculamos la posición del campo precio en bytes dentro del fichero
 
-                    // Calculamos la posición del campo precio en bytes dentro del fichero:
-                    // (Inicio de este registro) + Desplazamiento ID + Desplazamiento Nombre
-                    val posicionPrecio = posicionActual - TAMANO_REGISTRO + TAMANO_ID + TAMANO_NOMBRE
+                    // Calcular el inicio del registro actual
+                    val inicioRegistro = posicionActual - TAMANO_REGISTRO
+                    // Calcular los bytes que ocupan los campos anteriores (desplazamiento)
+                    val desplazamientoPrecio = TAMANO_ID + TAMANO_NOMBRE
+                    // "rebobinar" al inicio del registro actual y avanzar el desplazamiento
+                    val posicionPrecio = inicioRegistro + desplazamientoPrecio
 
                     // Nos situamos en el canal exactamente sobre el campo precio
                     canal.position(posicionPrecio)
@@ -2482,7 +2486,7 @@ fun modificarPrecioPlanta(idPlanta: Int, nuevoPrecio: Double) {
             }
 
             if (encontrado) {
-                println("\n--- Precio de la planta con ID $idPlanta modificado correctamente a ${nuevoPrecio}m.")
+                println("\n--- Precio de la planta con ID $idPlanta modificado correctamente a ${nuevoPrecio}€")
             } else {
                 println("No se encontró ninguna planta con el ID: $idPlanta")
             }
@@ -2514,7 +2518,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 2, Nombre común: Girasol, 3.0€
     - ID: 3, Nombre común: Margarita, 0.6€
 
-    --- Precio de la planta con ID 2 modificado correctamente a 5.5m.
+    --- Precio de la planta con ID 2 modificado correctamente a 5.5€
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, 1.5€
@@ -2668,7 +2672,7 @@ Añadimos a la función `main` las líneas para llamar a la nueva función y vol
     - ID: 2, Nombre común: Girasol, 3.0€
     - ID: 3, Nombre común: Margarita, 0.6€
 
-    --- Precio de la planta con ID 2 modificada correctamente a 5.5m.
+    --- Precio de la planta con ID 2 modificada correctamente a 5.5€
 
     --- Plantas leídas secuencialmente del fichero .bin: ---
     - ID: 1, Nombre común: Rosa, 1.5€
