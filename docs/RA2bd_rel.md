@@ -21,10 +21,10 @@ Una **base de datos relacional** es un sistema de almacenamiento de información
 
 **Ejemplo de tabla `plantas`:**
 
-| id_planta | nombre_comun | nombre_cientifico | stock | precio |
-| :--- | :--- |:------|:-------|
-| 1 | Aloe Vera | Aloe barbadensis miller | 20    | 10.5   |
-| 2 | Lavanda | Lavandula angustifolia | 40    | 4.75   |
+| id_planta  | nombre_comun | nombre_cientifico       | stock | precio |
+|:-----------|:-------------|:------------------------|:-------|:-------|
+| 1          | Aloe Vera    | Aloe barbadensis miller | 20    | 10.5   |
+| 2          | Lavanda      | Lavandula angustifolia  | 40    | 4.75   |
 
 
 **Ejemplo de tabla `jardines`:**
@@ -1078,7 +1078,6 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
 
 
-
 !!! example "Autoevaluación"
     
     **Pregunta 9: Se desea escribir un bloque de código para gestionar manualmente una transferencia de stock entre tablas mediante una transacción segura:**
@@ -1379,10 +1378,9 @@ fun llamar_fn_total_valor_planta(id: Int){
 }
 ```
 
-!!! success "Prueba y analiza el ejemplo 6"
+
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
-
-
 
 
 <span class="mi_h3">Procedimientos</span>
@@ -1486,8 +1484,10 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
 }
 ```
 
-!!! success "Prueba y analiza el ejemplo 7"
+
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
+
 
 
 
@@ -1579,10 +1579,9 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 ```
 
 
-!!! success "Prueba y analiza el ejemplo 8"
+
+!!! success "Prueba y analiza el ejemplo"
     Prueba el código de ejemplo y verifica que funciona correctamente.
-
-
 
 
 !!! warning "Práctica 6: Proyecto con MySQL"
@@ -1592,14 +1591,11 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
     1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
     2. Crea la BD a partir de la que tienes SQLite.
-    3. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
-    4. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`.
-    5. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades pero esta vez sobre la BD MySQL del servidor dockerizado).
-    6. Crea al menos una función en tu base de datos y comprueba que se ejecuta correctamente desde dentro de ella.
-    7. Amplia el menú principal de tu proyecto y añade el código necesario para llamar a las funciones de tu BD.
-    8. Crea al menos dos procedimientos, uno que devuelva información resultante de realizar una consulta entre todas las tablas que hay en tu BD y otro que inserte información de una de las tablas.
-    9. Amplia el menú de tu proyecto y añade el código necesario para llamar a los procedimientos de tu BD.
-
+    3. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con MySQL.
+    4. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`. En este caso la BD no está en local sino en un servidor.
+    5. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades que la aplicación que ya tenías pero esta vez sobre la BD MySQL del servidor dockerizado).
+    6. Crea al menos una función (que haga algún cálculo sobre la BD y devuelva el resultado) y dos procedimientos (uno que consulte y devuelva información de tu BD y otro que inserte información en una de las tablas).
+    7. Amplia el menú de tu proyecto y añade el código necesario para llamar a la función y a los procedimientos que acabas de crear.
 
 
 
@@ -1613,7 +1609,6 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
     
     ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
-
 
 
 
