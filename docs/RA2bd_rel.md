@@ -1029,46 +1029,46 @@ Supongamos que queremos llevar varias unidades de una planta a un jardín. El pr
 Si después de actualizar el stock en la tabla `plantas`, la inserción del registro en `jardines_plantas` falla (por ejemplo se intenta insertar un registro con un id_jardin y un id_planta que ya existen la BD devuelve un error de duplicidad de clave primaria), el stock de la planta debería volver al valor inicial (es decir, desaher el cambio hecho en el paso anterior). Por tanto, ambas operaciones deben realizarse juntas, o no realizarse ninguna. El código sería el siguiente:
 
 ``` kotlin
-    fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
-        conectarBD()?.use { conn ->
+fun llevarPlantasAJardin(id_jardin: Int, id_planta: Int, cantidad: Int) {
+    conectarBD()?.use { conn ->
+        try {
+            conn.autoCommit = false // Iniciar transacción manual
+
+            // Restar stock a la planta (usando .use y parámetros adecuados)
+            conn.prepareStatement("UPDATE plantas SET stock = stock - ? WHERE id_planta = ?").use { stockStmt ->
+                stockStmt.setInt(1, cantidad)
+                stockStmt.setInt(2, id_planta)
+                stockStmt.executeUpdate()
+            }
+
+            // Añadir línea en tabla jardines_plantas (usando .use)
+            conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)").use { plantarStmt ->
+                plantarStmt.setInt(1, id_jardin)
+                plantarStmt.setInt(2, id_planta)
+                plantarStmt.setInt(3, cantidad)
+                plantarStmt.executeUpdate()
+            }
+
+            // Confirmar cambios si todo ha ido bien
+            conn.commit()
+            println("Transferencia realizada con éxito.")
+        } catch (e: SQLException) {
+            // Hacemos rollback ante cualquier error antes de procesar/relanzar la excepción
             try {
-                conn.autoCommit = false // Iniciar transacción manual
+                conn.rollback()
+                println("Transacción revertida debido a un error.")
+            } catch (rollbackEx: SQLException) {
+                rollbackEx.printStackTrace()
+            }
 
-                // Restar stock a la planta (usando .use y parámetros adecuados)
-                conn.prepareStatement("UPDATE plantas SET stock = stock - ? WHERE id_planta = ?").use { stockStmt ->
-                    stockStmt.setInt(1, cantidad)
-                    stockStmt.setInt(2, id_planta)
-                    stockStmt.executeUpdate()
-                }
-
-                // Añadir línea en tabla jardines_plantas (usando .use)
-                conn.prepareStatement("INSERT INTO jardines_plantas(id_jardin, id_planta, cantidad) VALUES (?, ?, ?)").use { plantarStmt ->
-                    plantarStmt.setInt(1, id_jardin)
-                    plantarStmt.setInt(2, id_planta)
-                    plantarStmt.setInt(3, cantidad)
-                    plantarStmt.executeUpdate()
-                }
-
-                // Confirmar cambios si todo ha ido bien
-                conn.commit()
-                println("Transferencia realizada con éxito.")
-            } catch (e: SQLException) {
-                // Hacemos rollback ante cualquier error antes de procesar/relanzar la excepción
-                try {
-                    conn.rollback()
-                    println("Transacción revertida debido a un error.")
-                } catch (rollbackEx: SQLException) {
-                    rollbackEx.printStackTrace()
-                }
-
-                if (e.message?.contains("UNIQUE constraint failed") == true) {
-                    println("Intento de insertar clave duplicada.")
-                } else {
-                    throw e // otros errores, relanzamos
-                }
+            if (e.message?.contains("UNIQUE constraint failed") == true) {
+                println("Intento de insertar clave duplicada.")
+            } else {
+                throw e // otros errores, relanzamos
             }
         }
     }
+}
 ```
 
 Si no se produce ningún error se hará el `commit` y en caso contrario el `rollback`
@@ -1275,6 +1275,59 @@ Se usan para:
 > **SQLite** no soporta funciones ni procedimientos almacenados como lo hacen otros SGBD, por eso a partir de aquí trabajaremos en MySQL.
 
 
+<span class="mis_ejemplos">Ejemplo 6: Trabajando con MySQL</span>
+
+El siguiente ejemplo muestra como conectar a una BD **MySQL** llamada `florabotanica` y listar los nombres de todas las plantas.
+
+``` kotlin
+import java.sql.Connection
+import java.sql.DriverManager
+import java.sql.SQLException
+import kotlin.use
+import java.sql.ResultSet
+
+const val URL_BD =  "jdbc:mysql://localhost/florabotanica"
+const val USER_BD = "root"
+const val PASS_BD = "hola01"
+
+// Obtener conexión
+fun conectarBD(): Connection? {
+    return try {
+        DriverManager.getConnection(URL_BD, USER_BD, PASS_BD)
+    } catch (e: SQLException) {
+        e.printStackTrace()
+        null
+    }
+}
+
+fun main() {
+    listarPlantas()
+}
+
+fun listarPlantas(){
+    conectarBD()?.use { conn ->
+        println("***** Listado de plantas *****")
+
+        conn.createStatement().use { stmt ->
+            stmt.executeQuery("SELECT * FROM plantas").use { rs ->
+                while (rs.next()) {
+                    println(rs.getString("nombre_comun"))
+                }
+            }
+        }
+    } ?: println("No se pudo conectar")
+}
+```
+
+!!! success "Prueba y analiza el ejemplo"
+    1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
+    2. Copia el archivo con la BD del ejemplo al contenedor que acabas de crear. Puedes descargar el archivo con la copia de seguridad aquí: [florabotanica.sql](recursos/florabotanica.sql){:florabotanica.sql}
+    3. Crea una BD llamada `florabotanica` y restaura la copia de seguridad (archivo del paso anterior).
+    4. Comprueba que puedes conectar a la BD utilizando `DBeaver`. Tienes los pasos a seguir en el documento [Docker](docker.html).
+    5. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con `MySQL`.
+    6. Ejecuta el programa y verifica que la conexión con la BD se establece correctamente y se listan los nombres de las plantas.
+
+
 <span class="mi_h3">Funciones</span>
 
 Una **función** está diseñada para **calcular y devolver un resultado**. Se puede usar directamente dentro de una consulta SQL como parte de un SELECT, WHERE, ORDER BY, etc. Las funciones siempre devuelven un valor. La sintaxis general para crear una función en MySQL es la siguiente:
@@ -1314,31 +1367,26 @@ DELIMITER ;
 | `DELIMITER ;`                    | Restablece el delimitador habitual.                                                                                                                                                                           |
 
 
-<span class="mis_ejemplos">Ejemplo 6: Trabajar con funciones</span>
+<span class="mis_ejemplos">Ejemplo 7: Trabajar con funciones</span>
 
 El siguiente ejemplo crea una función que devuelve el valor total en € del stock de una planta (stock × precio).
 
 ```sql
-DELIMITER //
-
 DROP FUNCTION IF EXISTS fn_total_valor_planta;
-//
+
+DELIMITER //
 
 CREATE FUNCTION fn_total_valor_planta(p_id_planta INT)
   RETURNS DOUBLE
   DETERMINISTIC
 BEGIN
   DECLARE total DOUBLE;
-
   SET total = (
     SELECT stock * precio 
     FROM plantas
     WHERE id_planta = p_id_planta);
-
   RETURN total;
-
-END;
-//
+END; //
 
 DELIMITER ;
 ```
@@ -1346,7 +1394,6 @@ DELIMITER ;
 Para que la función se guarde en la BD hay que ejecutar el código anterior como un script SQL. El resultado será el siguiente:
 
 <img class="con_borde" src="img/RA2/fun1.jpg" alt="funciones">
-
 
 
 Una vez guardada, la podemos llamar desde dentro de la propia BD ejecutando el script SQL:
@@ -1359,7 +1406,7 @@ En este caso el resultado de la ejecución es el que se muestra en la siguiente 
 <img class="con_borde" src="img/RA2/fun2.jpg" alt="funciones">
 
 
-Una vez que las funciones están creados en la base de datos, se pueden utilizar perfectamente desde Kotlin a través de JDBC, igual que se hace con cualquier consulta SQL y se gestionan mediante objetos `PreparedStatement`. Las funciones se invocan con `SELECT nombre_funcion(...)`. A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
+Una vez que la función está creada en la base de datos, se puede utilizar perfectamente desde Kotlin a través de JDBC, igual que se hace con cualquier consulta SQL. Se gestionan mediante objetos `PreparedStatement` y se invocan con `SELECT nombre_funcion(...)`. A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
 
 ```kotlin
 fun llamar_fn_total_valor_planta(id: Int){
@@ -1379,8 +1426,11 @@ fun llamar_fn_total_valor_planta(id: Int){
 ```
 
 
+
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    1. Conecta a la BD utilizando `DBeaver` y crea la función del ejemplo.
+    2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
+    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
 
 
 <span class="mi_h3">Procedimientos</span>
@@ -1422,7 +1472,7 @@ DELIMITER ;
 | `DELIMITER ;`                                    | Restablece el delimitador normal.                                     |
 
 
-<span class="mis_ejemplos">Ejemplo 7: Trabajar con procedimientos</span>
+<span class="mis_ejemplos">Ejemplo 8: Trabajar con procedimientos</span>
 
 El siguiente ejemplo crea un procedimiento que devuelve un listado con las plantas y cantidades que hay en un jardín determinado.
 
@@ -1486,12 +1536,14 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
 
 
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    1. Conecta a la BD utilizando `DBeaver` y crea el procedimiento del ejemplo.
+    2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
+    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
 
 
 
 
-<span class="mis_ejemplos">Ejemplo 8: Otro ejemplo de procedimientos</span>
+<span class="mis_ejemplos">Ejemplo 9: Otro ejemplo de procedimientos</span>
 
 El siguiente ejemplo crea un procedimiento que inserta una planta en un jardín (en la tabla jardines_plantas). El procedimiento recibe el `id_jardin`, el `id_planta` y una `cantidad`. Si la relación ya existe, actualizará la cantidad (sumando) y si no existe, insertará una nueva fila.
 
@@ -1581,7 +1633,9 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
 
 !!! success "Prueba y analiza el ejemplo"
-    Prueba el código de ejemplo y verifica que funciona correctamente.
+    1. Conecta a la BD utilizando `DBeaver` y crea el procedimiento del ejemplo.
+    2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
+    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
 
 
 !!! warning "Práctica 6: Proyecto con MySQL"

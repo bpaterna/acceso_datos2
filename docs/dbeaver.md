@@ -73,22 +73,21 @@ Los siguientes pasos muestran como conectar a una BD **MySQL**:
 
 - Seleccionar **MySQL** y pulsar en el botón **Siguiente**:
 
-<img class="con_borde" src="img/dbeaver/dbeaver08.jpg" alt="dbeaver">
+<img class="con_borde" src="img/dbeaver/mysql1.png" alt="mysql">
 
 
 - Indicar los datos del `servidor`, `usuario` y `contraseña`. Para ver todas las bases de datos a las que el usuario puede acceder marcar la casilla `Show all database`y no indicar nada en la casilla `database`:
 
-<img class="con_borde" src="img/dbeaver/dbeaver09.jpg" alt="dbeaver">
+<img class="con_borde" src="img/dbeaver/mysql2.png" alt="mysql">
 
 
 > Si aparece `Error "Public Key Retrieval is not allowed"` hacer clic con el botón derecho en la conexión y seleccionar **Editar conexión** luego ir a la pestaña **Driver Properties** y cambiar la propiedad `allowPublicKeyRetrieval` a `TRUE` (por defecto está a `false`). Por último hacer clic en el botón **Aceptar**:
-> <img class="con_borde" src="img/dbeaver/dbeaver10.jpg" alt="dbeaver">
+> <img class="con_borde" src="img/dbeaver/mysql3.png" alt="mysql">
 
 
 - Una vez conectado se visualizarán las BD del servidor a las que el usuario indicado en la conexión tiene acceso:
 
-<img class="con_borde" src="img/dbeaver/dbeaver11.jpg" alt="dbeaver">
-
+<img class="con_borde" src="img/dbeaver/mysql4.png" alt="mysql">
 
 <span class="mi_h3">Ver funciones y procedimientos almacenados</span>
 
@@ -98,12 +97,12 @@ Para poder ver el código de una función o un procedimiento almacenado en nuest
 
 - Hacer clic con el botón derecho sobre la función o procedimiento, entrar en `Generar SQL` y luego en `DDL`:
 
-<img class="con_borde" src="img/dbeaver/dbeaver12.jpg" alt="dbeaver">
+<img class="con_borde" src="img/dbeaver/mysql5.png" alt="mysql">
 
 
 El código de la fución o procedimiento aparecerá en una ventana nueva:
 
-<img class="con_borde" src="img/dbeaver/dbeaver13.jpg" alt="dbeaver">
+<img class="con_borde" src="img/dbeaver/mysql6.png" alt="mysql">
 
 
 

@@ -118,11 +118,7 @@ docker run hello-world
 **1. Crear el contenedor**
 
 ```bash
-docker run -d \
-  --name mysql-srv \
-  -e MYSQL_ROOT_PASSWORD=hola01 \
-  -p 3306:3306 \
-  mysql:8
+docker run -d --name mysql-srv -e MYSQL_ROOT_PASSWORD=hola01 -p 3306:3306 mysql:8  
 ```
 
 Explicación de las opciones utilizadas
