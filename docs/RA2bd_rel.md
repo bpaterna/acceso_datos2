@@ -191,10 +191,10 @@ fun main() {
 ```
 
 !!! success "Prueba y analiza el ejemplo"
-    - Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
-    - Descarga el fichero con la BD de ejemplo desde el siguiente enlace:
+    1. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con SQLite.
+    2. Descarga el fichero con la BD de ejemplo desde el siguiente enlace:
        [florabotanica.sqlite](recursos/florabotanica.sqlite){:florabotanica.sqlite} y cópialo en una carpeta llamada `datos` que deberás crear en la raíz del proyecto de IntelliJ (al mismo nivel que la carpeta `src` y que el archivo `build.gradle.kts`).
-    - Ejecuta el programa y verifica que la conexión con la BD se establece correctamente.
+    3. Ejecuta el programa y verifica que la conexión con la BD se establece correctamente.
 
 
 
@@ -640,7 +640,7 @@ fun main() {
 
     **Realiza los siguientes pasos:**
 
-    1. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con SQLite.
+    1. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con SQLite.
     2. A partir del fichero de información `csv` utilizado en el proyecto de la unidad anterior, crea una base de datos SQLite **nombre_de_tu_BD.sqlite** con una tabla que tenga una estructura acorde a la información del fichero y guárdala en la carpeta `datos` en la raíz de tu proyecto. Guarda también, en la misma carpeta, el fichero `csv`. Puedes utilizar la herramienta [DBeaver](dbeaver.html).
     3. Declara una constante con la ruta a la BD. 
     4. Declara una función para conectar a la BD. 
@@ -1321,10 +1321,10 @@ fun listarPlantas(){
 
 !!! success "Prueba y analiza el ejemplo"
     1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
-    2. Copia el archivo con la BD del ejemplo al contenedor que acabas de crear. Puedes descargar el archivo con la copia de seguridad aquí: [florabotanica.sql](recursos/florabotanica.sql){:florabotanica.sql}
-    3. Crea una BD llamada `florabotanica` y restaura la copia de seguridad (archivo del paso anterior).
+    2. Copia el archivo con la BD de ejemplo al contenedor que acabas de crear. Puedes descargar el archivo con la copia de seguridad aquí: [florabotanica.sql](recursos/florabotanica.sql){:florabotanica.sql}
+    3. Crea una BD llamada `florabotanica` dentro de tu servior MySQL y restaura la copia de seguridad (archivo del paso anterior).
     4. Comprueba que puedes conectar a la BD utilizando `DBeaver`. Tienes los pasos a seguir en el documento [Docker](docker.html).
-    5. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con `MySQL`.
+    5. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con `MySQL`.
     6. Ejecuta el programa y verifica que la conexión con la BD se establece correctamente y se listan los nombres de las plantas.
 
 
@@ -1416,7 +1416,7 @@ fun llamar_fn_total_valor_planta(id: Int){
             stmt.executeQuery().use { rs ->
                 if (rs.next()) {
                     val resultado = rs.getInt(1)
-                    println("El valor es: $resultado")
+                    println("\n **** El valor total es: $resultado")
                 }
             }
         }
@@ -1517,7 +1517,7 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
         conn.prepareCall(sqlProcedimiento).use { call ->
             call.setInt(1, 1) // id_jardin = 1
             call.executeQuery().use { rs ->
-                println("\n Plantas del jardín :$id")
+                println("\n **** Plantas del jardín :$id")
                 while (rs.next()) {
                     val planta = rs.getString("planta")
                     val cantidad = rs.getInt("cantidad")
@@ -1614,7 +1614,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
             call.executeQuery().use { rs ->
                 while (rs.next()) {
-                    println(rs.getString("mensaje"))
+                    println("\n **** " + rs.getString("mensaje"))
                 }
             }
         }
@@ -1638,7 +1638,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
     **Realiza los siguientes pasos:**
 
     1. Exporta tu BD SQLite e importala en el servidor MySQL.
-    2. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con MySQL.
+    2. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con MySQL.
     3. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`. En este caso la BD no está en local sino en un servidor.
     4. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades que la aplicación que ya tenías pero esta vez sobre la BD MySQL del servidor en docker).
     5. Crea al menos una función (que haga algún cálculo sobre la BD y devuelva el resultado) y dos procedimientos (uno que consulte y devuelva información de tu BD y otro que inserte información en una de las tablas).
