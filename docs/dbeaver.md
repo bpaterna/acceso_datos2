@@ -107,7 +107,7 @@ El código de la fución o procedimiento aparecerá en una ventana nueva:
 
 ## Migrar SQLite a MySQL
 
-DBeaber permite migrar de forma rápida las tablas de nuestra BD SQLite y la información que contienen a una BD MySQL en un serviro. A continuación se describen los pasos a seguir:
+DBeaber permite migrar de forma rápida las tablas de nuestra BD SQLite (y la información que contienen) a una BD MySQL en un servidor. A continuación se describen los pasos a seguir:
 
 - Crear ambas conexiones, a la BD SQLite y también al servidor MySQL. 
 
