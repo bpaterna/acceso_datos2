@@ -1348,8 +1348,7 @@ BEGIN
 
     -- Retornar un valor
     RETURN variable_local;
-END
-//
+END; //
 
 DELIMITER ;
 ```
@@ -1393,7 +1392,7 @@ DELIMITER ;
 
 Para que la función se guarde en la BD hay que ejecutar el código anterior como un script SQL. El resultado será el siguiente:
 
-<img class="con_borde" src="img/RA2/fun1.jpg" alt="funciones">
+<img class="con_borde" src="img/RA2/fun1.png" alt="funciones">
 
 
 Una vez guardada, la podemos llamar desde dentro de la propia BD ejecutando el script SQL:
@@ -1403,7 +1402,7 @@ SELECT fn_total_valor_planta(3);
 
 En este caso el resultado de la ejecución es el que se muestra en la siguiente imagen:
 
-<img class="con_borde" src="img/RA2/fun2.jpg" alt="funciones">
+<img class="con_borde" src="img/RA2/fun2.png" alt="funciones">
 
 
 Una vez que la función está creada en la base de datos, se puede utilizar perfectamente desde Kotlin a través de JDBC, igual que se hace con cualquier consulta SQL. Se gestionan mediante objetos `PreparedStatement` y se invocan con `SELECT nombre_funcion(...)`. A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
@@ -1426,11 +1425,10 @@ fun llamar_fn_total_valor_planta(id: Int){
 ```
 
 
-
 !!! success "Prueba y analiza el ejemplo"
     1. Conecta a la BD utilizando `DBeaver` y crea la función del ejemplo.
     2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
-    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
+    3. Añade el código de este ejemplo al proyecto del ejemplo anterior y comprueba que funciona correctamente.
 
 
 <span class="mi_h3">Procedimientos</span>
@@ -1453,8 +1451,7 @@ DECLARE variable_local tipo;
     SELECT ...;
     UPDATE ...;
     -- etc.
-END
-//
+END; //
 
 DELIMITER ;
 ```
@@ -1477,10 +1474,9 @@ DELIMITER ;
 El siguiente ejemplo crea un procedimiento que devuelve un listado con las plantas y cantidades que hay en un jardín determinado.
 
 ```sql
-DELIMITER //
-
 DROP PROCEDURE IF EXISTS sp_listar_plantas_por_jardin;
-//
+
+DELIMITER //
 
 CREATE PROCEDURE sp_listar_plantas_por_jardin(IN p_id_jardin INT)
 BEGIN
@@ -1491,15 +1487,14 @@ BEGIN
   JOIN jardines j ON jp.id_jardin = j.id_jardin
   JOIN plantas p ON jp.id_planta = p.id_planta
   WHERE j.id_jardin = p_id_jardin;
-END;
-//
+END; //
 
 DELIMITER ;
 ```
 
 Al igual que en las funciones, para que un procedimiento se guarde en la BD hay que ejecutar el código anterior como un script SQL. El resultado será el siguiente:
 
-<img class="con_borde" src="img/RA2/proc1.jpg" alt="procedimientos">
+<img class="con_borde" src="img/RA2/proc1.png" alt="procedimientos">
 
 
 Una vez guardado, lo podemos llamar desde dentro de la propia BD ejecutando el script SQL siguiente:
@@ -1509,7 +1504,7 @@ CALL sp_listar_plantas_por_jardin(1);
 
 En este caso el resultado de la ejecución es el que se muestra en la siguiente imagen:
 
-<img class="con_borde" src="img/RA2/proc2.jpg" alt="procedimientos">
+<img class="con_borde" src="img/RA2/proc2.png" alt="procedimientos">
 
 
 
@@ -1538,8 +1533,7 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
 !!! success "Prueba y analiza el ejemplo"
     1. Conecta a la BD utilizando `DBeaver` y crea el procedimiento del ejemplo.
     2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
-    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
-
+    3. Añade el código de este ejemplo al proyecto del ejemplo anterior y comprueba que funciona correctamente.
 
 
 
@@ -1548,10 +1542,10 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
 El siguiente ejemplo crea un procedimiento que inserta una planta en un jardín (en la tabla jardines_plantas). El procedimiento recibe el `id_jardin`, el `id_planta` y una `cantidad`. Si la relación ya existe, actualizará la cantidad (sumando) y si no existe, insertará una nueva fila.
 
 ```sql
+DROP PROCEDURE IF EXISTS sp_agregar_planta_a_jardin;
+
 DELIMITER //
 
-DROP PROCEDURE IF EXISTS sp_agregar_planta_a_jardin;
-//
 CREATE PROCEDURE sp_agregar_planta_a_jardin(
     IN p_id_jardin INT,
     IN p_id_planta INT,
@@ -1580,15 +1574,14 @@ BEGIN
 
         SELECT 'Nueva planta agregada al jardín.' AS mensaje;
     END IF;
-END;
-//
+END; //
 
 DELIMITER ;
 ```
 
 Después de ejecutar el script anterior ya tenemos el procedimiento almacenado en nustra BD:
 
-<img class="con_borde" src="img/RA2/proc3.jpg" alt="procedimientos">
+<img class="con_borde" src="img/RA2/proc3.png" alt="procedimientos">
 
 
 Ejecutamos el script SQL dentro de la misma BD
@@ -1605,8 +1598,7 @@ SELECT * FROM jardines_plantas WHERE id_jardin = 2 AND id_planta = 5;
 
 El resultado de la ejecución es el que se muestra en la siguiente imagen:
 
-<img class="con_borde" src="img/RA2/proc4.jpg" alt="procedimientos">
-
+<img class="con_borde" src="img/RA2/proc4.png" alt="procedimientos">
 
 
 A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
@@ -1635,21 +1627,22 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 !!! success "Prueba y analiza el ejemplo"
     1. Conecta a la BD utilizando `DBeaver` y crea el procedimiento del ejemplo.
     2. Comprueba que se ejecuta correctamente utilizando `DBeaver`.
-    3. Añade el código al del ejemplo anterior y comprueba que funciona correctamente.
+    3. Añade el código de este ejemplo al proyecto del ejemplo anterior y comprueba que funciona correctamente.
 
 
-!!! warning "Práctica 6: Proyecto con MySQL"
-    En esta práctica montaremos un servidor MySQL con Docker y diseñaremos nuestra BD MySQL a partir de la SQLite que ya tenemos. Luego crearemos un nuevo proyecto para gestionar sus datos igual que hicimos en el proyecto anterior.
+
+
+!!! warning "Práctica 4: Proyecto con MySQL"
+    En esta práctica diseñaremos nuestra BD MySQL a partir de la SQLite que ya tenemos y la importaremos al servidor MySQL que hemos montado con docker. Luego crearemos un nuevo proyecto para gestionar sus datos.
 
     **Realiza los siguientes pasos:**
 
-    1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
-    2. Crea la BD a partir de la que tienes SQLite.
-    3. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con MySQL.
-    4. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`. En este caso la BD no está en local sino en un servidor.
-    5. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades que la aplicación que ya tenías pero esta vez sobre la BD MySQL del servidor dockerizado).
-    6. Crea al menos una función (que haga algún cálculo sobre la BD y devuelva el resultado) y dos procedimientos (uno que consulte y devuelva información de tu BD y otro que inserte información en una de las tablas).
-    7. Amplia el menú de tu proyecto y añade el código necesario para llamar a la función y a los procedimientos que acabas de crear.
+    1. Exporta tu BD SQLite e importala en el servidor MySQL.
+    2. Crea un proyecto kotlin con gradle y añade las dependencias para trabajar con MySQL.
+    3. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`. En este caso la BD no está en local sino en un servidor.
+    4. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades que la aplicación que ya tenías pero esta vez sobre la BD MySQL del servidor en docker).
+    5. Crea al menos una función (que haga algún cálculo sobre la BD y devuelva el resultado) y dos procedimientos (uno que consulte y devuelva información de tu BD y otro que inserte información en una de las tablas).
+    6. Amplía el menú de tu proyecto y añade el código necesario para llamar a la función y a los procedimientos que acabas de crear.
 
 
 
