@@ -107,22 +107,23 @@ El código de la fución o procedimiento aparecerá en una ventana nueva:
 
 ## Migrar SQLite a MySQL
 
-DBeaber permite migrar de forma rápida las tablas de nuestra BD SQLite y la información que contienen a una BD MySQL, a continuación se describen los pasos a seguir:
+DBeaber permite migrar de forma rápida las tablas de nuestra BD SQLite y la información que contienen a una BD MySQL en un serviro. A continuación se describen los pasos a seguir:
 
-1. Crear ambas conexiones, a la BD SQLite y también al servidor MySQL.
-2. En el panel izquierdo, hacer clic derecho sobre la BD SQLite (o seleccionar las tablas que se quieran migrar) y elige Exportar datos (Export Data).
+- Crear ambas conexiones, a la BD SQLite y también al servidor MySQL. 
+
+- En el panel izquierdo, hacer clic derecho sobre la BD SQLite (o seleccionar las tablas que se quieran migrar) y hacer clic en `Exportar datos`.
 
 <img class="con_borde" src="img/dbeaver/sqlite2mysql1.png" alt="mysql">
 
-3. En el asistente de exportación, seleccionar **Base de datos** como destino y hacer clic en el botón  `Siguiente`.
+- En el asistente de exportación, seleccionar **Base de datos** como destino y hacer clic en el botón  `Siguiente`.
 
 <img class="con_borde" src="img/dbeaver/sqlite2mysql2.png" alt="mysql">
 
-4. Elige la conexión de la BD MySQL como destino.
+- Elegir la conexión de la BD MySQL como destino.
 
 <img class="con_borde" src="img/dbeaver/sqlite2mysql3.png" alt="mysql">
 
-5. Hacer clic en el botón `Siguiente` varias veces hasta llegar a la pantalla final y en ella hacer clic en el botón `Continuar`. Espera a que termine el proceso de crear las tablas con los tipos de datos equivalentes en MySQL y transferir la información.
+- Hacer clic en el botón `Siguiente` varias veces hasta llegar a la pantalla final y en ella hacer clic en el botón `Continuar`. Esperar a que el proceso de crear tablas y transferir la información termine.
 
 <img class="con_borde" src="img/dbeaver/sqlite2mysql4.png" alt="mysql">
 
