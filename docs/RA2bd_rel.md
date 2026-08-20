@@ -1633,11 +1633,11 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
 
 !!! warning "Práctica 4: Proyecto con MySQL"
-    En esta práctica diseñaremos nuestra BD MySQL a partir de la SQLite que ya tenemos y la importaremos al servidor MySQL que hemos montado con docker. Luego crearemos un nuevo proyecto para gestionar sus datos.
+    En esta práctica migraremos nuestra BD SQLite del proyecto anterior a nuestro servidor MySQL que hemos montado con docker. Luego crearemos un nuevo proyecto para gestionar sus datos.
 
     **Realiza los siguientes pasos:**
 
-    1. Exporta tu BD SQLite e importala en el servidor MySQL.
+    1. Crea tu BD en el servidor MySQL y migra a ella tu BD SQLite del pryecto anterior utilizando [DBeaver](dbeaver.html)..
     2. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con MySQL.
     3. Reutiliza todo el código que puedas de tu anterior proyecto pero sin copiar la carpeta datos con el archivo `.SQLite`. En este caso la BD no está en local sino en un servidor.
     4. Comprueba que la aplicación se está conectando a MySQL correctamente (debes tener las mismas opciones y funcionalidades que la aplicación que ya tenías pero esta vez sobre la BD MySQL del servidor en docker).
@@ -1647,7 +1647,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
 
 !!! danger "Entrega 2"
-    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente la carpeta `src` y un archivo `.sql` con tu BD (exportada con el comando `mysqldump`). Tu trabajo se calificará con la siguiente tabla:
+    Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente la carpeta `src` y un archivo `.sql` con tu BD MySQL exportada con el comando `mysqldump`(tienes el comando a utilizar en el documento [Docker](docker.html)). Tu trabajo se calificará con la siguiente tabla:
 
     | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
     | :------------------------- | :--------------------------------------- | :-----------------------------: |
