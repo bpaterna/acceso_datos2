@@ -1323,9 +1323,9 @@ fun listarPlantas(){
     1. Monta tu servidor MySQL en docker siguiendo los pasos del documento [Docker](docker.html).
     2. Copia el archivo con la BD de ejemplo al contenedor que acabas de crear. Puedes descargar el archivo con la copia de seguridad aquí: [florabotanica.sql](recursos/florabotanica.sql){:florabotanica.sql}
     3. Crea una BD llamada `florabotanica` dentro de tu servior MySQL y restaura la copia de seguridad (archivo del paso anterior).
-    4. Comprueba que puedes conectar a la BD utilizando `DBeaver`. Tienes los pasos a seguir en el documento [Docker](docker.html).
+    4. Comprueba que puedes conectar a la BD utilizando `DBeaver`. Tienes los pasos a seguir en el documento [DBeaver](dbeaver.html).
     5. Crea un proyecto kotlin con `Gradle` y añade las dependencias para trabajar con `MySQL`.
-    6. Ejecuta el programa y verifica que la conexión con la BD se establece correctamente y se listan los nombres de las plantas.
+    6. Ejecuta el programa de ejemplo y verifica que la conexión con la BD se establece correctamente y se listan los nombres de las plantas.
 
 
 <span class="mi_h3">Funciones</span>
