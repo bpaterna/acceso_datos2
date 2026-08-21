@@ -1,0 +1,2346 @@
+
+<!doctype html>
+<html lang="es" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Begoña Paterna">
+      
+      
+        <link rel="canonical" href="https://bpaterna.github.io/acceso_datos2/RA6componentes.html">
+      
+      
+        <link rel="prev" href="RA2bd_rel.html">
+      
+      
+        <link rel="next" href="propuestas.html">
+      
+      
+        
+      
+      
+      <link rel="icon" href="assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>RA6. Componentes - Acceso a datos</title>
+      
+    
+    
+      <link rel="stylesheet" href="assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="stylesheets/extra.css">
+    
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="cyan" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ra6-componentes" class="md-skip">
+          Saltar a contenido
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Cabecera">
+    <a href="index.html" title="Acceso a datos" class="md-header__button md-logo" aria-label="Acceso a datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Acceso a datos
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              RA6. Componentes
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Búsqueda" placeholder="Búsqueda" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Buscar">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Limpiar" aria-label="Limpiar" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Inicializando búsqueda
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navegación" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="Acceso a datos" class="md-nav__button md-logo" aria-label="Acceso a datos" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Acceso a datos
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Presentación
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contenidos
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Contenidos
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RA1ficheros.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RA1. Acceso a ficheros
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RA2bd_rel.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RA2. Acceso a BD relacionales
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="RA5bd_doc.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RA5
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RA6. Componentes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="RA6componentes.html" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    RA6. Componentes
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Tabla de contenidos">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Tabla de contenidos
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-introduccion" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Introducción
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-spring-boot" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Spring Boot
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-spring-mvc-y-thymeleaf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Spring MVC y Thymeleaf
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Material adicional
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Material adicional
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="propuestas.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Propuestas
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="kotlin.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kotlin
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="docker.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Docker
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="dbeaver.html" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    DBeaver
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="ra6-componentes">RA6. Componentes<a class="headerlink" href="#ra6-componentes" title="Permanent link">&para;</a></h1>
+<div class="admonition info">
+<p class="admonition-title">RA6</p>
+<p>Programa componentes de acceso a datos identificando las características que debe poseer un componente y utilizando herramientas de desarrollo.</p>
+</div>
+<p><span class="mi_h3">Revisiones</span></p>
+<table>
+<thead>
+<tr>
+<th>Revisión</th>
+<th>Fecha</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>25-07-2026</td>
+<td>Adaptación de los materiales a markdown</td>
+</tr>
+<tr>
+<td>1.1</td>
+<td>28-07-2026</td>
+<td>Ampliación con preguntas de autoevaluación</td>
+</tr>
+</tbody>
+</table>
+<h2 id="1-introduccion">1. Introducción<a class="headerlink" href="#1-introduccion" title="Permanent link">&para;</a></h2>
+<p>Spring es un framework de código abierto para crear aplicaciones en Java o Kotlin de forma más fácil, rápida y ordenada. Facilita el trabajo de crear objetos, conectar clases, preparar la base de datos y configurar servidores.</p>
+<p>Spring se basa principalmente en:</p>
+<ul>
+<li>
+<p><strong>Inversión de Control (IoC):</strong> Se encarga de crear y gestionar los objetos de la aplicación.</p>
+</li>
+<li>
+<p><strong>Inyección de Dependencias (DI):</strong> Coloca los objetos donde hacen falta automáticamente.</p>
+</li>
+</ul>
+<p>Además tiene tres pilares:</p>
+<p><strong>1. Autoconfiguración (Spring Boot): prepara el proyecto por ti</strong></p>
+<ul>
+<li>
+<p>Servidor web.</p>
+</li>
+<li>
+<p>Conexión a base de datos.</p>
+</li>
+<li>
+<p>Estructura de proyecto.</p>
+</li>
+<li>
+<p>Dependencias necesarias.</p>
+</li>
+</ul>
+<p><strong>2. Starters: paquetes listos para usar según lo que quieras hacer</strong></p>
+<table>
+<thead>
+<tr>
+<th>Starter</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>spring-boot-starter-web</td>
+<td>para rutas y controladores</td>
+</tr>
+<tr>
+<td>spring-boot-starter-thymeleaf</td>
+<td>para páginas HTML</td>
+</tr>
+<tr>
+<td>spring-boot-starter-data-jpa</td>
+<td>para BD y CRUD</td>
+</tr>
+</tbody>
+</table>
+<p><strong>3. Anotaciones: indican qué hace cada clase</strong></p>
+<p>Las anotaciones son etiquetas especiales que se colocan encima de clases, funciones o atributos para decirle a Spring cómo debe comportarse con ese código. Las anotaciones son, por tanto, la forma en la que Spring entiende la aplicación. Spring tiene muchísimas anotaciones, porque es un framework muy grande y sirve para muchos tipos de proyectos (web MVC, microservicios, seguridad, batch, mensajería, etc.).</p>
+<p>En nuestro caso, como vamos a trabajar únicamente con Spring Boot, API REST, vistas HTML y JPA, no es necesario aprender todas las anotaciones que ofrece Spring. Basta con conocer un conjunto reducido de anotaciones básicas, suficientes para desarrollar un backend completo y funcional.</p>
+<p>En las siguientes tablas se recogen las anotaciones más importantes que utilizaremos a lo largo del tema (para API REST/vistas HTML + JPA) (a medida que avancemos, irán apareciendo otras anotaciones adicionales que se introducirán solo cuando sean necesarias para la aplicación):</p>
+<ul>
+<li>Anotaciones de arranque de la app</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@SpringBootApplication</td>
+<td>Clase principal</td>
+<td>Marca la clase de arranque de la aplicación Spring Boot y activa la auto-configuración y el escaneo de componentes</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Anotaciones API REST</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@RestController</td>
+<td>Clase</td>
+<td>Indica que la clase es un controlador REST y que los métodos devuelven directamente datos (normalmente JSON).</td>
+</tr>
+<tr>
+<td>@RequestMapping</td>
+<td>Clase o método</td>
+<td>Define la ruta base o una ruta concreta para acceder a un recurso</td>
+</tr>
+<tr>
+<td>@GetMapping</td>
+<td>Método</td>
+<td>Atiende peticiones HTTP <strong>GET</strong> (lectura de datos)</td>
+</tr>
+<tr>
+<td>@PostMapping</td>
+<td>Método</td>
+<td>Atiende peticiones HTTP <strong>POST</strong> (creación de datos)</td>
+</tr>
+<tr>
+<td>@PutMapping</td>
+<td>Método</td>
+<td>Atiende peticiones HTTP <strong>PUT</strong> (actualización de datos)</td>
+</tr>
+<tr>
+<td>@DeleteMapping</td>
+<td>Método</td>
+<td>Atiende peticiones HTTP <strong>DELETE</strong> (eliminación de datos)</td>
+</tr>
+<tr>
+<td>@RequestBody</td>
+<td>Parámetro</td>
+<td>Permite recibir datos enviados en el cuerpo de la petición (JSON)</td>
+</tr>
+<tr>
+<td>@PathVariable</td>
+<td>Parámetro</td>
+<td>Permite recoger valores de la URL (por ejemplo, un identificador)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Anotaciones MVC (vistas)</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Controller</td>
+<td>Clase</td>
+<td>Marca una clase como controlador MVC tradicional, devolviendo vistas (HTML con Thymeleaf)</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Anotaciones de lógica de negocio</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Service</td>
+<td>Clase</td>
+<td>Marca una clase como servicio, donde se implementa la lógica de negocio</td>
+</tr>
+<tr>
+<td>@Autowired</td>
+<td>Atributo o constructor</td>
+<td>Inyecta automáticamente una dependencia gestionada por Spring</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Anotaciones JPA / Base de datos</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Entity</td>
+<td>Clase</td>
+<td>Indica que la clase representa una tabla de la base de datos</td>
+</tr>
+<tr>
+<td>@Table</td>
+<td>Clase</td>
+<td>Define el nombre de la tabla asociada a la entidad</td>
+</tr>
+<tr>
+<td>@Id</td>
+<td>Atributo</td>
+<td>Marca el atributo como clave primaria</td>
+</tr>
+<tr>
+<td>@GeneratedValue</td>
+<td>Atributo</td>
+<td>Indica que el valor de la clave primaria se genera automáticamente</td>
+</tr>
+<tr>
+<td>@Column</td>
+<td>Atributo</td>
+<td>Configura una columna de la tabla (nombre, restricciones, unicidad, etc.)</td>
+</tr>
+<tr>
+<td>@OneToMany</td>
+<td>Atributo</td>
+<td>Define una relación uno-a-muchos entre entidades</td>
+</tr>
+<tr>
+<td>@ManyToOne</td>
+<td>Atributo</td>
+<td>Define una relación muchos-a-uno entre entidades</td>
+</tr>
+<tr>
+<td>@JoinColumn</td>
+<td>Atributo</td>
+<td>Especifica la columna usada como clave foránea en una relación</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>Anotaciones de acceso a datos</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Anotación</th>
+<th>Dónde se usa</th>
+<th>Para qué sirve</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>@Repository</td>
+<td>Clase o interfaz</td>
+<td>Indica que la clase o interfaz se encarga del acceso a datos y de la gestión de excepciones de base de datos</td>
+</tr>
+</tbody>
+</table>
+<p>Los componentes principales de Spring Framework son:</p>
+<table>
+<thead>
+<tr>
+<th>Componente</th>
+<th>Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spring Core</td>
+<td>El núcleo del framework, encargado de la inyección de dependencias</td>
+</tr>
+<tr>
+<td>Spring Boot</td>
+<td>Facilita la creación de aplicaciones basadas en Spring con una configuración mínima</td>
+</tr>
+<tr>
+<td>Spring MVC</td>
+<td>Permite el desarrollo de aplicaciones web utilizando el patrón Modelo-Vista-Controlador</td>
+</tr>
+<tr>
+<td>Spring Data</td>
+<td>Simplifica el acceso a datos con soporte para JPA, MongoDB, Redis, entre otros</td>
+</tr>
+<tr>
+<td>Spring Security</td>
+<td>Proporciona herramientas para implementar seguridad en aplicaciones</td>
+</tr>
+<tr>
+<td>Spring Cloud</td>
+<td>Ayuda en la construcción de aplicaciones distribuidas y microservicios</td>
+</tr>
+</tbody>
+</table>
+<h2 id="2-spring-boot">2. Spring Boot<a class="headerlink" href="#2-spring-boot" title="Permanent link">&para;</a></h2>
+<p>Para crear una aplicación se necesita crear el proyecto, desarrollar la aplicación y desplegarla en un servidor. <strong>Spring Boot</strong> simplifica las tareas de crear el proyecto y desplegar la aplicación ya que:</p>
+<ul>
+<li>
+<p>Configura todo automáticamente.</p>
+</li>
+<li>
+<p>Trae un servidor web incorporado (permite crear aplicaciones que se ejecutan de forma independiente sin necesidad de un servidor web externo).</p>
+</li>
+<li>
+<p>Evita escribir XML.</p>
+</li>
+<li>
+<p>Permite arrancar una app con un botón.</p>
+</li>
+<li>
+<p>Usa starters (dependencias ya preparadas).</p>
+</li>
+<li>
+<p>Permite crear proyectos en segundos.</p>
+</li>
+</ul>
+<p>Para crear un proyecto <strong>Spring Boot</strong> Maven/Gradle con las dependencias necesarias tenemos dos opciones:</p>
+<ul>
+<li>
+<p>Crear un proyecto Spring Boot utilizando la herramienta Spring Initializr desde la url <a href="https://start.spring.io/">https://start.spring.io/</a> la cual genera un proyecto base con la estructura de una aplicación Spring Boot en un archivo .zip que podemos abrir directamente desde un IDE.</p>
+</li>
+<li>
+<p>Crear un proyecto Spring Boot utilizando un IDE que tenga instalados los plugins necesarios. En el caso de IntelliJ solamente es posible utilizar el plugin de Spring en la versión Ultimate.</p>
+</li>
+</ul>
+<p>Una vez creado el proyecto tendremos las configuraciones y dependencias en los archivos siguientes:</p>
+<ul>
+<li>
+<p><strong>application.properties:</strong> configuración de aspectos como las conexiones a base de datos o el puerto por donde acceder a nuestra aplicación.</p>
+</li>
+<li>
+<p><strong>pom.xml:</strong> dependencias necesarias para que la aplicación funcione.</p>
+</li>
+</ul>
+<p><strong>Dependencia Spring Web</strong></p>
+<ul>
+<li>
+<p>Se utiliza para desarrollar aplicaciones web, ya sea basadas en REST o tradicionales con HTML dinámico.</p>
+</li>
+<li>
+<p>Incluye un servidor web embebido (por defecto, Tomcat) para ejecutar la aplicación sin necesidad de configurarlo manualmente.</p>
+</li>
+<li>
+<p>Facilita el manejo de rutas HTTP (GET, POST, PUT, DELETE, etc.) y parámetros de solicitud a través de métodos en los controladores.</p>
+</li>
+<li>
+<p>Usa la biblioteca Jackson (incluida por defecto) para convertir automáticamente objetos Kotlin/Java a JSON y viceversa.</p>
+</li>
+<li>
+<p>Ofrece herramientas para manejar errores y excepciones de forma global mediante @ControllerAdvice o controladores personalizados.</p>
+</li>
+</ul>
+<p><strong>Pasos que sigue la ejecución de la aplicación</strong></p>
+<ul>
+<li>
+<p><strong>Inicio de la aplicación:</strong> Se ejecuta el método main, lo que inicia un servidor web embebido (por defecto, <code>Tomcat</code>) en el puerto 8080.</p>
+</li>
+<li>
+<p><strong>Solicitudes HTTP:</strong>  Spring Boot permite funcionar a partir de rutas dinámicas y/o de archivos estáticos.</p>
+</li>
+<li>
+<p><strong>Respuesta:</strong>  La aplicación procesa la solicitud y devuelve un resultado al navegador.</p>
+</li>
+</ul>
+<p><span class="mis_ejemplos">Ejemplo 1: Aplicación Spring Boot con Spring Web</span></p>
+<p>A continuación se describen los pasos para a crear una aplicación utilizando Spring Web.</p>
+<p><span class="mi_sombreado"><strong>PASO 1: Crear el proyecto</strong></span></p>
+<p>Accedemos a Spring Initializr desde la url <a href="https://start.spring.io/">https://start.spring.io/</a>, indicamos el nombre de la aplicación y añadimos la dependencia <strong>Spring Web</strong> (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón <code>GENERATE</code>. Esto hará que se cree el proyecto y se descargue en un archivo .zip.</p>
+<p><img class="con_borde" src="img/RA6/springboot1.jpg" alt="springboot1"></p>
+<p><span class="mi_sombreado"><strong>PASO 2: Abrir el proyecto y ejecutarlo</strong></span></p>
+<p>Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Vemos que, además de los archivos <strong>application.properties</strong> y <strong>pom.xml</strong> se ha creado automaticamente la clase <strong>Plantas1Application</strong> (con la anotación <strong>@SpringBootApplication</strong>) y la función de extensión <strong>runApplication</strong> que sirve para lanzar la aplicación.</p>
+<p><img class="con_borde" src="img/RA6/springboot2.jpg" alt="springboot2"></p>
+<p>Antes de escribir una sola línea de código en nuestro controlador, vamos a ejecutar la aplicación tal y como viene por defecto. Abrimos el archivo <code>Plantas1Application.kt</code> y hacemos clic en el botón de reproducción (Run) de IntelliJ. Veremos por consola la salida de los mensajes de registro de Spring.</p>
+<p><img class="con_borde" src="img/RA6/springboot3.jpg" alt="springboot3"></p>
+<blockquote>
+<p>Si el puerto 8080 está ocupado aparecerá un mensaje diciendo que no se puede iniciar el servidor Tomcat. Puedes cambiar el puerto, por ejemplo al 8888, añadiendo la siguiente línea en el archivo <code>application.properties</code> (que se encuentra en la carpeta resources del proyecto):
+    <div class="highlight"><pre><span></span><code>server.port=8888
+</code></pre></div></p>
+</blockquote>
+<p>Abrimos nuestro navegador web y accedemos a la dirección <a href="http://localhost:8080">http://localhost:8080</a> pero vemos una pantalla de error genérica de Spring llamada "Whitelabel Error Page (404 Not Found)". Este error 404 significa que no hemos programado absolutamente nada para que nuestra aplicación responda en esa ruta raíz (/). El servidor está levantado, pero está "vacío" de contenido.</p>
+<p><img class="con_borde" src="img/RA6/springboot4.jpg" alt="springboot4"></p>
+<div class="admonition success">
+<p class="admonition-title">Prueba y analiza el ejemplo</p>
+<p>Realiza los pasos 1 y 2 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Autoevaluación</p>
+<p><strong>Pregunta 1: Tras arrancar nuestra aplicación en IntelliJ, abrimos el navegador y accedemos a <code>http://localhost:8080/</code>. El navegador nos muestra la pantalla de error "Whitelabel Error Page" con un código de estado "404 Not Found". ¿Qué significa exactamente este comportamiento?</strong></p>
+<p>A) La aplicación ha fallado al compilarse o iniciarse debido a un error de sintaxis en el código de nuestra clase principal, por lo que el servidor web embebido se ha detenido de inmediato.</p>
+<p>B) El servidor web embebido Tomcat se ha iniciado con éxito, pero la dirección lógica <code>localhost</code> no está apuntando correctamente a nuestro propio ordenador.</p>
+<p>C) El servidor web embebido Tomcat está funcionando correctamente, pero el framework no encuentra en este momento ninguna regla o recurso estático que se encargue de responder a las peticiones en la dirección raíz (<code>/</code>).</p>
+<p>D) El navegador web ha bloqueado la conexión porque Spring Boot requiere obligatoriamente que se configure un puerto seguro cifrado (HTTPS) para poder servir páginas, incluso durante el desarrollo local.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Si la aplicación hubiera fallado al compilar o iniciar, el servidor no estaría activo. En ese caso, el navegador mostraría un error de conexión genérico del sistema operativo ("Conexión rechazada" o "No se puede acceder a este sitio web"), en lugar de una pantalla estructurada de Spring Boot (Whitelabel Error Page).</p>
+<p>❌ B) La dirección <code>localhost</code> (que se resuelve a la IP de bucle local <code>127.0.0.1</code>) es un estándar que siempre apunta al propio dispositivo físico del usuario. El hecho de que se devuelva una página de error de Spring demuestra que la conexión con el servidor local sí se ha establecido.</p>
+<p>✅ C) El error 404 (Not Found) es una respuesta HTTP estructurada generada por el propio framework. Esto confirma que el servidor Tomcat se ha levantado con éxito, pero nos avisa de que aún no hemos mapeado ningún recurso (ni una vista HTML en la carpeta de recursos ni una ruta dinámica en un controlador) para responder a la ruta raíz <code>/</code> de nuestra aplicación.</p>
+<p>❌ D) Durante la etapa de desarrollo local, Spring Boot se ejecuta perfectamente bajo el protocolo HTTP no cifrado y el puerto estándar 8080. No es necesario configurar certificados SSL (HTTPS) para levantar o depurar la aplicación en local de forma inicial.</p>
+</details>
+<p><strong>Pregunta 2: Queremos modificar el puerto de red por defecto (8080) en el que se ejecuta nuestra aplicación de Spring Boot para utilizar el puerto 8888. ¿Cómo debemos realizar esta configuración?</strong></p>
+<p>A) Debemos buscar el archivo <code>pom.xml</code> y añadir una dependencia de Maven llamada <code>&lt;port&gt;8888&lt;/port&gt;</code> dentro del bloque de dependencias principales.</p>
+<p>B) Debemos abrir el archivo <code>application.properties</code> (en <code>src/main/resources/</code>) y añadir la línea <code>server.port=8888</code>.</p>
+<p>C) Debemos modificar la función <code>main</code> en <code>Plantas1Application.kt</code> y pasarle el valor numérico <code>8888</code> como argumento al método <code>runApplication</code>.</p>
+<p>D) No es posible cambiar el puerto durante el desarrollo local; el puerto 8080 está configurado de forma inalterable en el servidor embebido Tomcat que incluye Spring Boot.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) El archivo <code>pom.xml</code> se utiliza de forma exclusiva para gestionar las dependencias de librerías del proyecto y coordinar su construcción con Maven, no para configurar propiedades dinámicas del servidor en tiempo de ejecución.</p>
+<p>✅ B) El archivo <code>application.properties</code> es el archivo central de configuración de una aplicación Spring Boot. Al añadir la clave <code>server.port=8888</code>, el framework intercepta esta propiedad durante el inicio y ordena al servidor Tomcat embebido que escuche peticiones en el nuevo puerto asignado en lugar de usar el predeterminado (8080).</p>
+<p>❌ C) La función <code>runApplication&lt;Plantas1Application&gt;(*args)</code> inicializa el contexto de la aplicación de Spring y le transmite los argumentos recibidos por consola, pero no expone de manera directa parámetros para la configuración de puertos en su llamada.</p>
+<p>❌ D) El puerto del servidor web embebido es altamente configurable. Podemos modificar el puerto por motivos de seguridad o por pura necesidad técnica si otro programa (como una base de datos local o un contenedor Docker) ya está ocupando el puerto 8080 en nuestra máquina de desarrollo.</p>
+</details>
+</div>
+<p>Hemos comentado anteriormente que Spring Boot permite funcionar a partir de rutas dinámicas y de archivos estáticos. En los pasos siguientes añadiremos esas funcionalidades a nuestra aplicación</p>
+<p><span class="mi_sombreado"><strong>PASO 3: Añadir una ruta dinámica a nuestra aplicación</strong></span></p>
+<p>Para que nuestra aplicación empiece a hacer algo útil, añadimos una función a la clase principal <code>Plantas1Application.kt</code>. Sustituimos su código por el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas1</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.boot.runApplication</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RequestParam</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestController</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@RestController</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">Plantas1Application</span><span class="p">{</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/planta"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">infoPlanta</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"nombre"</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Helecho"</span><span class="p">)</span><span class="w"> </span><span class="n">nombre</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"¡Hola! Estás consultando información sobre la planta: </span><span class="si">$</span><span class="n">nombre</span><span class="s">."</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">runApplication</span><span class="o">&lt;</span><span class="n">Plantas1Application</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explicación de los cambios realizados:</strong></p>
+<ul>
+<li>
+<p><strong>@RestController</strong>: se utiliza para que Spring reconozca la clase como un controlador que maneja solicitudes HTTP. Combina:</p>
+<ul>
+<li>@Controller: Define la clase como un controlador web.</li>
+<li>@ResponseBody: Indica que los métodos devolverán directamente el cuerpo de la respuesta (en este caso, texto plano en lugar de una vista HTML).</li>
+</ul>
+</li>
+<li>
+<p><strong>@GetMapping("/planta")</strong>: Es una anotación de Spring que indica que este método debe manejar las solicitudes HTTP GET que lleguen a la URL <code>/planta</code>.</p>
+<ul>
+<li>Enlaza la URL <code>/planta</code> con el método <code>infoPlanta</code>.</li>
+<li>Cada vez que se acceda a la ruta <a href="http://localhost:8080/planta">http://localhost:8080/planta</a> (asumiendo el puerto predeterminado 8080) en un navegador con un método GET, Spring ejecutará el método <code>infoPlanta</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>@RequestParam</strong>: se usa para extraer un parámetro de la consulta (query parameter) enviado en la URL.</p>
+<ul>
+<li>El método espera un parámetro de consulta llamado <code>nombre</code>.</li>
+<li>Si el cliente no incluye <code>nombre</code> en la solicitud, el valor predeterminado será "Helecho", gracias a defaultValue = "Helecho".</li>
+</ul>
+</li>
+</ul>
+<p><span class="mi_sombreado"><strong>PASO 4: Volvemos a ejecutar la aplicación</strong></span></p>
+<p>Ejecutamos la aplicación para levantar el servidor y comprobamos el comportamiento del navegador con estas dos direcciones:</p>
+<ul>
+<li>Sin parámetros: <a href="http://localhost:8080/planta">http://localhost:8080/planta</a></li>
+</ul>
+<p><img class="con_borde" src="img/RA6/springboot5.jpg" alt="springboot5"></p>
+<ul>
+<li>Con parámetro personalizado: <a href="http://localhost:8080/planta?nombre=Rosa">http://localhost:8080/planta?nombre=Rosa</a></li>
+</ul>
+<p><img class="con_borde" src="img/RA6/springboot6.jpg" alt="springboot6"></p>
+<p>Nuestra ruta dinámica <code>/planta</code> funciona correctamente porque la hemos mapeado de forma explícita mediante <code>@GetMapping("/planta")</code>. Pero la ruta raíz <a href="http://localhost:8080">http://localhost:8080</a> sigue devolviendo la misma pantalla de error. Esto es lógico: hemos programado la ruta <code>/planta</code>, pero seguimos sin tener nada programado para la raíz <code>/</code>.</p>
+<div class="admonition success">
+<p class="admonition-title">Prueba y analiza el ejemplo</p>
+<p>Realiza los pasos 3 y 4 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Autoevaluación</p>
+<p><strong>Pregunta 3: En el código del Paso 3 de la aplicación, el método <code>infoPlanta</code> declara el parámetro <code>@RequestParam(value = "nombre", defaultValue = "Helecho") nombre: String</code>. Si abrimos el navegador y accedemos a <code>http://localhost:8080/planta</code> (omitiendo por completo el parámetro de consulta en la URL), ¿cuál será el comportamiento de la aplicación?</strong></p>
+<p>A) El servidor lanzará una excepción de tipo <code>MissingServletRequestParameterException</code> y se mostrará un error de estado "400 Bad Request" en el navegador al no haber enviado un parámetro obligatorio.</p>
+<p>B) El programa se ejecutará correctamente y mostrará por pantalla el mensaje utilizando el valor por defecto: <em>"¡Hola! Estás consultando información sobre la planta: Helecho."</em></p>
+<p>C) El parámetro se resolverá como un valor <code>null</code> en Kotlin, lo que provocará un error de ejecución de inmediato al intentar concatenar un objeto nulo en un tipo de dato no anulable (<code>String</code>).</p>
+<p>D) El servidor web Tomcat bloqueará la solicitud de forma automática por motivos de seguridad, ya que no se permiten peticiones HTTP GET que carezcan de parámetros en su URL.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Por defecto, todos los parámetros anotados con <code>@RequestParam</code> son obligatorios. Sin embargo, al configurar la propiedad <code>defaultValue</code>, esta obligatoriedad se desactiva implícitamente, ya que el framework siempre dispone de un valor que asignar en caso de ausencia. No se producirá ningún error de tipo 400.</p>
+<p>✅ B) El atributo <code>defaultValue</code> le indica a Spring Boot que, si el cliente no proporciona el parámetro <code>nombre</code> en la URL de su petición, debe asignar de forma automática el valor de texto <code>"Helecho"</code> a la variable. La aplicación se ejecuta con éxito y muestra el valor predeterminado.</p>
+<p>❌ C) En Kotlin, la variable <code>nombre</code> se ha declarado de tipo <code>String</code> (tipo no anulable). Spring Boot garantiza la seguridad frente a nulos asignándole el valor configurado en el <code>defaultValue</code> en caso de que la URL no lo traiga. Si quisiéramos que fuera verdaderamente opcional y nulo, deberíamos declararlo como <code>String?</code> y prescindir del valor por defecto.</p>
+<p>❌ D) El protocolo HTTP y el servidor Tomcat admiten perfectamente cualquier combinación de parámetros en peticiones GET (incluyendo peticiones limpias sin ningún parámetro). No existe ninguna restricción técnica ni de seguridad en el protocolo por este motivo.</p>
+</details>
+<p><strong>Pregunta 4: En el código de nuestra clase principal <code>Plantas1Application</code> hemos utilizado la anotación <code>@RestController</code>. ¿Cuál es la diferencia principal entre utilizar <code>@RestController</code> y la anotación <code>@Controller</code> tradicional?</strong></p>
+<p>A) Con <code>@RestController</code>, los métodos de la clase devuelven directamente los datos en el cuerpo de la respuesta HTTP (como texto plano o JSON), mientras que con <code>@Controller</code> se espera devolver el nombre lógico de una vista HTML (como una plantilla de Thymeleaf).</p>
+<p>B) La anotación <code>@RestController</code> es de uso exclusivo para lenguajes de programación modernos como Kotlin, mientras que <code>@Controller</code> solo se puede emplear cuando programamos la aplicación en Java tradicional.</p>
+<p>C) <code>@RestController</code> permite que el servidor de aplicaciones Tomcat escuche peticiones en múltiples puertos de forma simultánea, mientras que <code>@Controller</code> limita la ejecución del servidor a un único puerto de red.</p>
+<p>D) No existe ninguna diferencia técnica real entre ambas; <code>@RestController</code> es simplemente una anotación antigua que ha quedado obsoleta con la llegada de las últimas versiones de Spring Boot.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>✅ A) La anotación de conveniencia <code>@RestController</code> combina internamente <code>@Controller</code> y <code>@ResponseBody</code>. Esto significa que cualquier cadena de texto u objeto devuelto por sus funciones se escribirá directamente en el flujo de la respuesta HTTP (lo cual es idóneo para APIs REST). Por el contrario, un <code>@Controller</code> tradicional interpreta el texto devuelto como la ruta de un archivo de plantilla que debe renderizarse (como un archivo <code>.html</code>).</p>
+<p>❌ B) Ambas anotaciones forman parte del núcleo del módulo Spring Web y son totalmente compatibles tanto en Java como en Kotlin. El comportamiento del framework es independiente del lenguaje de la JVM utilizado para escribir el código fuente.</p>
+<p>❌ C) La configuración de los puertos de red es responsabilidad del servidor web embebido (Tomcat) y se define en el archivo <code>application.properties</code>. Ninguna anotación de controlador tiene la capacidad de influir sobre el socket del servidor a ese nivel.</p>
+<p>❌ D) Ambas anotaciones están completamente vigentes y se utilizan a diario en entornos profesionales. La separación de conceptos es fundamental: se utiliza <code>@RestController</code> para endpoints que envían datos brutos (normalmente JSON) y <code>@Controller</code> clásico para servir interfaces de usuario completas con plantillas dinámicas.</p>
+</details>
+</div>
+<p><span class="mi_sombreado"><strong>PASO 5: Añadir una página de inicio HTML</strong></span></p>
+<p>Como hemos visto en los pasos anteriores, necesitamos que la dirección raíz <a href="http://localhost:8080">http://localhost:8080</a>  muestre una pantalla de inicio amigable en lugar de un error de "página no encontrada". Para solucionar esto, nos apoyaremos en la carpeta de recursos estáticos de Spring Boot <code>src/main/resources/static/</code>. Cualquier archivo que guardemos en esta carpeta (imágenes, CSS, HTML sencillos) será servido directamente por el servidor web sin necesidad de escribir código Java o Kotlin adicional.</p>
+<p>Una de las reglas automáticas de Spring Boot es que si guardas un archivo llamado exactamente <code>index.html</code> dentro de <code>static/</code>, el servidor lo utilizará de forma automática como la página de inicio para la ruta raíz <code>/</code>. Vamos a comprobarlo.</p>
+<p>Crea el archivo <code>index.html</code> dentro de la carpeta <code>src/main/resources/static/</code> con el siguiente contenido:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Portal de Plantas<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">http-equiv</span><span class="o">=</span><span class="s">"Content-Type"</span> <span class="na">content</span><span class="o">=</span><span class="s">"text/html; charset=UTF-8"</span> <span class="p">/&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Bienvenido al Portal de Plantas<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>Explora de forma básica el catálogo introduciendo un nombre a continuación.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Enlace directo que usa el valor por defecto --&gt;</span>
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/planta"</span><span class="p">&gt;</span>Ver planta por defecto (Helecho)<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Formulario que envía la petición GET al controlador --&gt;</span>
+<span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">"/planta"</span> <span class="na">method</span><span class="o">=</span><span class="s">"GET"</span> <span class="na">id</span><span class="o">=</span><span class="s">"plantForm"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">"plantField"</span><span class="p">&gt;</span>Escribe el nombre de una planta:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">name</span><span class="o">=</span><span class="s">"nombre"</span> <span class="na">id</span><span class="o">=</span><span class="s">"plantField"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Ej. Rosa, Cactus..."</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span><span class="p">&gt;</span>Consultar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>Ahora, al acceder a <a href="http://localhost:8080/">http://localhost:8080/</a>, el navegador servirá la página de inicio siguiente: </p>
+<p><img class="con_borde" src="img/RA6/springboot7.jpg" alt="springboot7"></p>
+<p>Al rellenar el cuadro de texto y pulsar "Consultar", el formulario redirigirá automáticamente a <code>/planta?nombre=valor_introducido</code>. Devolviendo el mismo resultado que en el pasos 4.</p>
+<div class="admonition success">
+<p class="admonition-title">Prueba y analiza el ejemplo</p>
+<p>Realiza el paso 5 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Autoevaluación</p>
+<p><strong>Pregunta 5: Para crear la página de inicio, hemos guardado el archivo <code>index.html</code> en la ruta <code>src/main/resources/static/</code>. Si en esa misma carpeta guardamos un archivo de imagen llamado <code>logo.png</code>, ¿cuál será la dirección correcta para acceder a él desde el navegador?</strong></p>
+<p>A) Tendremos que crear obligatoriamente un controlador en Kotlin con la ruta <code>@GetMapping("/static/logo.png")</code> para que lea el archivo del disco y lo envíe.</p>
+<p>B) Deberemos acceder obligatoriamente mediante la ruta <code>http://localhost:8080/static/logo.png</code>, ya que el nombre de la carpeta contenedora debe aparecer en la URL.</p>
+<p>C) El archivo no se podrá mostrar porque la carpeta <code>static/</code> está programada para servir de forma exclusiva archivos que tengan la extensión <code>.html</code>.</p>
+<p>D) Podremos acceder a él de forma directa introduciendo en la barra del navegador la dirección <code>http://localhost:8080/logo.png</code>.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Una de las grandes ventajas de la carpeta <code>static/</code> es que no requiere escribir código de controlador para servir archivos. Spring Boot se encarga de mapear y exponer el contenido de este directorio de manera automática en la raíz de la aplicación.</p>
+<p>❌ B) Aunque en la estructura física del proyecto el archivo resida dentro de la carpeta <code>static</code>, de cara al exterior este directorio de recursos no se escribe en la URL de navegación, ya que Spring Boot mapea de forma transparente todo su contenido sobre el recurso raíz (<code>/</code>).</p>
+<p>❌ C) La carpeta de recursos estáticos de Spring Boot admite cualquier tipo de recurso que el navegador sea capaz de interpretar o descargar (ficheros <code>.css</code>, scripts <code>.js</code>, imágenes de todo tipo, PDFs, fuentes tipográficas, etc.), no existiendo ninguna limitación a los documentos HTML.</p>
+<p>✅ D) Todo archivo que se ubique dentro de la ruta física <code>src/main/resources/static/</code> se expone públicamente directo en la raíz del servidor. Por tanto, el archivo de imagen <code>logo.png</code> se servirá de inmediato al escribir su nombre justo detrás del host y del puerto configurado.</p>
+</details>
+<p><strong>Pregunta 6: En el formulario HTML de nuestro archivo <code>index.html</code>, ¿qué elemento o atributo es el responsable directo de que Spring Boot sepa que el texto escrito por el usuario debe asignarse al parámetro <code>nombre</code> de nuestra función <code>infoPlanta</code>?</strong></p>
+<p>A) El atributo <code>id="plantField"</code> de la etiqueta <code>&lt;input&gt;</code>, que debe llamarse igual que la variable de Kotlin para que el framework realice la vinculación.</p>
+<p>B) El atributo <code>action="/planta"</code> de la etiqueta <code>&lt;form&gt;</code>, ya que es el encargado de enlazar de forma automática todos los campos del formulario con la base de datos.</p>
+<p>C) El atributo <code>name="nombre"</code> de la etiqueta <code>&lt;input&gt;</code>, cuyo valor debe coincidir exactamente con el nombre esperado por la anotación <code>@RequestParam</code> de nuestro controlador.</p>
+<p>D) El atributo <code>id="plantForm"</code> de la etiqueta <code>&lt;form&gt;</code>, que asocia de forma interna la estructura del formulario con nuestra clase controladora de Spring Boot.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) El atributo <code>id</code> se utiliza en desarrollo web exclusivamente para identificar de forma unívoca a un elemento concreto dentro de la estructura de la página (para aplicarle estilos CSS o manipularlo con Javascript), pero el navegador nunca lo envía al servidor al procesar el formulario.</p>
+<p>❌ B) El atributo <code>action</code> de un formulario solo indica al navegador a qué dirección de red (URL) debe enviar los datos cuando el usuario pulse el botón de envío, pero no influye en cómo se etiquetan las variables individuales que viajan en la petición.</p>
+<p>✅ C) Cuando un formulario se envía, el navegador web construye la petición HTTP emparejando la información en formato de "clave y valor" utilizando únicamente el atributo <code>name</code> de cada campo de entrada. Por este motivo, es imprescindible que el valor de <code>name</code> en el HTML coincida con el nombre que espera recibir nuestro método mediante <code>@RequestParam</code>.</p>
+<p>❌ D) El identificador de la etiqueta <code>&lt;form&gt;</code> sirve para dar estilo u organizar la estructura de la página, pero el framework Spring Boot es completamente ajeno a este valor y no lo utiliza en ningún momento para vincular los parámetros de consulta.</p>
+</details>
+</div>
+<p><span class="mi_sombreado"><strong>PASO 6: Mejorar el aspecto</strong></span></p>
+<p>Ahora vamos a darle a nuestra aplicación un aspecto más profesional utilizando <code>Bootstrap</code>. Podemos encontrar mucha documentacion en internet sobre como utilizarlo. Por ejemplo en:</p>
+<ul>
+<li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/">https://getbootstrap.com/docs/5.3/getting-started/introduction/</a></li>
+<li><a href="https://www.w3schools.com/bootstrap5/">https://www.w3schools.com/bootstrap5/</a></li>
+</ul>
+<p>Hacemos algunos cambios en nuestro archivo <code>index.html</code> en <code>src/main/resources/static/</code> para que quede así:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">"es"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Portal de Plantas<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="cm">&lt;!-- CDN de Bootstrap --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Contenedor principal para centrar y dar margen superior --&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container mt-5"</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>🌱 Portal de Plantas<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-muted"</span><span class="p">&gt;</span>Explora nuestro catálogo básico introduciendo el nombre de tu planta favorita.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+    <span class="cm">&lt;!-- Formulario con un ancho máximo sugerido para que no ocupe toda la pantalla --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">form</span> <span class="na">action</span><span class="o">=</span><span class="s">"/planta"</span> <span class="na">method</span><span class="o">=</span><span class="s">"GET"</span> <span class="na">id</span><span class="o">=</span><span class="s">"plantForm"</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-4"</span> <span class="na">style</span><span class="o">=</span><span class="s">"max-width: 400px;"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">label</span> <span class="na">for</span><span class="o">=</span><span class="s">"plantField"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-label"</span><span class="p">&gt;</span>Escribe el nombre de la planta:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">name</span><span class="o">=</span><span class="s">"nombre"</span> <span class="na">id</span><span class="o">=</span><span class="s">"plantField"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-control"</span> <span class="na">placeholder</span><span class="o">=</span><span class="s">"Ej. Rosa, Cactus..."</span> <span class="na">required</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success"</span><span class="p">&gt;</span>Consultar<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/planta"</span> <span class="na">class</span><span class="o">=</span><span class="s">"link-secondary"</span><span class="p">&gt;</span>Ver planta por defecto (Helecho)<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><strong>Explicación de los cambios realizados:</strong></p>
+<ul>
+<li><code>&lt;div class="container mt-5"&gt;</code> Agrupa todo el contenido para que no quede pegado a los bordes de la pantalla.</li>
+<li><code>class="form-control"</code> Cambia el cuadro de texto simple por un campo de texto con bordes suaves y que resalta al hacer clic.</li>
+<li><code>class="btn btn-success"</code> Convierte el botón gris por defecto del navegador en un botón verde.</li>
+<li><code>class="text-muted"</code> y <code>class="link-secondary"</code> Suavizan el color del texto secundario y del enlace para mejorar la jerarquía visual.</li>
+</ul>
+<p>Y sustituimos el código del fichero <code>Plantas1Application.kt</code> por el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas1</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.boot.autoconfigure.SpringBootApplication</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.boot.runApplication</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.GetMapping</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RequestParam</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.RestController</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.http.MediaType</span><span class="w"> </span><span class="c1">// Necesario para especificar el tipo de retorno</span>
+
+<span class="nd">@SpringBootApplication</span>
+<span class="nd">@RestController</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">PlantasIntroApplication</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// Especificamos que este método devuelve HTML para que el navegador lo renderice correctamente</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/planta"</span><span class="p">,</span><span class="w"> </span><span class="n">produces</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">MediaType</span><span class="p">.</span><span class="na">TEXT_HTML_VALUE</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">infoPlanta</span><span class="p">(</span>
+<span class="w">        </span><span class="nd">@RequestParam</span><span class="p">(</span><span class="n">value</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"nombre"</span><span class="p">,</span><span class="w"> </span><span class="n">defaultValue</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">"Helecho"</span><span class="p">)</span><span class="w"> </span><span class="n">nombre</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="w">    </span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="c1">// Usamos una cadena multilínea de Kotlin para escribir HTML de forma limpia</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"""</span>
+<span class="s">            &lt;!DOCTYPE HTML&gt;</span>
+<span class="s">            &lt;html lang="es"&gt;</span>
+<span class="s">            &lt;head&gt;</span>
+<span class="s">                &lt;meta charset="UTF-8"&gt;</span>
+<span class="s">                &lt;title&gt;Detalle de Planta&lt;/title&gt;</span>
+<span class="s">                &lt;!-- CDN de Bootstrap para aplicar el diseño --&gt;</span>
+<span class="s">                &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</span>
+<span class="s">            &lt;/head&gt;</span>
+<span class="s">            &lt;body class="bg-light"&gt;</span>
+<span class="s">                &lt;div class="container mt-5"&gt;</span>
+
+<span class="s">                    &lt;!-- Alerta de Bootstrap para mostrar la información --&gt;</span>
+<span class="s">                    &lt;div class="alert alert-success shadow-sm" role="alert"&gt;</span>
+<span class="s">                        &lt;h4 class="alert-heading"&gt;🌿 Consulta Realizada&lt;/h4&gt;</span>
+<span class="s">                        &lt;p class="mb-0"&gt;</span>
+<span class="s">                            ¡Hola! Estás consultando información sobre la planta: &lt;strong&gt;</span><span class="si">$</span><span class="n">nombre</span><span class="s">&lt;/strong&gt;.</span>
+<span class="s">                        &lt;/p&gt;</span>
+<span class="s">                    &lt;/div&gt;</span>
+
+<span class="s">                    &lt;!-- Botón para regresar al index.html --&gt;</span>
+<span class="s">                    &lt;a href="/" class="btn btn-outline-secondary btn-sm mt-2"&gt;Volver al inicio&lt;/a&gt;</span>
+
+<span class="s">                &lt;/div&gt;</span>
+<span class="s">            &lt;/body&gt;</span>
+<span class="s">            &lt;/html&gt;</span>
+<span class="s">        """</span><span class="p">.</span><span class="na">trimIndent</span><span class="p">()</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+
+<span class="kd">fun</span><span class="w"> </span><span class="nf">main</span><span class="p">(</span><span class="n">args</span><span class="p">:</span><span class="w"> </span><span class="n">Array</span><span class="o">&lt;</span><span class="kt">String</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">    </span><span class="n">runApplication</span><span class="o">&lt;</span><span class="n">PlantasIntroApplication</span><span class="o">&gt;</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explicación de los cambios realizados:</strong></p>
+<ul>
+<li><code>produces = [MediaType.TEXT_HTML_VALUE]</code> Por defecto, un @RestController que devuelve un String lo envía como texto plano (text/plain). Al añadir este parámetro en @GetMapping, le indicamos a Spring que añada la cabecera HTTP Content-Type: text/html para que el navegador interprete las etiquetas HTML y cargue la hoja de estilos de Bootstrap.</li>
+<li><code>Cadenas triples (""") de Kotlin</code> Permiten escribir código HTML estructurado en múltiples líneas sin tener que concatenar constantemente con símbolos +, facilitando mucho la legibilidad del código fuente de la clase.</li>
+<li><code>Diseño minimalista</code> Se envuelve el mensaje en un componente alert <code>alert-success</code> y se incluye un pequeño botón para volver a la página principal (/), lo que permite navegar entre el formulario y el resultado de forma fluida.</li>
+</ul>
+<p>Ahora es aspecto de nuestra aplicación es el que se muestra en las siguientes imágenes:</p>
+<p><img class="con_borde" src="img/RA6/bootstrap1.jpg" alt="bootstrap1"></p>
+<p><img class="con_borde" src="img/RA6/bootstrap2.jpg" alt="bootstrap2"></p>
+<div class="admonition success">
+<p class="admonition-title">Prueba y analiza el ejemplo</p>
+<p>Realiza el paso 6 y verifica que el comportamiento de tu aplicación es el mismo que en el ejemplo.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Autoevaluación</p>
+<p><strong>Pregunta 7: En el archivo <code>Plantas1Application.kt</code> modificamos nuestro controlador dinámico para que devuelva un bloque de texto HTML. Para lograrlo, configuramos su anotación como <code>@GetMapping("/planta", produces = [MediaType.TEXT_HTML_VALUE])</code>. ¿Qué ocurriría si omitiéramos el parámetro <code>produces</code> y dejáramos la anotación simplemente como <code>@GetMapping("/planta")</code>?</strong></p>
+<p>A) El navegador web mostraría la página en "texto plano", es decir, veríamos literalmente escritas en la pantalla todas las etiquetas (como <code>&lt;html&gt;</code>, <code>&lt;h1&gt;</code>, etc.) en lugar de ver la página web interpretada y estilizada con Bootstrap.</p>
+<p>B) Se produciría un error de compilación en Kotlin porque el framework exige obligatoriamente declarar el tipo de medio de retorno para poder compilar textos que hagan uso de las comillas triples.</p>
+<p>C) El servidor web embebido Tomcat lanzaría un error interno del servidor de código 500 (Internal Server Error) debido a que no sabría con qué codificación de caracteres procesar la respuesta.</p>
+<p>D) No pasaría absolutamente nada; las versiones modernas de los navegadores web ignoran por completo este parámetro y detectan de manera inteligente que se trata de código HTML basándose en la primera etiqueta.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>✅ A) Por defecto, un <code>@RestController</code> que retorna un objeto de tipo <code>String</code> envía la respuesta HTTP con la cabecera <code>Content-Type: text/plain</code>. Al añadir <code>produces = [MediaType.TEXT_HTML_VALUE]</code>, obligamos a Spring a enviar la cabecera <code>Content-Type: text/html</code>. Sin esta cabecera específica, el navegador interpreta que está recibiendo texto sin formato y nos muestra de forma literal las etiquetas HTML en pantalla en lugar de interpretarlas y pintarlas en su interfaz.</p>
+<p>❌ B) El compilador de Kotlin es completamente independiente al comportamiento de la librería Spring Web. Compilará perfectamente la cadena de texto multilínea con o sin el parámetro en la anotación, ya que para Kotlin se trata de un método convencional que devuelve una variable de tipo <code>String</code>.</p>
+<p>❌ C) El servidor Tomcat procesará la petición de forma adecuada y el controlador devolverá un código de estado HTTP exitoso (200 OK) con la cadena de texto correspondiente. No se producirá ningún fallo en el backend que deba catalogarse con un código de error de la familia 500.</p>
+<p>❌ D) Aunque algunos navegadores web antiguos realizaban tareas de análisis de contenido para intentar adivinar el formato (<em>MIME sniffing</em>), las especificaciones de seguridad actuales de los navegadores modernos exigen respetar de forma estricta la cabecera de tipo enviada por el servidor para evitar la ejecución de código malicioso, por lo que el parámetro es totalmente necesario.</p>
+</details>
+<p><strong>Pregunta 8: En el método <code>infoPlanta</code> de nuestro controlador dinámico, utilizamos las comillas triples (<code>"""</code>) al principio y al final del bloque HTML devuelto, seguido de la llamada a la función <code>.trimIndent()</code>. ¿Cuál es la finalidad de utilizar esta sintaxis en Kotlin?</strong></p>
+<p>A) Permite cifrar el código HTML en memoria antes de ser enviado por la red, protegiendo los datos de nuestra aplicación frente a posibles ataques de interceptación.</p>
+<p>B) Facilita la escritura de bloques de texto que ocupan varias líneas sin tener que usar molestos caracteres de escape (como <code>\"</code> o <code>\n</code>) ni concatenar líneas con el símbolo <code>+</code>, eliminando además la sangría común del editor de código.</p>
+<p>C) Obliga a Spring Boot a procesar el código HTML mediante el motor de plantillas Thymeleaf antes de entregarlo al cliente, haciendo que la carga de las vistas sea mucho más rápida.</p>
+<p>D) Es una sintaxis que requiere de forma obligatoria el framework Spring Boot para poder buscar de forma automática las clases de Bootstrap dentro de la cadena de texto de Kotlin.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Las comillas triples de Kotlin no realizan ningún tipo de cifrado ni codificación de seguridad sobre la cadena de texto. Su uso es puramente estético y organizativo para facilitar la lectura del código fuente por parte del desarrollador.</p>
+<p>✅ B) Las comillas triples (<code>"""</code>) habilitan lo que en Kotlin se conoce como "cadenas de texto en bruto" (<em>raw strings</em>). En ellas se pueden escribir comillas dobles y saltos de línea con total libertad sin necesidad de escaparlos. Por su parte, la función <code>.trimIndent()</code> detecta la sangría mínima común de todo el bloque escrito en nuestro IDE y la elimina, de modo que el código HTML se genera limpio y alineado a la izquierda.</p>
+<p>❌ C) El motor de plantillas de Thymeleaf solo procesa archivos ubicados en el directorio <code>templates</code> a través de un controlador tradicional. Al estar utilizando un <code>@RestController</code>, el texto devuelto con las comillas triples se envía directo al cliente sin pasar por ningún motor de plantillas.</p>
+<p>❌ D) Spring Boot y las clases de Bootstrap se comportan exactamente igual independientemente de cómo se construya la cadena de texto en Kotlin. El framework no analiza el contenido del texto para buscar clases de CSS ni requiere de esta sintaxis de forma exclusiva para funcionar.</p>
+</details>
+</div>
+<h2 id="3-spring-mvc-y-thymeleaf">3. Spring MVC y Thymeleaf<a class="headerlink" href="#3-spring-mvc-y-thymeleaf" title="Permanent link">&para;</a></h2>
+<p><strong>Spring MVC</strong> es el módulo de Spring orientado al desarrollo de aplicaciones web siguiendo el patrón <strong>Modelo‑Vista‑Controlador (MVC)</strong>, el cual organiza una aplicación en tres <strong>componentes principales</strong>:</p>
+<ul>
+<li>
+<p><strong>Modelo</strong>: Son los datos. Es responsable de:</p>
+<ul>
+<li>
+<p>Gestionar el estado de la aplicación.</p>
+</li>
+<li>
+<p>Interactuar con la base de datos u otros servicios para obtener y procesar datos.</p>
+</li>
+<li>
+<p>Proveer datos a la vista.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Vista</strong>: Es lo que ve el usuario. Es responsable de:</p>
+<ul>
+<li>
+<p>Renderizar información en un formato adecuado, como HTML.</p>
+</li>
+<li>
+<p>Mostrar al usuario los resultados de las acciones ejecutadas.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Controlador</strong>: Actúa como intermediario entre el modelo y la vista. Es responsable de:</p>
+<ul>
+<li>
+<p>Procesar las solicitudes del usuario (peticiones HTTP).</p>
+</li>
+<li>
+<p>Interactuar con el modelo para obtener o modificar datos.</p>
+</li>
+<li>
+<p>Seleccionar y devolver la vista adecuada para responder al usuario.</p>
+</li>
+</ul>
+</li>
+</ul>
+<p>Estos tres componentes trabajan de la siguiente forma:</p>
+<p>1) El usuario interactúa con la <strong>Vista</strong> (interfaz). Envia un formulario o hace clic en un enlace.</p>
+<p>2) La petición es enviada al <strong>Controlador</strong>.</p>
+<p>3) El <strong>Controlador</strong> procesa la petición, interactúa con el <strong>Modelo</strong> si es necesario y selecciona la <strong>Vista</strong> que debe renderizar la respuesta.</p>
+<p>4) La <strong>Vista</strong> presenta la respuesta al usuario.</p>
+<p><img alt="MCV1" src="img/RA6/MVC1.png" /></p>
+<p>Spring MVC forma parte del ecosistema Spring y se organiza siguiendo una arquitectura en capas en la que cada capa tiene una función concreta y se comunica únicamente con las capas adyacentes. Esta arquitectura encaja perfectamente con el patrón MVC (Model–View–Controller) y proporciona toda la infraestructura necesaria para manejar peticiones HTTP, invocar controladores y devolver vistas (HTML, JSON, etc.) lo que permite aplicaciones más mantenibles, escalables y fáciles de entender.</p>
+<p>En la siguiente tabla se muestran las capas más habituales en una aplicación Spring con su equivalencia en Spring MVC, sus anotaciones más habituales y la función que realiza cada una de ellas:</p>
+<p><strong>Anotaciones por capa y correspondencia Spring ↔ MVC</strong></p>
+<table>
+<thead>
+<tr>
+<th>Capas Spring</th>
+<th>Capa MVC</th>
+<th>Anotaciones</th>
+<th>Función</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Controller (Web)</td>
+<td>Controller</td>
+<td><code>@Controller</code><br><code>@RestController</code><br><code>@RequestMapping</code><br><code>@GetMapping</code><br> <code>@RequestParam</code> <br> <code>@PostMapping</code><br><code>@PutMapping</code><br><code>@DeleteMapping</code></td>
+<td>Recibe peticiones HTTP, gestiona rutas y parámetros, llama a la capa Service y devuelve una vista o una respuesta (JSON)<br><strong>No contiene lógica de negocio ni acceso a datos</strong></td>
+</tr>
+<tr>
+<td>Model (Entidades)<br>Service (Negocio)<br>Repository (Persistencia)</td>
+<td>Model</td>
+<td><code>@Entity</code>, <code>@Table</code>, <code>@Id</code><br><code>@Service</code>, <code>@Transactional</code><br><code>@Repository</code></td>
+<td>Contiene las clases que modelan la información del negocio, aplica reglas y validaciones y accede a la base de datos para realizar operaciones CRUD (manteniendo aislada la BD del resto de la aplicación)</td>
+</tr>
+<tr>
+<td>View (Representación HTML / JSON)</td>
+<td>View</td>
+<td><em>(sin anotaciones)</em></td>
+<td>Representa los datos al usuario:<br>• Archivo HTML con sintaxis específica para contenido dinámico si se utiliza Thymeleaf / JSP   (Ubicación Thymeleaf: <code>src/main/resources/templates/</code>)<br>• Datos en formato JSON / XML en apps REST (si no se utiliza un motor de plantillas). En REST, el JSON actúa como la vista</td>
+</tr>
+</tbody>
+</table>
+<p><img alt="MCV1" src="img/RA6/MVC2.png" /></p>
+<p><strong>Vistas con Thymeleaf</strong></p>
+<p>Thymeleaf es un motor de plantillas que permite mezclar HTML con datos dinámicos proporcionados por el controlador en Spring MVC. Utiliza atributos especiales que comienzan con th: para manipular estos datos de forma dinámica. La siguiente tabla muestra los atributos Thymeleaf más comunes:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Atributo</strong></th>
+<th><strong>Descripción</strong></th>
+<th><strong>Ejemplo</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><code>th:text</code></strong></td>
+<td>Rellena el contenido de un elemento HTML con un valor dinámico.</td>
+<td><code>&lt;p th:text="${mensaje}"&gt;Texto por defecto&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:each</code></strong></td>
+<td>Itera sobre una colección (lista, array, etc.) y genera un nuevo elemento HTML para cada item.</td>
+<td><code>&lt;ul&gt;&lt;li th:each="planta : ${plantas}" th:text="${planta.nombre}"&gt;Nombre de la planta&lt;/li&gt;&lt;/ul&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:if</code></strong></td>
+<td>Muestra el contenido solo si la condición es verdadera.</td>
+<td><code>&lt;p th:if="${hayPlantas}"&gt;Hay plantas registradas&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:unless</code></strong></td>
+<td>Muestra el contenido solo si la condición es falsa.</td>
+<td><code>&lt;p th:unless="${hayPlantas}"&gt;No hay plantas registradas&lt;/p&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:href</code></strong></td>
+<td>Construye enlaces dinámicos para el atributo <code>href</code> de un enlace <code>&lt;a&gt;</code>.</td>
+<td><code>&lt;a th:href="@{/planta/{id}(id=${planta.id})}"&gt;Ver detalles&lt;/a&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:src</code></strong></td>
+<td>Construye enlaces dinámicos para el atributo <code>src</code> de una imagen <code>&lt;img&gt;</code>.</td>
+<td><code>&lt;img th:src="@{/imagenes/{nombreImagen}(nombreImagen=${planta.imagen})}" alt="Imagen de la planta"&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:action</code></strong></td>
+<td>Define la URL a la que se enviará un formulario cuando se haga submit.</td>
+<td><code>&lt;form th:action="@{/planta/guardar}" method="post"&gt;&lt;button type="submit"&gt;Guardar&lt;/button&gt;&lt;/form&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:object</code></strong></td>
+<td>Asocia un objeto del modelo con el formulario, permitiendo vincular automáticamente sus atributos.</td>
+<td><code>&lt;form th:object="${planta}" th:action="@{/planta/guardar}" method="post"&gt;...&lt;/form&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:value</code></strong></td>
+<td>Rellena el valor de un campo de formulario (<code>input</code>, <code>textarea</code>, etc.) con un valor dinámico.</td>
+<td><code>&lt;input type="text" th:value="${planta.nombre}" /&gt;</code></td>
+</tr>
+<tr>
+<td><strong><code>th:field</code></strong></td>
+<td>Asocia un campo de formulario con un atributo del modelo de Spring, vincula los datos automáticamente.</td>
+<td><code>&lt;input type="text" th:field="*{nombre}" /&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><span class="mis_ejemplos">Ejemplo 2: Aplicación utilizando Spring MVC y Thymeleaf</span></p>
+<p>A continuación se describen los pasos para crear una aplicación que es un CRUD sobre una colección de plantas almacenada en memoria y que tiene las siguientes vistas:</p>
+<ul>
+<li>Pantalla de bienvenida desde la que se accede al listado de plantas.</li>
+<li>Pantalla de listado con un botón para añadir plantas nuevas y el listado de plantas con botones para mostrar sus detalles, modificarlos o eliminarla.</li>
+<li>Formulario con campos para modificar la información de un planta o añadir una nueva.</li>
+</ul>
+<p><span class="mi_sombreado"><strong>PASO 1: Crear el proyecto</strong></span></p>
+<p>Accedemos a Spring Initializr desde la url <a href="https://start.spring.io/">https://start.spring.io/</a>, indicamos el nombre de la aplicación <code>plantas</code> y, en este caso, además de la dependencia <strong>Spring Web</strong> necesitamos también <strong>Thymeleaf</strong> (el resto de opciones las podemos dejar como se ve en la imagen). Por último hacemos clic en el botón <code>GENERATE</code> para descargar nuestro nuevo proyecto.</p>
+<p>Opcionalmente podemos añadir <strong>Spring Boot DevTools</strong> que nos ahorrará tiempo de desarrollo ya que:</p>
+<ul>
+<li>
+<p>Reinicia automáticamente la aplicación cuando cambias código.</p>
+</li>
+<li>
+<p>Recarga las plantillas Thymeleaf sin reiniciar manualmente.</p>
+</li>
+</ul>
+<p>Para tener estas funciones activas, además de añadir la dependencia, hay que configurar IntelliJ para que compile al guardar. Esto se consigue activando las opciones siguientes:</p>
+<ul>
+<li>
+<p>Build project automatically (Settings → Build, Execution, Deployment → Compiler)</p>
+</li>
+<li>
+<p>Allow auto-make to start even if developed application is currently running (Settings → Advanced Settings)</p>
+</li>
+</ul>
+<p>De esta forma, cuando realicemos un cambio en un archivo de código de nuestra aplicación, bastará con guardarlo y recargar el navegador (sin reiniciar la app) para ver los cambios inmediatamente.</p>
+<p><img class="con_borde" src="img/RA6/springboot8.jpg" alt="springboot8"></p>
+<p>Descomprimimos el archivo obtenido en el paso anterior y lo abrimos con IntelliJ. Dejamos el archivo <code>PlantasApplication.kt</code> (clase principal) tal como está y añadimos los archivos de nuestra aplicación para que la estructura del proyecto quede como en la siguiente imagen:</p>
+<p><img class="con_borde" src="img/RA6/springboot9.jpg" alt="springboot9"></p>
+<p><span class="mi_sombreado"><strong>PASO 2: Añadir modelo, repositorio, servicio y controlador</strong></span></p>
+<p><span class="mi_h3">Añadir el modelo</span></p>
+<p>El <strong>modelo</strong> representa los datos de la aplicación. Creamos el archivo <code>Planta.kt</code> dentro de la carpeta <code>src/main/kotlin/com/example/plantas/model/</code> con el código siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas.model</span>
+
+<span class="kd">data</span><span class="w"> </span><span class="kd">class</span><span class="w"> </span><span class="nc">Planta</span><span class="p">(</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">nombre</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">tipo</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">altura</span><span class="p">:</span><span class="w"> </span><span class="kt">Double</span><span class="p">,</span>
+<span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nv">foto</span><span class="p">:</span><span class="w"> </span><span class="kt">String</span>
+<span class="p">)</span>
+</code></pre></div>
+<p><strong>Explicación del código:</strong></p>
+<p><code>data class</code> Es una clase especial de Kotlin diseñada específicamente para almacenar datos. Al usarla, Kotlin genera automáticamente de forma interna los métodos <code>getters</code>, <code>setters</code>, <code>toString()</code>, <code>equals()</code> y <code>copy()</code>, lo que nos ahorra escribir decenas de líneas de código repetitivo.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Atributo</th>
+<th style="text-align: left;">Tipo</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>id_planta</code></td>
+<td style="text-align: left;"><code>Int</code></td>
+<td style="text-align: left;">Identificador único de cada planta (clave primaria).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>nombre</code></td>
+<td style="text-align: left;"><code>String</code></td>
+<td style="text-align: left;">Nombre común de la planta.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>tipo</code></td>
+<td style="text-align: left;"><code>String</code></td>
+<td style="text-align: left;">Categoría o tipo de planta (ej. Flor, Suculenta).</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>altura</code></td>
+<td style="text-align: left;"><code>Double</code></td>
+<td style="text-align: left;">Altura máxima estimada en metros.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>foto</code></td>
+<td style="text-align: left;"><code>String</code></td>
+<td style="text-align: left;">Nombre del archivo de imagen asociado (ej. <code>rosa.jpg</code>).</td>
+</tr>
+</tbody>
+</table>
+<p><span class="mi_h3">Añadir el repositorio</span></p>
+<p>El <strong>repositorio</strong> gestiona la lista mutable en memoria. Creamos el archivo <code>PlantaRepository.kt</code> dentro de la carpeta <code>src/main/kotlin/com/example/plantas/repository/</code> con el código siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas.repository</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">com.example.plantas.model.Planta</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Repository</span>
+
+<span class="nd">@Repository</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">PlantaRepository</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// La lista en memoria se traslada aquí y actúa como nuestra "Base de Datos" temporal</span>
+<span class="w">    </span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">plantas</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">mutableListOf</span><span class="p">(</span>
+<span class="w">        </span><span class="n">Planta</span><span class="p">(</span><span class="m">1</span><span class="p">,</span><span class="w"> </span><span class="s">"Rosa"</span><span class="p">,</span><span class="w"> </span><span class="s">"Flor"</span><span class="p">,</span><span class="w"> </span><span class="m">0.5</span><span class="p">,</span><span class="w"> </span><span class="s">"rosa.jpg"</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Planta</span><span class="p">(</span><span class="m">2</span><span class="p">,</span><span class="w"> </span><span class="s">"Cactus"</span><span class="p">,</span><span class="w"> </span><span class="s">"Suculenta"</span><span class="p">,</span><span class="w"> </span><span class="m">1.2</span><span class="p">,</span><span class="w"> </span><span class="s">"cactus.jpg"</span><span class="p">),</span>
+<span class="w">        </span><span class="n">Planta</span><span class="p">(</span><span class="m">5</span><span class="p">,</span><span class="w"> </span><span class="s">"Orquídea"</span><span class="p">,</span><span class="w"> </span><span class="s">"Flor"</span><span class="p">,</span><span class="w"> </span><span class="m">0.3</span><span class="p">,</span><span class="w"> </span><span class="s">"orquidea.jpg"</span><span class="p">)</span>
+<span class="w">    </span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">findAll</span><span class="p">():</span><span class="w"> </span><span class="n">MutableList</span><span class="o">&lt;</span><span class="n">Planta</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plantas</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">findById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Planta?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plantas</span><span class="p">.</span><span class="na">find</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">id_planta</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id</span><span class="w"> </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">save</span><span class="p">(</span><span class="n">planta</span><span class="p">:</span><span class="w"> </span><span class="n">Planta</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">index</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plantas</span><span class="p">.</span><span class="na">indexOfFirst</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">id_planta</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">planta</span><span class="p">.</span><span class="na">id_planta</span><span class="w"> </span><span class="p">}</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">index</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Edición de planta existente</span>
+<span class="w">            </span><span class="n">plantas</span><span class="o">[</span><span class="n">index</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">planta</span>
+<span class="w">        </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="c1">// Creación de nueva planta (simulación de ID autoincremental)</span>
+<span class="w">            </span><span class="kd">val</span><span class="w"> </span><span class="nv">nuevoId</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">plantas</span><span class="p">.</span><span class="na">maxOfOrNull</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">id_planta</span><span class="w"> </span><span class="p">}</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="m">0</span><span class="p">)</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="m">1</span>
+<span class="w">            </span><span class="n">plantas</span><span class="p">.</span><span class="na">add</span><span class="p">(</span><span class="n">planta</span><span class="p">.</span><span class="na">copy</span><span class="p">(</span><span class="n">id_planta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">nuevoId</span><span class="p">))</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">deleteById</span><span class="p">(</span><span class="n">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">plantas</span><span class="p">.</span><span class="na">removeAll</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="nb">it</span><span class="p">.</span><span class="na">id_planta</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="n">id_planta</span><span class="w"> </span><span class="p">}</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explicación del código:</strong></p>
+<p><code>@Repository</code> Indica a Spring que esta clase se encarga del <strong>acceso directo a los datos</strong> (crear, leer, actualizar y borrar). Además, registra la clase en el contenedor de Spring para que pueda ser inyectada automáticamente donde se necesite.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Elemento / Método</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>private val plantas</code></td>
+<td style="text-align: left;">Lista mutable (<code>mutableListOf</code>) que almacena las plantas en la memoria RAM del servidor, actuando temporalmente como nuestra base de datos.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>findAll()</code></td>
+<td style="text-align: left;">Recupera y devuelve la lista completa con todas las plantas almacenadas.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>findById(id)</code></td>
+<td style="text-align: left;">Busca en la lista y devuelve la planta que coincida con el ID proporcionado, o <code>null</code> si no encuentra ninguna.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>save(planta)</code></td>
+<td style="text-align: left;">Comprueba si la planta ya existe buscando su ID. Si existe, la actualiza. Si no existe, calcula de forma automática un nuevo ID secuencial y la añade a la lista.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>deleteById(id_planta)</code></td>
+<td style="text-align: left;">Elimina de la lista (en memoria) la planta que coincida con el ID proporcionado</td>
+</tr>
+</tbody>
+</table>
+<p><span class="mi_h3">Añadir el servicio</span></p>
+<p>El <strong>servicio</strong> hace de intermediario entre el controlador y repositorio. Creamos el archivo <code>PlantaService.kt</code> dentro de la carpeta <code>src/main/kotlin/com/example/plantas/service/</code> con el código siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas.service</span>
+
+
+
+<span class="k">import</span><span class="w"> </span><span class="nn">com.example.plantas.model.Planta</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.example.plantas.repository.PlantaRepository</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Service</span>
+
+<span class="nd">@Service</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">PlantaService</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">repository</span><span class="p">:</span><span class="w"> </span><span class="n">PlantaRepository</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">listarPlantas</span><span class="p">():</span><span class="w"> </span><span class="n">List</span><span class="o">&lt;</span><span class="n">Planta</span><span class="o">&gt;</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repository</span><span class="p">.</span><span class="na">findAll</span><span class="p">()</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">buscarPorId</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="n">Planta?</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repository</span><span class="p">.</span><span class="na">findById</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">guardar</span><span class="p">(</span><span class="n">planta</span><span class="p">:</span><span class="w"> </span><span class="n">Planta</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">repository</span><span class="p">.</span><span class="na">save</span><span class="p">(</span><span class="n">planta</span><span class="p">)</span>
+
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">borrar</span><span class="p">(</span><span class="n">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">repository</span><span class="p">.</span><span class="na">deleteById</span><span class="p">(</span><span class="n">id_planta</span><span class="p">)</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explicación del código:</strong></p>
+<p><code>@Service</code> Indica a Spring que esta clase contiene la <strong>lógica de negocio</strong> y las reglas de nuestra aplicación. Actúa como una capa intermedia de seguridad y control entre lo que pide el controlador y lo que hace el repositorio.</p>
+<p><code>PlantaService(private val repository...)</code> Inyección de dependencias por constructor. Spring busca automáticamente la clase anotada con <code>@Repository</code> y se la proporciona al servicio cuando este se crea, sin necesidad de que hagamos un <code>new</code> de forma manual.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Método</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>listarPlantas()</code></td>
+<td style="text-align: left;">Solicita al repositorio la lista de todas las plantas y se la devuelve al controlador.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>buscarPorId(id)</code></td>
+<td style="text-align: left;">Solicita al repositorio buscar una planta concreta por su identificador.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>guardar(planta)</code></td>
+<td style="text-align: left;">Ordena al repositorio que guarde o actualice la planta correspondiente.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>borrar(id_planta)</code></td>
+<td style="text-align: left;">Ordena al repositorio que borre la planta correspondiente.</td>
+</tr>
+</tbody>
+</table>
+<p><span class="mi_h3">Añadir el controlador</span></p>
+<p>El <strong>controlador</strong> recibe las peticiones, llama al servicio y devuelve las vistas. Creamos el archivo <code>PlantaController.kt</code> dentro de la carpeta <code>src/main/kotlin/com/example/plantas/controller/</code> con el código siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="k">package</span><span class="w"> </span><span class="nn">com.example.plantas.controller</span>
+
+<span class="k">import</span><span class="w"> </span><span class="nn">com.example.plantas.model.Planta</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">com.example.plantas.service.PlantaService</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.stereotype.Controller</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.ui.Model</span>
+<span class="k">import</span><span class="w"> </span><span class="nn">org.springframework.web.bind.annotation.*</span>
+
+<span class="nd">@Controller</span>
+<span class="kd">class</span><span class="w"> </span><span class="nc">PlantaController</span><span class="p">(</span><span class="kd">private</span><span class="w"> </span><span class="kd">val</span><span class="w"> </span><span class="nv">plantaService</span><span class="p">:</span><span class="w"> </span><span class="n">PlantaService</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+
+<span class="w">    </span><span class="c1">// 1. LISTAR</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/plantas"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">mostrarPlantas</span><span class="p">(</span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"plantas"</span><span class="p">,</span><span class="w"> </span><span class="n">plantaService</span><span class="p">.</span><span class="na">listarPlantas</span><span class="p">())</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"plantas"</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 2. DETALLE</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/planta/{id_planta}"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">verPlanta</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">planta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plantaService</span><span class="p">.</span><span class="na">buscarPorId</span><span class="p">(</span><span class="n">id_planta</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"errorPlanta"</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"planta"</span><span class="p">,</span><span class="w"> </span><span class="n">planta</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"detallePlanta"</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 3. FORMULARIO NUEVA PLANTA (pasa un objeto vacío con ID 0)</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/plantas/nueva"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">nuevaPlanta</span><span class="p">(</span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">plantaVacia</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Planta</span><span class="p">(</span><span class="m">0</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">,</span><span class="w"> </span><span class="m">0.0</span><span class="p">,</span><span class="w"> </span><span class="s">""</span><span class="p">)</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"planta"</span><span class="p">,</span><span class="w"> </span><span class="n">plantaVacia</span><span class="p">)</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"titulo"</span><span class="p">,</span><span class="w"> </span><span class="s">"Nueva Planta"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"formPlanta"</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 4. FORMULARIO EDITAR PLANTA (pasa el objeto existente)</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/plantas/editar/{id_planta}"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">editarPlanta</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">,</span><span class="w"> </span><span class="n">model</span><span class="p">:</span><span class="w"> </span><span class="n">Model</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="kd">val</span><span class="w"> </span><span class="nv">planta</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">plantaService</span><span class="p">.</span><span class="na">buscarPorId</span><span class="p">(</span><span class="n">id_planta</span><span class="p">)</span><span class="w"> </span><span class="o">?:</span><span class="w"> </span><span class="k">return</span><span class="w"> </span><span class="s">"redirect:/plantas"</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"planta"</span><span class="p">,</span><span class="w"> </span><span class="n">planta</span><span class="p">)</span>
+<span class="w">        </span><span class="n">model</span><span class="p">.</span><span class="na">addAttribute</span><span class="p">(</span><span class="s">"titulo"</span><span class="p">,</span><span class="w"> </span><span class="s">"Editar Planta"</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"formPlanta"</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 5. PROCESAR GUARDADO (Sirve tanto para crear como para editar)</span>
+<span class="w">    </span><span class="nd">@PostMapping</span><span class="p">(</span><span class="s">"/plantas/guardar"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">guardarPlanta</span><span class="p">(</span><span class="nd">@ModelAttribute</span><span class="w"> </span><span class="n">planta</span><span class="p">:</span><span class="w"> </span><span class="n">Planta</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">plantaService</span><span class="p">.</span><span class="na">guardar</span><span class="p">(</span><span class="n">planta</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"redirect:/plantas"</span>
+<span class="w">    </span><span class="p">}</span>
+
+<span class="w">    </span><span class="c1">// 6. PROCESAR BORRADO</span>
+<span class="w">    </span><span class="nd">@GetMapping</span><span class="p">(</span><span class="s">"/plantas/borrar/{id_planta}"</span><span class="p">)</span>
+<span class="w">    </span><span class="kd">fun</span><span class="w"> </span><span class="nf">borrarPlanta</span><span class="p">(</span><span class="nd">@PathVariable</span><span class="w"> </span><span class="n">id_planta</span><span class="p">:</span><span class="w"> </span><span class="kt">Int</span><span class="p">):</span><span class="w"> </span><span class="kt">String</span><span class="w"> </span><span class="p">{</span>
+<span class="w">        </span><span class="n">plantaService</span><span class="p">.</span><span class="na">borrar</span><span class="p">(</span><span class="n">id_planta</span><span class="p">)</span>
+<span class="w">        </span><span class="k">return</span><span class="w"> </span><span class="s">"redirect:/plantas"</span>
+<span class="w">    </span><span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+<p><strong>Explicación del código:</strong></p>
+<p><code>@Controller</code> Indica a Spring que esta clase es un controlador que maneja peticiones web y devuelve vistas HTML (plantillas de Thymeleaf).</p>
+<p><code>@GetMapping</code> Atiende peticiones HTTP <strong>GET</strong> (lectura de datos) para mostrar páginas HTML.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Función</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>@GetMapping("/plantas")</code></td>
+<td style="text-align: left;">Llama al servicio para obtener la lista de todas las plantas y las muestra en <code>plantas.html</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@GetMapping("/plantas/{id_planta}")</code></td>
+<td style="text-align: left;">Solicita al servicio una planta específica por su ID para mostrarla en <code>detallePlanta.html</code>. Si no existe, muestra <code>errorPlanta.html</code>.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><code>@GetMapping("/plantas/editar/{id_planta}")</code></td>
+<td style="text-align: left;">Recupera la planta a través del servicio y la carga en el formulario de edición <code>formPlanta.html</code>.</td>
+</tr>
+</tbody>
+</table>
+<p><code>@PostMapping</code> Atiende peticiones HTTP <strong>POST</strong> (normalmente el envío de un formulario) para procesar datos.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Función</th>
+<th style="text-align: left;">Descripción</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><code>@PostMapping("/plantas/guardar")</code></td>
+<td style="text-align: left;">Envía los datos modificados al <strong>servicio</strong> para que los actualice en el repositorio. Al terminar, redirige al detalle de la planta con <code>redirect:/planta/{id_planta}</code>. Se utiliza <code>redirect</code> para evitar el reenvío duplicado de formularios si el usuario refresca la página.</td>
+</tr>
+</tbody>
+</table>
+<p><code>Model</code> Interfaz de Spring utilizada para pasar datos desde el controlador hacia la vista HTML (Thymeleaf).</p>
+<p><code>@PathVariable</code> Anotación que se utiliza para extraer y leer parámetros directamente desde la ruta de la URL (en este caso, <code>{id_planta}</code>).</p>
+<p><span class="mi_sombreado"><strong>PASO 3: Añadir las vistas con Thymeleaf</strong></span></p>
+<p>Para nuestra aplicación necesitamos cuatro vistas, una para la lista de plantas, otra para el detalle de una planta, una tercera para el formulario que sirve para añadir una planta nueva o para modificar la información de una ya existente y una última para avisar en caso de producirse un error. Por tanto tendremos cuatro archivos <code>html</code> todos ellos dentro de la carpeta <code>src/main/resources/templates/</code>. </p>
+<p><span class="mi_h3">Lista de plantas</span></p>
+<p>El archivo que mostrará la lista de plantas será <code>plantas.html</code> y su código es el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">"http://www.thymeleaf.org"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Catálogo de Plantas<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">class</span><span class="o">=</span><span class="s">"bg-light"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container mt-5"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"d-flex justify-content-between align-items-center mb-4"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-success fw-bold"</span><span class="p">&gt;</span>🌿 Catálogo de Plantas<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/plantas/nueva"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success"</span><span class="p">&gt;</span>Agregar Nueva Planta<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">th:if</span><span class="o">=</span><span class="s">"${plantas.size() &gt; 0}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"table-responsive"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">table</span> <span class="na">class</span><span class="o">=</span><span class="s">"table table-striped table-hover align-middle shadow-sm bg-white rounded"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">thead</span> <span class="na">class</span><span class="o">=</span><span class="s">"table-success"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>ID<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Nombre<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">th</span><span class="p">&gt;</span>Tipo<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">th</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-center"</span><span class="p">&gt;</span>Acciones<span class="p">&lt;/</span><span class="nt">th</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">thead</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tbody</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">tr</span> <span class="na">th:each</span><span class="o">=</span><span class="s">"planta : ${plantas}"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.id_planta}"</span><span class="p">&gt;</span>1<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.nombre}"</span><span class="p">&gt;</span>Rosa<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">td</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.tipo}"</span><span class="p">&gt;</span>Flor<span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">td</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-center"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">th:href</span><span class="o">=</span><span class="s">"@{/planta/{id}(id=${planta.id_planta})}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-info btn-sm"</span><span class="p">&gt;</span>Detalles<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">th:href</span><span class="o">=</span><span class="s">"@{/plantas/editar/{id}(id=${planta.id_planta})}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning btn-sm"</span><span class="p">&gt;</span>Editar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">th:href</span><span class="o">=</span><span class="s">"@{/plantas/borrar/{id}(id=${planta.id_planta})}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-danger btn-sm"</span>
+                       <span class="na">onclick</span><span class="o">=</span><span class="s">"return confirm('¿Estás seguro de borrar esta planta?')"</span><span class="p">&gt;</span>Borrar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">td</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tr</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">tbody</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">table</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">th:unless</span><span class="o">=</span><span class="s">"${plantas.size() &gt; 0}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"alert alert-warning text-center shadow-sm"</span><span class="p">&gt;</span>
+        No se han encontrado plantas registradas en el sistema.
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-start mt-4"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-outline-secondary"</span><span class="p">&gt;</span>Volver a la Portada<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><span class="mi_h3">Detalle de una plantas</span></p>
+<p>El archivo que mostrará el detalle de una plantas será <code>detallePlanta.html</code> y su código es el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">"http://www.thymeleaf.org"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Detalles de la Planta<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">class</span><span class="o">=</span><span class="s">"bg-light"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container mt-5"</span> <span class="na">style</span><span class="o">=</span><span class="s">"max-width: 500px;"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card shadow-sm border-0 text-center"</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">img</span> <span class="na">th:src</span><span class="o">=</span><span class="s">"@{/fotos/{nombreImagen}(nombreImagen=${planta.foto})}"</span>
+             <span class="na">alt</span><span class="o">=</span><span class="s">"Foto"</span>
+             <span class="na">class</span><span class="o">=</span><span class="s">"img-fluid rounded mb-4"</span>
+             <span class="na">style</span><span class="o">=</span><span class="s">"max-height: 250px;"</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card-body p-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-success fw-bold mb-3"</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.nombre}"</span><span class="p">&gt;</span>Nombre<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"text-muted fs-5"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Tipo:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.tipo}"</span><span class="p">&gt;</span>Flor<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">br</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">strong</span><span class="p">&gt;</span>Altura:<span class="p">&lt;/</span><span class="nt">strong</span><span class="p">&gt;</span> <span class="p">&lt;</span><span class="nt">span</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${planta.altura}"</span><span class="p">&gt;</span>1.2<span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> metros
+            <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">hr</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"d-flex justify-content-around mt-4"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/plantas"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-outline-secondary"</span><span class="p">&gt;</span>Volver al listado<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">a</span> <span class="na">th:href</span><span class="o">=</span><span class="s">"@{/plantas/editar/{id}(id=${planta.id_planta})}"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-warning"</span><span class="p">&gt;</span>Editar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><span class="mi_h3">Formulario nueva / modificación</span></p>
+<p>El archivo que mostrará el formulario para pedir los datos de una nueva planta o modificar la información de una existente será <code>formPlanta.html</code> y su código es el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">"http://www.thymeleaf.org"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${titulo}"</span><span class="p">&gt;</span>Formulario<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">class</span><span class="o">=</span><span class="s">"bg-light"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container mt-5"</span> <span class="na">style</span><span class="o">=</span><span class="s">"max-width: 600px;"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card shadow-sm border-0"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card-header bg-success text-white"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h3</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-0"</span> <span class="na">th:text</span><span class="o">=</span><span class="s">"${titulo}"</span><span class="p">&gt;</span>Formulario de Planta<span class="p">&lt;/</span><span class="nt">h3</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"card-body p-4"</span><span class="p">&gt;</span>
+            <span class="p">&lt;</span><span class="nt">form</span> <span class="na">th:action</span><span class="o">=</span><span class="s">"@{/plantas/guardar}"</span> <span class="na">th:object</span><span class="o">=</span><span class="s">"${planta}"</span> <span class="na">method</span><span class="o">=</span><span class="s">"post"</span><span class="p">&gt;</span>
+                <span class="cm">&lt;!-- Campo oculto para el ID --&gt;</span>
+                <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"hidden"</span> <span class="na">th:field</span><span class="o">=</span><span class="s">"*{id_planta}"</span><span class="p">&gt;</span>
+
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-label fw-bold"</span><span class="p">&gt;</span>Nombre:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-control"</span> <span class="na">th:field</span><span class="o">=</span><span class="s">"*{nombre}"</span> <span class="na">required</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-label fw-bold"</span><span class="p">&gt;</span>Tipo:<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-control"</span> <span class="na">th:field</span><span class="o">=</span><span class="s">"*{tipo}"</span> <span class="na">required</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-label fw-bold"</span><span class="p">&gt;</span>Altura (m):<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"number"</span> <span class="na">step</span><span class="o">=</span><span class="s">"0.1"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-control"</span> <span class="na">th:field</span><span class="o">=</span><span class="s">"*{altura}"</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"mb-3"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">label</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-label fw-bold"</span><span class="p">&gt;</span>Nombre Foto (ej: rosa.jpg):<span class="p">&lt;/</span><span class="nt">label</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">input</span> <span class="na">type</span><span class="o">=</span><span class="s">"text"</span> <span class="na">class</span><span class="o">=</span><span class="s">"form-control"</span> <span class="na">th:field</span><span class="o">=</span><span class="s">"*{foto}"</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+                <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"d-flex justify-content-between"</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/plantas"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-secondary"</span><span class="p">&gt;</span>Cancelar<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+                    <span class="p">&lt;</span><span class="nt">button</span> <span class="na">type</span><span class="o">=</span><span class="s">"submit"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success"</span><span class="p">&gt;</span>Guardar Planta<span class="p">&lt;/</span><span class="nt">button</span><span class="p">&gt;</span>
+                <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">form</span><span class="p">&gt;</span>
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><span class="mi_h3">Aviso en caso de error</span></p>
+<p>El archivo que mostrará el aviso en caso de error será <code>errorPlanta.html</code> y su código es el siguiente:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">xmlns:th</span><span class="o">=</span><span class="s">"http://www.thymeleaf.org"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Planta no encontrada<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container mt-5"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">h1</span><span class="p">&gt;</span>Error<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">p</span><span class="p">&gt;</span>La planta que estás buscando no existe.<span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">a</span> <span class="na">th:href</span><span class="o">=</span><span class="s">"@{/plantas}"</span><span class="p">&gt;</span>Volver a la lista de plantas<span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p><strong>Explicación de las vistas Thymeleaf</strong></p>
+<p>Condicionales:</p>
+<ul>
+<li>
+<p>th:if muestra un mensaje si hay plantas registradas.</p>
+</li>
+<li>
+<p>th:unless muestra un mensaje alternativo si no hay plantas.</p>
+</li>
+</ul>
+<p>Iteración sobre la colección:</p>
+<ul>
+<li>th:each="planta : ${plantas}" recorre la lista de plantas (plantas) y crea un bloque de código html (en este caso el que hay dentro de la etiqueta <code>&lt;p&gt;</code>) para cada planta.</li>
+</ul>
+<p>Mostrar datos dinámicos:</p>
+<ul>
+<li>
+<p>th:text="${planta.nombre}" muestra el nombre de la planta.</p>
+</li>
+<li>
+<p>th:text="'Tipo: ' + ${planta.tipo}" concatena el texto "Tipo: " con el tipo de la planta.</p>
+</li>
+<li>
+<p>th:text="'Altura: ' + ${planta.altura} + ' metros'" muestra la altura de la planta en metros.</p>
+</li>
+</ul>
+<p>Enlaces dinámicos:</p>
+<ul>
+<li>th:href="@{/planta/{id_planta}(id_planta=${planta.id_planta})}" genera un enlace a la página de detalles de la planta usando el id_planta de la planta.</li>
+</ul>
+<p>Imágenes dinámicas:</p>
+<ul>
+<li>th:src="@{/fotos/{nombreImagen}(nombreImagen=${planta.foto})}" carga foto de la planta.</li>
+</ul>
+<p>Formulario:</p>
+<ul>
+<li>
+<p>th:action="@{/planta/guardar}" indica la URL a la que se enviarán los datos del formulario cuando se haga submit.</p>
+</li>
+<li>
+<p>th:object="${planta}" asocia un objeto del modelo de Spring (Model) con el formulario. En este caso <code>${planta}</code> hace referencia a la planta que se pasó al modelo desde el controlador: <code>model.addAttribute("planta", planta)</code>. Esto permite usar atributos de planta en los campos del formulario.</p>
+</li>
+</ul>
+<p><span class="mi_sombreado"><strong>PASO 4: Añadir las fotos de las plantas</strong></span></p>
+<p>Para poder mostrar las fotos de nuestras plantas en la vista de detalle, hemos guardado las fotos en una carpeta llamada <code>fotos</code> dentro de <code>src/main/resources/static/</code>.</p>
+<p><span class="mi_sombreado"><strong>PASO 5: Añadir la página de inicio</strong></span></p>
+<p>Además, si queremos que nuestra aplicación responda a <a href="http://localhost:8080">http://localhost:8080</a> necesitamos un archivo llamado <code>index.html</code> dentro de la carpeta <code>src/main/resources/static/</code>. Por ejemplo, con el siguiente contenido:</p>
+<div class="highlight"><pre><span></span><code><span class="cp">&lt;!DOCTYPE HTML&gt;</span>
+<span class="p">&lt;</span><span class="nt">html</span> <span class="na">lang</span><span class="o">=</span><span class="s">"es"</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">"UTF-8"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">name</span><span class="o">=</span><span class="s">"viewport"</span> <span class="na">content</span><span class="o">=</span><span class="s">"width=device-width, initial-scale=1.0"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">title</span><span class="p">&gt;</span>Bienvenido - Botánica<span class="p">&lt;/</span><span class="nt">title</span><span class="p">&gt;</span>
+    <span class="cm">&lt;!-- Importación de Bootstrap mediante CDN --&gt;</span>
+    <span class="p">&lt;</span><span class="nt">link</span> <span class="na">href</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"</span> <span class="na">rel</span><span class="o">=</span><span class="s">"stylesheet"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="w">        </span><span class="c">/* Un pequeño toque de personalización para el tema botánico */</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">btn-success-botanic</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#2e7d32</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#1b5e20</span><span class="p">;</span>
+<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="w">            </span><span class="k">font-weight</span><span class="p">:</span><span class="w"> </span><span class="kc">bold</span><span class="p">;</span>
+<span class="w">            </span><span class="k">transition</span><span class="p">:</span><span class="w"> </span><span class="kc">all</span><span class="w"> </span><span class="mf">0.3</span><span class="kt">s</span><span class="w"> </span><span class="kc">ease</span><span class="p">;</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">        </span><span class="p">.</span><span class="nc">btn-success-botanic</span><span class="p">:</span><span class="nd">hover</span><span class="w"> </span><span class="p">{</span>
+<span class="w">            </span><span class="k">background-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#1b5e20</span><span class="p">;</span>
+<span class="w">            </span><span class="k">border-color</span><span class="p">:</span><span class="w"> </span><span class="mh">#0d3c11</span><span class="p">;</span>
+<span class="w">            </span><span class="k">color</span><span class="p">:</span><span class="w"> </span><span class="kc">white</span><span class="p">;</span>
+<span class="w">            </span><span class="k">transform</span><span class="p">:</span><span class="w"> </span><span class="nb">translateY</span><span class="p">(</span><span class="mi">-2</span><span class="kt">px</span><span class="p">);</span>
+<span class="w">        </span><span class="p">}</span>
+<span class="w">    </span><span class="p">&lt;/</span><span class="nt">style</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">body</span> <span class="na">class</span><span class="o">=</span><span class="s">"bg-light d-flex align-items-center justify-content-center"</span> <span class="na">style</span><span class="o">=</span><span class="s">"min-height: 100vh;"</span><span class="p">&gt;</span>
+
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"container text-center py-5"</span><span class="p">&gt;</span>
+    <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"row justify-content-center"</span><span class="p">&gt;</span>
+        <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"col-md-8 col-lg-6"</span><span class="p">&gt;</span>
+
+            <span class="cm">&lt;!-- Icono representativo --&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"display-1 text-success mb-4"</span><span class="p">&gt;</span>🌿<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+            <span class="cm">&lt;!-- Título del Portal --&gt;</span>
+            <span class="p">&lt;</span><span class="nt">h1</span> <span class="na">class</span><span class="o">=</span><span class="s">"fw-bold mb-3"</span><span class="p">&gt;</span>Botánica<span class="p">&lt;/</span><span class="nt">h1</span><span class="p">&gt;</span>
+
+            <span class="p">&lt;</span><span class="nt">p</span> <span class="na">class</span><span class="o">=</span><span class="s">"fs-5 text-muted mb-5"</span><span class="p">&gt;</span>
+                Bienvenido a la aplicación de gestión del vivero. Explora nuestro catálogo de plantas, consulta fichas técnicas, añade nuevas especies o edita los registros de forma cómoda.
+            <span class="p">&lt;/</span><span class="nt">p</span><span class="p">&gt;</span>
+
+            <span class="cm">&lt;!-- Botón de acceso que redirige al controlador de Thymeleaf --&gt;</span>
+            <span class="p">&lt;</span><span class="nt">div</span> <span class="na">class</span><span class="o">=</span><span class="s">"d-grid gap-2 col-8 mx-auto"</span><span class="p">&gt;</span>
+                <span class="p">&lt;</span><span class="nt">a</span> <span class="na">href</span><span class="o">=</span><span class="s">"/plantas"</span> <span class="na">class</span><span class="o">=</span><span class="s">"btn btn-success-botanic btn-lg shadow-sm py-3"</span><span class="p">&gt;</span>
+                    Entrar al Catálogo
+                <span class="p">&lt;/</span><span class="nt">a</span><span class="p">&gt;</span>
+            <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+        <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">div</span><span class="p">&gt;</span>
+
+<span class="cm">&lt;!-- Script de Bootstrap --&gt;</span>
+<span class="p">&lt;</span><span class="nt">script</span> <span class="na">src</span><span class="o">=</span><span class="s">"https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"</span><span class="p">&gt;&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="p">&lt;/</span><span class="nt">html</span><span class="p">&gt;</span>
+</code></pre></div>
+<p>A continuación se muestran las pantallas de la aplicación:</p>
+<ul>
+<li>Pantalla de bienvenida </li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-1.jpg" alt="ej2-1"></p>
+<ul>
+<li>Listado de plantas</li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-2.jpg" alt="ej2-2"></p>
+<ul>
+<li>Formulario para añadir una planta nueva</li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-3.jpg" alt="ej2-3"></p>
+<ul>
+<li>Detalles de una planta existente</li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-4.jpg" alt="ej2-4"></p>
+<ul>
+<li>Formulario para modificar la información de una planta existente</li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-5.jpg" alt="ej2-5"></p>
+<ul>
+<li>Mensaje de confirmación de borrado de una planta</li>
+</ul>
+<p><img class="con_borde" src="img/RA6/ej2-6.jpg" alt="ej2-6"></p>
+<div class="admonition success">
+<p class="admonition-title">Prueba y analiza el ejemplo</p>
+<p>Prueba el código del ejemplo y verifica que el comportamiento es correcto.</p>
+</div>
+<div class="admonition example">
+<p class="admonition-title">Autoevaluación</p>
+<p><strong>Pregunta 9: En nuestro <code>PlantaRepository.kt</code> declaramos la variable <code>private val plantas = mutableListOf(...)</code> en memoria. ¿Cuál será el ciclo de vida de los datos almacenados (plantas añadidas, editadas o borradas) utilizando este enfoque?</strong></p>
+<p>A) Los datos permanecerán activos únicamente mientras la aplicación web esté ejecutándose. Si reiniciamos el servidor en IntelliJ, todos los cambios se perderán y la lista volverá a su estado inicial.</p>
+<p>B) Spring Boot guarda de manera automática la lista mutable en una base de datos relacional oculta en el disco duro, de modo que los cambios se conservan permanentemente entre reinicios.</p>
+<p>C) Los datos se perderán de forma inmediata cada vez que el usuario cierre la pestaña activa de su navegador web, pero se mantendrán intactos si detenemos y arrancamos de nuevo el servidor en IntelliJ.</p>
+<p>D) Kotlin almacena los objetos de tipo <code>Planta</code> en la memoria caché global de la JVM para siempre, por lo que los datos persistirán indefinidamente de forma nativa sin necesidad de recurrir a archivos o bases de datos externas.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>✅ A) El repositorio almacena la lista mutable en la memoria RAM (volátil) del ordenador donde corre el servidor. Al detener el proceso de ejecución, esa memoria se libera. Al arrancar de nuevo la aplicación, la variable se inicializa desde cero con los tres registros declarados de forma predeterminada en el código.</p>
+<p>❌ B) Spring Boot no asume decisiones de persistencia física de forma automática a menos que configuremos un motor de base de datos o almacenamiento en ficheros de manera explícita en nuestro proyecto. La lista mutable del repositorio reside exclusivamente en memoria.</p>
+<p>❌ C) El ciclo de vida de la memoria RAM del servidor de Spring es independiente al navegador del cliente. Cerrar el navegador no borra los datos en memoria del servidor; solo se pierden si el proceso de IntelliJ se apaga o se detiene.</p>
+<p>❌ D) Aunque la JVM gestiona los objetos en memoria mediante su recolector de basura, no existe ningún mecanismo de persistencia nativa e inmutable en Kotlin para las variables locales una vez finaliza el hilo de ejecución de la aplicación.</p>
+</details>
+<p><strong>Pregunta 10: La clase <code>PlantaService</code> declara en su constructor la variable <code>private val repository: PlantaRepository</code>. ¿Cómo recibe el servicio la instancia de este repositorio para poder hacer uso de sus métodos?</strong></p>
+<p>A) Kotlin genera de forma implícita un bloque de inicialización <code>init</code> donde hace una llamada directa al constructor <code>PlantaRepository()</code> para crear la instancia que necesita el servicio.</p>
+<p>B) Spring Boot detecta que la clase <code>PlantaRepository</code> tiene la anotación <code>@Repository</code> y se encarga de inyectar automáticamente la instancia creada en el constructor del servicio al inicializar la aplicación.</p>
+<p>C) El servidor web Tomcat busca archivos con el nombre <code>PlantaRepository</code> en el disco duro de la máquina y carga sus métodos dinámicamente utilizando reflexión avanzada de Java.</p>
+<p>D) Es necesario que el controlador instancie de forma explícita ambas clases en su código y las vincule llamando manualmente a un método de asignación o de tipo <em>setter</em>.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Aunque Kotlin genera automáticamente el mapeo del constructor primario, no realiza ninguna creación de objetos de clases externas por su cuenta si no se lo ordenamos. Es el framework de Spring el encargado de gestionar las instancias.</p>
+<p>✅ B) Este comportamiento es el núcleo de la Inyección de Dependencias (DI) de Spring. Al marcar la clase con <code>@Repository</code>, se registra como un componente (<em>bean</em>) administrado por el contenedor del framework. Al iniciar, Spring busca el constructor de <code>PlantaService</code> y, al comprobar que requiere un <code>PlantaRepository</code>, le asocia e inyecta de manera transparente la instancia que ya tiene gestionada.</p>
+<p>❌ C) El servidor Tomcat se encarga exclusivamente de resolver las conexiones de red HTTP y hospedar la aplicación, pero es totalmente ajeno a las dependencias internas de las clases de Kotlin o Spring.</p>
+<p>❌ D) Uno de los propósitos principales de utilizar Spring Boot es evitar que tengamos que instanciar manualmente las dependencias en cascada (usando <code>new</code> o constructores manuales), logrando un diseño de bajo acoplamiento entre capas.</p>
+</details>
+<p><strong>Pregunta 11: En el controlador, el método <code>guardarPlanta</code> procesa el formulario mediante <code>@PostMapping</code> y devuelve la cadena <code>"redirect:/plantas"</code>. ¿Cuál es la razón técnica de realizar una redirección tras guardar datos en lugar de cargar la vista del listado directamente?</strong></p>
+<p>A) Thymeleaf no admite el procesamiento de formularios de tipo POST si no se le redirige obligatoriamente a una página estática del directorio <code>static/</code>.</p>
+<p>B) Se utiliza para forzar al sistema de persistencia en memoria a realizar un vaciado preventivo de la memoria RAM de la JVM antes de que el usuario vuelva a listar los elementos.</p>
+<p>C) La redirección es un paso obligatorio en Spring MVC para evitar que el navegador web lance un error interno de protocolo HTTP 500 al recibir peticiones que no sean GET.</p>
+<p>D) Aplica el patrón de desarrollo "Post-Redirect-Get" (PRG) para evitar que, si el usuario refresca la página (F5) en su navegador, se vuelva a enviar el formulario de forma accidental y se duplique la acción de guardado en la aplicación.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Thymeleaf puede procesar cualquier tipo de redirección o plantilla dinámica de forma exitosa. Las páginas de la carpeta <code>static/</code> son estáticas y no procesan datos de servidor, por lo que redirigir allí rompería el flujo dinámico de la web.</p>
+<p>❌ B) El almacenamiento en memoria de la lista mutable se gestiona de forma directa en Kotlin y no guarda relación con la lógica de redirecciones de las cabeceras HTTP que gestiona el navegador del usuario.</p>
+<p>❌ C) Spring MVC permite responder a una petición POST cargando un HTML directamente sin necesidad de redirigir. No se produce ningún error de protocolo, pero se introduce una mala experiencia de usuario y fallos potenciales en el estado de los datos.</p>
+<p>✅ D) El patrón PRG es una buena práctica del desarrollo web clásico. Si tras un envío de formulario (POST) el servidor responde cargando el HTML del listado de forma directa, la URL activa del navegador del usuario seguirá siendo la del formulario de envío. Si el usuario pulsa F5 para recargar la página, el navegador repetirá la petición POST, provocando que los datos se guarden dos veces (creando una planta duplicada). Al responder con una redirección a una petición GET (<code>redirect:/plantas</code>), la barra de direcciones cambia y el refresco de pantalla es totalmente seguro.</p>
+</details>
+<p><strong>Pregunta 12: En la ruta <code>@GetMapping("/planta/{id_planta}")</code>, ¿cuál es la función de la anotación <code>@PathVariable</code> en el parámetro <code>id_planta: Int</code> de la función de nuestro controlador?</strong></p>
+<p>A) Extrae el valor numérico escrito directamente en ese segmento dinámico de la URL de la petición para poder buscar la planta correspondiente a través del servicio.</p>
+<p>B) Lee un parámetro oculto en el cuerpo de la petición que ha sido transmitido mediante el envío de un formulario de tipo POST.</p>
+<p>C) Declara una variable local temporal dentro del motor de Thymeleaf para poder marcar visualmente la fila de la tabla seleccionada por el usuario.</p>
+<p>D) Indica a Spring Boot que el parámetro de la ruta es opcional y que, en caso de que no se especifique, debe cargarse por defecto un valor de tipo nulo.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>✅ A) La anotación <code>@PathVariable</code> asocia una variable dinámica delimitada por llaves en la ruta de red (en este caso, <code>{id_planta}</code>) con un parámetro de la función de Kotlin. Si un usuario accede a <code>/planta/2</code>, Spring Boot extrae el carácter <code>"2"</code>, realiza la conversión de tipo a un valor entero (<code>Int</code>) y se lo proporciona al método para que podamos buscar la planta con id 2 en el listado.</p>
+<p>❌ B) Para leer parámetros del cuerpo de una petición enviados por un formulario se utilizan anotaciones de tipo <code>@ModelAttribute</code> o <code>@RequestParam</code>, ya que esos datos viajan estructurados en la petición HTTP y no expuestos en la dirección URL.</p>
+<p>❌ C) La anotación <code>@PathVariable</code> pertenece de forma exclusiva al controlador del lado de servidor de Spring Boot, no teniendo ninguna validez ni funcionalidad dentro del código HTML de la vista del cliente.</p>
+<p>❌ D) Los parámetros de ruta marcados como <code>@PathVariable</code> son requeridos de forma estricta por el enrutador de Spring Boot para que la petición coincida con el controlador. Si se omite el parámetro en la URL, el servidor responderá con una pantalla de error 404 (recurso no encontrado).</p>
+</details>
+<p><strong>Pregunta 13: En el archivo <code>formPlanta.html</code>, la etiqueta de formulario declara <code>th:object="${planta}"</code> y las etiquetas de entrada usan la sintaxis <code>th:field="*{nombre}"</code>. ¿Qué función realiza el símbolo de asterisco (<code>*</code>) en la expresión del campo?</strong></p>
+<p>A) Indica a Thymeleaf que la variable pertenece a una tabla relacional mapeada en una base de datos externa de persistencia permanente.</p>
+<p>B) Actúa como una expresión de selección atajo ("selection expression") para evaluar la propiedad de forma relativa con respecto al objeto vinculado al formulario en <code>th:object</code>.</p>
+<p>C) Sirve para indicarle al navegador que el campo del formulario es de carácter obligatorio y debe validarse antes de realizar el envío de los datos.</p>
+<p>D) Es un operador comodín que realiza una búsqueda recursiva para localizar propiedades con ese nombre en cualquier clase del modelo del proyecto.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Thymeleaf es un motor de renderizado de vistas y desconoce por completo la existencia de tablas relacionales o de bases de datos. El asterisco es una sintaxis de enlace de datos orientada exclusivamente a la visualización de datos en el cliente.</p>
+<p>✅ B) En las plantillas de Thymeleaf, la expresión con asterisco (<code>*{...}</code>) se utiliza para evaluar propiedades con respecto a un objeto previamente seleccionado (el objeto declarado en la etiqueta superior mediante <code>th:object="${planta}"</code>). Escribir <code>th:field="*{nombre}"</code> es una forma simplificada y limpia de escribir <code>th:field="${planta.nombre}"</code>, lo cual ahorra código y previene errores al manejar formularios con muchos campos.</p>
+<p>❌ C) La validación y obligatoriedad de los campos de entrada de un formulario en HTML se configura mediante el atributo estándar <code>required</code> de las etiquetas de entrada de HTML5, no afectando el uso de un asterisco en Thymeleaf a esta validación.</p>
+<p>❌ D) Thymeleaf requiere que las propiedades existan de forma explícita dentro del objeto vinculado. No realiza búsquedas con comodines ni asocia variables de forma ambigua por motivos de seguridad y tipado.</p>
+</details>
+<p><strong>Pregunta 14: En el formulario de la plantilla <code>formPlanta.html</code>, incluimos el campo oculto <code>&lt;input type="hidden" th:field="*{id_planta}"&gt;</code>. ¿Qué comportamiento se produciría al intentar guardar los cambios de una planta existente si eliminásemos este campo del formulario?</strong></p>
+<p>A) Los datos de la planta se guardarían correctamente en el listado pero el sistema los archivaría en un fichero temporal en disco de forma automática.</p>
+<p>B) Se producirá un error de compilación inmediato en la plantilla de Thymeleaf porque el formulario exige que todas las variables del modelo estén visibles en pantalla.</p>
+<p>C) El navegador web bloquearía la petición por motivos de seguridad al detectar un desajuste de propiedades entre las etiquetas HTML y el modelo de Kotlin.</p>
+<p>D) El repositorio interpretaría el envío como la inserción de una planta totalmente nueva (al recibir un ID cero o nulo) y crearía un registro duplicado en lugar de actualizar el existente.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) El repositorio no realiza archivados automáticos en ficheros temporales si se le omite el identificador de los objetos en la petición de guardado.</p>
+<p>❌ B) Thymeleaf no restringe la visibilidad de los atributos de un objeto en pantalla. Podemos omitir la representación visual de tantas propiedades como queramos en la plantilla sin que el compilador del motor proteste por ello.</p>
+<p>❌ C) Los navegadores web procesan los formularios de forma estándar sin auditar de manera inteligente el tipado o consistencia lógica de las clases de Kotlin del servidor.</p>
+<p>✅ D) El ID de la planta es la clave para diferenciar una operación de creación de una de actualización. Al editar una planta, necesitamos que viaje su ID original de forma transparente. Como es un campo de tipo <code>hidden</code>, el usuario no lo ve en la pantalla, pero viaja incrustado en los datos de la petición POST. Al omitir este campo, el objeto llega al controlador con su identificador por defecto (cero), lo que provoca que el método <code>save</code> del repositorio asuma que es una planta nueva, asignándole un nuevo ID secuencial y duplicándola en el listado en lugar de modificar la existente.</p>
+</details>
+<p><strong>Pregunta 15: En la plantilla HTML <code>plantas.html</code>, utilizamos la línea <code>&lt;tr th:each="planta : ${plantas}"&gt;</code>. ¿Qué representa exactamente la variable de contexto <code>${plantas}</code> (con el símbolo <code>$</code>) y de dónde procede su información?</strong></p>
+<p>A) Es una variable local declarada directamente en la propia plantilla HTML mediante una función de Javascript que inicia el bucle sobre la tabla de la página.</p>
+<p>B) Es una ruta de red física que apunta al archivo <code>Planta.kt</code> del modelo para indicar a Thymeleaf qué tipo de objeto debe instanciar en cada fila.</p>
+<p>C) Es el atributo que el controlador añadió previamente al modelo mediante la instrucción <code>model.addAttribute("plantas", ...)</code> antes de llamar y devolver la vista.</p>
+<p>D) Es una palabra clave reservada de Thymeleaf que hace referencia automática a cualquier estructura de tipo lista que se encuentre declarada dentro del repositorio.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) Thymeleaf es un motor de plantillas de servidor. La expresión <code>${plantas}</code> se resuelve e interpreta en el servidor de Spring Boot antes de enviar el archivo al navegador, por lo que no es una variable del lado del cliente ni de Javascript.</p>
+<p>❌ B) La expresión <code>${}</code> no hace referencia a rutas físicas de archivos de Kotlin ni a imports de clases, sino a variables de datos que han sido depositadas explícitamente en el mapa de contexto de la vista.</p>
+<p>✅ C) La interfaz <code>Model</code> de Spring actúa como una caja de transporte de información. Cuando el método de nuestro controlador ejecuta <code>model.addAttribute("plantas", plantaService.listarPlantas())</code>, guarda la lista de objetos bajo la clave de texto <code>"plantas"</code>. Thymeleaf recupera esa variable mediante su lenguaje de expresiones para poder pintar las filas de la tabla dinámicamente.</p>
+<p>❌ D) Thymeleaf no tiene conexión directa con la capa de datos (Repository). No puede leer variables de Kotlin que no hayan sido transferidas de forma voluntaria a la capa de presentación mediante el objeto <code>Model</code> del controlador.</p>
+</details>
+<p><strong>Pregunta 16: En nuestro diseño arquitectónico por capas, el controlador llama de forma indirecta al repositorio a través de la capa <code>PlantaService</code>. Si en este ejemplo el servicio se limita a delegar las funciones directamente al repositorio, ¿por qué es una buena práctica de diseño mantener esta capa intermedia?</strong></p>
+<p>A) Porque es una restricción técnica obligatoria de la JVM de Java para poder compilar de forma segura proyectos basados en Spring MVC.</p>
+<p>B) Porque de este modo se permite que el controlador se conecte con los archivos físicos del disco duro sin tener que pasar por las clases del modelo.</p>
+<p>C) Porque desacopla el controlador del acceso directo a los datos, permitiendo añadir en el futuro reglas de negocio (validaciones, seguridad o transacciones) sin tener que alterar el controlador ni las vistas.</p>
+<p>D) Porque mejora drásticamente el rendimiento de lectura del servidor al almacenar en segundo plano las peticiones de listados en una cola de la base de datos.</p>
+<details class="quote">
+<summary>Solución</summary>
+<p>❌ A) No existe ninguna limitación en Java o Kotlin que impida a un controlador llamar directamente a un repositorio si se desea hacer. La separación en capas es una decisión de arquitectura de diseño de software voluntaria para crear sistemas limpios.</p>
+<p>❌ B) La capa de servicio es de lógica de negocio y no tiene relación directa con el sistema de archivos del sistema operativo. De hecho, el acceso físico a los datos sigue siendo responsabilidad del repositorio.</p>
+<p>✅ C) La capa de servicio (Service) es la propietaria legítima de las reglas de negocio de nuestra aplicación. Mantener esta capa intermedia, incluso en fases iniciales donde solo delega funciones de forma directa, nos garantiza una arquitectura limpia y escalable. Si en el futuro decidimos que no se permiten plantas con alturas negativas o que solo los usuarios administradores pueden borrar registros, implementaremos esa lógica en el servicio de forma centralizada sin tocar el controlador ni alterar la interfaz web.</p>
+<p>❌ D) La capa de servicio no gestiona cachés de red ni colas de mensajes del servidor web por sí misma. El rendimiento del servidor Tomcat se mantiene idéntico independientemente del número de capas lógicas definidas en el backend.</p>
+</details>
+</div>
+<p>Llegados a este punto, tenemos una aplicación web con un CRUD completamente operativo. Pero, como ya vimos en el RA1, almacenar la información directamente en la memoria RAM no es una solución para la mayoría de aplicaciones que requieren persistencia de datos. Por tanto el siguiente paso sería modificar la aplicación para guardar la información de las plantas en un fichero CSV.</p>
+<p>En una aplicación mal diseñada, habría que modificar el controlador, las vistas HTML y las rutas de red para adaptarlas a la lectura de archivos. Pero en nuestra aplicación:</p>
+<ol>
+<li>El <strong>Controlador</strong> (<code>PlantaController</code>) solo sabe que le pide datos a la capa de <strong>Servicio</strong>.</li>
+<li>La capa de <strong>Servicio</strong> (<code>PlantaService</code>) solo sabe que solicita guardar o listar plantas a la capa de <strong>Repositorio</strong>.</li>
+</ol>
+<p>Esto significa que si sustituimos la información en memoria por un archivo físico:</p>
+<ul>
+<li><strong>¡No tendremos que modificar ni una sola línea de código en nuestro Controlador!</strong></li>
+<li><strong>¡No tendremos que tocar ninguna de nuestras plantillas HTML de Thymeleaf!</strong></li>
+</ul>
+<p>Toda nuestra interfaz de usuario y nuestras rutas de red seguirán funcionando exactamente igual. Solo necesitaremos programar una nueva versión de nuestro <strong>Repositorio</strong> que lea y escriba en disco.</p>
+<div class="admonition warning">
+<p class="admonition-title">Reto 1: CRUD con Spring MVC y Thymeleaf sobre un CSV</p>
+<p>El trabajo a realizar por cada equipo es el siguiente:</p>
+<ol>
+<li>Crear un nuevo proyecto utilizando Spring Initializr con las mismas dependencias que el <code>Ejemplo 2</code>.</li>
+<li>Guardar el archivo <code>.csv</code> que se utilizó en el RA1 en la carpeta de recursos (<code>src/main/resources/data/</code>). </li>
+<li>Modificar el repositorio para que use las librerías de lectura y escritura de archivos de Kotlin (<code>java.io.File</code>) para:<ul>
+<li><strong>Leer el CSV</strong> y transformarlo en una lista de objetos cuando se solicite listar.</li>
+<li><strong>Escribir en el CSV</strong> volcando toda la lista cada vez que se cree, edite o borre un registro.</li>
+</ul>
+</li>
+<li>Modificar el servicio para que, en lugar de recibir el repositorio de memoria, reciba el nuevo repositorio de archivos.</li>
+<li>Utilizar Bootstrap para que el estilo del proyecto quede totalmente diferente del <code>Ejemplo 2</code>.  </li>
+</ol>
+</div>
+<div class="admonition danger">
+<p class="admonition-title">Entrega</p>
+<p>Sigue las instrucciones disponibles en la tarea de Aules. </p>
+</div>
+<hr />
+<p><span class="mi_h3">Autoría</span></p>
+<p><span class="mi_autoria">
+Obra realizada por Begoña Paterna Lluch. Publicada bajo licencia <a href="https://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Atribución/Reconocimiento-CompartirIgual 4.0 Internacional</a>
+</span></p>
+<hr />
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+  <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script>
+
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Volver al principio
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["content.code.copy", "content.tabs.link", "navigation.instant", "navigation.top", "navigation.sections", "search.highlight", "search.suggest", "toc.integrate"], "search": "assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copiado al portapapeles", "clipboard.copy": "Copiar al portapapeles", "search.result.more.one": "1 m\u00e1s en esta p\u00e1gina", "search.result.more.other": "# m\u00e1s en esta p\u00e1gina", "search.result.none": "No se encontraron documentos", "search.result.one": "1 documento encontrado", "search.result.other": "# documentos encontrados", "search.result.placeholder": "Teclee para comenzar b\u00fasqueda", "search.result.term.missing": "Falta", "select.version": "Seleccionar versi\u00f3n"}, "version": null}</script>
+    
+    
+      <script src="assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
