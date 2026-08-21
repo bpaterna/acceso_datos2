@@ -938,9 +938,9 @@ fun main() {
 
     3. Deberás pedir por teclado toda la información necesaria para cada caso. 
 
-        - INSERTAR: Pide todos los campos comprobando lo siguiente: ID (tipo Int). Lo pedirá hasta que sea válido (debe ser un número entero y no debe existir en la tabla). Si hay algún otro campo numérico también lo pedirá hasta que sea válido (debe ser un número y ser del tipo correcto).
-        - MODIFICAR: Pide ID (tipo Int). Lo pedirá hasta que sea válido (debe ser un número entero) y lo buscará en la BD. Si no lo encuentra informa con un mensaje y no se realiza ningún cambio en la BD. Si lo encuentra muestra el nombre o algún otro campo representativo, pide alguno de los otros campos (comprobando que es correcto) y actualiza la información en la BD informando con un mensaje.
-        - ELIMINAR: Pide ID (tipo Int). Lo pedirá hasta que sea válido (debe ser un número entero) y lo buscará en la BD. Si no lo encuentra informa con un mensaje. Si lo encuentra muestra el nombre o algún otro campo representativo de registro y pide confirmación para eliminar. Si se confirma el borrado se elimina el registro y en caso contrario no se elimina. En ambos casos se informa con un mensaje.
+        - INSERTAR: Pide todos los campos comprobando lo siguiente: ID (tipo Int) lo pedirá hasta que sea válido (debe ser un número entero y no debe existir en la tabla) si hay algún otro campo numérico también lo pedirá hasta que sea válido (debe ser un número y ser del tipo correcto).
+        - MODIFICAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo buscará en la BD, si no lo encuentra informa con un mensaje y no se realiza ningún cambio en la BD pero si lo encuentra muestra el nombre o algún otro campo representativo, pide alguno de los otros campos (comprobando que es correcto) y actualiza la información en la BD informando con un mensaje.
+        - ELIMINAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo buscará en la BD, si no lo encuentra informa con un mensaje pero si lo encuentra muestra el nombre o algún otro campo representativo de registro y pide confirmación para eliminar, entonces, si se confirma el borrado se elimina el registro y en caso contrario no se elimina (en ambos casos se informa con un mensaje).
 
     4. Utiliza .use en todas tus operaciones para asegurarte de que se cierran correctamente todos los recursos.
 
@@ -1235,7 +1235,8 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
 
     3. Añade el DAO para gestionar la información de la segunda tabla.
     4. Implementa alguna operación sobre la BD (parecida a la del ejemplo) que requiera el control mediante transacciones.
-    5. No olvides controlar los posibles errores mediante la captura de excepciones.
+    5. Recuerda pedir por teclado toda la información necesaria para cada caso siguiendo los mismos requisitos que en la práctica anterior.
+    6. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
 
