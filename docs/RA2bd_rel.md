@@ -936,11 +936,11 @@ fun main() {
 
     2. Añade a tu proyecto un objeto de acceso a datos (DAO) con todas las funciones necesarias para manejar las diferentes operaciones CRUD de la tabla de tu BD y realiza las llamadas correctas a cada operación desde cada opción del menú.
 
-    3. Deberás pedir por teclado toda la información necesaria para cada caso. 
+    3. Deberás pedir por teclado toda la información necesaria para cada caso cumpliendo: 
 
-        - INSERTAR: Pide todos los campos comprobando lo siguiente: ID (tipo Int) lo pedirá hasta que sea válido (debe ser un número entero y no debe existir en la tabla) si hay algún otro campo numérico también lo pedirá hasta que sea válido (debe ser un número y ser del tipo correcto).
-        - MODIFICAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo buscará en la BD, si no lo encuentra informa con un mensaje y no se realiza ningún cambio en la BD pero si lo encuentra muestra el nombre o algún otro campo representativo, pide alguno de los otros campos (comprobando que es correcto) y actualiza la información en la BD informando con un mensaje.
-        - ELIMINAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo buscará en la BD, si no lo encuentra informa con un mensaje pero si lo encuentra muestra el nombre o algún otro campo representativo de registro y pide confirmación para eliminar, entonces, si se confirma el borrado se elimina el registro y en caso contrario no se elimina (en ambos casos se informa con un mensaje).
+        - INSERTAR: Pide el ID (tipo Int) hasta que sea válido (debe ser un número entero y no debe existir en la tabla) y luego pide el resto de datos (si hay algún otro campo numérico también lo pedirá hasta que sea un número y del tipo correcto).
+        - MODIFICAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo busca en la BD, si no lo encuentra informa con un mensaje y no realiza ningún cambio en la BD pero si lo encuentra muestra el nombre o algún otro campo representativo, pide alguno de los otros campos (comprobando que es correcto) y actualiza la información en la BD informando con un mensaje.
+        - ELIMINAR: Pide ID (tipo Int) hasta que sea válido (debe ser un número entero) y lo busca en la BD, si no lo encuentra informa con un mensaje pero si lo encuentra muestra el nombre o algún otro campo representativo de registro y pide confirmación para eliminar, entonces, si se confirma el borrado se elimina el registro y en caso contrario no se elimina (en ambos casos se informa con un mensaje).
 
     4. Utiliza .use en todas tus operaciones para asegurarte de que se cierran correctamente todos los recursos.
 
