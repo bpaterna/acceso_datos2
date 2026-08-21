@@ -1329,98 +1329,6 @@ fun listarPlantas(){
 
 
 
-
-!!! example "Autoevaluación"
-    
-    **Pregunta 11: Se implementa la siguiente función en Kotlin para consultar y mostrar por consola el listado de nombres de las plantas de nuestra base de datos MySQL:**
-    
-    ```kotlin
-    import java.sql.Connection
-    import java.sql.SQLException
-    
-    fun mostrarNombresDePlantas(conn: Connection) {
-        try {
-            conn.createStatement().use { stmt ->
-                stmt.executeQuery("SELECT nombre_comun FROM plantas").use { rs ->
-                    while (rs.next()) {
-                        println(rs.getString("nombre_comun"))
-                    }
-                }
-            }
-        } catch (e: SQLException) {
-            println("Error durante la consulta: ${e.message}")
-        }
-    }
-    ```
-    
-    **Sabiendo que en Kotlin/JDBC se utiliza el método de extensión `.use` al trabajar con objetos como `Statement` o `ResultSet`, ¿cuál es el propósito principal y el comportamiento de esta estructura ante posibles fallos de ejecución?**
-    
-    A) Su única función es formatear el bloque de código de forma asíncrona, abriendo un hilo de ejecución secundario en segundo plano para evitar que la interfaz de usuario de la aplicación se bloquee durante la consulta SQL.
-    
-    B) Obliga de manera implícita a la conexión de la base de datos a realizar un `commit` automático al finalizar el bloque, lo que imposibilita la posterior gestión manual de transacciones desde el propio código.
-    
-    C) Permite capturar automáticamente cualquier excepción de tipo `SQLException` sin necesidad de envolver el bloque en una estructura externa `try-catch`, abstrayendo por completo el control de errores.
-    
-    D) Garantiza el cierre automático y seguro de los recursos abiertos (`Statement`, `ResultSet`) al salir del bloque, incluso si se lanza una excepción durante la lectura de datos, evitando fugas de memoria y saturación de conexiones.
-    
-    ??? quote "Solución"
-    
-        ❌ A) El método de extensión `.use` de Kotlin se ejecuta de forma síncrona en el mismo hilo de ejecución donde es invocado. No tiene relación alguna con la programación asíncrona o la creación de hilos (threads).
-        
-        ❌ B) El método de extensión `.use` se centra exclusivamente en la liberación de recursos que implementan la interfaz `AutoCloseable`. No altera el comportamiento de la transacción activa ni modifica la propiedad `autoCommit` de la conexión JDBC.
-        
-        ❌ C) Aunque `.use` asegura la liberación de los recursos ante fallos, no captura ni consume las excepciones que puedan originarse dentro del bloque; estas siguen propagándose hacia arriba, por lo que sigue siendo necesario un bloque `try-catch` para controlarlas adecuadamente.
-        
-        ✅ D) Al igual que el *try-with-resources* en Java, `.use` es un bloque de control que garantiza la invocación del método `.close()` sobre el recurso (`Statement`, `ResultSet`, etc.) una vez que se sale de su ámbito, ya sea por una finalización normal o por una interrupción abrupta provocada por una excepción. Esto es vital en aplicaciones servidoras para evitar el agotamiento de recursos físicos en el gestor de bases de datos.
-    
-
-    
-    **Pregunta 12: Observa el siguiente fragmento de código Kotlin que realiza una llamada a una función almacenada en nuestra base de datos MySQL para consultar el valor monetario del stock:**
-    
-    ```kotlin
-    import java.sql.Connection
-    import java.sql.SQLException
-    
-    fun consultarValorStock(conn: Connection, idPlanta: Int) {
-        val query = "SELECT fn_total_valor_planta(?)"
-        try {
-            conn.prepareStatement(query).use { stmt ->
-                stmt.setInt(1, idPlanta)
-                stmt.executeQuery().use { rs ->
-                    if (rs.next()) {
-                        val total = rs.getDouble(1)
-                        println("Valor del stock de la planta: $total €")
-                    }
-                }
-            }
-        } catch (e: SQLException) {
-            e.printStackTrace()
-        }
-    }
-    ```
-    
-    **A partir de este código, ¿cuál es la justificación técnica de emplear un objeto `PreparedStatement` con una consulta `SELECT` en lugar de un `CallableStatement` con una instrucción `CALL`?**
-    
-    A) No existe justificación técnica; se trata de una limitación del controlador JDBC de MySQL, el cual no proporciona soporte para el objeto `CallableStatement` en entornos de desarrollo modernos basados en Kotlin.
-    
-    B) Se utiliza `PreparedStatement` porque las funciones almacenadas (unlike procedures) no residen de forma permanente en el servidor de la base de datos, sino que se descargan dinámicamente y se compilan en el lado del cliente.
-    
-    C) Las funciones almacenadas (`FUNCTION`) devuelven un único valor escalar y están diseñadas para integrarse directamente dentro de sentencias SQL estándar como `SELECT`. Por lo tanto, se invocan con un `PreparedStatement` convencional. En cambio, `CallableStatement` se reserva para procedimientos almacenados (`PROCEDURE`), los cuales se ejecutan con `CALL` y pueden devolver múltiples conjuntos de resultados o parámetros de salida.
-    
-    D) El uso de `PreparedStatement` anula cualquier medida de seguridad relacionada con la inyección de SQL dentro de los parámetros de la base de datos, acelerando el procesamiento a costa de la integridad del sistema.
-    
-    ??? quote "Solución"
-    
-        ❌ A) El controlador JDBC de MySQL ofrece soporte completo para `CallableStatement`. Su uso no está limitado en Kotlin y es la vía idónea cuando se desea invocar procedimientos almacenados (`PROCEDURE`).
-        
-        ❌ B) Tanto las funciones (`FUNCTION`) como los procedimientos (`PROCEDURE`) son bloques de código almacenados y ejecutados exclusivamente en el servidor de la base de datos (SGBD). El cliente únicamente envía la petición de ejecución y recibe el resultado.
-        
-        ✅ C) Existe una distinción fundamental: una función siempre retorna un único valor simple y se invoca dentro de una expresión SQL estándar (por ejemplo, en la lista de campos de un `SELECT`). Por esta razón, se maneja mediante un `PreparedStatement` común. Por el contrario, un procedimiento almacenado no se puede embeber dentro de una consulta estándar; debe ser invocado de forma independiente con la instrucción `CALL`, requiriendo para ello el uso de un `CallableStatement` en el código de la aplicación.
-        
-        ❌ D) Los objetos `PreparedStatement` proporcionan una de las defensas más robustas y eficientes contra ataques de inyección SQL, ya que parametrizan las consultas de forma segura antes de enviarlas al motor de base de datos.
-    
-
-
 <span class="mi_h3">Funciones</span>
 
 Una **función** está diseñada para **calcular y devolver un resultado**. Se puede usar directamente dentro de una consulta SQL como parte de un SELECT, WHERE, ORDER BY, etc. Las funciones siempre devuelven un valor. La sintaxis general para crear una función en MySQL es la siguiente:
@@ -1527,7 +1435,7 @@ fun llamar_fn_total_valor_planta(id: Int){
 
 !!! example "Autoevaluación"
     
-    **Pregunta 13: Se define la siguiente función almacenada en el servidor de bases de datos MySQL mediante un script SQL:**
+    **Pregunta 11: Se define la siguiente función almacenada en el servidor de bases de datos MySQL mediante un script SQL:**
     
     ```sql
     DROP FUNCTION IF EXISTS fn_calcular_descuento;
@@ -1564,7 +1472,7 @@ fun llamar_fn_total_valor_planta(id: Int){
         ❌ D) Aunque existen cláusulas para clasificar el acceso a datos de una función (como `NO SQL` o `READS SQL DATA`), esto se define en los parámetros de cabecera de la función, no mediante la alteración del delimitador del cliente SQL.
 
     
-    **Pregunta 14: Considera el siguiente fragmento de código Kotlin diseñado para invocar la función de cálculo definida en la base de datos MySQL y mostrar su resultado:**
+    **Pregunta 12: Considera el siguiente fragmento de código Kotlin diseñado para invocar la función de cálculo definida en la base de datos MySQL y mostrar su resultado:**
     
     ```kotlin
     import java.sql.Connection
@@ -1811,7 +1719,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
 !!! example "Autoevaluación"
     
-    **Pregunta 15: Considera el siguiente script de SQL en el que se define un nuevo procedimiento almacenado en el servidor de base de datos MySQL:**
+    **Pregunta 13: Considera el siguiente script de SQL en el que se define un nuevo procedimiento almacenado en el servidor de base de datos MySQL:**
     
     ```sql
     DROP PROCEDURE IF EXISTS sp_actualizar_precio_planta;
@@ -1852,7 +1760,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
         ❌ D) El procesamiento de los parámetros se realiza enteramente dentro del motor de base de datos de manera secuencial. La concurrencia e hilos de ejecución son conceptos que debe configurar el desarrollador directamente en la capa cliente (Kotlin) si así lo requiere la aplicación.
 
     
-    **Pregunta 16: Se implementa la siguiente función en Kotlin para ejecutar el procedimiento almacenado `sp_obtener_personal_jardin` en la base de datos MySQL de nuestro servidor Docker:**
+    **Pregunta 14: Se implementa la siguiente función en Kotlin para ejecutar el procedimiento almacenado `sp_obtener_personal_jardin` en la base de datos MySQL de nuestro servidor Docker:**
     
     ```kotlin
     import java.sql.Connection
