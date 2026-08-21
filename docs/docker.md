@@ -349,12 +349,7 @@ SELECT * FROM plantas;
 **1. Crear el contenedor**
 
 ```bash
-docker run -d \
-  --name mongo-srv \
-  -e MONGO_INITDB_ROOT_USERNAME=admin \
-  -e MONGO_INITDB_ROOT_PASSWORD=hola01 \
-  -p 27017:27017 \
-  mongo:6
+docker run -d --name mongo-srv -e MONGO_INITDB_ROOT_USERNAME=admin -e MONGO_INITDB_ROOT_PASSWORD=hola01 -p 27017:27017 mongo:6
 ```
 
 **Explicación de las opciones utilizadas**
