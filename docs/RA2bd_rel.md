@@ -40,7 +40,7 @@ La **clave primaria (Primary Key)** es una columna (o conjunto de columnas) que 
 - `id_planta` es la clave primaria en la tabla `plantas`.
 - `id_jardin` es la clave primaria en la tabla `jardines`.
 
-La **clave foránea o clave agena (Foreign Key)** es una columna que **hace referencia a una clave primaria de otra tabla** para establecer una relación.
+La **clave foránea o clave ajena (Foreign Key)** es una columna que **hace referencia a una clave primaria de otra tabla** para establecer una relación.
 
 Si queremos registrar las plantas que tiene cada jardín, podemos utilizar una tabla intermedia llamada `jardines_plantas`. Esta tabla tendrá sus propias relaciones mediante claves foráneas:
 
@@ -233,11 +233,12 @@ fun main() {
         
         ✅ B) Para poder instanciar el archivo físico de la base de datos, el sistema operativo requiere que el directorio contenedor exista previamente. Al no existir la carpeta `db_sistema`, SQLite fallará al intentar crear el archivo físico y arrojará una excepción `SQLException` (típicamente con el mensaje de error `SQLITE_CANTOPEN`). Para solucionarlo, se debe crear la carpeta contenedora en el código antes de la conexión usando, por ejemplo, `File("db_sistema").mkdirs()`.
         
-        ❌ C) Al estar configurada la base de datos para residir en un archivo local en disco (Pág. 3 y 6) [3, 6], SQLite requiere obligatoriamente poder abrir y escribir en dicho archivo físico para poder operar. El sistema no guardará los datos temporalmente en la memoria RAM de manera automática ante un fallo de disco, por lo que la excepción detendrá el programa de inmediato sin llegar a ejecutar el bloque interno.
+        ❌ C) Al estar configurada la base de datos para residir en un archivo local en disco, SQLite requiere obligatoriamente poder abrir y escribir en dicho archivo físico para poder operar. El sistema no guardará los datos temporalmente en la memoria RAM de manera automática ante un fallo de disco, por lo que la excepción detendrá el programa de inmediato sin llegar a ejecutar el bloque interno.
         
         ❌ D) La URL de conexión JDBC es un simple parámetro de tipo `String`. Su validez y la existencia de los recursos que describe se comprueban únicamente en tiempo de ejecución (runtime), por lo que el compilador de Kotlin no detectará ningún error estático en esta línea de código.
 
-    
+
+
     
     **Pregunta 2: Se intenta establecer una conexión a un sistema gestor de bases de datos independiente de la siguiente manera:**
     
@@ -246,22 +247,22 @@ fun main() {
     import java.sql.SQLException
     
     fun main() {
-        // Intento de conexión a un servidor PostgreSQL local
-        val url = "jdbc:postgresql://localhost:5432/inventario"
+        // Intento de conexión a un servidor MySQL local
+        val url = "jdbc:mysql://localhost:3306/florabotanica"
         val usuario = "admin"
         val contrasenia = "1234"
         
         DriverManager.getConnection(url, usuario, contrasenia).use { conn ->
-            println("Conexión establecida con el servidor PostgreSQL.")
+            println("Conexión establecida con el servidor MySQL.")
         }
     }
     ```
     
-    **Sabiendo que el proyecto tiene configurada correctamente la dependencia de Gradle para PostgreSQL, pero el servicio del servidor PostgreSQL en la máquina local (`localhost`) se encuentra detenido (apagado), ¿cuál será el comportamiento de la aplicación al ejecutarse?**
+    **Sabiendo que el proyecto tiene configurada correctamente la dependencia de Gradle para MySQL, pero el servicio del servidor MySQL en la máquina local (`localhost`) se encuentra detenido (apagado), ¿cuál será el comportamiento de la aplicación al ejecutarse?**
     
-    A) El driver JDBC de PostgreSQL levantará automáticamente una instancia ligera y embebida del servidor PostgreSQL en segundo plano para poder simular la conexión local.
+    A) El driver JDBC de MySQL levantará automáticamente una instancia ligera y embebida del servidor MySQL en segundo plano para poder simular la conexión local.
     
-    B) La aplicación se quedará bloqueada indefinidamente en un bucle de espera activa sin lanzar errores, esperando a que el usuario inicie manualmente el servidor PostgreSQL en su sistema.
+    B) La aplicación se quedará bloqueada indefinidamente en un bucle de espera activa sin lanzar errores, esperando a que el usuario inicie manualmente el servidor MySQL en su sistema.
     
     C) Se lanzará una excepción de tipo `SQLException` (indicando un fallo de conexión física o rechazo de puerto de red), deteniendo inmediatamente la ejecución del programa.
     
@@ -269,15 +270,15 @@ fun main() {
     
     ??? quote "Solución"
     
-        ❌ A) A diferencia de los gestores embebidos como SQLite, PostgreSQL es un gestor de bases de datos robusto basado en una arquitectura cliente-servidor. Requiere un proceso de servidor dedicado y en ejecución; el driver cliente de JDBC no tiene la capacidad de levantar o arrancar el servicio del servidor por sí mismo.
+        ❌ A) A diferencia de los gestores embebidos como SQLite, MySQL es un gestor de bases de datos robusto basado en una arquitectura cliente-servidor. Requiere un proceso de servidor dedicado y en ejecución; el driver cliente de JDBC no tiene la capacidad de levantar o arrancar el servicio del servidor por sí mismo.
         
         ❌ B) El intento de conexión a la red cuenta con un tiempo de espera límite por defecto (*timeout*). Si la conexión no se establece rápidamente, el driver desiste y lanza la excepción correspondiente; el programa nunca se quedará bloqueado indefinidamente en un bucle de espera.
         
-        ✅ C) Al estar el servicio del servidor PostgreSQL apagado, no hay ningún proceso escuchando en el puerto TCP `5432` de la máquina local. Cuando el driver intente abrir un canal de red físico, recibirá un rechazo de conexión (Connection refused) por parte del sistema de red, lo que se traducirá inmediatamente en una excepción de tipo `SQLException`, interrumpiendo la ejecución.
+        ✅ C) Al estar el servicio del servidor MySQL apagado, no hay ningún proceso escuchando en el puerto TCP `3306` de la máquina local. Cuando el driver intente abrir un canal de red físico, recibirá un rechazo de conexión (Connection refused) por parte del sistema de red, lo que se traducirá inmediatamente en una excepción de tipo `SQLException`, interrumpiendo la ejecución.
         
         ❌ D) JDBC no simula ni emula conexiones de manera virtual por defecto en tiempo de ejecución. Si el servidor físico de base de datos no está disponible para procesar la autenticación del usuario y la contraseña, la llamada a `DriverManager.getConnection` siempre fallará.
-    
 
+    
 
 
 
@@ -545,9 +546,9 @@ fun main() {
 
 **Ventajas de este enfoque:**
 
-- **Código limpio:** Evitamos declarar variables mutables con `var` e inicializarlas a `null` [10].
+- **Código limpio:** Evitamos declarar variables mutables con `var` e inicializarlas a `null`.
 - **Adiós al fallo en cascada:** Cada bloque `.use` actúa de manera independiente y segura. Si uno de ellos falla, Kotlin se asegura de propagar la excepción pero cerrando primero todos los recursos que se abrieron previamente en la jerarquía.
-- **Prevención de descuidos:** Evitamos el riesgo de olvidar escribir un `.close()` manual [9].
+- **Prevención de descuidos:** Evitamos el riesgo de olvidar escribir un `.close()` manual.
 
 
 
@@ -1231,20 +1232,16 @@ Si no se produce ningún error se hará el `commit` y en caso contrario el `roll
     5. No olvides controlar los posibles errores mediante la captura de excepciones.
 
 
-!!! danger "Entrega 1"
+
+!!! danger "Entrega parcial"
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente las carpetas `src` y `datos` de tu proyecto. Tu trabajo se calificará con la siguiente tabla:
-    
-    | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
-    | :------------------------- | :--------------------------------------- | :-----------------------------: |
-    | **Requisitos técnicos y funcionamiento** | \- La entrega cumple el formato solicitado (un `.zip` con carpetas `src`, `datos`).<br>\- La aplicación compila, es funcional y cumple con todo lo solicitado en el enunciado.<br>\- No contiene código muerto ni restos de prácticas anteriores.                 | 2,5 |
-    | **Prueba escrita de autoría**            | \- Respuestas correctas a las preguntas conceptuales y técnicas sobre tu propio código.<br>\- Capacidad para explicar el flujo del programa. | 7,5 |
 
-    
-    ⚠️ Nota aclaratoria: la entrega correcta y funcional de la aplicación es un requisito indispensable para poder realizar la prueba escrita. Si no se realiza la entrega del proyecto o si éste no compila o no funciona como pide el enunciado, la calificación global de la tarea será un 0.
+    **IMPORTANTE:**
 
+      - El proyecto no debe contener código que no se utilice, ni restos de pruebas de los ejemplos y no debe estar separado por prácticas. Debe ser un proyecto totalmente funcional.
+      - No se debe entregar el proyecto entero ni archivos que no se solicitan en el enunciado.
 
-
-
+    ⚠️ Nota aclaratoria: Esta entrega es de carácter puramente formativo y no obligatorio, lo que significa que no tiene un peso directo en la calificación final de la asignatura. Su objetivo es detectar posibles fallos de diseño o de lógica para asegurar que el desarrollo de tu proyecto es correcto.
 
 
 
@@ -1602,7 +1599,7 @@ fun llamar_sp_listar_plantas_por_jardin(id: Int){
     conectarBD()?.use { conn ->
         val sqlProcedimiento = "{CALL sp_listar_plantas_por_jardin(?)}"
         conn.prepareCall(sqlProcedimiento).use { call ->
-            call.setInt(1, 1) // id_jardin = 1
+            call.setInt(1, id) // id_jardin = 1
             call.executeQuery().use { rs ->
                 println("\n **** Plantas del jardín :$id")
                 while (rs.next()) {
@@ -1691,12 +1688,12 @@ El resultado de la ejecución es el que se muestra en la siguiente imagen:
 A continuación se muestra el código necesario para realizar la llamada desde Kotlin:
 
 ```kotlin
-fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
+fun llamar_sp_agregar_planta_a_jardin(id_j:Int, id_p:Int, cant:Int){
     conectarBD()?.use { conn ->
         val sql = "{CALL sp_agregar_planta_a_jardin(?, ?, ?)}"
         conn.prepareCall(sql).use { call ->
-            call.setInt(1, id_p)  // id_jardin
-            call.setInt(2, id_j)  // id_planta
+            call.setInt(1, id_j)  // id_jardin
+            call.setInt(2, id_p)  // id_planta
             call.setInt(3, cant)  // cantidad
 
             call.executeQuery().use { rs ->
@@ -1821,7 +1818,7 @@ fun llamar_sp_agregar_planta_a_jardin(id_p:Int, id_j:Int, cant:Int){
 
 
 
-!!! danger "Entrega 2"
+!!! danger "Entrega final"
     Entrega en Aules un solo archivo comprimido en formato `.zip` que contenga únicamente la carpeta `src` y un archivo `.sql` con tu BD MySQL exportada con el comando `mysqldump`(tienes el comando a utilizar en el documento [Docker](docker.html)). Tu trabajo se calificará con la siguiente tabla:
 
     | <span class="mi_sombreado_entrega">Bloque de evaluación</span>             | <span class="mi_sombreado_entrega">Criterios de calificación</span>          | <span class="mi_sombreado_entrega">Puntos</span>                            |
